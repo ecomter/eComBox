@@ -1,0 +1,187 @@
+﻿<Page
+    x:Class="eComBox.Views.HomePage"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    mc:Ignorable="d">
+    <Grid x:Name="ContentArea" Padding="24,0,24,0" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.RowSpan="2" Margin="0,20,0,0" VerticalAlignment="Top">
+           
+
+            <StackPanel  x:Name="headerTileGallery" Grid.Row="1" Orientation="Horizontal" Spacing="12" Margin="25,0,36,0">
+                <Grid Width="220"
+Height="216"
+    Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+    BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
+    CornerRadius="8">
+
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorSecondary}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushDisabled" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorSecondary}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushDisabled" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="HighContrast">
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPointerOver" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPressed" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushDisabled" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <HyperlinkButton
+        Padding="-1"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch"
+        AutomationProperties.LabeledBy="{Binding ElementName=TitleText}"
+        Click="ToDatePage"
+        CornerRadius="{StaticResource OverlayCornerRadius}">
+                        <Grid
+            Padding="24"
+            VerticalAlignment="Stretch"
+            RowSpacing="16">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="56" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <FontIcon
+                Grid.RowSpan="3"
+                Margin="-12"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                FontSize="16"
+                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                Glyph="&#xE8A7;" />
+                            <ContentPresenter
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top" >
+                                <ContentPresenter.Content>
+                                    <Image Source="/Assets/Header-DatePage.png" />
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+
+                            <StackPanel
+                Grid.Row="1"
+                Orientation="Vertical"
+                Spacing="4">
+                                <TextBlock
+                    x:Name="TitleText"
+                    FontSize="18"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="日期计数器" />
+                                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    FontSize="15"
+                    Text="计算距离目标日期的天数，兼具倒计时功能。" />
+                            </StackPanel>
+                        </Grid>
+                    </HyperlinkButton>
+                </Grid>
+                <Grid Width="220"
+Height="216"
+Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
+CornerRadius="8">
+
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorSecondary}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushDisabled" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorSecondary}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushDisabled" Color="{ThemeResource ControlStrokeColorDefault}" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="HighContrast">
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPointerOver" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushPressed" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                    <SolidColorBrush x:Key="HyperlinkButtonBorderBrushDisabled" Color="{ThemeResource SystemColorButtonTextColor}" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <HyperlinkButton
+    Padding="-1"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    AutomationProperties.LabeledBy="{Binding ElementName=TitleText}"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
+    Click="ToGeoPage">
+                        <Grid
+        Padding="24"
+        VerticalAlignment="Stretch"
+        RowSpacing="16">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="56" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <FontIcon
+            Grid.RowSpan="3"
+            Margin="-12"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            FontSize="16"
+            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+            Glyph="&#xE8A7;" />
+                            <ContentPresenter
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" >
+                                <ContentPresenter.Content>
+                                    <Image Source="/Assets/Header-GeoPage.png" />
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+
+                            <StackPanel
+            Grid.Row="1"
+            Orientation="Vertical"
+            Spacing="4">
+                                <TextBlock
+    
+                FontSize="18"
+                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                Style="{StaticResource BodyTextBlockStyle}"
+                Text="几何" />
+                                <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                FontSize="15"
+                Text="解三角形，圆锥曲线等解析几何的常见计算。" />
+                            </StackPanel>
+                        </Grid>
+                    </HyperlinkButton>
+                </Grid>
+             
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
