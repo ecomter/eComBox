@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="eComBox.Views.DatePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    mc:Ignorable="d">
+
+    <Grid Margin="10,5,0,0">
+        <!-- 定义行 -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- 按钮行 -->
+            <RowDefinition Height="*"/>    <!-- 内容区域 -->
+        </Grid.RowDefinitions>
+
+        <!-- 按钮行 -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <AppBarButton Icon="Delete" Click="deleteall" Label="清空"/>
+            <AppBarButton Icon="Add" Click="newItemBar" Label="新建"/>
+        </StackPanel>
+
+        <!-- 可滚动的内容区域 -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <Grid x:Name="ContentArea" Margin="10,5,0,20">
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>
