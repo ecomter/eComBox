@@ -24,7 +24,9 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
+
             <TextBlock x:Uid="WhatsNew_Body" TextWrapping="Wrap" Text="已更新到 eComBox 0.3.1 版本 &#x0D;&#x0D; 0.3.1 更新日志：&#x0D;     解决了点击“清除日期”后应用崩溃的问题; &#x0D;     修正了更新日志的格式; &#x0D;     补充了软件的初次使用说明" />
+
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

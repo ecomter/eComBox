@@ -63,7 +63,9 @@
                     Style="{ThemeResource BodyTextBlockStyle}" />
 
                 <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
+
                 <HyperlinkButton Content="Github 仓库" x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
+
             </StackPanel>
         </StackPanel>
     </Grid>
