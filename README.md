@@ -7,11 +7,12 @@ git clone https://github.com/ecomter/eComBox
 cd eComBox  
 .\eComBox.sln  
 ```
-## UPDATELOG
+## CHANGELOG
  0.3.1 更新日志：   
      
 
  解决了点击“清除日期”后应用崩溃的问题;    
- 修正了更新日志的格式.     
+ 修正了更新日志的格式；      
+ 补充了软件的初次使用说明。        
 ## 主要贡献者 
 [eComter](https://github.com/ecomter)
