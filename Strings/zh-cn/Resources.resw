@@ -181,10 +181,7 @@
     <value>个性化</value>
     <comment>Personalization text for Settings</comment>
   </data>
-  <data name="FirstRun_Body.Text" xml:space="preserve">
-    <value>欢迎您使用 eComBox-简易工具箱！&amp;#x0D;  eComBox-简易工具箱支持多配置日期倒计时计算，根据三角形边长解三角形，目前功能仍在不断扩充之中。</value>
-    <comment>First use prompt message body</comment>
-  </data>
+
   <data name="FirstRunDialog.Title" xml:space="preserve">
     <value>欢迎使用</value>
     <comment>First use prompt message title</comment>

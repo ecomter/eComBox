@@ -1,15 +1,20 @@
-﻿*Recommended Markdown Viewer: [Markdown Editor](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.MarkdownEditor2)*
 
-## Getting Started
+# eComBox 简易工具箱
 
-Browse and address `TODO:` comments in `View -> Task List` to learn the codebase and understand next steps for turning the generated code into production code.
+## 开始编译
 
-Relaunch Template Studio to modify the project by right-clicking on the project in `View -> Solution Explorer` then selecting `Add -> New Item (Template Studio)`.
+``` powershell
+git clone https://github.com/ecomter/eComBox  
+cd eComBox  
+.\eComBox.sln  
+```
+## CHANGELOG
+ 0.3.1 更新日志：   
+     
 
-## Changelog
+ 解决了点击“清除日期”后应用崩溃的问题;    
+ 修正了更新日志的格式；      
+ 补充了软件的初次使用说明。        
+## 主要贡献者 
+[eComter](https://github.com/ecomter)
 
-See [releases](https://github.com/microsoft/TemplateStudio/releases) and [milestones](https://github.com/microsoft/TemplateStudio/milestones).
-
-## Feedback
-
-Bugs and feature requests should be filed at https://aka.ms/templatestudio.

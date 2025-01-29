@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eComBox", "eComBox.csproj", "{E9914111-7578-432D-8EE5-04FB6BCCDD83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eComBox.Core", "..\eComBox.Core\eComBox.Core.csproj", "{B3D83989-16AE-420A-BB0A-23969C56E3E3}"
+
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eComBox.Core", "eComBox.Core\eComBox.Core.csproj", "{B3D83989-16AE-420A-BB0A-23969C56E3E3}"
+
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
