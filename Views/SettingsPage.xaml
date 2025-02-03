@@ -18,7 +18,6 @@
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock x:Uid="Settings_Theme" />
-
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
                     <RadioButton 
                         x:Uid="Settings_Theme_Light"
@@ -52,8 +51,17 @@
                     </RadioButton>
                 </StackPanel>
             </StackPanel>
+            <TextBlock Text="新闻源选取" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <ComboBox Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
+                <ComboBoxItem  Content="抖音" Tag="https://doc.ecomter.site/douyin" />
+                <ComboBoxItem Content="百度" Tag="https://doc.ecomter.site/baidu" />
+                <ComboBoxItem Content="B站" Tag="https://doc.ecomter.site/bilibili" />
+                <ComboBoxItem Content="天气" Tag="https://doc.ecomter.site/weatheralarm" />
+                <ComboBoxItem Content="微博" Tag="https://doc.ecomter.site/weibo" />
+            </ComboBox>
 
-            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+            <TextBlock x:Uid="Settings_About" Margin="0,20,0,0" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <StackPanel Margin="{StaticResource XSmallTopMargin}">
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind VersionDescription, Mode=OneWay}" />

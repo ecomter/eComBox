@@ -7,6 +7,7 @@ using eComBox.Helpers;
 using eComBox.Services;
 
 using Windows.ApplicationModel;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -17,12 +18,16 @@ namespace eComBox.Views
     // TODO: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
+        private const string SelectedUrlKey = "https://doc.ecomter.site/baidu";
+        private const string SelectedUrlContent = "百度";
+        private const string DefaultUrl = "https://doc.ecomter.site/baidu";
+        private const string DefaultUrlContent = "百度";
+
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
 
         public ElementTheme ElementTheme
         {
             get { return _elementTheme; }
-
             set { Set(ref _elementTheme, value); }
         }
 
@@ -31,7 +36,6 @@ namespace eComBox.Views
         public string VersionDescription
         {
             get { return _versionDescription; }
-
             set { Set(ref _versionDescription, value); }
         }
 
@@ -54,7 +58,7 @@ namespace eComBox.Views
         private string GetVersionDescription()
         {
             var appName = "AppDisplayName".GetLocalized();
-            var package = Package.Current;
+            var package = Windows.ApplicationModel.Package.Current;
             var packageId = package.Id;
             var version = packageId.Version;
 
@@ -71,9 +75,50 @@ namespace eComBox.Views
             }
         }
 
+        private void UrlComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedUrl = (UrlComboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
+            var selectedCon = (UrlComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (!string.IsNullOrEmpty(selectedUrl))
+            {
+                ApplicationData.Current.LocalSettings.Values[SelectedUrlKey] = selectedUrl;
+                ApplicationData.Current.LocalSettings.Values[SelectedUrlContent] = selectedCon;
+            }
+        }
+
+        private void LoadSelectedUrl()
+        {
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(SelectedUrlKey, out object selectedUrl))
+            {
+                foreach (ComboBoxItem item in UrlComboBox.Items)
+                {
+                    if (item.Tag.ToString() == selectedUrl.ToString())
+                    {
+                        UrlComboBox.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                SetDefaultUrl();
+            }
+        }
+        private void SetDefaultUrl()
+        {
+            foreach (ComboBoxItem item in UrlComboBox.Items)
+            {
+                if (item.Content.ToString() == DefaultUrlContent)
+                {
+                    UrlComboBox.SelectedItem = item;
+                    ApplicationData.Current.LocalSettings.Values[SelectedUrlKey] = DefaultUrl;
+                    break;
+                }
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        private void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value))
             {
