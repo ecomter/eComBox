@@ -18,9 +18,9 @@ namespace eComBox.Views
     // TODO: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
-        private const string SelectedUrlKey = "https://doc.ecomter.site/baidu";
-        private const string SelectedUrlContent = "百度";
-        private const string DefaultUrl = "https://doc.ecomter.site/baidu";
+        private const string SelectedUrlKey = "SelectedUrl";
+        private const string SelectedUrlContent = "SelectedUrlContent";
+        private const string DefaultUrl = "https://doc.ecomter.site/baidu?cache=false";
         private const string DefaultUrlContent = "百度";
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
@@ -42,6 +42,7 @@ namespace eComBox.Views
         public SettingsPage()
         {
             InitializeComponent();
+            LoadSelectedUrl();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -78,11 +79,11 @@ namespace eComBox.Views
         private void UrlComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedUrl = (UrlComboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
-            var selectedCon = (UrlComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if (!string.IsNullOrEmpty(selectedUrl))
+            var selectedContent = (UrlComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (!string.IsNullOrEmpty(selectedUrl) && !string.IsNullOrEmpty(selectedContent))
             {
                 ApplicationData.Current.LocalSettings.Values[SelectedUrlKey] = selectedUrl;
-                ApplicationData.Current.LocalSettings.Values[SelectedUrlContent] = selectedCon;
+                ApplicationData.Current.LocalSettings.Values[SelectedUrlContent] = selectedContent;
             }
         }
 
@@ -101,7 +102,7 @@ namespace eComBox.Views
             }
             else
             {
-                SetDefaultUrl();
+
             }
         }
         private void SetDefaultUrl()

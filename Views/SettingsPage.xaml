@@ -53,11 +53,11 @@
             </StackPanel>
             <TextBlock Text="新闻源选取" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <ComboBox Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
-                <ComboBoxItem  Content="抖音" Tag="https://doc.ecomter.site/douyin" />
-                <ComboBoxItem Content="百度" Tag="https://doc.ecomter.site/baidu" />
-                <ComboBoxItem Content="B站" Tag="https://doc.ecomter.site/bilibili" />
-                <ComboBoxItem Content="天气" Tag="https://doc.ecomter.site/weatheralarm" />
-                <ComboBoxItem Content="微博" Tag="https://doc.ecomter.site/weibo" />
+                <ComboBoxItem  Content="抖音" Tag="https://doc.ecomter.site/douyin?cache=false" />
+                <ComboBoxItem Content="百度" Tag="https://doc.ecomter.site/baidu?cache=false" />
+                <ComboBoxItem Content="B站" Tag="https://doc.ecomter.site/bilibili?cache=false" />
+                <ComboBoxItem Content="天气" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
+                <ComboBoxItem Content="微博" Tag="https://doc.ecomter.site/weibo?cache=false" />
             </ComboBox>
 
 

@@ -51,9 +51,17 @@
             </StackPanel>
         </Grid>
         <StackPanel Orientation="Vertical" Grid.Row="1" x:Name="board" Visibility="Collapsed" Spacing="10" Margin="35,10,36,30">
-            <TextBlock x:Name="newsHeader" Text="百度热搜榜" FontSize="24" FontWeight="Bold" Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
-            
-            <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="newsHeader" Grid.Column="0" Text="百度热搜榜" FontSize="24" FontWeight="Bold" Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
+                    <Button Click="refreshUrl" VerticalContentAlignment="Center" HorizontalAlignment="Right"  Grid.Column="1" FontSize="24" >
+                        <FontIcon Glyph="&#xE72C;" />
+                    </Button>
+                </Grid>
+        <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
                 <HyperlinkButton Padding="-1" x:Name="Nav1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Margin="8" Text="1" FontSize="23" FontWeight="ExtraBold" Foreground="#FFFF0600"/>
