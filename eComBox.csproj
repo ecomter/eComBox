@@ -316,7 +316,6 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="ecombox.pfx" />
-    <None Include="eComBox_TemporaryKey.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
   </ItemGroup>
@@ -339,7 +338,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>eComBox_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
