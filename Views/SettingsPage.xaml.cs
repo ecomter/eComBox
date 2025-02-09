@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 using eComBox.Helpers;
 using eComBox.Services;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.Web.WebView2.Core;
 
-using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,6 +23,8 @@ namespace eComBox.Views
         private const string SelectedUrlContent = "SelectedUrlContent";
         private const string DefaultUrl = "https://doc.ecomter.site/baidu?cache=false";
         private const string DefaultUrlContent = "百度";
+        private const string HotListEnabledKey = "HotListEnabled";
+        private bool _initialHotListToggleState;
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
 
@@ -30,7 +33,13 @@ namespace eComBox.Views
             get { return _elementTheme; }
             set { Set(ref _elementTheme, value); }
         }
+        private Visibility _hotListVisibility = Visibility.Visible;
 
+        public Visibility HotListVisibility
+        {
+            get { return _hotListVisibility; }
+            set { Set(ref _hotListVisibility, value); }
+        }
         private string _versionDescription;
 
         public string VersionDescription
@@ -43,6 +52,7 @@ namespace eComBox.Views
         {
             InitializeComponent();
             LoadSelectedUrl();
+            LoadHotListToggleState();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -100,11 +110,8 @@ namespace eComBox.Views
                     }
                 }
             }
-            else
-            {
-
-            }
         }
+
         private void SetDefaultUrl()
         {
             foreach (ComboBoxItem item in UrlComboBox.Items)
@@ -117,6 +124,64 @@ namespace eComBox.Views
                 }
             }
         }
+
+        private async void HotListToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch != null && toggleSwitch.IsOn && !_initialHotListToggleState)
+            {
+                var result = await TermsOfServiceDialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    ApplicationData.Current.LocalSettings.Values[HotListEnabledKey] = true;
+                    HotListVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    toggleSwitch.IsOn = false;
+                }
+            }
+            else
+            {
+                ApplicationData.Current.LocalSettings.Values[HotListEnabledKey] = false;
+                HotListVisibility = Visibility.Collapsed;
+            }
+            _initialHotListToggleState = toggleSwitch.IsOn;
+        }
+        private void TermsHyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            TermsOfServiceDialog.IsPrimaryButtonEnabled = true;
+        }
+
+        private void LoadHotListToggleState()
+        {
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(HotListEnabledKey, out object hotListEnabled))
+            {
+                _initialHotListToggleState = (bool)hotListEnabled;
+                HotListToggleSwitch.IsOn = _initialHotListToggleState;
+                HotListVisibility = HotListToggleSwitch.IsOn ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private void TermsOfServiceDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            // 用户点击了“我已阅读并同意”按钮
+        }
+
+        private void TermsOfServiceDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            // 用户点击了“取消”按钮
+        }
+
+
+        private void WebView2_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
+        {
+            if (e.TryGetWebMessageAsString() == "scrolledToBottom")
+            {
+                TermsOfServiceDialog.IsPrimaryButtonEnabled = true;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

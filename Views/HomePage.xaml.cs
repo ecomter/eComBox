@@ -24,7 +24,10 @@ namespace eComBox.Views
         public HomePage()
         {
             InitializeComponent();
-            LoadDataAsync();
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("HotListEnabled", out object hotListEnabled) && (bool)hotListEnabled)
+            {
+                LoadDataAsync();
+            }
         }
 
         private async Task LoadDataAsync()

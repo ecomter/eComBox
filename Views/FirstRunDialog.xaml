@@ -23,10 +23,10 @@
         </DataTemplate>
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
-        <StackPanel>
+        <StackPanel Orientation="Vertical">
 
             <TextBlock x:Uid="FirstRun_Body" Text="欢迎您使用 eComBox-简易工具箱！&#x0D;&#x0D;eComBox-简易工具箱支持多配置日期倒计时计算，根据三角形边长解三角形，目前功能仍在不断扩充之中。 &#x0D;&#x0D;感谢您的支持！" TextWrapping="WrapWholeWords" />
-
+            <HyperlinkButton Content="隐私政策"  NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>
