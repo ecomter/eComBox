@@ -1,4 +1,3 @@
-
 # eComBox 简易工具箱
 
 ## 开始编译
@@ -8,13 +7,15 @@ git clone https://github.com/ecomter/eComBox
 cd eComBox  
 .\eComBox.sln  
 ```
-## CHANGELOG
- 0.3.1 更新日志：   
-     
+## 更新日志
+ 0.3.2 更新日志：   
+ 
+添加了实验性功能“实时热点”；   
+解决了点击“清除日期”后应用崩溃的问题；     
+更新了[使用条款](https://ecombox.ecomter.site/docs/privacy)。  
 
- 解决了点击“清除日期”后应用崩溃的问题;    
- 修正了更新日志的格式；      
- 补充了软件的初次使用说明。        
+ 
 ## 主要贡献者 
 [eComter](https://github.com/ecomter)
+
 
