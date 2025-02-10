@@ -18,7 +18,6 @@
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock x:Uid="Settings_Theme" />
-
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
                     <RadioButton 
                         x:Uid="Settings_Theme_Light"
@@ -52,8 +51,22 @@
                     </RadioButton>
                 </StackPanel>
             </StackPanel>
-
-            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock Text="实时热点（测试功能）" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <ToggleSwitch
+                x:Name="HotListToggleSwitch"
+                Margin="{StaticResource XSmallTopMargin}"
+                Toggled="HotListToggleSwitch_Toggled"/>
+            <StackPanel  Visibility="{x:Bind HotListVisibility, Mode=OneWay}">
+            <ComboBox Header="新闻源选取" Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
+                <ComboBoxItem  Content="抖音" Tag="https://doc.ecomter.site/douyin?cache=false" />
+                <ComboBoxItem Content="百度" Tag="https://doc.ecomter.site/baidu?cache=false" />
+                <ComboBoxItem Content="B站" Tag="https://doc.ecomter.site/bilibili?cache=false" />
+                <ComboBoxItem Content="天气" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
+                <ComboBoxItem Content="微博" Tag="https://doc.ecomter.site/weibo?cache=false" />
+            </ComboBox>
+            <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}"/>
+            </StackPanel>
+            <TextBlock x:Uid="Settings_About" Margin="0,20,0,0" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <StackPanel Margin="{StaticResource XSmallTopMargin}">
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind VersionDescription, Mode=OneWay}" />
@@ -65,8 +78,28 @@
                 <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
 
                 <HyperlinkButton Content="Github 仓库" x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
-
+                <HyperlinkButton Content="隐私政策"  NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
             </StackPanel>
         </StackPanel>
+        <ContentDialog
+    x:Name="TermsOfServiceDialog"
+    Title="使用条款"
+    PrimaryButtonText="我已阅读并同意"
+    SecondaryButtonText="取消"
+    IsPrimaryButtonEnabled="False"
+    PrimaryButtonClick="TermsOfServiceDialog_PrimaryButtonClick"
+    SecondaryButtonClick="TermsOfServiceDialog_SecondaryButtonClick">
+            <ContentDialog.Content>
+                <ScrollViewer>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="这是一个测试性功能，可能会在未来的版本中被移除。" TextWrapping="Wrap" />
+                        <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click"/>
+                        </StackPanel>
+
+                </ScrollViewer>
+            </ContentDialog.Content>
+        </ContentDialog>
     </Grid>
+   
 </Page>
