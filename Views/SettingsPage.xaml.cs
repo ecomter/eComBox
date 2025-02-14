@@ -141,11 +141,13 @@ namespace eComBox.Views
                     toggleSwitch.IsOn = false;
                 }
             }
-            else
+            else if(toggleSwitch != null && (!toggleSwitch.IsOn))
             {
                 ApplicationData.Current.LocalSettings.Values[HotListEnabledKey] = false;
                 HotListVisibility = Visibility.Collapsed;
+
             }
+      
             _initialHotListToggleState = toggleSwitch.IsOn;
         }
         private void TermsHyperlinkButton_Click(object sender, RoutedEventArgs e)
@@ -160,6 +162,10 @@ namespace eComBox.Views
                 _initialHotListToggleState = (bool)hotListEnabled;
                 HotListToggleSwitch.IsOn = _initialHotListToggleState;
                 HotListVisibility = HotListToggleSwitch.IsOn ? Visibility.Visible : Visibility.Collapsed;
+            }
+            else
+            {
+                HotListVisibility = Visibility.Collapsed;
             }
         }
 
