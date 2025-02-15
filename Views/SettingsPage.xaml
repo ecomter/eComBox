@@ -4,102 +4,143 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:eComBox.Helpers"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xaml="using:Windows.UI.Xaml"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d"
     winui:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+
+        <!--  Style (inc. the correct spacing) of a section header  -->
+        <Style x:Key="SettingsSectionHeaderTextBlockStyle"
+               BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+               TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+
     </Page.Resources>
-    <Grid Margin="25,25,0,20">
-        <StackPanel
-            x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <TextBlock x:Uid="Settings_Theme" />
-                <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <RadioButton 
-                        x:Uid="Settings_Theme_Light"
-                        Checked="ThemeChanged_CheckedAsync" 
-                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme" >
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter> 
-                    </RadioButton>
-                    <RadioButton 
-                        x:Uid="Settings_Theme_Dark"
-                        Checked="ThemeChanged_CheckedAsync" 
-                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton 
-                        x:Uid="Settings_Theme_Default"
-                        Checked="ThemeChanged_CheckedAsync"
-                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                </StackPanel>
+    <ScrollViewer>
+        <Grid Margin="24,10,24,16">
+            <StackPanel
+                x:Name="ContentArea"
+                MaxWidth="1000"
+                HorizontalAlignment="Stretch"
+                Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock x:Uid="Settings_Personalization" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <toolkit:SettingsExpander Margin="{StaticResource XSmallTopMargin}" x:Name="AppThemeExpander"
+                                          Description="选择要显示的应用程序主题"
+                                          Header="应用程序主题">
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE790;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard ContentAlignment="Left">
+                            <winui:RadioButtons Margin="0,-8,0,0">
+                                <RadioButton
+                                    x:Uid="Settings_Theme_Light"
+                                    Tag="Light"
+                                    GroupName="AppTheme"
+                                    IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
+                                    Checked="ThemeChanged_CheckedAsync">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Light</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="Settings_Theme_Dark"
+                                    Tag="Dark"
+                                    GroupName="AppTheme"
+                                    IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
+                                    Checked="ThemeChanged_CheckedAsync">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton
+                                    GroupName="AppTheme"
+                                    Tag="Default"
+                                    x:Uid="Settings_Theme_Default"
+                                    IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
+                                    Checked="ThemeChanged_CheckedAsync">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Default</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                            </winui:RadioButtons>
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+
+                <TextBlock Text="高级" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <toolkit:SettingsExpander Margin="{StaticResource XSmallTopMargin}" Description="你可以在软件首页查看一些平台的热榜信息、天气状况。"
+                                          Header="实时热点（测试功能）">
+                    <ToggleSwitch x:Name="HotListToggleSwitch"
+                                  Margin="{StaticResource XSmallTopMargin}"
+                                  Toggled="HotListToggleSwitch_Toggled" />
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE12A;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard IsEnabled="{x:Bind CardEnable, Mode=OneWay}" Header="新闻源选取">
+                            <ComboBox Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
+                                <ComboBoxItem Content="抖音热榜" Tag="https://doc.ecomter.site/douyin?cache=false" />
+                                <ComboBoxItem Content="百度热搜榜" Tag="https://doc.ecomter.site/baidu?cache=false" />
+                                <ComboBoxItem Content="B站热榜" Tag="https://doc.ecomter.site/bilibili?cache=false" />
+                                <ComboBoxItem Content="天气预警信息" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
+                                <ComboBoxItem Content="微博热搜榜" Tag="https://doc.ecomter.site/weibo?cache=false" />
+                            </ComboBox>
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+                <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
+
+                <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <toolkit:SettingsExpander HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-400.png}" Description="© ecomter 2025 保留所有权限" Header="{x:Bind AppName, Mode=OneWay}" >
+                    <TextBlock IsTextSelectionEnabled="True"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind VersionDescription,Mode=OneWay}" />
+                   
+                        <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard HorizontalContentAlignment="Left"
+                                               ContentAlignment="Left">
+
+                            <StackPanel Margin="-12,0,0,0"
+                                        Orientation="Vertical">
+
+                                <TextBlock x:Uid="Settings_AboutDescription" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
+                                <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
+                                <HyperlinkButton Content="Github 仓库" x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
+                                <HyperlinkButton Content="隐私政策" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+                            </StackPanel>
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
             </StackPanel>
-            <TextBlock Text="实时热点（测试功能）" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <ToggleSwitch
-                x:Name="HotListToggleSwitch"
-                Margin="{StaticResource XSmallTopMargin}"
-                Toggled="HotListToggleSwitch_Toggled"/>
-            <StackPanel  Visibility="{x:Bind HotListVisibility, Mode=OneWay}">
-            <ComboBox Header="新闻源选取" Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
-                <ComboBoxItem  Content="抖音" Tag="https://doc.ecomter.site/douyin?cache=false" />
-                <ComboBoxItem Content="百度" Tag="https://doc.ecomter.site/baidu?cache=false" />
-                <ComboBoxItem Content="B站" Tag="https://doc.ecomter.site/bilibili?cache=false" />
-                <ComboBoxItem Content="天气" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
-                <ComboBoxItem Content="微博" Tag="https://doc.ecomter.site/weibo?cache=false" />
-            </ComboBox>
-            <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}"/>
-            </StackPanel>
-            <TextBlock x:Uid="Settings_About" Margin="0,20,0,0" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind VersionDescription, Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" />
-
-                <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
-
-                <HyperlinkButton Content="Github 仓库" x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
-                <HyperlinkButton Content="隐私政策"  NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
-            </StackPanel>
-        </StackPanel>
-        <ContentDialog
-    x:Name="TermsOfServiceDialog"
-    Title="使用条款"
-    PrimaryButtonText="我已阅读并同意"
-    SecondaryButtonText="取消"
-    IsPrimaryButtonEnabled="False"
-    PrimaryButtonClick="TermsOfServiceDialog_PrimaryButtonClick"
-    SecondaryButtonClick="TermsOfServiceDialog_SecondaryButtonClick">
-            <ContentDialog.Content>
-                <ScrollViewer>
-
+            <ContentDialog
+                x:Name="TermsOfServiceDialog"
+                Title="使用条款"
+                PrimaryButtonText="我已阅读并同意"
+                SecondaryButtonText="取消"
+                IsPrimaryButtonEnabled="False"
+                PrimaryButtonClick="TermsOfServiceDialog_PrimaryButtonClick"
+                SecondaryButtonClick="TermsOfServiceDialog_SecondaryButtonClick">
+                <ContentDialog.Content>
+                    <ScrollViewer>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="这是一个测试性功能，可能会在未来的版本中被移除。" TextWrapping="Wrap" />
-                        <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click"/>
+                            <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click" />
                         </StackPanel>
-
-                </ScrollViewer>
-            </ContentDialog.Content>
-        </ContentDialog>
-    </Grid>
-   
+                    </ScrollViewer>
+                </ContentDialog.Content>
+            </ContentDialog>
+        </Grid>
+    </ScrollViewer>
 </Page>

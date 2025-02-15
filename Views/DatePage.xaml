@@ -7,8 +7,14 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
+ 
 
-    <Grid Margin="10,5,0,0">
+        <StackPanel
+
+Orientation="Vertical"
+     MaxWidth="1000"
+     HorizontalAlignment="Stretch">
+        <Grid Margin="10,5,0,0">
         <!-- 定义行 -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/> <!-- 按钮行 -->
@@ -19,6 +25,10 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <AppBarButton Icon="Delete" Click="deleteall" Label="清空"/>
             <AppBarButton Icon="Add" Click="newItemBar" Label="新建"/>
+            <AppBarButton Icon="Import" Click="importItem" Label="导入"/>
+            <AppBarButton Click="exportItem" Label="导出">
+                <FontIcon Glyph="&#xEDE1;" />
+            </AppBarButton>
         </StackPanel>
 
         <!-- 可滚动的内容区域 -->
@@ -27,4 +37,7 @@
             </Grid>
         </ScrollViewer>
     </Grid>
+        </StackPanel>
+
 </Page>
+    

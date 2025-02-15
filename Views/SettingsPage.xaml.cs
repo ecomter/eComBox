@@ -22,7 +22,7 @@ namespace eComBox.Views
         private const string SelectedUrlKey = "SelectedUrl";
         private const string SelectedUrlContent = "SelectedUrlContent";
         private const string DefaultUrl = "https://doc.ecomter.site/baidu?cache=false";
-        private const string DefaultUrlContent = "百度";
+        private const string DefaultUrlContent = "百度热搜榜";
         private const string HotListEnabledKey = "HotListEnabled";
         private bool _initialHotListToggleState;
 
@@ -33,19 +33,27 @@ namespace eComBox.Views
             get { return _elementTheme; }
             set { Set(ref _elementTheme, value); }
         }
-        private Visibility _hotListVisibility = Visibility.Visible;
 
-        public Visibility HotListVisibility
+        private bool _cardEnable = false;
+
+        public bool CardEnable
         {
-            get { return _hotListVisibility; }
-            set { Set(ref _hotListVisibility, value); }
+            get { return _cardEnable; }
+            set { Set(ref _cardEnable, value); }
         }
+
         private string _versionDescription;
 
         public string VersionDescription
         {
             get { return _versionDescription; }
             set { Set(ref _versionDescription, value); }
+        }
+        private string _appName;
+        public string AppName
+        {
+            get { return _appName; }
+            set { Set(ref _appName, value); }
         }
 
         public SettingsPage()
@@ -63,19 +71,24 @@ namespace eComBox.Views
         private async Task InitializeAsync()
         {
             VersionDescription = GetVersionDescription();
+            AppName = GetAppName();
             await Task.CompletedTask;
         }
 
         private string GetVersionDescription()
         {
-            var appName = "AppDisplayName".GetLocalized();
+  
             var package = Windows.ApplicationModel.Package.Current;
             var packageId = package.Id;
             var version = packageId.Version;
 
-            return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+            return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
+        private string GetAppName()
+        {
+            return "AppDisplayName".GetLocalized();
+        }
         private async void ThemeChanged_CheckedAsync(object sender, RoutedEventArgs e)
         {
             var param = (sender as RadioButton)?.CommandParameter;
@@ -88,12 +101,16 @@ namespace eComBox.Views
 
         private void UrlComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedUrl = (UrlComboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
-            var selectedContent = (UrlComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if (!string.IsNullOrEmpty(selectedUrl) && !string.IsNullOrEmpty(selectedContent))
+            var selectedItem = UrlComboBox.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
             {
-                ApplicationData.Current.LocalSettings.Values[SelectedUrlKey] = selectedUrl;
-                ApplicationData.Current.LocalSettings.Values[SelectedUrlContent] = selectedContent;
+                var selectedUrl = selectedItem.Tag.ToString();
+                var selectedContent = selectedItem.Content.ToString();
+                if (!string.IsNullOrEmpty(selectedUrl) && !string.IsNullOrEmpty(selectedContent))
+                {
+                    ApplicationData.Current.LocalSettings.Values[SelectedUrlKey] = selectedUrl;
+                    ApplicationData.Current.LocalSettings.Values[SelectedUrlContent] = selectedContent;
+                }
             }
         }
 
@@ -134,22 +151,22 @@ namespace eComBox.Views
                 if (result == ContentDialogResult.Primary)
                 {
                     ApplicationData.Current.LocalSettings.Values[HotListEnabledKey] = true;
-                    HotListVisibility = Visibility.Visible;
+                    CardEnable = true;
                 }
                 else
                 {
                     toggleSwitch.IsOn = false;
                 }
             }
-            else if(toggleSwitch != null && (!toggleSwitch.IsOn))
+            else if (toggleSwitch != null && (!toggleSwitch.IsOn))
             {
                 ApplicationData.Current.LocalSettings.Values[HotListEnabledKey] = false;
-                HotListVisibility = Visibility.Collapsed;
-
+                CardEnable = false;
             }
-      
+
             _initialHotListToggleState = toggleSwitch.IsOn;
         }
+
         private void TermsHyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             TermsOfServiceDialog.IsPrimaryButtonEnabled = true;
@@ -161,11 +178,11 @@ namespace eComBox.Views
             {
                 _initialHotListToggleState = (bool)hotListEnabled;
                 HotListToggleSwitch.IsOn = _initialHotListToggleState;
-                HotListVisibility = HotListToggleSwitch.IsOn ? Visibility.Visible : Visibility.Collapsed;
+                CardEnable = HotListToggleSwitch.IsOn;
             }
             else
             {
-                HotListVisibility = Visibility.Collapsed;
+                CardEnable = false;
             }
         }
 
@@ -178,7 +195,6 @@ namespace eComBox.Views
         {
             // 用户点击了“取消”按钮
         }
-
 
         private void WebView2_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
         {

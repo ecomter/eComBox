@@ -644,6 +644,149 @@ namespace eComBox.Views
             storage = value;
             OnPropertyChanged(propertyName);
         }
+
+        private async void exportItem(object sender, RoutedEventArgs e)
+        {
+            var data = new List<DataBlockModel>();
+
+            // 收集当前页面的配置数据
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                foreach (var child in ContentArea.Children)
+                {
+                    if (child is DataBlock dataBlock)
+                    {
+                        var model = new DataBlockModel
+                        {
+                            Title = dataBlock.title,
+                            TaskName = dataBlock.textBox.Text,
+                            TargetDate = dataBlock.datePicker.Date?.DateTime,
+                            DisplayText = dataBlock.textBlock2.Text
+                        };
+                        data.Add(model);
+                    }
+                }
+            });
+
+            // 序列化数据为 JSON
+            var json = JsonConvert.SerializeObject(data);
+
+            // 使用 FileSavePicker 让用户选择保存文件的位置
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
+            savePicker.FileTypeChoices.Add("JSON 文件", new List<string> { ".json" });
+            savePicker.SuggestedFileName = "config";
+
+            Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                // 防止更新文件时的文件冲突
+                CachedFileManager.DeferUpdates(file);
+                // 将 JSON 数据写入文件
+                await FileIO.WriteTextAsync(file, json);
+                // 完成文件更新
+                Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                if (status != Windows.Storage.Provider.FileUpdateStatus.Complete)
+                {
+                    ContentDialog dialog = new ContentDialog()
+                    {
+                        Title = "错误",
+                        Content = "无法保存文件。",
+                        CloseButtonText = "确定"
+                    };
+                    dialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
+                    await dialog.ShowAsync();
+                }
+            }
+        }
+
+        private async void importItem(object sender, RoutedEventArgs e)
+        {
+            // 使用 FileOpenPicker 让用户选择要导入的文件
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
+            openPicker.FileTypeFilter.Add(".json");
+
+            Windows.Storage.StorageFile file = await openPicker.PickSingleFileAsync();
+            if (file != null)
+            {
+                // 如果当前有内容，提示用户导入会清除原有内容
+                if (ContentArea.Children.Count > 0)
+                {
+                    ContentDialog confirmDialog = new ContentDialog()
+                    {
+                        Title = "确认导入",
+                        Content = "导入新配置文件会清除当前所有内容，是否继续？",
+                        PrimaryButtonText = "确定",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary
+                    };
+                    confirmDialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
+
+                    var result = await confirmDialog.ShowAsync();
+                    if (result != ContentDialogResult.Primary)
+                    {
+                        return; // 用户取消导入
+                    }
+                }
+
+                try
+                {
+                    // 读取文件内容
+                    string json = await FileIO.ReadTextAsync(file);
+
+                    // 反序列化 JSON 数据
+                    var data = JsonConvert.DeserializeObject<List<DataBlockModel>>(json);
+
+                    // 清除当前的内容
+                    ContentArea.Children.Clear();
+
+                    // 更新 UI
+                    foreach (var model in data)
+                    {
+                        var dataBlock = new DataBlock(model.Title, async () => await SaveData())
+                        {
+                            textBox = { Text = model.TaskName },
+                            datePicker = { Date = model.TargetDate },
+                            textBlock2 = { Text = model.DisplayText }
+                        };
+
+                        if (model.TargetDate.HasValue)
+                        {
+                            dataBlock.expressGrid();
+                        }
+                        else
+                        {
+                            dataBlock.editGrid();
+                        }
+
+                        ContentArea.Children.Add(dataBlock);
+                    }
+
+                    // 更新布局
+                    UpdateGridLayout();
+
+                    // 保存导入的数据
+                    await SaveData();
+                }
+                catch (Exception ex)
+                {
+                    ContentDialog dialog = new ContentDialog()
+                    {
+                        Title = "错误",
+                        Content = $"导入文件时发生错误: {ex.Message}",
+                        CloseButtonText = "确定"
+                    };
+                    dialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
+                    await dialog.ShowAsync();
+                }
+            }
+        }
+
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

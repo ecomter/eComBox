@@ -12,7 +12,6 @@
     Loaded="OnLoaded"
     winui:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
-
     <winui:NavigationView
         x:Name="navigationView"
         IsBackButtonVisible="Visible"
@@ -20,47 +19,46 @@
         SelectedItem="{x:Bind Selected, Mode=OneWay}"
         ItemInvoked="OnItemInvoked"
         IsSettingsVisible="True">
-        
-        <winui:NavigationView.MenuItems>
-            <!--
+
+            <winui:NavigationView.MenuItems>
+                <!--
             TODO: Change the symbols for each item as appropriate for your app
             More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font
             Or to use an IconElement instead of a Symbol see https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/projectTypes/navigationpane.md
             Edit String/en-US/Resources.resw: Add a menu item title for each page
             -->
-            <winui:NavigationViewItem x:Uid="Shell_Home" Icon="Home" helpers:NavHelper.NavigateTo="views:HomePage" />
-            <winui:NavigationViewItem x:Uid="Shell_Date" Icon="Calendar" helpers:NavHelper.NavigateTo="views:DatePage" />
-            <winui:NavigationViewItem x:Uid="Shell_Geometry" Icon="Play" helpers:NavHelper.NavigateTo="views:GeometryPage" />
-        </winui:NavigationView.MenuItems>
-        <i:Interaction.Behaviors>
-            <behaviors:NavigationViewHeaderBehavior
+                <winui:NavigationViewItem x:Uid="Shell_Home" Icon="Home" helpers:NavHelper.NavigateTo="views:HomePage" />
+                <winui:NavigationViewItem x:Uid="Shell_Date" Icon="Calendar" helpers:NavHelper.NavigateTo="views:DatePage" />
+                <winui:NavigationViewItem x:Uid="Shell_Geometry" Icon="Play" helpers:NavHelper.NavigateTo="views:GeometryPage" />
+            </winui:NavigationView.MenuItems>
+            <i:Interaction.Behaviors>
+                <behaviors:NavigationViewHeaderBehavior
                 DefaultHeader="{x:Bind Selected.Content, Mode=OneWay}">
-                <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-                    <DataTemplate>
-                        <Grid Margin="-25,0,0,0" Padding="0,0,0,10">
+                    <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
+                        <DataTemplate>
+                            <Grid Margin="-25,0,0,0" Padding="0,0,0,10">
 
-                            <StackPanel
-
-
-Orientation="Vertical">
-                                <TextBlock
+                                <StackPanel
+Orientation="Vertical"
+     MaxWidth="1000"
+     HorizontalAlignment="Stretch">
+                                    <TextBlock
     x:Name="smallHeaderSubtitleText"
     Style="{StaticResource PageTitleStyle}"
     Text="eComBox-简易工具箱" />
-                                <TextBlock
-    x:Name="smallHeaderText"
-                                    
+                                    <TextBlock
+    x:Name="smallHeaderText"                                
     Style="{StaticResource HeaderTextBlockStyle}"
     Text="{Binding}" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-            </behaviors:NavigationViewHeaderBehavior>
-        </i:Interaction.Behaviors>
-        <Grid>
-            <Frame x:Name="shellFrame" />
-        </Grid>
-    </winui:NavigationView>
-
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
+                </behaviors:NavigationViewHeaderBehavior>
+            </i:Interaction.Behaviors>
+            <Grid>
+                <Frame x:Name="shellFrame" />
+            </Grid>
+        </winui:NavigationView>
+    
 </Page>

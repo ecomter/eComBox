@@ -7,109 +7,117 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
+    <ScrollViewer>
 
-    <Grid 
+        <Grid 
         x:Name="ContentArea"
         Margin="20,15,0,20">
-        <Pivot
+            <StackPanel
+
+Orientation="Vertical"
+     MaxWidth="1000"
+     HorizontalAlignment="Stretch">
+                <Pivot
             x:Name="Items">
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding}" />
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <PivotItem x:Uid="Triangle" Header="解三角形">
-                <Grid Margin="0,0,0,40">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding}" />
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <PivotItem x:Uid="Triangle" Header="解三角形">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Grid Margin="0,0,0,40">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
 
-                    <Grid Margin="0,40,0,0" Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.8*" />
-                            <ColumnDefinition Width="0.6*" />
-                            <ColumnDefinition Width="0.1*" />
-                            <ColumnDefinition Width="0.6*" />
-                            <ColumnDefinition Width="0.2*" />
+                                <Grid RowSpacing="6" Margin="0,40,0,0" Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.8*" />
+                                        <ColumnDefinition Width="0.6*" />
+                                        <ColumnDefinition Width="0.1*" />
+                                        <ColumnDefinition Width="0.6*" />
+                                        <ColumnDefinition Width="0.2*" />
 
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="2*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="Auto"  />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="2*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
     Grid.Column="0"
     Grid.Row="0"
     Text="边长a" />
-                        <TextBox
+                                    <TextBox
     Grid.Column="1"
     Grid.Row="0"
     x:Name="Tri_a"
 />
-                        <TextBlock
+                                    <TextBlock
     Grid.Column="0"
     Grid.Row="1"
     Text="边长b" />
-                        <TextBox
+                                    <TextBox
     Grid.Column="1"
     Grid.Row="1"
     x:Name="Tri_b"
     Text="" />
-                        <TextBlock
+                                    <TextBlock
     Grid.Column="0"
     Grid.Row="2"
     Text="边长c" />
-                        <TextBox
+                                    <TextBox
     Grid.Column="1"
     Grid.Row="2"
     x:Name="Tri_c"/>
-                        <Button Margin="10,45,0,30" Grid.Row="3"  Width="100" x:Name="Apply" Content="计算" Grid.Column="1" Grid.ColumnSpan="1"  Click="Submit" Style="{StaticResource AccentButtonStyle}"/>
+                                    <Button Margin="10,45,0,30" Grid.Row="3"  Width="100" x:Name="Apply" Content="计算" Grid.Column="1" Grid.ColumnSpan="1"  Click="Submit" Style="{StaticResource AccentButtonStyle}"/>
 
-                        <muxc:NumberBox Margin="0,20,0,30" Grid.Column="0" Grid.Row="3" x:Name="DemPlace" Maximum="10" Minimum="1" Value="{x:Bind DPlace, Mode=TwoWay}" Header="保留小数位数" PlaceholderText="5" SmallChange="1" LargeChange="1" SpinButtonPlacementMode="Inline"/>
-                        <muxc:ProgressRing Grid.Row="3" Grid.Column="2" IsActive="False"  x:Name="loaderring" />
-                        <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"   Text="面积"/>
-                        <TextBox x:Name="square" Grid.Row="4" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
-                        <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"   Text="周长"/>
-                        <TextBox x:Name="circumference" Grid.Row="5" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
-                        <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3"   Text="a 边对角的 cos 值及角度"/>
-                        <TextBox x:Name="cosineA" Grid.Row="6" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
-                        <TextBox x:Name="AngleA" Grid.Row="6" Text="等待计算" IsReadOnly="True" Grid.Column="3"/>
-                        <TextBlock Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3"   Text="b 边对角的 cos 值及角度"/>
-                        <TextBox x:Name="cosineB" Grid.Row="7" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
-                        <TextBox x:Name="AngleB" Grid.Row="7" Text="等待计算" IsReadOnly="True" Grid.Column="3"/>
-                        <TextBlock Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="3"   Text="c 边对角的 cos 值及角度"/>
-                        <TextBox x:Name="cosineC" Grid.Row="8" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
-                        <TextBox x:Name="AngleC" Grid.Row="8" Text="等待计算" IsReadOnly="True" Grid.Column="3"/>
-                        <TextBlock Text="三角形图像" Grid.Row="9" FontSize="20" Margin="20,20,0,0" />
-                        <Polygon x:Name="TriangleShape" Points="0,0" StrokeThickness="2" Grid.ColumnSpan="3"  Stroke="{StaticResource SystemAccentColor}" Grid.Row="9"/>
-                    </Grid>
-                </Grid>
-            </PivotItem>
+                                    <muxc:NumberBox Margin="0,20,0,30" Grid.Column="0" Grid.Row="3" x:Name="DemPlace" Maximum="10" Minimum="1" Value="{x:Bind DPlace, Mode=TwoWay}" Header="保留小数位数" PlaceholderText="5" SmallChange="1" LargeChange="1" SpinButtonPlacementMode="Inline"/>
+                                    <muxc:ProgressRing Grid.Row="3" Grid.Column="2" IsActive="False"  x:Name="loaderring" />
+                                    <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"   Text="面积"/>
+                                    <TextBox x:Name="square" Grid.Row="4" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"   Text="周长"/>
+                                    <TextBox x:Name="circumference" Grid.Row="5" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3"   Text="a 边对角的 cos 值及角度"/>
+                                    <TextBox x:Name="cosineA" Grid.Row="6" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
+                                    <TextBox x:Name="AngleA" Grid.Row="6" Text="等待计算" IsReadOnly="True" Grid.Column="3"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3"   Text="b 边对角的 cos 值及角度"/>
+                                    <TextBox x:Name="cosineB" Grid.Row="7" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
+                                    <TextBox x:Name="AngleB" Grid.Row="7" Text="等待计算" IsReadOnly="True" Grid.Column="3"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="3"   Text="c 边对角的 cos 值及角度"/>
+                                    <TextBox x:Name="cosineC" Grid.Row="8" Text="等待计算" IsReadOnly="True" Grid.Column="1"/>
+                                    <TextBox x:Name="AngleC" Grid.Row="8" Text="等待计算" IsReadOnly="True" Grid.Column="3"/>
+                                    <TextBlock Text="三角形图像" Grid.Row="9" FontSize="20" Margin="20,20,0,0" />
+                                    <Polygon x:Name="TriangleShape" Points="0,0" StrokeThickness="2" Grid.ColumnSpan="3"  Stroke="{StaticResource SystemAccentColor}" Grid.Row="9"/>
+                                </Grid>
+                            </Grid>
+                        </ScrollViewer>
+                    </PivotItem>
 
-            <PivotItem x:Uid="Lines" Header="直线与圆">
-                <Grid>
-                    <muxc:InfoBar
+                    <PivotItem x:Uid="Lines" Header="直线与圆">
+                        <Grid>
+                            <muxc:InfoBar
     IsOpen="True"
     IsIconVisible="True"
     IsClosable="False"
     Title="提示"
     Message="本功能尚未完成，请等待后续版本升级" />
 
-                </Grid>
-            </PivotItem>
-            <PivotItem x:Uid="Conic" Header="圆锥曲线">
-                <Grid>
-                    <muxc:InfoBar
+                        </Grid>
+                    </PivotItem>
+                    <PivotItem x:Uid="Conic" Header="圆锥曲线">
+                        <Grid>
+                            <muxc:InfoBar
                         
 IsOpen="True"
 IsIconVisible="True"
@@ -117,9 +125,11 @@ IsClosable="False"
 Title="提示"
 Message="本功能尚未完成，请等待后续版本升级" />
 
-                </Grid>
-            </PivotItem>
+                        </Grid>
+                    </PivotItem>
 
-        </Pivot>
-    </Grid>
+                </Pivot>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>
