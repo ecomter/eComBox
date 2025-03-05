@@ -61,6 +61,7 @@ namespace eComBox.Views
             InitializeComponent();
             LoadSelectedUrl();
             LoadHotListToggleState();
+            LoadTranslatorSettings();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -196,12 +197,30 @@ namespace eComBox.Views
             // 用户点击了“取消”按钮
         }
 
-        private void WebView2_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
+
+        private void LoadTranslatorSettings()
         {
-            if (e.TryGetWebMessageAsString() == "scrolledToBottom")
+            var localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values.ContainsKey("TranslatorEndpoint"))
             {
-                TermsOfServiceDialog.IsPrimaryButtonEnabled = true;
+                EndpointTextBox.Text = localSettings.Values["TranslatorEndpoint"] as string;
             }
+            if (localSettings.Values.ContainsKey("TranslatorApiKey"))
+            {
+                ApiTextBox.Password = localSettings.Values["TranslatorApiKey"] as string;
+            }
+            if (localSettings.Values.ContainsKey("TranslatorRegion"))
+            {
+                RegionTextBox.Text = localSettings.Values["TranslatorRegion"] as string;
+            }
+        }
+
+        private void SaveTranslatorSettings()
+        {
+            var localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values["TranslatorEndpoint"] = EndpointTextBox.Text;
+            localSettings.Values["TranslatorApiKey"] = ApiTextBox.Password;
+            localSettings.Values["TranslatorRegion"] = RegionTextBox.Text;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -216,7 +235,26 @@ namespace eComBox.Views
             storage = value;
             OnPropertyChanged(propertyName);
         }
-
+   
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void openBetaPage(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(betaPage));
+        }
+        private void EndpointTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SaveTranslatorSettings();
+        }
+
+        private void ApiTextBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            SaveTranslatorSettings();
+        }
+
+        private void RegionTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SaveTranslatorSettings();
+        }
     }
 }

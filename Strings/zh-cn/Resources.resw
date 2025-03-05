@@ -181,7 +181,6 @@
     <value>个性化</value>
     <comment>Personalization text for Settings</comment>
   </data>
-
   <data name="FirstRunDialog.Title" xml:space="preserve">
     <value>欢迎使用</value>
     <comment>First use prompt message title</comment>
@@ -201,5 +200,8 @@
   <data name="WhatsNewDialog.PrimaryButtonText" xml:space="preserve">
     <value>好的</value>
     <comment>What's new prompt message primary button text</comment>
+  </data>
+  <data name="Shell_translator.Content" xml:space="preserve">
+    <value>翻译工具</value>
   </data>
 </root>

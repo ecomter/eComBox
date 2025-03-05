@@ -33,6 +33,20 @@
                 </Grid>
             </ScrollViewer>
         </Grid>
+        <ContentDialog
+    x:Name="deleteAll"
+    Title="删除全部"
+    PrimaryButtonText="确定"
+    Content="此操作不可撤销"
+    CloseButtonText="取消"
+            DefaultButton="Primary"/>
+        <ContentDialog
+    x:Name="importWarning"
+    Title="确认导入"
+    PrimaryButtonText="确定"
+    Content="导入新配置文件会清除当前所有内容，是否继续？"
+    CloseButtonText="取消"
+            DefaultButton="Primary"/>
     </Grid>
 
 </Page>

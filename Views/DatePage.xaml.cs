@@ -614,17 +614,8 @@ namespace eComBox.Views
 
         private async void deleteall(object sender, RoutedEventArgs e)
         {
-            ContentDialog dialog = new ContentDialog()
-            {
-                Title = "删除全部",
-                Content = "此操作不可撤销",
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消",
-                DefaultButton = ContentDialogButton.Primary
-            };
-            dialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
-
-            var result = await dialog.ShowAsync();
+            
+            var result = await deleteAll.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
                 ContentArea.Children.Clear();
@@ -717,17 +708,9 @@ namespace eComBox.Views
                 // 如果当前有内容，提示用户导入会清除原有内容
                 if (ContentArea.Children.Count > 0)
                 {
-                    ContentDialog confirmDialog = new ContentDialog()
-                    {
-                        Title = "确认导入",
-                        Content = "导入新配置文件会清除当前所有内容，是否继续？",
-                        PrimaryButtonText = "确定",
-                        CloseButtonText = "取消",
-                        DefaultButton = ContentDialogButton.Primary
-                    };
-                    confirmDialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
+                    
 
-                    var result = await confirmDialog.ShowAsync();
+                    var result = await importWarning.ShowAsync();
                     if (result != ContentDialogResult.Primary)
                     {
                         return; // 用户取消导入

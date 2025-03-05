@@ -12,18 +12,42 @@
     mc:Ignorable="d"
     winui:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Page.Resources>
-        <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+        <ResourceDictionary>
+            <Style x:Key="SettingsContentScrollViewStyle" TargetType="ScrollViewer">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="HorizontalScrollMode" Value="Disabled"/>
+                <Setter Property="IsHorizontalRailEnabled" Value="False"/>
+                <Setter Property="IsVerticalRailEnabled" Value="True"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="VerticalScrollMode" Value="Auto"/>
+                <Setter Property="ZoomMode" Value="Disabled"/>
+            </Style>
 
-        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+            <Style x:Key="SettingsRichTextBlockStyle" TargetType="RichTextBlock">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
 
-        <!--  Style (inc. the correct spacing) of a section header  -->
-        <Style x:Key="SettingsSectionHeaderTextBlockStyle"
-               BasedOn="{StaticResource BodyStrongTextBlockStyle}"
-               TargetType="TextBlock">
-            <Style.Setters>
-                <Setter Property="Margin" Value="1,30,0,6" />
-            </Style.Setters>
-        </Style>
+            <!-- Override default hyperlink button background color -->
+            <StaticResource x:Key="HyperlinkButtonBackgroundPointerOver" ResourceKey="SubtleFillColorTransparentBrush"/>
+            <StaticResource x:Key="HyperlinkButtonBackgroundPressed" ResourceKey="SubtleFillColorTransparentBrush"/>
+
+            <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+            <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+
+            <!--  Style (inc. the correct spacing) of a section header  -->
+            <Style x:Key="SettingsSectionHeaderTextBlockStyle"
+        BasedOn="{StaticResource BodyTextBlockStyle}"
+        TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="1,30,0,6" />
+                </Style.Setters>
+            </Style>
+        </ResourceDictionary>
+        
+       
 
     </Page.Resources>
     <ScrollViewer>
@@ -80,8 +104,50 @@
                 </toolkit:SettingsExpander>
 
                 <TextBlock Text="高级" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <toolkit:SettingsCard Description="测试页面，仅供开发使用"
+                               Header="测试页面"
+                               HeaderIcon="{ui:FontIcon Glyph=&#xE745;}">
+                    <Button Content="betaPage"
+                    Style="{StaticResource AccentButtonStyle}" Click="openBetaPage" />
+                </toolkit:SettingsCard>
+                
+                <toolkit:SettingsExpander Margin="{StaticResource XSmallTopMargin}" Description="借助 Azure 翻译服务"
+                          Header="翻译工具">
+                    <HyperlinkButton Content="Azure AI 翻译" NavigateUri="https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator/" Margin="{StaticResource XSmallTopMargin}" />
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xF2B7;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard Header="终结点">
+                            <TextBox x:Name="EndpointTextBox"
+                                     Margin="{StaticResource XSmallTopMargin}"
+                                     Width="400"
+                                     Grid.Row="2"
+                                     FontSize="18"
+                                     TextChanged="EndpointTextBox_TextChanged" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Header="API 密钥">
+                            <PasswordBox x:Name="ApiTextBox"
+                                         Margin="{StaticResource XSmallTopMargin}"
+                                         Width="400"
+                                         Grid.Row="2"
+                                         FontSize="18"
+                                         PasswordChanged="ApiTextBox_PasswordChanged" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Header="区域">
+                            <TextBox x:Name="RegionTextBox"
+                                     Margin="{StaticResource XSmallTopMargin}"
+                                     Width="400"
+                                     Grid.Row="2"
+                                     FontSize="18"
+                                     TextChanged="RegionTextBox_TextChanged" />
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
                 <toolkit:SettingsExpander Margin="{StaticResource XSmallTopMargin}" Description="你可以在软件首页查看一些平台的热榜信息、天气状况。"
                                           Header="实时热点（测试功能）">
+                
                     <ToggleSwitch x:Name="HotListToggleSwitch"
                                   Margin="{StaticResource XSmallTopMargin}"
                                   Toggled="HotListToggleSwitch_Toggled" />
@@ -103,7 +169,7 @@
                 <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
 
                 <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <toolkit:SettingsExpander HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-400.png}" Description="© ecomter 2025 保留所有权限" Header="{x:Bind AppName, Mode=OneWay}" >
+                <toolkit:SettingsExpander HeaderIcon="{ui:BitmapIcon Source=../Assets/StoreLogo.scale-400.png}" Description="© ecomter 2025 保留所有权限" Header="{x:Bind AppName, Mode=OneWay}" >
                     <TextBlock IsTextSelectionEnabled="True"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Text="{x:Bind VersionDescription,Mode=OneWay}" />

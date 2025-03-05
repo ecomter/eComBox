@@ -4,9 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xaml="using:Windows.UI.Xaml"
+    
+xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     x:Uid="WhatsNewDialog"
     d:DesignHeight="345"
     d:DesignWidth="550"
+    CornerRadius="5"
     mc:Ignorable="d">
     <ContentDialog.TitleTemplate>
         <DataTemplate x:DataType="x:String">
@@ -26,13 +30,15 @@
         <StackPanel>
             <RichTextBlock >
                 <Paragraph>
-                    <Run FontWeight="Bold">已更新到 eComBox 0.3.2 版本</Run>
+                    <Run FontWeight="Bold">已更新到 eComBox 0.3.3 版本</Run>
                 </Paragraph>
                 <Paragraph></Paragraph>
-                <Paragraph>添加了实验性功能“实时热点”；</Paragraph>
-                <Paragraph>解决了点击“清除日期”后应用崩溃的问题；</Paragraph>
-                <Paragraph>更新了隐私政策。</Paragraph>
+                <Paragraph>新的“设置”页面；</Paragraph>
                 
+                <Paragraph>添加了页面宽度上限；</Paragraph>
+                <Paragraph>添加了日期计数器的导入导出功能；</Paragraph>
+                <Paragraph>修复了对话框不能适配暗色主题的问题；</Paragraph>
+                <Paragraph>修复了一些其他问题。</Paragraph>
             </RichTextBlock>
             <HyperlinkButton Content="隐私政策"  NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
         </StackPanel>
