@@ -59,7 +59,7 @@
                 Spacing="{StaticResource SettingsCardSpacing}">
 
                 <TextBlock x:Uid="Settings_Personalization" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <toolkit:SettingsExpander Margin="{StaticResource XSmallTopMargin}" x:Name="AppThemeExpander"
+                <toolkit:SettingsExpander x:Uid="ThemeSelection" Margin="{StaticResource XSmallTopMargin}" x:Name="AppThemeExpander"
                                           Description="选择要显示的应用程序主题"
                                           Header="应用程序主题">
                     <toolkit:SettingsExpander.HeaderIcon>
@@ -102,7 +102,16 @@
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
+                <toolkit:SettingsCard Margin="{StaticResource XSmallTopMargin}" x:Uid="LanguageExpander" x:Name="LanguageExpander">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE775;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="LanguageComboBox" SelectionChanged="LanguageComboBox_SelectionChanged">
+                        <ComboBoxItem Content="中文简体" Tag="zh-Hans-CN" />
+                        <ComboBoxItem Content="English(US)" Tag="en-US" />
+                    </ComboBox>
 
+                </toolkit:SettingsCard>
                 <TextBlock Text="高级" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
 
                 <toolkit:SettingsCard Description="测试页面，仅供开发使用"

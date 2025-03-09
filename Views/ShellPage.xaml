@@ -50,7 +50,7 @@ Orientation="Vertical"
                                     <TextBlock
     x:Name="smallHeaderSubtitleText"
     Style="{StaticResource PageTitleStyle}"
-    Text="eComBox-简易工具箱" />
+    x:Uid="AppDisplayNamet" />
                                     <TextBlock
     x:Name="smallHeaderText"                                
     Style="{StaticResource HeaderTextBlockStyle}"

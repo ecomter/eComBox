@@ -7,7 +7,9 @@ using eComBox.Helpers;
 using eComBox.Services;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-
+using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources.Core;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,12 +21,15 @@ namespace eComBox.Views
     // TODO: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
+       
+
         private const string SelectedUrlKey = "SelectedUrl";
         private const string SelectedUrlContent = "SelectedUrlContent";
         private const string DefaultUrl = "https://doc.ecomter.site/baidu?cache=false";
         private const string DefaultUrlContent = "百度热搜榜";
         private const string HotListEnabledKey = "HotListEnabled";
         private bool _initialHotListToggleState;
+        private bool _isInitializingLanguageComboBox = false;
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
 
@@ -56,14 +61,31 @@ namespace eComBox.Views
             set { Set(ref _appName, value); }
         }
 
+        private void InitializeLanguageComboBox()
+        {
+            _isInitializingLanguageComboBox = true;
+            var currentLanguage = ApplicationLanguages.PrimaryLanguageOverride;
+            foreach (ComboBoxItem item in LanguageComboBox.Items)
+            {
+                if (item.Tag.ToString() == currentLanguage)
+                {
+                    LanguageComboBox.SelectedItem = item;
+                    break;
+                }
+            }
+            _isInitializingLanguageComboBox = false;
+        }
+
         public SettingsPage()
         {
             InitializeComponent();
+            InitializeLanguageComboBox();
             LoadSelectedUrl();
             LoadHotListToggleState();
             LoadTranslatorSettings();
-        }
 
+        }
+        
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await InitializeAsync();
@@ -75,7 +97,19 @@ namespace eComBox.Views
             AppName = GetAppName();
             await Task.CompletedTask;
         }
+        private async void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isInitializingLanguageComboBox)
+                return;
 
+            if (LanguageComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                var selectedLanguage = selectedItem.Tag.ToString();
+                ApplicationLanguages.PrimaryLanguageOverride = selectedLanguage;
+                // 重新启动应用程序以应用语言更改
+                await CoreApplication.RequestRestartAsync(string.Empty);
+            }
+        }
         private string GetVersionDescription()
         {
   

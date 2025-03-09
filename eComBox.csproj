@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eComBox</RootNamespace>
     <AssemblyName>eComBox</AssemblyName>
-    <DefaultLanguage>zh-cn</DefaultLanguage>
+    <DefaultLanguage>zh-Hans-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22621.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
@@ -159,7 +159,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\zh-cn\Resources.resw">
+    <PRIResource Include="Strings\zh-Hans-CN\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
   </ItemGroup>
@@ -354,6 +354,9 @@
     <None Include="ecombox.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
+    <PRIResource Include="Strings\en-us\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

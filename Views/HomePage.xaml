@@ -32,7 +32,7 @@
                         <StackPanel.RenderTransform>
                             <CompositeTransform/>
                         </StackPanel.RenderTransform>
-                        <Grid Width="220" Height="216" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
+                        <Grid Width="220"  Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
                             <HyperlinkButton Padding="-1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  Click="ToDatePage" CornerRadius="{StaticResource OverlayCornerRadius}">
                                 <Grid Padding="24" VerticalAlignment="Stretch" RowSpacing="16">
                                     <Grid.RowDefinitions>
@@ -46,13 +46,13 @@
                                         </ContentPresenter.Content>
                                     </ContentPresenter>
                                     <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="4">
-                                        <TextBlock x:Name="TitleText" FontSize="18" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="日期计数器" />
-                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" FontSize="15" Text="计算距离目标日期的天数，兼具倒计时功能。" />
+                                        <TextBlock x:Name="TitleText" FontSize="18" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Style="{StaticResource BodyTextBlockStyle}"  x:Uid="HomePage_Date_Title" />
+                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" FontSize="15" x:Uid="HomePage_Date_Description"  />
                                     </StackPanel>
                                 </Grid>
                             </HyperlinkButton>
                         </Grid>
-                        <Grid Width="220" Height="216" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
+                        <Grid Width="220" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
                             <HyperlinkButton Padding="-1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" CornerRadius="{StaticResource OverlayCornerRadius}" Click="ToGeoPage">
                                 <Grid Padding="24" VerticalAlignment="Stretch" RowSpacing="16">
                                     <Grid.RowDefinitions>
@@ -66,8 +66,8 @@
                                         </ContentPresenter.Content>
                                     </ContentPresenter>
                                     <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="4">
-                                        <TextBlock FontSize="18" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="几何" />
-                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" FontSize="15" Text="解三角形，圆锥曲线等解析几何的常见计算。" />
+                                        <TextBlock FontSize="18" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Style="{StaticResource BodyTextBlockStyle}"  x:Uid="HomePage_Geo_Title" />
+                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" FontSize="15" x:Uid="HomePage_Geo_Description" />
                                     </StackPanel>
                                 </Grid>
                             </HyperlinkButton>
