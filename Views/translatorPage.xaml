@@ -4,9 +4,8 @@
    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
   mc:Ignorable="d">
     
-
-        <ScrollViewer>
-            <Grid Margin="24,10,24,16">
+    <ScrollViewer>
+        <Grid Margin="24,10,24,16">
             <StackPanel
             x:Name="ContentArea"
             MaxWidth="1000"
@@ -15,7 +14,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
-                        <ColumnDefinition   MinWidth="200"/>
+                        <ColumnDefinition MinWidth="200"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -31,270 +30,327 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <muxc:InfoBar
-    IsOpen="True"
-    x:Name="statusBar"
-    Severity="Success"
-    Title="完成" Grid.Row="0" Grid.ColumnSpan="3"
-    Message="您已填写所有配置项，可以进行翻译了" Margin="5" />
-                   
-                  
-
-                    
-                    <TextBlock Margin="5" Grid.Row="3" Text="源语言" FontSize="18" Grid.Column="0"/>
-                   
-                    <ComboBox x:Name="sourceLanguageComboBox" Margin="5" MinWidth="190" Grid.Row="3" FontSize="18" Grid.Column="1">
-                        
-                        <ComboBoxItem Content="自动检测" Tag=""/>
-                        <ComboBoxItem Content="阿尔巴尼亚语" Tag="sq"/>
-                        <ComboBoxItem Content="阿姆哈拉语" Tag="am"/>
-                        <ComboBoxItem Content="阿拉伯语" Tag="ar"/>
-                        <ComboBoxItem Content="阿萨姆语" Tag="as"/>
-                        <ComboBoxItem Content="阿塞拜疆语(拉丁语)" Tag="az"/>
-                        <ComboBoxItem Content="爱尔兰语" Tag="ga"/>
-                        <ComboBoxItem Content="爱沙尼亚语" Tag="et"/>
-                        <ComboBoxItem Content="白苗语（拉丁语）" Tag="mww"/>
-                        <ComboBoxItem Content="保加利亚语" Tag="bg"/>
-                        <ComboBoxItem Content="冰岛语" Tag="is"/>
-                        <ComboBoxItem Content="波兰语" Tag="pl"/>
-                        <ComboBoxItem Content="波斯尼亚语(拉丁语系)" Tag="bs"/>
-                        <ComboBoxItem Content="波斯语" Tag="fa"/>
-                        <ComboBoxItem Content="布尔语" Tag="af"/>
-                        <ComboBoxItem Content="达里语" Tag="prs"/>
-                        <ComboBoxItem Content="丹麦语" Tag="da"/>
-                        <ComboBoxItem Content="德语" Tag="de"/>
-                        <ComboBoxItem Content="低地德语" Tag="nds"/>
-                        <ComboBoxItem Content="迪维希语" Tag="dv"/>
-                        <ComboBoxItem Content="俄语" Tag="ru"/>
-                        <ComboBoxItem Content="法罗语" Tag="fo"/>
-                        <ComboBoxItem Content="法语" Tag="fr"/>
-                        <ComboBoxItem Content="法语（加拿大）" Tag="fr-ca"/>
-                        <ComboBoxItem Content="菲律宾语" Tag="fil"/>
-                        <ComboBoxItem Content="斐济语" Tag="fj"/>
-                        <ComboBoxItem Content="芬兰语" Tag="fi"/>
-                        <ComboBoxItem Content="高棉语" Tag="km"/>
-                        <ComboBoxItem Content="格鲁吉亚语" Tag="ka"/>
-                        <ComboBoxItem Content="古吉拉特语" Tag="gu"/>
-                        <ComboBoxItem Content="哈萨克语" Tag="kk"/>
-                        <ComboBoxItem Content="海地克里奥尔语" Tag="ht"/>
-                        <ComboBoxItem Content="韩语" Tag="ko"/>
-                        <ComboBoxItem Content="豪萨语" Tag="ha"/>
-                        <ComboBoxItem Content="荷兰语" Tag="nl"/>
-                        <ComboBoxItem Content="黑山语" Tag="sr-ME"/>
-                        <ComboBoxItem Content="希伯来语" Tag="he"/>
-                        <ComboBoxItem Content="希腊语" Tag="el"/>
-                        <ComboBoxItem Content="匈牙利语" Tag="hu"/>
-                        <ComboBoxItem Content="希腊语" Tag="el"/>
-                        <ComboBoxItem Content="印地语" Tag="hi"/>
-                        <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
-                        <ComboBoxItem Content="因纽特语" Tag="iu"/>
-                        <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
-                        <ComboBoxItem Content="意大利语" Tag="it"/>
-                        <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
-                        <ComboBoxItem Content="加利西亚语" Tag="gl"/>
-                        <ComboBoxItem Content="加泰罗尼亚语" Tag="ca"/>
-                        <ComboBoxItem Content="捷克语" Tag="cs"/>
-                        <ComboBoxItem Content="卡纳达语" Tag="kn"/>
-                        <ComboBoxItem Content="卡舒比语" Tag="csb"/>
-                        <ComboBoxItem Content="克林贡语" Tag="tlh-Latn"/>
-                        <ComboBoxItem Content="克林贡语(plqaD)" Tag="tlh-Piqd"/>
-                        <ComboBoxItem Content="克罗地亚语" Tag="hr"/>
-                        <ComboBoxItem Content="库尔德语(中部)" Tag="ku"/>
-                        <ComboBoxItem Content="库尔德语(北部)" Tag="kmr"/>
-                        <ComboBoxItem Content="拉丁语" Tag="la"/>
-                        <ComboBoxItem Content="拉脱维亚语" Tag="lv"/>
-                        <ComboBoxItem Content="立陶宛语" Tag="lt"/>
-                        <ComboBoxItem Content="林加拉语" Tag="ln"/>
-                        <ComboBoxItem Content="卢森堡语" Tag="lb"/>
-                        <ComboBoxItem Content="卢旺达语" Tag="rw"/>
-                        <ComboBoxItem Content="罗马尼亚语" Tag="ro"/>
-                        <ComboBoxItem Content="马尔代夫语" Tag="dv"/>
-                        <ComboBoxItem Content="马耳他语" Tag="mt"/>
-                        <ComboBoxItem Content="马拉地语" Tag="mr"/>
-                        <ComboBoxItem Content="马拉雅拉姆语" Tag="ml"/>
-                        <ComboBoxItem Content="马来语(拉丁语系)" Tag="ms"/>
-                        <ComboBoxItem Content="马其顿语" Tag="mk"/>
-                        <ComboBoxItem Content="毛利语" Tag="mi"/>
-                        <ComboBoxItem Content="蒙古语(西里尔文)" Tag="mn-Cyrl"/>
-                        <ComboBoxItem Content="蒙古语(传统)" Tag="mn-Mong"/>
-                        <ComboBoxItem Content="缅甸语" Tag="my"/>
-                        <ComboBoxItem Content="尼泊尔语" Tag="ne"/>
-                        <ComboBoxItem Content="挪威语" Tag="nb"/>
-                        <ComboBoxItem Content="旁遮普语" Tag="pa"/>
-                        <ComboBoxItem Content="葡萄牙语（巴西）" Tag="pt"/>
-                        <ComboBoxItem Content="葡萄牙语(葡萄牙)" Tag="pt-pt"/>
-                        <ComboBoxItem Content="普什图语" Tag="ps"/>
-                        <ComboBoxItem Content="齐切瓦语" Tag="ny"/>
-                        <ComboBoxItem Content="日语" Tag="ja"/>
-                        <ComboBoxItem Content="瑞典语" Tag="sv"/>
-                        <ComboBoxItem Content="萨摩亚语(拉丁语)" Tag="sm"/>
-                        <ComboBoxItem Content="塞尔维亚语（西里尔）" Tag="sr-Cyrl"/>
-                        <ComboBoxItem Content="塞尔维亚语（拉丁）" Tag="sr-Latn"/>
-                        <ComboBoxItem Content="僧伽罗语" Tag="si"/>
-                        <ComboBoxItem Content="斯洛伐克语" Tag="sk"/>
-                        <ComboBoxItem Content="斯洛文尼亚语" Tag="sl"/>
-                        <ComboBoxItem Content="斯瓦希里语（拉丁语）" Tag="sw"/>
-                        <ComboBoxItem Content="泰卢固语" Tag="te"/>
-                        <ComboBoxItem Content="泰米尔语" Tag="ta"/>
-                        <ComboBoxItem Content="泰语" Tag="th"/>
-                        <ComboBoxItem Content="塔希提语" Tag="ty"/>
-                        <ComboBoxItem Content="土耳其语" Tag="tr"/>
-                        <ComboBoxItem Content="土库曼语(拉丁语)" Tag="tk"/>
-                        <ComboBoxItem Content="威尔士语" Tag="cy"/>
-                        <ComboBoxItem Content="乌尔都语" Tag="ur"/>
-                        <ComboBoxItem Content="乌克兰语" Tag="uk"/>
-                        <ComboBoxItem Content="乌兹别克语(拉丁文)" Tag="uz"/>
-                        <ComboBoxItem Content="西班牙语" Tag="es"/>
-                        <ComboBoxItem Content="希伯来语" Tag="he"/>
-                        <ComboBoxItem Content="希腊语" Tag="el"/>
-                        <ComboBoxItem Content="匈牙利语" Tag="hu"/>
-                        <ComboBoxItem Content="印地语" Tag="hi"/>
-                        <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
-                        <ComboBoxItem Content="因纽特语" Tag="iu"/>
-                        <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
-                        <ComboBoxItem Content="意大利语" Tag="it"/>
-                        <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
-                        <ComboBoxItem Content="越南语" Tag="vi"/>
-                        <ComboBoxItem Content="中文(文言文)" Tag="lzh"/>
-                        <ComboBoxItem Content="中文(简体)" Tag="zh-Hans"/>
-                        <ComboBoxItem Content="中文(繁体)" Tag="zh-Hant"/>
-                        <ComboBoxItem Content="祖鲁语" Tag="zu"/>
-                    </ComboBox>
-
-                    <TextBlock Margin="5" Grid.Row="4" Text="翻译为" FontSize="18" Grid.Column="0"/>
-                    <ComboBox x:Name="targetLanguageComboBox" Margin="5" MinWidth="190" Grid.Row="4" FontSize="18" Grid.Column="1">
-                        <ComboBoxItem Content="阿尔巴尼亚语" Tag="sq"/>
-                        <ComboBoxItem Content="阿姆哈拉语" Tag="am"/>
-                        <ComboBoxItem Content="阿拉伯语" Tag="ar"/>
-                        <ComboBoxItem Content="阿萨姆语" Tag="as"/>
-                        <ComboBoxItem Content="阿塞拜疆语(拉丁语)" Tag="az"/>
-                        <ComboBoxItem Content="爱尔兰语" Tag="ga"/>
-                        <ComboBoxItem Content="爱沙尼亚语" Tag="et"/>
-                        <ComboBoxItem Content="白苗语（拉丁语）" Tag="mww"/>
-                        <ComboBoxItem Content="保加利亚语" Tag="bg"/>
-                        <ComboBoxItem Content="冰岛语" Tag="is"/>
-                        <ComboBoxItem Content="波兰语" Tag="pl"/>
-                        <ComboBoxItem Content="波斯尼亚语(拉丁语系)" Tag="bs"/>
-                        <ComboBoxItem Content="波斯语" Tag="fa"/>
-                        <ComboBoxItem Content="布尔语" Tag="af"/>
-                        <ComboBoxItem Content="达里语" Tag="prs"/>
-                        <ComboBoxItem Content="丹麦语" Tag="da"/>
-                        <ComboBoxItem Content="德语" Tag="de"/>
-                        <ComboBoxItem Content="低地德语" Tag="nds"/>
-                        <ComboBoxItem Content="迪维希语" Tag="dv"/>
-                        <ComboBoxItem Content="俄语" Tag="ru"/>
-                        <ComboBoxItem Content="法罗语" Tag="fo"/>
-                        <ComboBoxItem Content="法语" Tag="fr"/>
-                        <ComboBoxItem Content="法语（加拿大）" Tag="fr-ca"/>
-                        <ComboBoxItem Content="菲律宾语" Tag="fil"/>
-                        <ComboBoxItem Content="斐济语" Tag="fj"/>
-                        <ComboBoxItem Content="芬兰语" Tag="fi"/>
-                        <ComboBoxItem Content="高棉语" Tag="km"/>
-                        <ComboBoxItem Content="格鲁吉亚语" Tag="ka"/>
-                        <ComboBoxItem Content="古吉拉特语" Tag="gu"/>
-                        <ComboBoxItem Content="哈萨克语" Tag="kk"/>
-                        <ComboBoxItem Content="海地克里奥尔语" Tag="ht"/>
-                        <ComboBoxItem Content="韩语" Tag="ko"/>
-                        <ComboBoxItem Content="豪萨语" Tag="ha"/>
-                        <ComboBoxItem Content="荷兰语" Tag="nl"/>
-                        <ComboBoxItem Content="黑山语" Tag="sr-ME"/>
-                        <ComboBoxItem Content="希伯来语" Tag="he"/>
-                        <ComboBoxItem Content="希腊语" Tag="el"/>
-                        <ComboBoxItem Content="匈牙利语" Tag="hu"/>
-                        <ComboBoxItem Content="希腊语" Tag="el"/>
-                        <ComboBoxItem Content="印地语" Tag="hi"/>
-                        <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
-                        <ComboBoxItem Content="因纽特语" Tag="iu"/>
-                        <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
-                        <ComboBoxItem Content="意大利语" Tag="it"/>
-                        <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
-                        <ComboBoxItem Content="加利西亚语" Tag="gl"/>
-                        <ComboBoxItem Content="加泰罗尼亚语" Tag="ca"/>
-                        <ComboBoxItem Content="捷克语" Tag="cs"/>
-                        <ComboBoxItem Content="卡纳达语" Tag="kn"/>
-                        <ComboBoxItem Content="卡舒比语" Tag="csb"/>
-                        <ComboBoxItem Content="克林贡语" Tag="tlh-Latn"/>
-                        <ComboBoxItem Content="克林贡语(plqaD)" Tag="tlh-Piqd"/>
-                        <ComboBoxItem Content="克罗地亚语" Tag="hr"/>
-                        <ComboBoxItem Content="库尔德语(中部)" Tag="ku"/>
-                        <ComboBoxItem Content="库尔德语(北部)" Tag="kmr"/>
-                        <ComboBoxItem Content="拉丁语" Tag="la"/>
-                        <ComboBoxItem Content="拉脱维亚语" Tag="lv"/>
-                        <ComboBoxItem Content="立陶宛语" Tag="lt"/>
-                        <ComboBoxItem Content="林加拉语" Tag="ln"/>
-                        <ComboBoxItem Content="卢森堡语" Tag="lb"/>
-                        <ComboBoxItem Content="卢旺达语" Tag="rw"/>
-                        <ComboBoxItem Content="罗马尼亚语" Tag="ro"/>
-                        <ComboBoxItem Content="马尔代夫语" Tag="dv"/>
-                        <ComboBoxItem Content="马耳他语" Tag="mt"/>
-                        <ComboBoxItem Content="马拉地语" Tag="mr"/>
-                        <ComboBoxItem Content="马拉雅拉姆语" Tag="ml"/>
-                        <ComboBoxItem Content="马来语(拉丁语系)" Tag="ms"/>
-                        <ComboBoxItem Content="马其顿语" Tag="mk"/>
-                        <ComboBoxItem Content="毛利语" Tag="mi"/>
-                        <ComboBoxItem Content="蒙古语(西里尔文)" Tag="mn-Cyrl"/>
-                        <ComboBoxItem Content="蒙古语(传统)" Tag="mn-Mong"/>
-                        <ComboBoxItem Content="缅甸语" Tag="my"/>
-                        <ComboBoxItem Content="尼泊尔语" Tag="ne"/>
-                        <ComboBoxItem Content="挪威语" Tag="nb"/>
-                        <ComboBoxItem Content="旁遮普语" Tag="pa"/>
-                        <ComboBoxItem Content="葡萄牙语（巴西）" Tag="pt"/>
-                        <ComboBoxItem Content="葡萄牙语(葡萄牙)" Tag="pt-pt"/>
-                        <ComboBoxItem Content="普什图语" Tag="ps"/>
-                        <ComboBoxItem Content="齐切瓦语" Tag="ny"/>
-                        <ComboBoxItem Content="日语" Tag="ja"/>
-                        <ComboBoxItem Content="瑞典语" Tag="sv"/>
-                        <ComboBoxItem Content="萨摩亚语(拉丁语)" Tag="sm"/>
-                        <ComboBoxItem Content="塞尔维亚语（西里尔）" Tag="sr-Cyrl"/>
-                        <ComboBoxItem Content="塞尔维亚语（拉丁）" Tag="sr-Latn"/>
-                        <ComboBoxItem Content="僧伽罗语" Tag="si"/>
-                        <ComboBoxItem Content="斯洛伐克语" Tag="sk"/>
-                        <ComboBoxItem Content="斯洛文尼亚语" Tag="sl"/>
-                        <ComboBoxItem Content="斯瓦希里语（拉丁语）" Tag="sw"/>
-                        <ComboBoxItem Content="泰卢固语" Tag="te"/>
-                        <ComboBoxItem Content="泰米尔语" Tag="ta"/>
-                        <ComboBoxItem Content="泰语" Tag="th"/>
-                        <ComboBoxItem Content="塔希提语" Tag="ty"/>
-                        <ComboBoxItem Content="土耳其语" Tag="tr"/>
-                        <ComboBoxItem Content="土库曼语(拉丁语)" Tag="tk"/>
-                        <ComboBoxItem Content="威尔士语" Tag="cy"/>
-                        <ComboBoxItem Content="乌尔都语" Tag="ur"/>
-                        <ComboBoxItem Content="乌克兰语" Tag="uk"/>
-                        <ComboBoxItem Content="乌兹别克语(拉丁文)" Tag="uz"/>
-                        <ComboBoxItem Content="西班牙语" Tag="es"/>
-                        <ComboBoxItem Content="希伯来语" Tag="he"/>
-                        <ComboBoxItem Content="希腊语" Tag="el"/>
-                        <ComboBoxItem Content="匈牙利语" Tag="hu"/>
-                        <ComboBoxItem Content="印地语" Tag="hi"/>
-                        <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
-                        <ComboBoxItem Content="因纽特语" Tag="iu"/>
-                        <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
-                        <ComboBoxItem Content="意大利语" Tag="it"/>
-                        <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
-                        <ComboBoxItem Content="越南语" Tag="vi"/>
-                        <ComboBoxItem Content="中文(文言文)" Tag="lzh"/>
-                        <ComboBoxItem Content="中文(简体)" Tag="zh-Hans"/>
-                        <ComboBoxItem Content="中文(繁体)" Tag="zh-Hant"/>
-                        <ComboBoxItem Content="祖鲁语" Tag="zu"/>
-                    </ComboBox>
+                        IsOpen="True"
+                        x:Name="statusBar"
+                        Severity="Success"
+                        Title="完成" Grid.Row="0" Grid.ColumnSpan="3"
+                        Message="您已填写所有配置项，可以进行翻译了" Margin="5" />
+                    <Pivot Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Grid.RowSpan="3">
+                        <PivotItem Header="普通翻译">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
 
 
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition MinWidth="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5" Grid.Row="0" Text="源语言" FontSize="18" Grid.Column="0"/>
 
+                                <ComboBox x:Name="sourceLanguageComboBox" Margin="5" MinWidth="190" Grid.Row="0" FontSize="18" Grid.Column="1">
+
+                                    <ComboBoxItem Content="自动检测" Tag=""/>
+                                    <ComboBoxItem Content="阿尔巴尼亚语" Tag="sq"/>
+                                    <ComboBoxItem Content="阿姆哈拉语" Tag="am"/>
+                                    <ComboBoxItem Content="阿拉伯语" Tag="ar"/>
+                                    <ComboBoxItem Content="阿萨姆语" Tag="as"/>
+                                    <ComboBoxItem Content="阿塞拜疆语(拉丁语)" Tag="az"/>
+                                    <ComboBoxItem Content="爱尔兰语" Tag="ga"/>
+                                    <ComboBoxItem Content="爱沙尼亚语" Tag="et"/>
+                                    <ComboBoxItem Content="白苗语（拉丁语）" Tag="mww"/>
+                                    <ComboBoxItem Content="保加利亚语" Tag="bg"/>
+                                    <ComboBoxItem Content="冰岛语" Tag="is"/>
+                                    <ComboBoxItem Content="波兰语" Tag="pl"/>
+                                    <ComboBoxItem Content="波斯尼亚语(拉丁语系)" Tag="bs"/>
+                                    <ComboBoxItem Content="波斯语" Tag="fa"/>
+                                    <ComboBoxItem Content="布尔语" Tag="af"/>
+                                    <ComboBoxItem Content="达里语" Tag="prs"/>
+                                    <ComboBoxItem Content="丹麦语" Tag="da"/>
+                                    <ComboBoxItem Content="德语" Tag="de"/>
+                                    <ComboBoxItem Content="低地德语" Tag="nds"/>
+                                    <ComboBoxItem Content="迪维希语" Tag="dv"/>
+                                    <ComboBoxItem Content="俄语" Tag="ru"/>
+                                    <ComboBoxItem Content="法罗语" Tag="fo"/>
+                                    <ComboBoxItem Content="法语" Tag="fr"/>
+                                    <ComboBoxItem Content="法语（加拿大）" Tag="fr-ca"/>
+                                    <ComboBoxItem Content="菲律宾语" Tag="fil"/>
+                                    <ComboBoxItem Content="斐济语" Tag="fj"/>
+                                    <ComboBoxItem Content="芬兰语" Tag="fi"/>
+                                    <ComboBoxItem Content="高棉语" Tag="km"/>
+                                    <ComboBoxItem Content="格鲁吉亚语" Tag="ka"/>
+                                    <ComboBoxItem Content="古吉拉特语" Tag="gu"/>
+                                    <ComboBoxItem Content="哈萨克语" Tag="kk"/>
+                                    <ComboBoxItem Content="海地克里奥尔语" Tag="ht"/>
+                                    <ComboBoxItem Content="韩语" Tag="ko"/>
+                                    <ComboBoxItem Content="豪萨语" Tag="ha"/>
+                                    <ComboBoxItem Content="荷兰语" Tag="nl"/>
+                                    <ComboBoxItem Content="黑山语" Tag="sr-ME"/>
+                                    <ComboBoxItem Content="希伯来语" Tag="he"/>
+                                    <ComboBoxItem Content="希腊语" Tag="el"/>
+                                    <ComboBoxItem Content="匈牙利语" Tag="hu"/>
+                                    <ComboBoxItem Content="印地语" Tag="hi"/>
+                                    <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
+                                    <ComboBoxItem Content="因纽特语" Tag="iu"/>
+                                    <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
+                                    <ComboBoxItem Content="意大利语" Tag="it"/>
+                                    <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
+                                    <ComboBoxItem Content="加利西亚语" Tag="gl"/>
+                                    <ComboBoxItem Content="加泰罗尼亚语" Tag="ca"/>
+                                    <ComboBoxItem Content="捷克语" Tag="cs"/>
+                                    <ComboBoxItem Content="卡纳达语" Tag="kn"/>
+                                    <ComboBoxItem Content="卡舒比语" Tag="csb"/>
+                                    <ComboBoxItem Content="克林贡语" Tag="tlh-Latn"/>
+                                    <ComboBoxItem Content="克林贡语(plqaD)" Tag="tlh-Piqd"/>
+                                    <ComboBoxItem Content="克罗地亚语" Tag="hr"/>
+                                    <ComboBoxItem Content="库尔德语(中部)" Tag="ku"/>
+                                    <ComboBoxItem Content="库尔德语(北部)" Tag="kmr"/>
+                                    <ComboBoxItem Content="拉丁语" Tag="la"/>
+                                    <ComboBoxItem Content="拉脱维亚语" Tag="lv"/>
+                                    <ComboBoxItem Content="立陶宛语" Tag="lt"/>
+                                    <ComboBoxItem Content="林加拉语" Tag="ln"/>
+                                    <ComboBoxItem Content="卢森堡语" Tag="lb"/>
+                                    <ComboBoxItem Content="卢旺达语" Tag="rw"/>
+                                    <ComboBoxItem Content="罗马尼亚语" Tag="ro"/>
+                                    <ComboBoxItem Content="马尔代夫语" Tag="dv"/>
+                                    <ComboBoxItem Content="马耳他语" Tag="mt"/>
+                                    <ComboBoxItem Content="马拉地语" Tag="mr"/>
+                                    <ComboBoxItem Content="马拉雅拉姆语" Tag="ml"/>
+                                    <ComboBoxItem Content="马来语(拉丁语系)" Tag="ms"/>
+                                    <ComboBoxItem Content="马其顿语" Tag="mk"/>
+                                    <ComboBoxItem Content="毛利语" Tag="mi"/>
+                                    <ComboBoxItem Content="蒙古语(西里尔文)" Tag="mn-Cyrl"/>
+                                    <ComboBoxItem Content="蒙古语(传统)" Tag="mn-Mong"/>
+                                    <ComboBoxItem Content="缅甸语" Tag="my"/>
+                                    <ComboBoxItem Content="尼泊尔语" Tag="ne"/>
+                                    <ComboBoxItem Content="挪威语" Tag="nb"/>
+                                    <ComboBoxItem Content="旁遮普语" Tag="pa"/>
+                                    <ComboBoxItem Content="葡萄牙语（巴西）" Tag="pt"/>
+                                    <ComboBoxItem Content="葡萄牙语(葡萄牙)" Tag="pt-pt"/>
+                                    <ComboBoxItem Content="普什图语" Tag="ps"/>
+                                    <ComboBoxItem Content="齐切瓦语" Tag="ny"/>
+                                    <ComboBoxItem Content="日语" Tag="ja"/>
+                                    <ComboBoxItem Content="瑞典语" Tag="sv"/>
+                                    <ComboBoxItem Content="萨摩亚语(拉丁语)" Tag="sm"/>
+                                    <ComboBoxItem Content="塞尔维亚语（西里尔）" Tag="sr-Cyrl"/>
+                                    <ComboBoxItem Content="塞尔维亚语（拉丁）" Tag="sr-Latn"/>
+                                    <ComboBoxItem Content="僧伽罗语" Tag="si"/>
+                                    <ComboBoxItem Content="斯洛伐克语" Tag="sk"/>
+                                    <ComboBoxItem Content="斯洛文尼亚语" Tag="sl"/>
+                                    <ComboBoxItem Content="斯瓦希里语（拉丁语）" Tag="sw"/>
+                                    <ComboBoxItem Content="泰卢固语" Tag="te"/>
+                                    <ComboBoxItem Content="泰米尔语" Tag="ta"/>
+                                    <ComboBoxItem Content="泰语" Tag="th"/>
+                                    <ComboBoxItem Content="塔希提语" Tag="ty"/>
+                                    <ComboBoxItem Content="土耳其语" Tag="tr"/>
+                                    <ComboBoxItem Content="土库曼语(拉丁语)" Tag="tk"/>
+                                    <ComboBoxItem Content="威尔士语" Tag="cy"/>
+                                    <ComboBoxItem Content="乌尔都语" Tag="ur"/>
+                                    <ComboBoxItem Content="乌克兰语" Tag="uk"/>
+                                    <ComboBoxItem Content="乌兹别克语(拉丁文)" Tag="uz"/>
+                                    <ComboBoxItem Content="西班牙语" Tag="es"/>
+                                    <ComboBoxItem Content="希伯来语" Tag="he"/>
+                                    <ComboBoxItem Content="希腊语" Tag="el"/>
+                                    <ComboBoxItem Content="匈牙利语" Tag="hu"/>
+                                    <ComboBoxItem Content="印地语" Tag="hi"/>
+                                    <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
+                                    <ComboBoxItem Content="因纽特语" Tag="iu"/>
+                                    <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
+                                    <ComboBoxItem Content="意大利语" Tag="it"/>
+                                    <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
+                                    <ComboBoxItem Content="越南语" Tag="vi"/>
+                                    <ComboBoxItem Content="中文(文言文)" Tag="lzh"/>
+                                    <ComboBoxItem Content="中文(简体)" Tag="zh-Hans"/>
+                                    <ComboBoxItem Content="中文(繁体)" Tag="zh-Hant"/>
+                                    <ComboBoxItem Content="祖鲁语" Tag="zu"/>
+                                </ComboBox>
+
+                                <TextBlock Margin="5" Grid.Row="1" Text="翻译为" FontSize="18" Grid.Column="0"/>
+                                <ComboBox x:Name="targetLanguageComboBox" Margin="5" MinWidth="190" Grid.Row="1" FontSize="18" Grid.Column="1">
+                                    <ComboBoxItem Content="阿尔巴尼亚语" Tag="sq"/>
+                                    <ComboBoxItem Content="阿姆哈拉语" Tag="am"/>
+                                    <ComboBoxItem Content="阿拉伯语" Tag="ar"/>
+                                    <ComboBoxItem Content="阿萨姆语" Tag="as"/>
+                                    <ComboBoxItem Content="阿塞拜疆语(拉丁语)" Tag="az"/>
+                                    <ComboBoxItem Content="爱尔兰语" Tag="ga"/>
+                                    <ComboBoxItem Content="爱沙尼亚语" Tag="et"/>
+                                    <ComboBoxItem Content="白苗语（拉丁语）" Tag="mww"/>
+                                    <ComboBoxItem Content="保加利亚语" Tag="bg"/>
+                                    <ComboBoxItem Content="冰岛语" Tag="is"/>
+                                    <ComboBoxItem Content="波兰语" Tag="pl"/>
+                                    <ComboBoxItem Content="波斯尼亚语(拉丁语系)" Tag="bs"/>
+                                    <ComboBoxItem Content="波斯语" Tag="fa"/>
+                                    <ComboBoxItem Content="布尔语" Tag="af"/>
+                                    <ComboBoxItem Content="达里语" Tag="prs"/>
+                                    <ComboBoxItem Content="丹麦语" Tag="da"/>
+                                    <ComboBoxItem Content="德语" Tag="de"/>
+                                    <ComboBoxItem Content="低地德语" Tag="nds"/>
+                                    <ComboBoxItem Content="迪维希语" Tag="dv"/>
+                                    <ComboBoxItem Content="俄语" Tag="ru"/>
+                                    <ComboBoxItem Content="法罗语" Tag="fo"/>
+                                    <ComboBoxItem Content="法语" Tag="fr"/>
+                                    <ComboBoxItem Content="法语（加拿大）" Tag="fr-ca"/>
+                                    <ComboBoxItem Content="菲律宾语" Tag="fil"/>
+                                    <ComboBoxItem Content="斐济语" Tag="fj"/>
+                                    <ComboBoxItem Content="芬兰语" Tag="fi"/>
+                                    <ComboBoxItem Content="高棉语" Tag="km"/>
+                                    <ComboBoxItem Content="格鲁吉亚语" Tag="ka"/>
+                                    <ComboBoxItem Content="古吉拉特语" Tag="gu"/>
+                                    <ComboBoxItem Content="哈萨克语" Tag="kk"/>
+                                    <ComboBoxItem Content="海地克里奥尔语" Tag="ht"/>
+                                    <ComboBoxItem Content="韩语" Tag="ko"/>
+                                    <ComboBoxItem Content="豪萨语" Tag="ha"/>
+                                    <ComboBoxItem Content="荷兰语" Tag="nl"/>
+                                    <ComboBoxItem Content="黑山语" Tag="sr-ME"/>
+                                    <ComboBoxItem Content="希伯来语" Tag="he"/>
+                                    <ComboBoxItem Content="希腊语" Tag="el"/>
+                                    <ComboBoxItem Content="匈牙利语" Tag="hu"/>
+                                    <ComboBoxItem Content="印地语" Tag="hi"/>
+                                    <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
+                                    <ComboBoxItem Content="因纽特语" Tag="iu"/>
+                                    <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
+                                    <ComboBoxItem Content="意大利语" Tag="it"/>
+                                    <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
+                                    <ComboBoxItem Content="加利西亚语" Tag="gl"/>
+                                    <ComboBoxItem Content="加泰罗尼亚语" Tag="ca"/>
+                                    <ComboBoxItem Content="捷克语" Tag="cs"/>
+                                    <ComboBoxItem Content="卡纳达语" Tag="kn"/>
+                                    <ComboBoxItem Content="卡舒比语" Tag="csb"/>
+                                    <ComboBoxItem Content="克林贡语" Tag="tlh-Latn"/>
+                                    <ComboBoxItem Content="克林贡语(plqaD)" Tag="tlh-Piqd"/>
+                                    <ComboBoxItem Content="克罗地亚语" Tag="hr"/>
+                                    <ComboBoxItem Content="库尔德语(中部)" Tag="ku"/>
+                                    <ComboBoxItem Content="库尔德语(北部)" Tag="kmr"/>
+                                    <ComboBoxItem Content="拉丁语" Tag="la"/>
+                                    <ComboBoxItem Content="拉脱维亚语" Tag="lv"/>
+                                    <ComboBoxItem Content="立陶宛语" Tag="lt"/>
+                                    <ComboBoxItem Content="林加拉语" Tag="ln"/>
+                                    <ComboBoxItem Content="卢森堡语" Tag="lb"/>
+                                    <ComboBoxItem Content="卢旺达语" Tag="rw"/>
+                                    <ComboBoxItem Content="罗马尼亚语" Tag="ro"/>
+                                    <ComboBoxItem Content="马尔代夫语" Tag="dv"/>
+                                    <ComboBoxItem Content="马耳他语" Tag="mt"/>
+                                    <ComboBoxItem Content="马拉地语" Tag="mr"/>
+                                    <ComboBoxItem Content="马拉雅拉姆语" Tag="ml"/>
+                                    <ComboBoxItem Content="马来语(拉丁语系)" Tag="ms"/>
+                                    <ComboBoxItem Content="马其顿语" Tag="mk"/>
+                                    <ComboBoxItem Content="毛利语" Tag="mi"/>
+                                    <ComboBoxItem Content="蒙古语(西里尔文)" Tag="mn-Cyrl"/>
+                                    <ComboBoxItem Content="蒙古语(传统)" Tag="mn-Mong"/>
+                                    <ComboBoxItem Content="缅甸语" Tag="my"/>
+                                    <ComboBoxItem Content="尼泊尔语" Tag="ne"/>
+                                    <ComboBoxItem Content="挪威语" Tag="nb"/>
+                                    <ComboBoxItem Content="旁遮普语" Tag="pa"/>
+                                    <ComboBoxItem Content="葡萄牙语（巴西）" Tag="pt"/>
+                                    <ComboBoxItem Content="葡萄牙语(葡萄牙)" Tag="pt-pt"/>
+                                    <ComboBoxItem Content="普什图语" Tag="ps"/>
+                                    <ComboBoxItem Content="齐切瓦语" Tag="ny"/>
+                                    <ComboBoxItem Content="日语" Tag="ja"/>
+                                    <ComboBoxItem Content="瑞典语" Tag="sv"/>
+                                    <ComboBoxItem Content="萨摩亚语(拉丁语)" Tag="sm"/>
+                                    <ComboBoxItem Content="塞尔维亚语（西里尔）" Tag="sr-Cyrl"/>
+                                    <ComboBoxItem Content="塞尔维亚语（拉丁）" Tag="sr-Latn"/>
+                                    <ComboBoxItem Content="僧伽罗语" Tag="si"/>
+                                    <ComboBoxItem Content="斯洛伐克语" Tag="sk"/>
+                                    <ComboBoxItem Content="斯洛文尼亚语" Tag="sl"/>
+                                    <ComboBoxItem Content="斯瓦希里语（拉丁语）" Tag="sw"/>
+                                    <ComboBoxItem Content="泰卢固语" Tag="te"/>
+                                    <ComboBoxItem Content="泰米尔语" Tag="ta"/>
+                                    <ComboBoxItem Content="泰语" Tag="th"/>
+                                    <ComboBoxItem Content="塔希提语" Tag="ty"/>
+                                    <ComboBoxItem Content="土耳其语" Tag="tr"/>
+                                    <ComboBoxItem Content="土库曼语(拉丁语)" Tag="tk"/>
+                                    <ComboBoxItem Content="威尔士语" Tag="cy"/>
+                                    <ComboBoxItem Content="乌尔都语" Tag="ur"/>
+                                    <ComboBoxItem Content="乌克兰语" Tag="uk"/>
+                                    <ComboBoxItem Content="乌兹别克语(拉丁文)" Tag="uz"/>
+                                    <ComboBoxItem Content="西班牙语" Tag="es"/>
+                                    <ComboBoxItem Content="希伯来语" Tag="he"/>
+                                    <ComboBoxItem Content="希腊语" Tag="el"/>
+                                    <ComboBoxItem Content="匈牙利语" Tag="hu"/>
+                                    <ComboBoxItem Content="印地语" Tag="hi"/>
+                                    <ComboBoxItem Content="印度尼西亚语" Tag="id"/>
+                                    <ComboBoxItem Content="因纽特语" Tag="iu"/>
+                                    <ComboBoxItem Content="因纽特语(拉丁语)" Tag="iu-Latn"/>
+                                    <ComboBoxItem Content="意大利语" Tag="it"/>
+                                    <ComboBoxItem Content="约鲁巴语" Tag="yo"/>
+                                    <ComboBoxItem Content="越南语" Tag="vi"/>
+                                    <ComboBoxItem Content="中文(文言文)" Tag="lzh"/>
+                                    <ComboBoxItem Content="中文(简体)" Tag="zh-Hans"/>
+                                    <ComboBoxItem Content="中文(繁体)" Tag="zh-Hant"/>
+                                    <ComboBoxItem Content="祖鲁语" Tag="zu"/>
+                                </ComboBox>
+                            </Grid>
+                        </PivotItem>
+                        <PivotItem Header="顺序翻译">
+                            <Grid Margin="0,20,0,10">
+                                <StackPanel Orientation="Vertical" Spacing="10">
+                                    <muxc:Expander Header="顺序翻译设置" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="True">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Text="翻译顺序" Margin="5,10,5,5" FontSize="16" FontWeight="SemiBold" Grid.Row="0"/>
+
+                                            <ItemsControl Grid.Row="1" x:Name="TranslationSequencePanel">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VariableSizedWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="5"/>
+
+                                                    </ItemsPanelTemplate>
+
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
+                    Margin="5" Padding="3" CornerRadius="3">
+                                                            <StackPanel Width="170">
+                                                                <TextBlock Text="步骤 " FontSize="12" Margin="0,0,0,3">
+<Run Text="{Binding Index}"/>
+                                                                </TextBlock>
+                                                                <ComboBox Width="160" ItemsSource="{Binding LanguageOptions}" 
+      SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
+      DisplayMemberPath="Content" Tag="{Binding Index}"/>
+                                                            </StackPanel>
+
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </muxc:Expander>
+
+
+                                    <!-- 翻译历史记录 -->
+                                    <muxc:Expander Header="翻译历史" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                        <TextBox x:Name="translationHistoryBox" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" 
+                     MinHeight="150" MaxHeight="300"/>
+                                    </muxc:Expander>
+                                </StackPanel>
+
+                            </Grid>
+                        </PivotItem>
+                    </Pivot>
                     <TextBlock Margin="5" Grid.Row="5" Text="输入内容" FontSize="18" Grid.Column="0"/>
+                    <TextBox x:Name="ContentBox" TextChanged="ContentBox_TextChanged" AcceptsReturn="True" Grid.ColumnSpan="3" Margin="5" Grid.Row="6" FontSize="18" Grid.Column="0" TextWrapping="Wrap" />
 
-                    <TextBox x:Name="ContentBox" TextChanged="ContentBox_TextChanged" AcceptsReturn="True"  Grid.ColumnSpan="3" Margin="5" Grid.Row="6" FontSize="18"  Grid.Column="0"  TextWrapping="Wrap"  />
-                    <StackPanel Orientation="Horizontal" Margin="5,10,5,30"  Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Spacing="20">
-                        <Button x:Name="translateButton"  Content="翻译"  Width="200"  FontSize="18" Click="translateButton_Click" Style="{ThemeResource AccentButtonStyle}"/>
-
-                        <Button x:Name="reverseTranslateButton" Width="200"  Content="反向翻译" FontSize="18" Click="reverseTranslateButton_Click"  Visibility="Collapsed"/>
-
+                    <StackPanel Orientation="Horizontal" Margin="5,10,5,30" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Spacing="20">
+                        <Button x:Name="translateButton" Content="普通翻译" Width="150" FontSize="18" Click="translateButton_Click" Style="{ThemeResource AccentButtonStyle}"/>
+                        <Button x:Name="sequenceTranslateButton" Content="顺序翻译" Width="150" FontSize="18" Click="sequenceTranslateButton_Click" Style="{ThemeResource AccentButtonStyle}"/>
+                        <Button x:Name="reverseTranslateButton" Width="150" Content="反向翻译" FontSize="18" Click="reverseTranslateButton_Click" Visibility="Collapsed"/>
                     </StackPanel>
-                    <TextBlock  Margin="5" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"  Text="输出内容" FontSize="18"/>
-                    
-                    <TextBox IsReadOnly="True" Grid.ColumnSpan="3" MinWidth="200" x:Name="outputBox" FontSize="18" Grid.Row="9" TextWrapping="Wrap"/>
 
+                    <TextBlock Margin="5" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Text="输出内容" FontSize="18"/>
+                    <muxc:ProgressBar x:Name="translationProgressBar" Grid.Row="8" Grid.Column="2" Margin="5" HorizontalAlignment="Stretch" Visibility="Collapsed" IsIndeterminate="True"/>
+
+                    <TextBox IsReadOnly="True" Grid.ColumnSpan="3" MinWidth="200" x:Name="outputBox" FontSize="18" Grid.Row="9" TextWrapping="Wrap"/>
                 </Grid>
             </StackPanel>
         </Grid>
-        </ScrollViewer>
-
+    </ScrollViewer>
 </Page>
