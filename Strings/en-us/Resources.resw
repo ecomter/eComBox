@@ -132,101 +132,97 @@
   <data name="Geometry_PivotItem1.Header" xml:space="preserve">
     <value>Solve Triangles</value>
   </data>
-	<data name="Settings_Personalization.Text" xml:space="preserve">
-  <value>Personalization</value>
-</data>
-<data name="ThemeSelection.Header" xml:space="preserve">
-  <value>App Theme</value>
-</data>
-<data name="ThemeSelection.Description" xml:space="preserve">
-  <value>Select which theme to display in the application</value>
-</data>
-<data name="LanguageExpander.Header" xml:space="preserve">
-  <value>App Language</value>
-</data>
-<data name="LanguageExpander.Description" xml:space="preserve">
-  <value>Select application language (requires restart)</value>
-</data>
-	
-	
-
-<data name="Settings_Advanced.Text" xml:space="preserve">
-  <value>Advanced</value>
-</data>
-<data name="Settings_TranslatorTool.Header" xml:space="preserve">
-  <value>Translation Tool</value>
-</data>
-<data name="Settings_TranslatorTool.Description" xml:space="preserve">
-  <value>Using Azure Translation Services</value>
-</data>
-<data name="Settings_AzureTranslator.Content" xml:space="preserve">
-  <value>Azure AI Translator</value>
-</data>
-<data name="Settings_Endpoint.Header" xml:space="preserve">
-  <value>Endpoint</value>
-</data>
-<data name="Settings_ApiKey.Header" xml:space="preserve">
-  <value>API Key</value>
-</data>
-<data name="Settings_Region.Header" xml:space="preserve">
-  <value>Region</value>
-</data>
-<data name="Settings_HotList.Header" xml:space="preserve">
-  <value>Real-time Hotspots (Beta)</value>
-</data>
-<data name="Settings_HotList.Description" xml:space="preserve">
-  <value>You can view trending information from various platforms and weather conditions on the app homepage.</value>
-</data>
-<data name="Settings_NewsSource.Header" xml:space="preserve">
-  <value>News Source</value>
-</data>
-<data name="Settings_Source_Douyin.Content" xml:space="preserve">
-  <value>Douyin Trending</value>
-</data>
-<data name="Settings_Source_Baidu.Content" xml:space="preserve">
-  <value>Baidu Hot Search</value>
-</data>
-<data name="Settings_Source_Bilibili.Content" xml:space="preserve">
-  <value>Bilibili Trending</value>
-</data>
-<data name="Settings_Source_Weather.Content" xml:space="preserve">
-  <value>Weather Alerts</value>
-</data>
-<data name="Settings_Source_Weibo.Content" xml:space="preserve">
-  <value>Weibo Hot Search</value>
-</data>
-<data name="Settings_HotListPolicy.Content" xml:space="preserve">
-  <value>"Real-time Hotspots" Usage Policy</value>
-</data>
-
-<data name="Settings_AppInfo.Description" xml:space="preserve">
-  <value>© ecomter 2025 All Rights Reserved</value>
-</data>
-<data name="Settings_githubLink.Content" xml:space="preserve">
-  <value>GitHub Repository</value>
-</data>
-<data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
-  <value>Privacy Policy</value>
-</data>
-<data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
-  <value>Terms of Service</value>
-</data>
-<data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
-  <value>I have read and agree</value>
-</data>
-<data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
-  <value>Cancel</value>
-</data>
-<data name="Settings_TermsDescription.Text" xml:space="preserve">
-  <value>This is a beta feature that may be removed in future versions.</value>
-</data>
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>Personalization</value>
+    <comment>Personalization text for Settings</comment>
+  </data>
+  <data name="ThemeSelection.Header" xml:space="preserve">
+    <value>App Theme</value>
+  </data>
+  <data name="ThemeSelection.Description" xml:space="preserve">
+    <value>Select which theme to display in the application</value>
+  </data>
+  <data name="LanguageExpander.Header" xml:space="preserve">
+    <value>App Language</value>
+  </data>
+  <data name="LanguageExpander.Description" xml:space="preserve">
+    <value>Select application language (requires restart)</value>
+  </data>
+  <data name="Settings_Advanced.Text" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Settings_TranslatorTool.Header" xml:space="preserve">
+    <value>Translation Tool</value>
+  </data>
+  <data name="Settings_TranslatorTool.Description" xml:space="preserve">
+    <value>Using Azure Translation Services</value>
+  </data>
+  <data name="Settings_AzureTranslator.Content" xml:space="preserve">
+    <value>Azure AI Translator</value>
+  </data>
+  <data name="Settings_Endpoint.Header" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="Settings_ApiKey.Header" xml:space="preserve">
+    <value>API Key</value>
+  </data>
+  <data name="Settings_Region.Header" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Settings_HotList.Header" xml:space="preserve">
+    <value>Real-time Hotspots (Beta)</value>
+  </data>
+  <data name="Settings_HotList.Description" xml:space="preserve">
+    <value>You can view trending information from various platforms and weather conditions on the app homepage.</value>
+  </data>
+  <data name="Settings_NewsSource.Header" xml:space="preserve">
+    <value>News Source</value>
+  </data>
+  <data name="Settings_Source_Douyin.Content" xml:space="preserve">
+    <value>Douyin Trending</value>
+  </data>
+  <data name="Settings_Source_Baidu.Content" xml:space="preserve">
+    <value>Baidu Hot Search</value>
+  </data>
+  <data name="Settings_Source_Bilibili.Content" xml:space="preserve">
+    <value>Bilibili Trending</value>
+  </data>
+  <data name="Settings_Source_Weather.Content" xml:space="preserve">
+    <value>Weather Alerts</value>
+  </data>
+  <data name="Settings_Source_Weibo.Content" xml:space="preserve">
+    <value>Weibo Hot Search</value>
+  </data>
+  <data name="Settings_HotListPolicy.Content" xml:space="preserve">
+    <value>"Real-time Hotspots" Usage Policy</value>
+  </data>
+  <data name="Settings_AppInfo.Description" xml:space="preserve">
+    <value>© ecomter 2025 All Rights Reserved</value>
+  </data>
+  <data name="Settings_githubLink.Content" xml:space="preserve">
+    <value>GitHub Repository</value>
+  </data>
+  <data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
+    <value>I have read and agree</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Settings_TermsDescription.Text" xml:space="preserve">
+    <value>This is a beta feature that may be removed in future versions.</value>
+  </data>
   <data name="Translator_Error/Title" xml:space="preserve">
     <value>Initialization Error</value>
   </data>
   <data name="Translator_Error/Message" xml:space="preserve">
     <value>Language selection menu failed to load correctly</value>
   </data>
-
   <data name="Translator_MissingSettings/Title" xml:space="preserve">
     <value>Missing Information</value>
   </data>
@@ -316,7 +312,6 @@
   <data name="Translator_StatusBar.Message" xml:space="preserve">
     <value>You have completed all configuration items and are ready for translation</value>
   </data>
-
   <data name="Settings_Theme_Dark.Content" xml:space="preserve">
     <value>Dark</value>
     <comment>Dark theme text for Settings</comment>
@@ -333,8 +328,6 @@
     <value>About</value>
     <comment>About this application title for Settings</comment>
   </data>
-	
-		
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>eComBox-Simple Toolbox is a toolbox UWP application developed by ecomter that supports date calculations and simple geometric calculations.</value>
     <comment>About this application description for Settings</comment>
@@ -347,10 +340,6 @@
     <value>mailto:t1472580369@outlook.com</value>
     <comment>Here is your Privacy Statement url for Settings</comment>
   </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>Personalization</value>
-    <comment>Personalization text for Settings</comment>
-  </data>
   <data name="FirstRunDialog.Title" xml:space="preserve">
     <value>Welcome</value>
     <comment>First use prompt message title</comment>
@@ -359,12 +348,12 @@
     <value>OK</value>
     <comment>First use prompt message primary button text</comment>
   </data>
-  <data name="WhatsNewDialog.Title" xml:space="preserve">
-    <value>Updated</value>
+  <data name="WhatsNew_Feature1.Text" xml:space="preserve">
+    <value>Added translation tool</value>
     <comment>What's new prompt message title</comment>
   </data>
-  <data name="WhatsNewDialog.PrimaryButtonText" xml:space="preserve">
-    <value>OK</value>
+  <data name="WhatsNew_Header.Text" xml:space="preserve">
+    <value>Updated to eComBox version 0.3.4</value>
     <comment>What's new prompt message primary button text</comment>
   </data>
   <data name="Shell_translator.Content" xml:space="preserve">
@@ -381,12 +370,6 @@
   </data>
   <data name="HomePage_Geo_Title.Text" xml:space="preserve">
     <value>Geometry Tools</value>
-  </data>
-	
-
- 
-  <data name="ThemeSelection.Header" xml:space="preserve">
-    <value>App Theme</value>
   </data>
   <data name="AppDisplayNamet.Text" xml:space="preserve">
     <value>eComBox-Simple Toolbox</value>
@@ -714,5 +697,21 @@
   </data>
   <data name="Translator_PivotItem2.Header" xml:space="preserve">
     <value>Sequential Translate</value>
+  </data>
+  <data name="FirstRun_Body.Text" xml:space="preserve">
+    <value>Welcome to eComBox-Simple Toolbox!
+
+eComBox-Simple Toolbox supports multiple date countdown calculations, triangle solving based on side lengths, and translating text 20 times in a row. Features are still being expanded.
+
+Thank you for your support!</value>
+  </data>
+  <data name="WhatsNew_Feature2.Text" xml:space="preserve">
+    <value>English language support (not yet fully completed)</value>
+  </data>
+  <data name="WhatsNew_Feature3.Text" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">
+    <value>Fixed some other issues</value>
   </data>
 </root>

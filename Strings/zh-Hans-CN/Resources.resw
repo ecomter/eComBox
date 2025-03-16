@@ -123,83 +123,80 @@
   <data name="Translator_InputContent.Text" xml:space="preserve">
     <value>输入内容</value>
   </data>
-	<data name="Settings_Personalization.Text" xml:space="preserve">
-  <value>个性化</value>
-</data>
-
-	
-	<data name="Settings_Advanced.Text" xml:space="preserve">
-  <value>高级</value>
-</data>
-	<data name="Settings_TranslatorTool.Header" xml:space="preserve">
-  <value>翻译工具</value>
-</data>
-	<data name="Settings_TranslatorTool.Description" xml:space="preserve">
-  <value>借助 Azure 翻译服务</value>
-</data>
-	<data name="Settings_AzureTranslator.Content" xml:space="preserve">
-  <value>Azure AI 翻译</value>
-</data>
-	<data name="Settings_Endpoint.Header" xml:space="preserve">
-  <value>终结点</value>
-</data>
-	<data name="Settings_ApiKey.Header" xml:space="preserve">
-  <value>API 密钥</value>
-</data>
-	<data name="Settings_Region.Header" xml:space="preserve">
-  <value>区域</value>
-</data>
-	<data name="Settings_HotList.Header" xml:space="preserve">
-  <value>实时热点（测试功能）</value>
-</data>
-	<data name="Settings_HotList.Description" xml:space="preserve">
-  <value>你可以在软件首页查看一些平台的热榜信息、天气状况。</value>
-</data>
-	<data name="Settings_NewsSource.Header" xml:space="preserve">
-  <value>新闻源选取</value>
-</data>
-	<data name="Settings_Source_Douyin.Content" xml:space="preserve">
-  <value>抖音热榜</value>
-</data>
-	<data name="Settings_Source_Baidu.Content" xml:space="preserve">
-  <value>百度热搜榜</value>
-</data>
-	<data name="Settings_Source_Bilibili.Content" xml:space="preserve">
-  <value>B站热榜</value>
-</data>
-	<data name="Settings_Source_Weather.Content" xml:space="preserve">
-  <value>天气预警信息</value>
-</data>
-	<data name="Settings_Source_Weibo.Content" xml:space="preserve">
-  <value>微博热搜榜</value>
-</data>
-	<data name="Settings_HotListPolicy.Content" xml:space="preserve">
-  <value>“实时热点”使用政策</value>
-</data>
-
-	<data name="Settings_AppInfo.Description" xml:space="preserve">
-  <value>© ecomter 2025 保留所有权利</value>
-</data>
-	<data name="Settings_githubLink.Content" xml:space="preserve">
-  <value>GitHub 仓库</value>
-</data>
-	<data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
-  <value>隐私政策</value>
-</data>
-	<data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
-  <value>使用条款</value>
-</data>
-	<data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
-  <value>我已阅读并同意</value>
-</data>
-	<data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
-  <value>取消</value>
-</data>
-	<data name="Settings_TermsDescription.Text" xml:space="preserve">
-  <value>这是一个测试性功能，可能会在未来的版本中被移除。</value>
-</data>
-
-	<data name="Translator_OutputContent.Text" xml:space="preserve">
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>个性化</value>
+    <comment>Personalization text for Settings</comment>
+  </data>
+  <data name="Settings_Advanced.Text" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="Settings_TranslatorTool.Header" xml:space="preserve">
+    <value>翻译工具</value>
+  </data>
+  <data name="Settings_TranslatorTool.Description" xml:space="preserve">
+    <value>借助 Azure 翻译服务</value>
+  </data>
+  <data name="Settings_AzureTranslator.Content" xml:space="preserve">
+    <value>Azure AI 翻译</value>
+  </data>
+  <data name="Settings_Endpoint.Header" xml:space="preserve">
+    <value>终结点</value>
+  </data>
+  <data name="Settings_ApiKey.Header" xml:space="preserve">
+    <value>API 密钥</value>
+  </data>
+  <data name="Settings_Region.Header" xml:space="preserve">
+    <value>区域</value>
+  </data>
+  <data name="Settings_HotList.Header" xml:space="preserve">
+    <value>实时热点（测试功能）</value>
+  </data>
+  <data name="Settings_HotList.Description" xml:space="preserve">
+    <value>你可以在软件首页查看一些平台的热榜信息、天气状况。</value>
+  </data>
+  <data name="Settings_NewsSource.Header" xml:space="preserve">
+    <value>新闻源选取</value>
+  </data>
+  <data name="Settings_Source_Douyin.Content" xml:space="preserve">
+    <value>抖音热榜</value>
+  </data>
+  <data name="Settings_Source_Baidu.Content" xml:space="preserve">
+    <value>百度热搜榜</value>
+  </data>
+  <data name="Settings_Source_Bilibili.Content" xml:space="preserve">
+    <value>B站热榜</value>
+  </data>
+  <data name="Settings_Source_Weather.Content" xml:space="preserve">
+    <value>天气预警信息</value>
+  </data>
+  <data name="Settings_Source_Weibo.Content" xml:space="preserve">
+    <value>微博热搜榜</value>
+  </data>
+  <data name="Settings_HotListPolicy.Content" xml:space="preserve">
+    <value>“实时热点”使用政策</value>
+  </data>
+  <data name="Settings_AppInfo.Description" xml:space="preserve">
+    <value>© ecomter 2025 保留所有权利</value>
+  </data>
+  <data name="Settings_githubLink.Content" xml:space="preserve">
+    <value>GitHub 仓库</value>
+  </data>
+  <data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
+    <value>使用条款</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
+    <value>我已阅读并同意</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Settings_TermsDescription.Text" xml:space="preserve">
+    <value>这是一个测试性功能，可能会在未来的版本中被移除。</value>
+  </data>
+  <data name="Translator_OutputContent.Text" xml:space="preserve">
     <value>输出内容</value>
   </data>
   <data name="Translator_PivitItem1.Header" xml:space="preserve">
@@ -335,10 +332,6 @@
     <value>mailto:t1472580369@outlook.com</value>
     <comment>Here is your Privacy Statement url for Settings</comment>
   </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>个性化</value>
-    <comment>Personalization text for Settings</comment>
-  </data>
   <data name="FirstRunDialog.Title" xml:space="preserve">
     <value>欢迎使用</value>
     <comment>First use prompt message title</comment>
@@ -346,18 +339,6 @@
   <data name="FirstRunDialog.PrimaryButtonText" xml:space="preserve">
     <value>好的，我试试</value>
     <comment>First use prompt message primary button text</comment>
-  </data>
-  <data name="WhatsNew_Body.Text" xml:space="preserve">
-    <value>全新的交互 UI</value>
-    <comment>What's new prompt message body</comment>
-  </data>
-  <data name="WhatsNewDialog.Title" xml:space="preserve">
-    <value>更新提醒</value>
-    <comment>What's new prompt message title</comment>
-  </data>
-  <data name="WhatsNewDialog.PrimaryButtonText" xml:space="preserve">
-    <value>好的</value>
-    <comment>What's new prompt message primary button text</comment>
   </data>
   <data name="Shell_translator.Content" xml:space="preserve">
     <value>翻译工具</value>
@@ -712,5 +693,29 @@
   </data>
   <data name="Translator_PivotItem2.Header" xml:space="preserve">
     <value>连续翻译</value>
+  </data>
+  <data name="FirstRun_Body.Text" xml:space="preserve">
+    <value>欢迎您使用 eComBox-简易工具箱！
+
+eComBox-简易工具箱支持多配置日期倒计时计算，根据三角形边长解三角形，连续翻译20遍文本。目前功能仍在不断扩充之中。
+
+感谢您的支持！</value>
+  </data>
+  <data name="WhatsNew_Feature1.Text" xml:space="preserve">
+    <value>增加翻译工具</value>
+    <comment>What's new prompt message title</comment>
+  </data>
+  <data name="WhatsNew_Feature2.Text" xml:space="preserve">
+    <value>对英文的软件支持（暂未完全完成）</value>
+  </data>
+  <data name="WhatsNew_Feature3.Text" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="WhatsNew_Header.Text" xml:space="preserve">
+    <value>已更新到 eComBox 0.3.4 版本</value>
+    <comment>What's new prompt message primary button text</comment>
+  </data>
+  <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">
+    <value>修复了一些其他问题</value>
   </data>
 </root>

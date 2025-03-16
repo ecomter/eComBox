@@ -28,19 +28,22 @@ xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <RichTextBlock >
+            <RichTextBlock>
                 <Paragraph>
-                    <Run FontWeight="Bold">已更新到 eComBox 0.3.3 版本</Run>
+                    <Run x:Uid="WhatsNew_Header" FontWeight="Bold" />
                 </Paragraph>
                 <Paragraph></Paragraph>
-                <Paragraph>新的“设置”页面；</Paragraph>
-                
-                <Paragraph>添加了页面宽度上限；</Paragraph>
-                <Paragraph>添加了日期计数器的导入导出功能；</Paragraph>
-                <Paragraph>修复了对话框不能适配暗色主题的问题；</Paragraph>
-                <Paragraph>修复了一些其他问题。</Paragraph>
+                <Paragraph>
+                    <Run x:Uid="WhatsNew_Feature1" />
+                </Paragraph>
+                <Paragraph>
+                    <Run x:Uid="WhatsNew_Feature2" />
+                </Paragraph>
+                <Paragraph>
+                    <Run x:Uid="WhatsNew_Feature3" />
+                </Paragraph>
             </RichTextBlock>
-            <HyperlinkButton Content="隐私政策"  NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+            <HyperlinkButton x:Uid="WhatsNew_PrivacyPolicy" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>
