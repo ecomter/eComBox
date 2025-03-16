@@ -131,7 +131,10 @@ namespace eComBox.Views
         {
             Frame.Navigate(typeof(DatePage));
         }
-
+        private void ToTranslatorPage(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(translatorPage));
+        }
         private async void refreshUrl(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var cacheFolder = ApplicationData.Current.LocalCacheFolder;

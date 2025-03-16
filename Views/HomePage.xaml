@@ -2,19 +2,7 @@
    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
 
   mc:Ignorable="d">
-    <Page.Resources>
-        <Storyboard x:Name="Storyboard1">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="headerTileGallery" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.592"/>
-                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1.03"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="headerTileGallery" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="89.062"/>
-                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="-13.333"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-    </Page.Resources>
-
+    
 
     <Grid
      MaxWidth="1000"
@@ -68,6 +56,26 @@
                                     <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="4">
                                         <TextBlock FontSize="18" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Style="{StaticResource BodyTextBlockStyle}"  x:Uid="HomePage_Geo_Title" />
                                         <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" FontSize="15" x:Uid="HomePage_Geo_Description" />
+                                    </StackPanel>
+                                </Grid>
+                            </HyperlinkButton>
+                        </Grid>
+                        <Grid Width="220"  Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
+                            <HyperlinkButton Padding="-1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  Click="ToTranslatorPage" CornerRadius="{StaticResource OverlayCornerRadius}">
+                                <Grid Padding="24" VerticalAlignment="Stretch" RowSpacing="16">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="56" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <FontIcon Grid.RowSpan="3" Margin="-12" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Glyph="&#xE8A7;" />
+                                    <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Top">
+                                        <ContentPresenter.Content>
+                                            <Image Source="/Assets/Header-Translator.png" />
+                                        </ContentPresenter.Content>
+                                    </ContentPresenter>
+                                    <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="4">
+                                        <TextBlock FontSize="18" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Style="{StaticResource BodyTextBlockStyle}"  x:Uid="HomePage_Translator_Title" />
+                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" FontSize="15" x:Uid="HomePage_Translator_Description"  />
                                     </StackPanel>
                                 </Grid>
                             </HyperlinkButton>

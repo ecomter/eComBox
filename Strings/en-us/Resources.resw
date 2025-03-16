@@ -132,6 +132,134 @@
   <data name="Geometry_PivotItem1.Header" xml:space="preserve">
     <value>Solve Triangles</value>
   </data>
+	<data name="Settings_Personalization.Text" xml:space="preserve">
+  <value>Personalization</value>
+</data>
+<data name="ThemeSelection.Header" xml:space="preserve">
+  <value>App Theme</value>
+</data>
+<data name="ThemeSelection.Description" xml:space="preserve">
+  <value>Select which theme to display in the application</value>
+</data>
+<data name="LanguageExpander.Header" xml:space="preserve">
+  <value>App Language</value>
+</data>
+<data name="LanguageExpander.Description" xml:space="preserve">
+  <value>Select application language (requires restart)</value>
+</data>
+	
+	
+
+<data name="Settings_Advanced.Text" xml:space="preserve">
+  <value>Advanced</value>
+</data>
+<data name="Settings_TranslatorTool.Header" xml:space="preserve">
+  <value>Translation Tool</value>
+</data>
+<data name="Settings_TranslatorTool.Description" xml:space="preserve">
+  <value>Using Azure Translation Services</value>
+</data>
+<data name="Settings_AzureTranslator.Content" xml:space="preserve">
+  <value>Azure AI Translator</value>
+</data>
+<data name="Settings_Endpoint.Header" xml:space="preserve">
+  <value>Endpoint</value>
+</data>
+<data name="Settings_ApiKey.Header" xml:space="preserve">
+  <value>API Key</value>
+</data>
+<data name="Settings_Region.Header" xml:space="preserve">
+  <value>Region</value>
+</data>
+<data name="Settings_HotList.Header" xml:space="preserve">
+  <value>Real-time Hotspots (Beta)</value>
+</data>
+<data name="Settings_HotList.Description" xml:space="preserve">
+  <value>You can view trending information from various platforms and weather conditions on the app homepage.</value>
+</data>
+<data name="Settings_NewsSource.Header" xml:space="preserve">
+  <value>News Source</value>
+</data>
+<data name="Settings_Source_Douyin.Content" xml:space="preserve">
+  <value>Douyin Trending</value>
+</data>
+<data name="Settings_Source_Baidu.Content" xml:space="preserve">
+  <value>Baidu Hot Search</value>
+</data>
+<data name="Settings_Source_Bilibili.Content" xml:space="preserve">
+  <value>Bilibili Trending</value>
+</data>
+<data name="Settings_Source_Weather.Content" xml:space="preserve">
+  <value>Weather Alerts</value>
+</data>
+<data name="Settings_Source_Weibo.Content" xml:space="preserve">
+  <value>Weibo Hot Search</value>
+</data>
+<data name="Settings_HotListPolicy.Content" xml:space="preserve">
+  <value>"Real-time Hotspots" Usage Policy</value>
+</data>
+
+<data name="Settings_AppInfo.Description" xml:space="preserve">
+  <value>© ecomter 2025 All Rights Reserved</value>
+</data>
+<data name="Settings_githubLink.Content" xml:space="preserve">
+  <value>GitHub Repository</value>
+</data>
+<data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
+  <value>Privacy Policy</value>
+</data>
+<data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
+  <value>Terms of Service</value>
+</data>
+<data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
+  <value>I have read and agree</value>
+</data>
+<data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
+  <value>Cancel</value>
+</data>
+<data name="Settings_TermsDescription.Text" xml:space="preserve">
+  <value>This is a beta feature that may be removed in future versions.</value>
+</data>
+  <data name="Translator_Error/Title" xml:space="preserve">
+    <value>Initialization Error</value>
+  </data>
+  <data name="Translator_Error/Message" xml:space="preserve">
+    <value>Language selection menu failed to load correctly</value>
+  </data>
+
+  <data name="Translator_MissingSettings/Title" xml:space="preserve">
+    <value>Missing Information</value>
+  </data>
+  <data name="Translator_MissingSettings/Message" xml:space="preserve">
+    <value>Please enter translation configuration in settings</value>
+  </data>
+  <data name="Translator_MissingInfo/Exception" xml:space="preserve">
+    <value>Missing translation tool configuration information</value>
+  </data>
+  <data name="Translator_SequenceInProgress/Message" xml:space="preserve">
+    <value>Sequential translation in progress...</value>
+  </data>
+  <data name="Translator_SequenceComplete/Message" xml:space="preserve">
+    <value>Sequential translation complete!</value>
+  </data>
+  <data name="Translator_TranslationError/Message" xml:space="preserve">
+    <value>An error occurred during translation!</value>
+  </data>
+  <data name="Translator_HistoryOriginal" xml:space="preserve">
+    <value>Original text ({0}): {1}</value>
+  </data>
+  <data name="Translator_HistoryStep" xml:space="preserve">
+    <value>Step {0}: {1} -&gt; {2}</value>
+  </data>
+  <data name="Translator_SequenceStatus" xml:space="preserve">
+    <value>Sequential translation: Step {0}/{1} - {2}</value>
+  </data>
+  <data name="Translator_SaveError" xml:space="preserve">
+    <value>Failed to save translation sequence settings: {0}</value>
+  </data>
+  <data name="Translator_LoadError" xml:space="preserve">
+    <value>Failed to load translation sequence settings: {0}</value>
+  </data>
   <data name="Geometry_PivotItem2.Header" xml:space="preserve">
     <value>Solve Lines</value>
   </data>
@@ -143,10 +271,52 @@
     <value>Home</value>
     <comment>Navigation view item name for Home</comment>
   </data>
-  <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Theme</value>
-    <comment>Choose theme text for Settings</comment>
+  <data name="Translator_History.Header" xml:space="preserve">
+    <value>Translation History</value>
   </data>
+  <data name="Translator_InputContent.Text" xml:space="preserve">
+    <value>Input Content</value>
+  </data>
+  <data name="Translator_OutputContent.Text" xml:space="preserve">
+    <value>Output Content</value>
+  </data>
+  <data name="Translator_PivitItem1.Header" xml:space="preserve">
+    <value>Regular Translation</value>
+  </data>
+  <data name="Translator_PivitItem2.Header" xml:space="preserve">
+    <value>Sequential Translation</value>
+  </data>
+  <data name="Translator_ReverseButton.Content" xml:space="preserve">
+    <value>Reverse Translation</value>
+  </data>
+  <data name="Translator_SequenceButton.Content" xml:space="preserve">
+    <value>Sequential Translation</value>
+  </data>
+  <data name="Translator_SequenceSettings.Header" xml:space="preserve">
+    <value>Sequential Translation Settings</value>
+  </data>
+  <data name="Translator_SourceLanguage.Text" xml:space="preserve">
+    <value>Source Language</value>
+  </data>
+  <data name="Translator_Step.Text" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="Translator_TargetLanguage.Text" xml:space="preserve">
+    <value>Target Language</value>
+  </data>
+  <data name="Translator_TranslateButton.Content" xml:space="preserve">
+    <value>Translate</value>
+  </data>
+  <data name="Translator_TranslationOrder.Text" xml:space="preserve">
+    <value>Translation Order</value>
+  </data>
+  <data name="Translator_StatusBar.Title" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Translator_StatusBar.Message" xml:space="preserve">
+    <value>You have completed all configuration items and are ready for translation</value>
+  </data>
+
   <data name="Settings_Theme_Dark.Content" xml:space="preserve">
     <value>Dark</value>
     <comment>Dark theme text for Settings</comment>
@@ -163,6 +333,8 @@
     <value>About</value>
     <comment>About this application title for Settings</comment>
   </data>
+	
+		
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>eComBox-Simple Toolbox is a toolbox UWP application developed by ecomter that supports date calculations and simple geometric calculations.</value>
     <comment>About this application description for Settings</comment>
@@ -210,19 +382,337 @@
   <data name="HomePage_Geo_Title.Text" xml:space="preserve">
     <value>Geometry Tools</value>
   </data>
-  <data name="LanguageExpander.Description" xml:space="preserve">
-    <value>Select the language and RESTART the application</value>
-  </data>
-  <data name="LanguageExpander.Header" xml:space="preserve">
-    <value>Application Language</value>
-  </data>
-  <data name="ThemeSelection.Description" xml:space="preserve">
-    <value>Select the app theme you want to display</value>
-  </data>
+	
+
+ 
   <data name="ThemeSelection.Header" xml:space="preserve">
     <value>App Theme</value>
   </data>
   <data name="AppDisplayNamet.Text" xml:space="preserve">
     <value>eComBox-Simple Toolbox</value>
+  </data>
+  <data name="Translator_AutoDetect" xml:space="preserve">
+    <value>Auto Detect</value>
+  </data>
+  <data name="Translator_Lang_Albanian" xml:space="preserve">
+    <value>Albanian</value>
+  </data>
+  <data name="Translator_Lang_Amharic" xml:space="preserve">
+    <value>Amharic</value>
+  </data>
+  <data name="Translator_Lang_Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="Translator_Lang_Assamese" xml:space="preserve">
+    <value>Assamese</value>
+  </data>
+  <data name="Translator_Lang_Azerbaijani" xml:space="preserve">
+    <value>Azerbaijani (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Irish" xml:space="preserve">
+    <value>Irish</value>
+  </data>
+  <data name="Translator_Lang_Estonian" xml:space="preserve">
+    <value>Estonian</value>
+  </data>
+  <data name="Translator_Lang_HmongDaw" xml:space="preserve">
+    <value>Hmong Daw (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Bulgarian" xml:space="preserve">
+    <value>Bulgarian</value>
+  </data>
+  <data name="Translator_Lang_Icelandic" xml:space="preserve">
+    <value>Icelandic</value>
+  </data>
+  <data name="Translator_Lang_Polish" xml:space="preserve">
+    <value>Polish</value>
+  </data>
+  <data name="Translator_Lang_Bosnian" xml:space="preserve">
+    <value>Bosnian (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Persian" xml:space="preserve">
+    <value>Persian</value>
+  </data>
+  <data name="Translator_Lang_Afrikaans" xml:space="preserve">
+    <value>Afrikaans</value>
+  </data>
+  <data name="Translator_Lang_Dari" xml:space="preserve">
+    <value>Dari</value>
+  </data>
+  <data name="Translator_Lang_Danish" xml:space="preserve">
+    <value>Danish</value>
+  </data>
+  <data name="Translator_Lang_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Translator_Lang_LowGerman" xml:space="preserve">
+    <value>Low German</value>
+  </data>
+  <data name="Translator_Lang_Dhivehi" xml:space="preserve">
+    <value>Dhivehi</value>
+  </data>
+  <data name="Translator_Lang_Russian" xml:space="preserve">
+    <value>Russian</value>
+  </data>
+  <data name="Translator_Lang_Faroese" xml:space="preserve">
+    <value>Faroese</value>
+  </data>
+  <data name="Translator_Lang_French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Translator_Lang_FrenchCanada" xml:space="preserve">
+    <value>French (Canada)</value>
+  </data>
+  <data name="Translator_Lang_Filipino" xml:space="preserve">
+    <value>Filipino</value>
+  </data>
+  <data name="Translator_Lang_Fijian" xml:space="preserve">
+    <value>Fijian</value>
+  </data>
+  <data name="Translator_Lang_Finnish" xml:space="preserve">
+    <value>Finnish</value>
+  </data>
+  <data name="Translator_Lang_Khmer" xml:space="preserve">
+    <value>Khmer</value>
+  </data>
+  <data name="Translator_Lang_Georgian" xml:space="preserve">
+    <value>Georgian</value>
+  </data>
+  <data name="Translator_Lang_Gujarati" xml:space="preserve">
+    <value>Gujarati</value>
+  </data>
+  <data name="Translator_Lang_Kazakh" xml:space="preserve">
+    <value>Kazakh</value>
+  </data>
+  <data name="Translator_Lang_HaitianCreole" xml:space="preserve">
+    <value>Haitian Creole</value>
+  </data>
+  <data name="Translator_Lang_Korean" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="Translator_Lang_Hausa" xml:space="preserve">
+    <value>Hausa</value>
+  </data>
+  <data name="Translator_Lang_Dutch" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="Translator_Lang_Montenegrin" xml:space="preserve">
+    <value>Montenegrin</value>
+  </data>
+  <data name="Translator_Lang_Hebrew" xml:space="preserve">
+    <value>Hebrew</value>
+  </data>
+  <data name="Translator_Lang_Greek" xml:space="preserve">
+    <value>Greek</value>
+  </data>
+  <data name="Translator_Lang_Hungarian" xml:space="preserve">
+    <value>Hungarian</value>
+  </data>
+  <data name="Translator_Lang_Hindi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="Translator_Lang_Indonesian" xml:space="preserve">
+    <value>Indonesian</value>
+  </data>
+  <data name="Translator_Lang_Inuktitut" xml:space="preserve">
+    <value>Inuktitut</value>
+  </data>
+  <data name="Translator_Lang_InuktitutLatin" xml:space="preserve">
+    <value>Inuktitut (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Italian" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="Translator_Lang_Yoruba" xml:space="preserve">
+    <value>Yoruba</value>
+  </data>
+  <data name="Translator_Lang_Galician" xml:space="preserve">
+    <value>Galician</value>
+  </data>
+  <data name="Translator_Lang_Catalan" xml:space="preserve">
+    <value>Catalan</value>
+  </data>
+  <data name="Translator_Lang_Czech" xml:space="preserve">
+    <value>Czech</value>
+  </data>
+  <data name="Translator_Lang_Kannada" xml:space="preserve">
+    <value>Kannada</value>
+  </data>
+  <data name="Translator_Lang_Kashubian" xml:space="preserve">
+    <value>Kashubian</value>
+  </data>
+  <data name="Translator_Lang_Klingon" xml:space="preserve">
+    <value>Klingon (Latin)</value>
+  </data>
+  <data name="Translator_Lang_KlingonPlqaD" xml:space="preserve">
+    <value>Klingon (plqaD)</value>
+  </data>
+  <data name="Translator_Lang_Croatian" xml:space="preserve">
+    <value>Croatian</value>
+  </data>
+  <data name="Translator_Lang_KurdishCentral" xml:space="preserve">
+    <value>Kurdish (Central)</value>
+  </data>
+  <data name="Translator_Lang_KurdishNorthern" xml:space="preserve">
+    <value>Kurdish (Northern)</value>
+  </data>
+  <data name="Translator_Lang_Latin" xml:space="preserve">
+    <value>Latin</value>
+  </data>
+  <data name="Translator_Lang_Latvian" xml:space="preserve">
+    <value>Latvian</value>
+  </data>
+  <data name="Translator_Lang_Lithuanian" xml:space="preserve">
+    <value>Lithuanian</value>
+  </data>
+  <data name="Translator_Lang_Lingala" xml:space="preserve">
+    <value>Lingala</value>
+  </data>
+  <data name="Translator_Lang_Luxembourgish" xml:space="preserve">
+    <value>Luxembourgish</value>
+  </data>
+  <data name="Translator_Lang_Kinyarwanda" xml:space="preserve">
+    <value>Kinyarwanda</value>
+  </data>
+  <data name="Translator_Lang_Romanian" xml:space="preserve">
+    <value>Romanian</value>
+  </data>
+  <data name="Translator_Lang_Maltese" xml:space="preserve">
+    <value>Maltese</value>
+  </data>
+  <data name="Translator_Lang_Marathi" xml:space="preserve">
+    <value>Marathi</value>
+  </data>
+  <data name="Translator_Lang_Malayalam" xml:space="preserve">
+    <value>Malayalam</value>
+  </data>
+  <data name="Translator_Lang_Malay" xml:space="preserve">
+    <value>Malay (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Macedonian" xml:space="preserve">
+    <value>Macedonian</value>
+  </data>
+  <data name="Translator_Lang_Maori" xml:space="preserve">
+    <value>Maori</value>
+  </data>
+  <data name="Translator_Lang_MongolianCyrillic" xml:space="preserve">
+    <value>Mongolian (Cyrillic)</value>
+  </data>
+  <data name="Translator_Lang_MongolianTraditional" xml:space="preserve">
+    <value>Mongolian (Traditional)</value>
+  </data>
+  <data name="Translator_Lang_Burmese" xml:space="preserve">
+    <value>Burmese</value>
+  </data>
+  <data name="Translator_Lang_Nepali" xml:space="preserve">
+    <value>Nepali</value>
+  </data>
+  <data name="Translator_Lang_Norwegian" xml:space="preserve">
+    <value>Norwegian</value>
+  </data>
+  <data name="Translator_Lang_Punjabi" xml:space="preserve">
+    <value>Punjabi</value>
+  </data>
+  <data name="Translator_Lang_PortugueseBrazil" xml:space="preserve">
+    <value>Portuguese (Brazil)</value>
+  </data>
+  <data name="Translator_Lang_PortuguesePortugal" xml:space="preserve">
+    <value>Portuguese (Portugal)</value>
+  </data>
+  <data name="Translator_Lang_Pashto" xml:space="preserve">
+    <value>Pashto</value>
+  </data>
+  <data name="Translator_Lang_Nyanja" xml:space="preserve">
+    <value>Chichewa</value>
+  </data>
+  <data name="Translator_Lang_Japanese" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Translator_Lang_Swedish" xml:space="preserve">
+    <value>Swedish</value>
+  </data>
+  <data name="Translator_Lang_Samoan" xml:space="preserve">
+    <value>Samoan (Latin)</value>
+  </data>
+  <data name="Translator_Lang_SerbianCyrillic" xml:space="preserve">
+    <value>Serbian (Cyrillic)</value>
+  </data>
+  <data name="Translator_Lang_SerbianLatin" xml:space="preserve">
+    <value>Serbian (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Sinhala" xml:space="preserve">
+    <value>Sinhala</value>
+  </data>
+  <data name="Translator_Lang_Slovak" xml:space="preserve">
+    <value>Slovak</value>
+  </data>
+  <data name="Translator_Lang_Slovenian" xml:space="preserve">
+    <value>Slovenian</value>
+  </data>
+  <data name="Translator_Lang_Swahili" xml:space="preserve">
+    <value>Swahili (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Telugu" xml:space="preserve">
+    <value>Telugu</value>
+  </data>
+  <data name="Translator_Lang_Tamil" xml:space="preserve">
+    <value>Tamil</value>
+  </data>
+  <data name="Translator_Lang_Thai" xml:space="preserve">
+    <value>Thai</value>
+  </data>
+  <data name="Translator_Lang_Tahitian" xml:space="preserve">
+    <value>Tahitian</value>
+  </data>
+  <data name="Translator_Lang_Turkish" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="Translator_Lang_Turkmen" xml:space="preserve">
+    <value>Turkmen (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Welsh" xml:space="preserve">
+    <value>Welsh</value>
+  </data>
+  <data name="Translator_Lang_Urdu" xml:space="preserve">
+    <value>Urdu</value>
+  </data>
+  <data name="Translator_Lang_Ukrainian" xml:space="preserve">
+    <value>Ukrainian</value>
+  </data>
+  <data name="Translator_Lang_Uzbek" xml:space="preserve">
+    <value>Uzbek (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Translator_Lang_Vietnamese" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+  <data name="Translator_Lang_ChineseClassical" xml:space="preserve">
+    <value>Chinese (Classical)</value>
+  </data>
+  <data name="Translator_Lang_ChineseSimplified" xml:space="preserve">
+    <value>Chinese (Simplified)</value>
+  </data>
+  <data name="Translator_Lang_ChineseTraditional" xml:space="preserve">
+    <value>Chinese (Traditional)</value>
+  </data>
+  <data name="Translator_Lang_Zulu" xml:space="preserve">
+    <value>Zulu</value>
+  </data>
+  <data name="HomePage_Translator_Description.Text" xml:space="preserve">
+    <value>Translated twenty times in a row by Microsoft Translator</value>
+  </data>
+  <data name="HomePage_Translator_Title.Text" xml:space="preserve">
+    <value>Translator Tool</value>
+  </data>
+  <data name="Translator_Lang_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Translator_PivotItem1.Header" xml:space="preserve">
+    <value>Simple Translate</value>
+  </data>
+  <data name="Translator_PivotItem2.Header" xml:space="preserve">
+    <value>Sequential Translate</value>
   </data>
 </root>

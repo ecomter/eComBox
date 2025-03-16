@@ -112,106 +112,103 @@
                     </ComboBox>
 
                 </toolkit:SettingsCard>
-                <TextBlock Text="高级" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_Advanced" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
 
+                <!--
                 <toolkit:SettingsCard Description="测试页面，仅供开发使用"
                                Header="测试页面"
                                HeaderIcon="{ui:FontIcon Glyph=&#xE745;}">
                     <Button Content="betaPage"
                     Style="{StaticResource AccentButtonStyle}" Click="openBetaPage" />
                 </toolkit:SettingsCard>
-                
-                <toolkit:SettingsExpander Margin="{StaticResource XSmallTopMargin}" Description="借助 Azure 翻译服务"
-                          Header="翻译工具">
-                    <HyperlinkButton Content="Azure AI 翻译" NavigateUri="https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator/" Margin="{StaticResource XSmallTopMargin}" />
+                -->
+                <toolkit:SettingsExpander x:Uid="Settings_TranslatorTool" Margin="{StaticResource XSmallTopMargin}">
+                    <HyperlinkButton x:Uid="Settings_AzureTranslator" NavigateUri="https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator/" Margin="{StaticResource XSmallTopMargin}" />
                     <toolkit:SettingsExpander.HeaderIcon>
                         <FontIcon Glyph="&#xF2B7;" />
                     </toolkit:SettingsExpander.HeaderIcon>
                     <toolkit:SettingsExpander.Items>
-                        <toolkit:SettingsCard Header="终结点">
+                        <toolkit:SettingsCard x:Uid="Settings_Endpoint">
                             <TextBox x:Name="EndpointTextBox"
-                                     Margin="{StaticResource XSmallTopMargin}"
-                                     Width="400"
-                                     Grid.Row="2"
-                                     FontSize="18"
-                                     TextChanged="EndpointTextBox_TextChanged" />
+                     Margin="{StaticResource XSmallTopMargin}"
+                     Width="400"
+                     Grid.Row="2"
+                     FontSize="18"
+                     TextChanged="EndpointTextBox_TextChanged" />
                         </toolkit:SettingsCard>
-                        <toolkit:SettingsCard Header="API 密钥">
+                        <toolkit:SettingsCard x:Uid="Settings_ApiKey">
                             <PasswordBox x:Name="ApiTextBox"
-                                         Margin="{StaticResource XSmallTopMargin}"
-                                         Width="400"
-                                         Grid.Row="2"
-                                         FontSize="18"
-                                         PasswordChanged="ApiTextBox_PasswordChanged" />
+                         Margin="{StaticResource XSmallTopMargin}"
+                         Width="400"
+                         Grid.Row="2"
+                         FontSize="18"
+                         PasswordChanged="ApiTextBox_PasswordChanged" />
                         </toolkit:SettingsCard>
-                        <toolkit:SettingsCard Header="区域">
+                        <toolkit:SettingsCard x:Uid="Settings_Region">
                             <TextBox x:Name="RegionTextBox"
-                                     Margin="{StaticResource XSmallTopMargin}"
-                                     Width="400"
-                                     Grid.Row="2"
-                                     FontSize="18"
-                                     TextChanged="RegionTextBox_TextChanged" />
+                     Margin="{StaticResource XSmallTopMargin}"
+                     Width="400"
+                     Grid.Row="2"
+                     FontSize="18"
+                     TextChanged="RegionTextBox_TextChanged" />
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
-                <toolkit:SettingsExpander Margin="{StaticResource XSmallTopMargin}" Description="你可以在软件首页查看一些平台的热榜信息、天气状况。"
-                                          Header="实时热点（测试功能）">
-                
+
+
+                <toolkit:SettingsExpander x:Uid="Settings_HotList" Margin="{StaticResource XSmallTopMargin}">
                     <ToggleSwitch x:Name="HotListToggleSwitch"
-                                  Margin="{StaticResource XSmallTopMargin}"
-                                  Toggled="HotListToggleSwitch_Toggled" />
+                  Margin="{StaticResource XSmallTopMargin}"
+                  Toggled="HotListToggleSwitch_Toggled" />
                     <toolkit:SettingsExpander.HeaderIcon>
                         <FontIcon Glyph="&#xE12A;" />
                     </toolkit:SettingsExpander.HeaderIcon>
                     <toolkit:SettingsExpander.Items>
-                        <toolkit:SettingsCard IsEnabled="{x:Bind CardEnable, Mode=OneWay}" Header="新闻源选取">
+                        <toolkit:SettingsCard x:Uid="Settings_NewsSource" IsEnabled="{x:Bind CardEnable, Mode=OneWay}">
                             <ComboBox Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
-                                <ComboBoxItem Content="抖音热榜" Tag="https://doc.ecomter.site/douyin?cache=false" />
-                                <ComboBoxItem Content="百度热搜榜" Tag="https://doc.ecomter.site/baidu?cache=false" />
-                                <ComboBoxItem Content="B站热榜" Tag="https://doc.ecomter.site/bilibili?cache=false" />
-                                <ComboBoxItem Content="天气预警信息" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
-                                <ComboBoxItem Content="微博热搜榜" Tag="https://doc.ecomter.site/weibo?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Douyin" Tag="https://doc.ecomter.site/douyin?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Baidu" Tag="https://doc.ecomter.site/baidu?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Bilibili" Tag="https://doc.ecomter.site/bilibili?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Weather" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Weibo" Tag="https://doc.ecomter.site/weibo?cache=false" />
                             </ComboBox>
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
-                <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
+                <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
+
 
                 <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <toolkit:SettingsExpander HeaderIcon="{ui:BitmapIcon Source=../Assets/StoreLogo.scale-400.png}" Description="© ecomter 2025 保留所有权限" Header="{x:Bind AppName, Mode=OneWay}" >
+                <toolkit:SettingsExpander x:Uid="Settings_AppInfo" HeaderIcon="{ui:BitmapIcon Source=../Assets/StoreLogo.scale-400.png}" Header="{x:Bind AppName, Mode=OneWay}" >
                     <TextBlock IsTextSelectionEnabled="True"
-                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="{x:Bind VersionDescription,Mode=OneWay}" />
-                   
-                        <toolkit:SettingsExpander.Items>
+               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+               Text="{x:Bind VersionDescription,Mode=OneWay}" />
+
+                    <toolkit:SettingsExpander.Items>
                         <toolkit:SettingsCard HorizontalContentAlignment="Left"
-                                               ContentAlignment="Left">
-
+                           ContentAlignment="Left">
                             <StackPanel Margin="-12,0,0,0"
-                                        Orientation="Vertical">
-
+                    Orientation="Vertical">
                                 <TextBlock x:Uid="Settings_AboutDescription" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
                                 <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
-                                <HyperlinkButton Content="Github 仓库" x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
-                                <HyperlinkButton Content="隐私政策" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+                                <HyperlinkButton x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
+                                <HyperlinkButton x:Uid="Settings_PrivacyPolicy" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
                             </StackPanel>
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
             </StackPanel>
             <ContentDialog
-                x:Name="TermsOfServiceDialog"
-                Title="使用条款"
-                PrimaryButtonText="我已阅读并同意"
-                SecondaryButtonText="取消"
-                IsPrimaryButtonEnabled="False"
-                PrimaryButtonClick="TermsOfServiceDialog_PrimaryButtonClick"
-                SecondaryButtonClick="TermsOfServiceDialog_SecondaryButtonClick">
+    x:Uid="Settings_TermsOfServiceDialog"
+    x:Name="TermsOfServiceDialog"
+    IsPrimaryButtonEnabled="False"
+    PrimaryButtonClick="TermsOfServiceDialog_PrimaryButtonClick"
+    SecondaryButtonClick="TermsOfServiceDialog_SecondaryButtonClick">
                 <ContentDialog.Content>
                     <ScrollViewer>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="这是一个测试性功能，可能会在未来的版本中被移除。" TextWrapping="Wrap" />
-                            <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click" />
+                            <TextBlock x:Uid="Settings_TermsDescription" TextWrapping="Wrap" />
+                            <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click" />
                         </StackPanel>
                     </ScrollViewer>
                 </ContentDialog.Content>

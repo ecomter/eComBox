@@ -117,6 +117,166 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Translator_History.Header" xml:space="preserve">
+    <value>翻译历史</value>
+  </data>
+  <data name="Translator_InputContent.Text" xml:space="preserve">
+    <value>输入内容</value>
+  </data>
+	<data name="Settings_Personalization.Text" xml:space="preserve">
+  <value>个性化</value>
+</data>
+
+	
+	<data name="Settings_Advanced.Text" xml:space="preserve">
+  <value>高级</value>
+</data>
+	<data name="Settings_TranslatorTool.Header" xml:space="preserve">
+  <value>翻译工具</value>
+</data>
+	<data name="Settings_TranslatorTool.Description" xml:space="preserve">
+  <value>借助 Azure 翻译服务</value>
+</data>
+	<data name="Settings_AzureTranslator.Content" xml:space="preserve">
+  <value>Azure AI 翻译</value>
+</data>
+	<data name="Settings_Endpoint.Header" xml:space="preserve">
+  <value>终结点</value>
+</data>
+	<data name="Settings_ApiKey.Header" xml:space="preserve">
+  <value>API 密钥</value>
+</data>
+	<data name="Settings_Region.Header" xml:space="preserve">
+  <value>区域</value>
+</data>
+	<data name="Settings_HotList.Header" xml:space="preserve">
+  <value>实时热点（测试功能）</value>
+</data>
+	<data name="Settings_HotList.Description" xml:space="preserve">
+  <value>你可以在软件首页查看一些平台的热榜信息、天气状况。</value>
+</data>
+	<data name="Settings_NewsSource.Header" xml:space="preserve">
+  <value>新闻源选取</value>
+</data>
+	<data name="Settings_Source_Douyin.Content" xml:space="preserve">
+  <value>抖音热榜</value>
+</data>
+	<data name="Settings_Source_Baidu.Content" xml:space="preserve">
+  <value>百度热搜榜</value>
+</data>
+	<data name="Settings_Source_Bilibili.Content" xml:space="preserve">
+  <value>B站热榜</value>
+</data>
+	<data name="Settings_Source_Weather.Content" xml:space="preserve">
+  <value>天气预警信息</value>
+</data>
+	<data name="Settings_Source_Weibo.Content" xml:space="preserve">
+  <value>微博热搜榜</value>
+</data>
+	<data name="Settings_HotListPolicy.Content" xml:space="preserve">
+  <value>“实时热点”使用政策</value>
+</data>
+
+	<data name="Settings_AppInfo.Description" xml:space="preserve">
+  <value>© ecomter 2025 保留所有权利</value>
+</data>
+	<data name="Settings_githubLink.Content" xml:space="preserve">
+  <value>GitHub 仓库</value>
+</data>
+	<data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
+  <value>隐私政策</value>
+</data>
+	<data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
+  <value>使用条款</value>
+</data>
+	<data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
+  <value>我已阅读并同意</value>
+</data>
+	<data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
+  <value>取消</value>
+</data>
+	<data name="Settings_TermsDescription.Text" xml:space="preserve">
+  <value>这是一个测试性功能，可能会在未来的版本中被移除。</value>
+</data>
+
+	<data name="Translator_OutputContent.Text" xml:space="preserve">
+    <value>输出内容</value>
+  </data>
+  <data name="Translator_PivitItem1.Header" xml:space="preserve">
+    <value>普通翻译</value>
+  </data>
+  <data name="Translator_PivitItem2.Header" xml:space="preserve">
+    <value>连续翻译</value>
+  </data>
+  <data name="Translator_Error/Title" xml:space="preserve">
+    <value>初始化错误</value>
+  </data>
+  <data name="Translator_Error/Message" xml:space="preserve">
+    <value>语言选择菜单未能正确加载</value>
+  </data>
+  <data name="Translator_MissingSettings/Title" xml:space="preserve">
+    <value>缺少信息</value>
+  </data>
+  <data name="Translator_MissingSettings/Message" xml:space="preserve">
+    <value>请在设置中输入翻译的配置信息</value>
+  </data>
+  <data name="Translator_MissingInfo/Exception" xml:space="preserve">
+    <value>缺少翻译工具配置信息</value>
+  </data>
+  <data name="Translator_SequenceInProgress/Message" xml:space="preserve">
+    <value>顺序翻译进行中...</value>
+  </data>
+  <data name="Translator_SequenceComplete/Message" xml:space="preserve">
+    <value>顺序翻译完成！</value>
+  </data>
+  <data name="Translator_TranslationError/Message" xml:space="preserve">
+    <value>翻译过程中出现错误！</value>
+  </data>
+  <data name="Translator_HistoryOriginal" xml:space="preserve">
+    <value>原始文本 ({0}): {1}</value>
+  </data>
+  <data name="Translator_HistoryStep" xml:space="preserve">
+    <value>步骤 {0}: {1} -&gt; {2}</value>
+  </data>
+  <data name="Translator_SequenceStatus" xml:space="preserve">
+    <value>顺序翻译中：步骤 {0}/{1} - {2}</value>
+  </data>
+  <data name="Translator_SaveError" xml:space="preserve">
+    <value>保存翻译序列设置失败: {0}</value>
+  </data>
+  <data name="Translator_LoadError" xml:space="preserve">
+    <value>加载翻译序列设置失败: {0}</value>
+  </data>
+  <data name="Translator_ReverseButton.Content" xml:space="preserve">
+    <value>反向翻译</value>
+  </data>
+  <data name="Translator_SequenceButton.Content" xml:space="preserve">
+    <value>连续翻译</value>
+  </data>
+  <data name="Translator_SequenceSettings.Header" xml:space="preserve">
+    <value>连续翻译设置</value>
+  </data>
+  <data name="Translator_SourceLanguage.Text" xml:space="preserve">
+    <value>源语言</value>
+  </data>
+  <data name="Translator_Step.Text" xml:space="preserve">
+    <value>步骤</value>
+  </data>
+  <data name="Translator_TargetLanguage.Text" xml:space="preserve">
+    <value>翻译为</value>
+  </data>
+  <data name="Translator_TranslateButton.Content" xml:space="preserve">
+    <value>普通翻译</value>
+  </data>
+  <data name="Translator_TranslationOrder.Text" xml:space="preserve">
+    <value>翻译顺序</value>
+  </data>
+  <data name="Translator_StatusBar.Title" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Translator_StatusBar.Message" xml:space="preserve">
+    <value>您已填写所有配置项，可以进行翻译了</value>
+  </data>
   <data name="AppDisplayName" xml:space="preserve">
     <value>eComBox-简易工具箱</value>
     <comment>Application display name</comment>
@@ -228,5 +388,329 @@
   </data>
   <data name="AppDisplayNamet.Text" xml:space="preserve">
     <value>eComBox-简易工具箱</value>
+  </data>
+  <data name="Translator_AutoDetect" xml:space="preserve">
+    <value>自动检测</value>
+  </data>
+  <data name="Translator_Lang_Albanian" xml:space="preserve">
+    <value>阿尔巴尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Amharic" xml:space="preserve">
+    <value>阿姆哈拉语</value>
+  </data>
+  <data name="Translator_Lang_Arabic" xml:space="preserve">
+    <value>阿拉伯语</value>
+  </data>
+  <data name="Translator_Lang_Assamese" xml:space="preserve">
+    <value>阿萨姆语</value>
+  </data>
+  <data name="Translator_Lang_Azerbaijani" xml:space="preserve">
+    <value>阿塞拜疆语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_Irish" xml:space="preserve">
+    <value>爱尔兰语</value>
+  </data>
+  <data name="Translator_Lang_Estonian" xml:space="preserve">
+    <value>爱沙尼亚语</value>
+  </data>
+  <data name="Translator_Lang_HmongDaw" xml:space="preserve">
+    <value>白苗语（拉丁语）</value>
+  </data>
+  <data name="Translator_Lang_Bulgarian" xml:space="preserve">
+    <value>保加利亚语</value>
+  </data>
+  <data name="Translator_Lang_Icelandic" xml:space="preserve">
+    <value>冰岛语</value>
+  </data>
+  <data name="Translator_Lang_Polish" xml:space="preserve">
+    <value>波兰语</value>
+  </data>
+  <data name="Translator_Lang_Bosnian" xml:space="preserve">
+    <value>波斯尼亚语(拉丁语系)</value>
+  </data>
+  <data name="Translator_Lang_Persian" xml:space="preserve">
+    <value>波斯语</value>
+  </data>
+  <data name="Translator_Lang_Afrikaans" xml:space="preserve">
+    <value>布尔语</value>
+  </data>
+  <data name="Translator_Lang_Dari" xml:space="preserve">
+    <value>达里语</value>
+  </data>
+  <data name="Translator_Lang_Danish" xml:space="preserve">
+    <value>丹麦语</value>
+  </data>
+  <data name="Translator_Lang_German" xml:space="preserve">
+    <value>德语</value>
+  </data>
+  <data name="Translator_Lang_LowGerman" xml:space="preserve">
+    <value>低地德语</value>
+  </data>
+  <data name="Translator_Lang_Dhivehi" xml:space="preserve">
+    <value>迪维希语</value>
+  </data>
+  <data name="Translator_Lang_Russian" xml:space="preserve">
+    <value>俄语</value>
+  </data>
+  <data name="Translator_Lang_Faroese" xml:space="preserve">
+    <value>法罗语</value>
+  </data>
+  <data name="Translator_Lang_French" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="Translator_Lang_FrenchCanada" xml:space="preserve">
+    <value>法语（加拿大）</value>
+  </data>
+  <data name="Translator_Lang_Filipino" xml:space="preserve">
+    <value>菲律宾语</value>
+  </data>
+  <data name="Translator_Lang_Fijian" xml:space="preserve">
+    <value>斐济语</value>
+  </data>
+  <data name="Translator_Lang_Finnish" xml:space="preserve">
+    <value>芬兰语</value>
+  </data>
+  <data name="Translator_Lang_Khmer" xml:space="preserve">
+    <value>高棉语</value>
+  </data>
+  <data name="Translator_Lang_Georgian" xml:space="preserve">
+    <value>格鲁吉亚语</value>
+  </data>
+  <data name="Translator_Lang_Gujarati" xml:space="preserve">
+    <value>古吉拉特语</value>
+  </data>
+  <data name="Translator_Lang_Kazakh" xml:space="preserve">
+    <value>哈萨克语</value>
+  </data>
+  <data name="Translator_Lang_HaitianCreole" xml:space="preserve">
+    <value>海地克里奥尔语</value>
+  </data>
+  <data name="Translator_Lang_Korean" xml:space="preserve">
+    <value>韩语</value>
+  </data>
+  <data name="Translator_Lang_Hausa" xml:space="preserve">
+    <value>豪萨语</value>
+  </data>
+  <data name="Translator_Lang_Dutch" xml:space="preserve">
+    <value>荷兰语</value>
+  </data>
+  <data name="Translator_Lang_Montenegrin" xml:space="preserve">
+    <value>黑山语</value>
+  </data>
+  <data name="Translator_Lang_Hebrew" xml:space="preserve">
+    <value>希伯来语</value>
+  </data>
+  <data name="Translator_Lang_Greek" xml:space="preserve">
+    <value>希腊语</value>
+  </data>
+  <data name="Translator_Lang_Hungarian" xml:space="preserve">
+    <value>匈牙利语</value>
+  </data>
+  <data name="Translator_Lang_Hindi" xml:space="preserve">
+    <value>印地语</value>
+  </data>
+  <data name="Translator_Lang_Indonesian" xml:space="preserve">
+    <value>印度尼西亚语</value>
+  </data>
+  <data name="Translator_Lang_Inuktitut" xml:space="preserve">
+    <value>因纽特语</value>
+  </data>
+  <data name="Translator_Lang_InuktitutLatin" xml:space="preserve">
+    <value>因纽特语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_Italian" xml:space="preserve">
+    <value>意大利语</value>
+  </data>
+  <data name="Translator_Lang_Yoruba" xml:space="preserve">
+    <value>约鲁巴语</value>
+  </data>
+  <data name="Translator_Lang_Galician" xml:space="preserve">
+    <value>加利西亚语</value>
+  </data>
+  <data name="Translator_Lang_Catalan" xml:space="preserve">
+    <value>加泰罗尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Czech" xml:space="preserve">
+    <value>捷克语</value>
+  </data>
+  <data name="Translator_Lang_Kannada" xml:space="preserve">
+    <value>卡纳达语</value>
+  </data>
+  <data name="Translator_Lang_Kashubian" xml:space="preserve">
+    <value>卡舒比语</value>
+  </data>
+  <data name="Translator_Lang_Klingon" xml:space="preserve">
+    <value>克林贡语</value>
+  </data>
+  <data name="Translator_Lang_KlingonPlqaD" xml:space="preserve">
+    <value>克林贡语(plqaD)</value>
+  </data>
+  <data name="Translator_Lang_Croatian" xml:space="preserve">
+    <value>克罗地亚语</value>
+  </data>
+  <data name="Translator_Lang_KurdishCentral" xml:space="preserve">
+    <value>库尔德语(中部)</value>
+  </data>
+  <data name="Translator_Lang_KurdishNorthern" xml:space="preserve">
+    <value>库尔德语(北部)</value>
+  </data>
+  <data name="Translator_Lang_Latin" xml:space="preserve">
+    <value>拉丁语</value>
+  </data>
+  <data name="Translator_Lang_Latvian" xml:space="preserve">
+    <value>拉脱维亚语</value>
+  </data>
+  <data name="Translator_Lang_Lithuanian" xml:space="preserve">
+    <value>立陶宛语</value>
+  </data>
+  <data name="Translator_Lang_Lingala" xml:space="preserve">
+    <value>林加拉语</value>
+  </data>
+  <data name="Translator_Lang_Luxembourgish" xml:space="preserve">
+    <value>卢森堡语</value>
+  </data>
+  <data name="Translator_Lang_Kinyarwanda" xml:space="preserve">
+    <value>卢旺达语</value>
+  </data>
+  <data name="Translator_Lang_Romanian" xml:space="preserve">
+    <value>罗马尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Maltese" xml:space="preserve">
+    <value>马耳他语</value>
+  </data>
+  <data name="Translator_Lang_Marathi" xml:space="preserve">
+    <value>马拉地语</value>
+  </data>
+  <data name="Translator_Lang_Malayalam" xml:space="preserve">
+    <value>马拉雅拉姆语</value>
+  </data>
+  <data name="Translator_Lang_Malay" xml:space="preserve">
+    <value>马来语(拉丁语系)</value>
+  </data>
+  <data name="Translator_Lang_Macedonian" xml:space="preserve">
+    <value>马其顿语</value>
+  </data>
+  <data name="Translator_Lang_Maori" xml:space="preserve">
+    <value>毛利语</value>
+  </data>
+  <data name="Translator_Lang_MongolianCyrillic" xml:space="preserve">
+    <value>蒙古语(西里尔文)</value>
+  </data>
+  <data name="Translator_Lang_MongolianTraditional" xml:space="preserve">
+    <value>蒙古语(传统)</value>
+  </data>
+  <data name="Translator_Lang_Burmese" xml:space="preserve">
+    <value>缅甸语</value>
+  </data>
+  <data name="Translator_Lang_Nepali" xml:space="preserve">
+    <value>尼泊尔语</value>
+  </data>
+  <data name="Translator_Lang_Norwegian" xml:space="preserve">
+    <value>挪威语</value>
+  </data>
+  <data name="Translator_Lang_Punjabi" xml:space="preserve">
+    <value>旁遮普语</value>
+  </data>
+  <data name="Translator_Lang_PortugueseBrazil" xml:space="preserve">
+    <value>葡萄牙语（巴西）</value>
+  </data>
+  <data name="Translator_Lang_PortuguesePortugal" xml:space="preserve">
+    <value>葡萄牙语(葡萄牙)</value>
+  </data>
+  <data name="Translator_Lang_Pashto" xml:space="preserve">
+    <value>普什图语</value>
+  </data>
+  <data name="Translator_Lang_Nyanja" xml:space="preserve">
+    <value>齐切瓦语</value>
+  </data>
+  <data name="Translator_Lang_Japanese" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="Translator_Lang_Swedish" xml:space="preserve">
+    <value>瑞典语</value>
+  </data>
+  <data name="Translator_Lang_Samoan" xml:space="preserve">
+    <value>萨摩亚语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_SerbianCyrillic" xml:space="preserve">
+    <value>塞尔维亚语（西里尔）</value>
+  </data>
+  <data name="Translator_Lang_SerbianLatin" xml:space="preserve">
+    <value>塞尔维亚语（拉丁）</value>
+  </data>
+  <data name="Translator_Lang_Sinhala" xml:space="preserve">
+    <value>僧伽罗语</value>
+  </data>
+  <data name="Translator_Lang_Slovak" xml:space="preserve">
+    <value>斯洛伐克语</value>
+  </data>
+  <data name="Translator_Lang_Slovenian" xml:space="preserve">
+    <value>斯洛文尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Swahili" xml:space="preserve">
+    <value>斯瓦希里语（拉丁语）</value>
+  </data>
+  <data name="Translator_Lang_Telugu" xml:space="preserve">
+    <value>泰卢固语</value>
+  </data>
+  <data name="Translator_Lang_Tamil" xml:space="preserve">
+    <value>泰米尔语</value>
+  </data>
+  <data name="Translator_Lang_Thai" xml:space="preserve">
+    <value>泰语</value>
+  </data>
+  <data name="Translator_Lang_Tahitian" xml:space="preserve">
+    <value>塔希提语</value>
+  </data>
+  <data name="Translator_Lang_Turkish" xml:space="preserve">
+    <value>土耳其语</value>
+  </data>
+  <data name="Translator_Lang_Turkmen" xml:space="preserve">
+    <value>土库曼语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_Welsh" xml:space="preserve">
+    <value>威尔士语</value>
+  </data>
+  <data name="Translator_Lang_Urdu" xml:space="preserve">
+    <value>乌尔都语</value>
+  </data>
+  <data name="Translator_Lang_Ukrainian" xml:space="preserve">
+    <value>乌克兰语</value>
+  </data>
+  <data name="Translator_Lang_Uzbek" xml:space="preserve">
+    <value>乌兹别克语(拉丁文)</value>
+  </data>
+  <data name="Translator_Lang_Spanish" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="Translator_Lang_Vietnamese" xml:space="preserve">
+    <value>越南语</value>
+  </data>
+  <data name="Translator_Lang_ChineseClassical" xml:space="preserve">
+    <value>中文(文言文)</value>
+  </data>
+  <data name="Translator_Lang_ChineseSimplified" xml:space="preserve">
+    <value>中文(简体)</value>
+  </data>
+  <data name="Translator_Lang_ChineseTraditional" xml:space="preserve">
+    <value>中文(繁体)</value>
+  </data>
+  <data name="Translator_Lang_Zulu" xml:space="preserve">
+    <value>祖鲁语</value>
+  </data>
+  <data name="HomePage_Translator_Description.Text" xml:space="preserve">
+    <value>通过微软翻译连续翻译二十遍</value>
+  </data>
+  <data name="HomePage_Translator_Title.Text" xml:space="preserve">
+    <value>翻译工具</value>
+  </data>
+  <data name="Translator_Lang_English" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="Translator_PivotItem1.Header" xml:space="preserve">
+    <value>普通翻译</value>
+  </data>
+  <data name="Translator_PivotItem2.Header" xml:space="preserve">
+    <value>连续翻译</value>
   </data>
 </root>

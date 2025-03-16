@@ -12,6 +12,9 @@ using Newtonsoft.Json;
 using Windows.UI.Xaml.Controls;
 using static CommunityToolkit.WinUI.Animations.Expressions.ExpressionValues;
 using Windows.UI.Xaml;
+using Windows.ApplicationModel.Resources;
+using System.Resources;
+
 
 namespace eComBox.Views
 {
@@ -19,6 +22,7 @@ namespace eComBox.Views
     {
         private ComboBoxItem _selectedLanguage;
         private int _index;
+        
 
         public int Index
         {
@@ -55,6 +59,9 @@ namespace eComBox.Views
 
     public sealed partial class translatorPage : Page, INotifyPropertyChanged
     {
+        // 在类的开头定义
+  
+        private ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView();
         private ObservableCollection<LanguageItem> _translationSequence = new ObservableCollection<LanguageItem>();
         private const int MaxTranslationSteps = 20;
         private List<ComboBoxItem> _allLanguages = new List<ComboBoxItem>();
@@ -62,34 +69,230 @@ namespace eComBox.Views
         public translatorPage()
         {
             InitializeComponent();
-            LoadTranslatorSettings();
-            TranslationSequencePanel.ItemsSource = _translationSequence; // 确保这一行存在
-            if (targetLanguageComboBox.Items.Count == 0)
+            try
             {
-                // 如果没有语言项，说明XAML中的ComboBox初始化不完整
-                statusBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
-                statusBar.Title = "初始化错误";
-                statusBar.Message = "语言选择菜单未能正确加载";
-                statusBar.IsOpen = true;
-            }
-            else
-            {
-                // 初始化翻译序列
+                InitializeLanguageComboBoxes(); // 初始化语言选择菜单
+                LoadTranslatorSettings();
+
+                // 初始化翻译序列，不再检查ComboBox项目是否为空，因为我们已经初始化了它
                 InitializeTranslationSequence();
 
                 // 尝试加载已保存的设置
                 LoadSequenceSettings();
             }
+            catch
+            {
+                // 如果没有语言项，说明XAML中的ComboBox初始化不完整
+                statusBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
+                statusBar.Title = resourceLoader.GetString("Translator_Error/Title");
+                statusBar.Message = resourceLoader.GetString("Translator_Error/Message");
+
+                statusBar.IsOpen = true;
+            }
+            
+        }
+        private void InitializeLanguageComboBoxes()
+        {
+            // 清空现有项
+            sourceLanguageComboBox.Items.Clear();
+            targetLanguageComboBox.Items.Clear();
+
+            // 创建自动检测选项 (仅用于源语言)
+            var autoDetectItem = new ComboBoxItem
+            {
+                Content = resourceLoader.GetString("Translator_AutoDetect"),
+                Tag = ""
+            };
+            sourceLanguageComboBox.Items.Add(autoDetectItem);
+
+            // 定义所有支持的语言及其标签
+            var languagePairs = new List<(string tag, string resourceKey)>
+    {
+        ("sq", "Translator_Lang_Albanian"),
+        ("am", "Translator_Lang_Amharic"),
+        ("ar", "Translator_Lang_Arabic"),
+        ("as", "Translator_Lang_Assamese"),
+        ("az", "Translator_Lang_Azerbaijani"),
+        ("ga", "Translator_Lang_Irish"),
+        ("et", "Translator_Lang_Estonian"),
+        ("mww", "Translator_Lang_HmongDaw"),
+        ("bg", "Translator_Lang_Bulgarian"),
+        ("is", "Translator_Lang_Icelandic"),
+        ("pl", "Translator_Lang_Polish"),
+        ("bs", "Translator_Lang_Bosnian"),
+        ("fa", "Translator_Lang_Persian"),
+        ("af", "Translator_Lang_Afrikaans"),
+        ("prs", "Translator_Lang_Dari"),
+        ("da", "Translator_Lang_Danish"),
+        ("de", "Translator_Lang_German"),
+        ("nds", "Translator_Lang_LowGerman"),
+        ("dv", "Translator_Lang_Dhivehi"),
+        ("ru", "Translator_Lang_Russian"),
+        ("fo", "Translator_Lang_Faroese"),
+        ("fr", "Translator_Lang_French"),
+        ("fr-ca", "Translator_Lang_FrenchCanada"),
+        ("fil", "Translator_Lang_Filipino"),
+        ("fj", "Translator_Lang_Fijian"),
+        ("fi", "Translator_Lang_Finnish"),
+        ("km", "Translator_Lang_Khmer"),
+        ("ka", "Translator_Lang_Georgian"),
+        ("gu", "Translator_Lang_Gujarati"),
+        ("kk", "Translator_Lang_Kazakh"),
+        ("ht", "Translator_Lang_HaitianCreole"),
+        ("ko", "Translator_Lang_Korean"),
+        ("ha", "Translator_Lang_Hausa"),
+        ("nl", "Translator_Lang_Dutch"),
+        ("sr-ME", "Translator_Lang_Montenegrin"),
+        ("he", "Translator_Lang_Hebrew"),
+        ("el", "Translator_Lang_Greek"),
+        ("hu", "Translator_Lang_Hungarian"),
+        ("hi", "Translator_Lang_Hindi"),
+        ("id", "Translator_Lang_Indonesian"),
+        ("iu", "Translator_Lang_Inuktitut"),
+        ("iu-Latn", "Translator_Lang_InuktitutLatin"),
+        ("it", "Translator_Lang_Italian"),
+        ("yo", "Translator_Lang_Yoruba"),
+        ("gl", "Translator_Lang_Galician"),
+        ("ca", "Translator_Lang_Catalan"),
+        ("cs", "Translator_Lang_Czech"),
+        ("kn", "Translator_Lang_Kannada"),
+        ("en", "Translator_Lang_English"),
+        ("csb", "Translator_Lang_Kashubian"),
+        ("tlh-Latn", "Translator_Lang_Klingon"),
+        ("tlh-Piqd", "Translator_Lang_KlingonPlqaD"),
+        ("hr", "Translator_Lang_Croatian"),
+        ("ku", "Translator_Lang_KurdishCentral"),
+        ("kmr", "Translator_Lang_KurdishNorthern"),
+        ("la", "Translator_Lang_Latin"),
+        ("lv", "Translator_Lang_Latvian"),
+        ("lt", "Translator_Lang_Lithuanian"),
+        ("ln", "Translator_Lang_Lingala"),
+        ("lb", "Translator_Lang_Luxembourgish"),
+        ("rw", "Translator_Lang_Kinyarwanda"),
+        ("ro", "Translator_Lang_Romanian"),
+        ("mt", "Translator_Lang_Maltese"),
+        ("mr", "Translator_Lang_Marathi"),
+        ("ml", "Translator_Lang_Malayalam"),
+        ("ms", "Translator_Lang_Malay"),
+        ("mk", "Translator_Lang_Macedonian"),
+        ("mi", "Translator_Lang_Maori"),
+        ("mn-Cyrl", "Translator_Lang_MongolianCyrillic"),
+        ("mn-Mong", "Translator_Lang_MongolianTraditional"),
+        ("my", "Translator_Lang_Burmese"),
+        ("ne", "Translator_Lang_Nepali"),
+        ("nb", "Translator_Lang_Norwegian"),
+        ("pa", "Translator_Lang_Punjabi"),
+        ("pt", "Translator_Lang_PortugueseBrazil"),
+        ("pt-pt", "Translator_Lang_PortuguesePortugal"),
+        ("ps", "Translator_Lang_Pashto"),
+        ("ny", "Translator_Lang_Nyanja"),
+        ("ja", "Translator_Lang_Japanese"),
+        ("sv", "Translator_Lang_Swedish"),
+        ("sm", "Translator_Lang_Samoan"),
+        ("sr-Cyrl", "Translator_Lang_SerbianCyrillic"),
+        ("sr-Latn", "Translator_Lang_SerbianLatin"),
+        ("si", "Translator_Lang_Sinhala"),
+        ("sk", "Translator_Lang_Slovak"),
+        ("sl", "Translator_Lang_Slovenian"),
+        ("sw", "Translator_Lang_Swahili"),
+        ("te", "Translator_Lang_Telugu"),
+        ("ta", "Translator_Lang_Tamil"),
+        ("th", "Translator_Lang_Thai"),
+        ("ty", "Translator_Lang_Tahitian"),
+        ("tr", "Translator_Lang_Turkish"),
+        ("tk", "Translator_Lang_Turkmen"),
+        ("cy", "Translator_Lang_Welsh"),
+        ("ur", "Translator_Lang_Urdu"),
+        ("uk", "Translator_Lang_Ukrainian"),
+        ("uz", "Translator_Lang_Uzbek"),
+        ("es", "Translator_Lang_Spanish"),
+        ("vi", "Translator_Lang_Vietnamese"),
+        ("lzh", "Translator_Lang_ChineseClassical"),
+        ("zh-Hans", "Translator_Lang_ChineseSimplified"),
+        ("zh-Hant", "Translator_Lang_ChineseTraditional"),
+        ("zu", "Translator_Lang_Zulu")
+        
+    };
+            var languageItems = new List<ComboBoxItem>();
+
+            foreach (var (tag, resourceKey) in languagePairs)
+            {
+                string localizedName;
+                try
+                {
+                    // 尝试从资源中获取本地化的语言名称
+                    localizedName = resourceLoader.GetString(resourceKey);
+                    if (string.IsNullOrEmpty(localizedName))
+                    {
+                        // 如果找不到资源，使用标签作为备用
+                        localizedName = tag;
+                    }
+                }
+                catch
+                {
+                    // 如果获取资源出错，使用标签作为备用
+                    localizedName = tag;
+                }
+
+                // 创建语言项目
+                var item = new ComboBoxItem
+                {
+                    Content = localizedName,
+                    Tag = tag
+                };
+
+                languageItems.Add(item);
+            }
+
+            // 按照显示名称（Content）进行排序
+            var sortedLanguageItems = languageItems.OrderBy(item => item.Content.ToString()).ToList();
+
+            // 将排序后的语言添加到ComboBox和全局列表
+            foreach (var item in sortedLanguageItems)
+            {
+                // 向源语言ComboBox添加语言选项
+                var sourceItem = new ComboBoxItem
+                {
+                    Content = item.Content,
+                    Tag = item.Tag
+                };
+                sourceLanguageComboBox.Items.Add(sourceItem);
+
+                // 向目标语言ComboBox添加语言选项
+                var targetItem = new ComboBoxItem
+                {
+                    Content = item.Content,
+                    Tag = item.Tag
+                };
+                targetLanguageComboBox.Items.Add(targetItem);
+
+                // 将语言添加到全局列表，供顺序翻译使用
+                _allLanguages.Add(new ComboBoxItem
+                {
+                    Content = item.Content,
+                    Tag = item.Tag
+                });
+            }
+
+            // 设置默认选择项
+            sourceLanguageComboBox.SelectedIndex = 0; // 自动检测
+
+            // 设置中文(简体)为默认目标语言
+            int zhHansIndex = languagePairs.FindIndex(p => p.tag == "zh-Hans");
+            if (zhHansIndex >= 0)
+            {
+                // 加1是因为目标语言列表中的索引与languagePairs中不同（没有自动检测选项）
+                targetLanguageComboBox.SelectedIndex = zhHansIndex;
+            }
+            else
+            {
+                // 如果找不到中文，选择第一个语言
+                targetLanguageComboBox.SelectedIndex = 0;
+            }
         }
 
         private void InitializeTranslationSequence()
         {
-            // 收集所有语言选项
-            foreach (ComboBoxItem item in targetLanguageComboBox.Items)
-            {
-                _allLanguages.Add(new ComboBoxItem { Content = item.Content, Tag = item.Tag });
-            }
-
             // 创建20个翻译步骤
             for (int i = 0; i < MaxTranslationSteps; i++)
             {
@@ -166,7 +369,7 @@ namespace eComBox.Views
 
                 if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(key) || string.IsNullOrEmpty(location))
                 {
-                    throw new Exception("缺少翻译工具配置信息");
+                    throw new Exception(resourceLoader.GetString("Translator_MissingInfo/Exception"));
                 }
 
                 statusBar.IsOpen = true;
@@ -174,8 +377,8 @@ namespace eComBox.Views
             catch
             {
                 statusBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
-                statusBar.Title = "缺少信息";
-                statusBar.Message = "请在设置中输入翻译的配置信息";
+                statusBar.Title = resourceLoader.GetString("Translator_MissingSettings/Title");
+                statusBar.Message = resourceLoader.GetString("Translator_MissingSettings/Message");
                 statusBar.IsOpen = true;
                 translateButton.IsEnabled = false;
             }
@@ -216,7 +419,10 @@ namespace eComBox.Views
             // 禁用按钮，防止重复操作
             sequenceTranslateButton.IsEnabled = false;
             translateButton.IsEnabled = false;
-            statusBar.Message = "顺序翻译进行中...";
+
+            
+            statusBar.Message = resourceLoader.GetString("Translator_SequenceInProgress/Message");
+           
             statusBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
 
             // 确保反向翻译按钮隐藏
@@ -243,9 +449,9 @@ namespace eComBox.Views
 
                 // 记录翻译历史
                 StringBuilder history = new StringBuilder();
-                history.AppendLine($"原始文本 ({initialLanguageName}): {originalText}\n");
+                history.AppendLine(string.Format(resourceLoader.GetString("Translator_HistoryOriginal"), initialLanguageName, originalText) + "\n");
 
-                
+
 
                 // 计算有效的翻译步骤数量（排除未选择语言的步骤）
                 int validStepsCount = _translationSequence.Count(s => s.SelectedLanguage != null);
@@ -276,7 +482,7 @@ namespace eComBox.Views
                     // 更新状态栏和进度条
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
-                        statusBar.Message = $"顺序翻译中：步骤 {i + 1}/{_translationSequence.Count} - {targetName}";
+                        statusBar.Message = string.Format(resourceLoader.GetString("Translator_SequenceStatus"), i + 1, _translationSequence.Count, targetName);
 
                         // 更新进度条
                         completedSteps++;
@@ -289,8 +495,10 @@ namespace eComBox.Views
                     string translatedText = await TranslateSequence();
                     currentText = translatedText;
 
-                    // 记录每一步的翻译结果
-                    history.AppendLine($"步骤 {i + 1}: {targetName} -> {translatedText}\n");
+
+
+                   
+                    history.AppendLine(string.Format(resourceLoader.GetString("Translator_HistoryStep"), i + 1, targetName, translatedText) + "\n");
                 }
 
                 // 显示最终翻译结果
@@ -299,7 +507,7 @@ namespace eComBox.Views
                     outputBox.Text = currentText;
                     translationHistoryBox.Text = history.ToString();
                     statusBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Success;
-                    statusBar.Message = "顺序翻译完成！";
+                    statusBar.Message = resourceLoader.GetString("Translator_SequenceComplete/Message");
 
                     // 完成时将进度条设置为100%
                     translationProgressBar.Value = translationProgressBar.Maximum;
@@ -311,9 +519,10 @@ namespace eComBox.Views
                 {
                     outputBox.Text = ex.Message;
                     statusBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
-                    statusBar.Message = "翻译过程中出现错误！";
+                    statusBar.Message = resourceLoader.GetString("Translator_TranslationError/Message");
                 });
             }
+
             finally
             {
                 // 重新启用按钮
