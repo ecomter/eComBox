@@ -117,16 +117,19 @@ Orientation="Vertical"
                     </PivotItem>
                     <PivotItem x:Uid="Conic" Header="圆锥曲线">
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <muxc:InfoBar
-                        
-IsOpen="True"
-IsIconVisible="True"
-IsClosable="False"
-Title="提示"
-Message="本功能尚未完成，请等待后续版本升级" />
-
+            IsOpen="True"
+            IsIconVisible="True"
+            IsClosable="False"
+            Title="提示"
+            Message="本功能尚未完成，请等待后续版本升级" />
                         </Grid>
                     </PivotItem>
+
 
                 </Pivot>
             </StackPanel>

@@ -3,7 +3,9 @@
 using eComBox.Services;
 
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace eComBox
 {
@@ -38,10 +40,32 @@ namespace eComBox
             await ActivationService.ActivateAsync(args);
         }
 
-        private void OnAppUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void OnAppUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            // TODO: Please log and handle the exception as appropriate to your scenario
-            // For more info see https://docs.microsoft.com/uwp/api/windows.ui.xaml.application.unhandledexception
+            // 标记异常为已处理
+            e.Handled = true;
+
+            // 记录详细的异常信息
+            
+
+            // 异步显示错误消息
+            
+                try
+                {
+                    ContentDialog dialog = new ContentDialog
+                    {
+                        Title = "应用遇到了问题",
+                        Content = $"很抱歉，应用遇到了意外错误。请重试您的操作，如果问题持续存在，请重启应用。错误信息：{e.Exception.Message}",
+                        CloseButtonText = "确定"
+                    };
+
+                    await dialog.ShowAsync();
+                }
+                catch
+                {
+                    // 忽略显示对话框时的错误
+                }
+            
         }
 
         private ActivationService CreateActivationService()

@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using eComBox.Services;
 
 namespace eComBox.Views
 {
@@ -13,6 +14,7 @@ namespace eComBox.Views
         public GeometryPage()
         {
             InitializeComponent();
+            
         }
         public int DPlace { get; set; } = 5;
         private async void Submit(object sender, RoutedEventArgs e)
@@ -110,7 +112,10 @@ namespace eComBox.Views
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
+        
 
+        // 处理购买按钮点击事件
+        
         private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
             if (Equals(storage, value))
