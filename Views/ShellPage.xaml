@@ -18,9 +18,23 @@
         IsBackEnabled="{x:Bind IsBackEnabled, Mode=OneWay}"
         SelectedItem="{x:Bind Selected, Mode=OneWay}"
         ItemInvoked="OnItemInvoked"
+        CompactModeThresholdWidth="900"
+        ExpandedModeThresholdWidth="1200"
+        Background="Transparent"
+        BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+        OpenPaneLength="280"  
         IsSettingsVisible="True">
-
-            <winui:NavigationView.MenuItems>
+        <winui:NavigationView.Resources>
+            <!-- Microsoft Store风格的导航项样式 -->
+            <Style TargetType="winui:NavigationViewItem">
+                <Setter Property="Margin" Value="4,2"/>
+                <Setter Property="Padding" Value="10,4"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Height" Value="40"/>
+            </Style>
+        </winui:NavigationView.Resources>
+        <winui:NavigationView.MenuItems>
                 <!--
             TODO: Change the symbols for each item as appropriate for your app
             More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font

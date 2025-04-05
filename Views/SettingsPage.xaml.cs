@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -65,7 +66,33 @@ namespace eComBox.Views
         private void InitializeLanguageComboBox()
         {
             _isInitializingLanguageComboBox = true;
-            var currentLanguage = ApplicationLanguages.PrimaryLanguageOverride;
+
+            // 获取当前语言设置
+            string currentLanguage = ApplicationLanguages.PrimaryLanguageOverride;
+
+            // 如果当前没有语言重写设置（首次运行应用程序时）
+            if (string.IsNullOrEmpty(currentLanguage))
+            {
+                // 获取系统当前语言
+                currentLanguage = ApplicationLanguages.Languages.FirstOrDefault() ?? "en-US";
+
+                // 标准化语言代码（处理可能的方言差异）
+                if (currentLanguage.StartsWith("zh"))
+                {
+                    // 所有中文方言都默认使用简体中文
+                    currentLanguage = "zh-Hans-CN";
+                }
+                else if (currentLanguage.StartsWith("en"))
+                {
+                    // 所有英文方言都默认使用美式英语
+                    currentLanguage = "en-US";
+                }
+
+                // 设置应用的默认语言
+                ApplicationLanguages.PrimaryLanguageOverride = currentLanguage;
+            }
+
+            // 在ComboBox中选择对应的语言
             foreach (ComboBoxItem item in LanguageComboBox.Items)
             {
                 if (item.Tag.ToString() == currentLanguage)
@@ -74,6 +101,7 @@ namespace eComBox.Views
                     break;
                 }
             }
+
             _isInitializingLanguageComboBox = false;
         }
 

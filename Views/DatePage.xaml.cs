@@ -3,17 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using Windows.Devices.PointOfService;
 using Windows.UI.Xaml;
-using Windows.Foundation;  // 只保留一个 Windows.Foundation
-using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;  
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -22,6 +15,10 @@ using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using eComBox.Services;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 
 namespace eComBox.Views
@@ -116,6 +113,39 @@ namespace eComBox.Views
         private TextBox dialogTaskNameBox;
         private CalendarDatePicker dialogDatePicker;
         private DataBlock currentEditingBlock;
+        private async Task CleanupDragVisuals()
+        {
+            // 立即隐藏指示器
+            if (_dragDebounceTimer != null && _dragDebounceTimer.IsEnabled)
+            {
+                _dragDebounceTimer.Stop();
+            }
+
+            // 重置拖拽状态
+            currentDragTargetIndex = -1;
+
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                if (_dragTargetIndicator != null)
+                {
+                    // 确保指示器隐藏
+                    _dragTargetIndicator.Visibility = Visibility.Collapsed;
+
+                    // 移除并重新添加指示器以确保它在Z轴顺序的正确位置
+                    if (ContentArea.Children.Contains(_dragTargetIndicator))
+                    {
+                        ContentArea.Children.Remove(_dragTargetIndicator);
+                    }
+
+                    ContentArea.Children.Add(_dragTargetIndicator);
+                    _dragTargetIndicator.Visibility = Visibility.Collapsed;
+
+                    // 强制更新布局
+                    ContentArea.UpdateLayout();
+                }
+            });
+        }
+
         private void InitializeEditDialog()
         {
             editDialog = new ContentDialog()
@@ -151,6 +181,38 @@ namespace eComBox.Views
             dialogContent.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             dialogContent.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             dialogContent.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            TextBlock colorLabel = new TextBlock
+            {
+                Text = "卡片颜色:",
+                Margin = new Thickness(8, 16, 8, 4),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetRow(colorLabel, 8); // 使用新添加的行
+            Grid.SetColumn(colorLabel, 0);
+            dialogContent.Children.Add(colorLabel);
+
+            // 创建颜色选择面板
+            var colorPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Margin = new Thickness(8, 0, 8, 8),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            Grid.SetRow(colorPanel, 9);
+            Grid.SetColumn(colorPanel, 0);
+            dialogContent.Children.Add(colorPanel);
+
+            // 添加预设颜色选项
+            AddColorOption(colorPanel, "#3B82F6", "蓝色");
+            AddColorOption(colorPanel, "#10B981", "绿色");
+            AddColorOption(colorPanel, "#F59E0B", "黄色");
+            AddColorOption(colorPanel, "#EF4444", "红色");
+            AddColorOption(colorPanel, "#8B5CF6", "紫色");
+            AddColorOption(colorPanel, "#EC4899", "粉色");
+            AddColorOption(colorPanel, "#6B7280", "灰色");
+            AddColorOption(colorPanel, GRADIENT_STARRY_SKY, "星空");  // 添加星空渐变选项
+            AddColorOption(colorPanel, GRADIENT_FESTIVE, "喜庆");    // 添加喜庆渐变选项
+            AddColorOption(colorPanel, "", "默认"); // 留空表示使用默认颜色
 
             // 创建建议面板
             _suggestionPanel = new StackPanel
@@ -405,6 +467,152 @@ namespace eComBox.Views
             // 将ScrollViewer设置为对话框的内容
             editDialog.Content = scrollViewer;
         }
+        private Brush CreateGradientBrushForButton(string gradientType)
+        {
+            var brush = new LinearGradientBrush
+            {
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(1, 1)
+            };
+
+            switch (gradientType)
+            {
+                case GRADIENT_STARRY_SKY:
+                    // 星空渐变（深蓝色到紫色，加入星星点缀效果）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 8, 24, 58), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 37, 25, 84), Offset = 0.7 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 74, 30, 93), Offset = 1.0 });
+                    break;
+
+                case GRADIENT_FESTIVE:
+                    // 喜庆渐变（红色到金色）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 210, 4, 45), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 64, 25), Offset = 0.5 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 196, 25), Offset = 1.0 });
+                    break;
+
+                default:
+                    // 默认为浅蓝色渐变
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 59, 130, 246), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 37, 99, 235), Offset = 1.0 });
+                    break;
+            }
+
+            return brush;
+        }
+        private const string GRADIENT_STARRY_SKY = "gradient:starry_sky";
+        private const string GRADIENT_FESTIVE = "gradient:festive";
+
+        private void AddColorOption(Panel parent, string colorHex, string name)
+        {
+            var button = new Button
+            {
+                Width = 32,
+                Height = 32,
+                Margin = new Thickness(4),
+                CornerRadius = new CornerRadius(16),
+                Tag = colorHex
+            };
+
+            // 正确设置ToolTip附加属性
+            ToolTipService.SetToolTip(button, name);
+
+            // 设置按钮样式
+            if (!string.IsNullOrEmpty(colorHex))
+            {
+                try
+                {
+                    if (colorHex.StartsWith("gradient:"))
+                    {
+                        // 为渐变色选项创建特殊的背景
+                        var gradientBrush = CreateGradientBrushForButton(colorHex);
+                        button.Background = gradientBrush;
+                    }
+                    else
+                    {
+                        // 普通颜色
+                        var color = DataBlock.HexStringToColor(colorHex);
+                        button.Background = new SolidColorBrush(color);
+                    }
+
+                    // 默认边框设置为透明
+                    button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                }
+                catch
+                {
+                    button.Background = new SolidColorBrush(Windows.UI.Colors.Gray);
+                    button.Content = "!";
+                }
+            }
+            else
+            {
+                // 默认颜色按钮样式
+                button.BorderThickness = new Thickness(1);
+                button.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(120, 128, 128, 128));
+                button.Content = "×";
+            }
+
+            // 添加点击事件
+            button.Click += (s, e) =>
+            {
+                // 更新当前选中的颜色
+                string selectedColor = (string)((Button)s).Tag;
+
+                // 设置选中效果
+                foreach (var child in parent.Children)
+                {
+                    if (child is Button colorButton)
+                    {
+                        // 重置所有按钮样式
+                        if (string.IsNullOrEmpty((string)colorButton.Tag))
+                        {
+                            // 默认按钮恢复原样式
+                            colorButton.BorderThickness = new Thickness(1);
+                            colorButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(120, 128, 128, 128));
+                        }
+                        else
+                        {
+                            // 颜色按钮重置为无边框
+                            colorButton.BorderThickness = new Thickness(0);
+                            colorButton.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                        }
+
+                        // 选中的按钮设置特殊样式
+                        if (colorButton == s)
+                        {
+                            colorButton.BorderThickness = new Thickness(3);
+
+                            // 根据主题选择高对比度的边框颜色
+                            var borderColor = Application.Current.RequestedTheme == ApplicationTheme.Dark
+                                ? Windows.UI.Colors.White
+                                : Windows.UI.Colors.Black;
+
+                            colorButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(200, borderColor.R, borderColor.G, borderColor.B));
+
+                            // 添加轻微缩放动画效果
+                            var visual = ElementCompositionPreview.GetElementVisual(colorButton);
+                            var compositor = visual.Compositor;
+
+                            var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
+                            scaleAnimation.InsertKeyFrame(0.0f, new Vector3(1.0f, 1.0f, 1.0f));
+                            scaleAnimation.InsertKeyFrame(0.5f, new Vector3(1.15f, 1.15f, 1.0f));
+                            scaleAnimation.InsertKeyFrame(1.0f, new Vector3(1.1f, 1.1f, 1.0f));
+                            scaleAnimation.Duration = TimeSpan.FromMilliseconds(300);
+
+                            visual.StartAnimation("Scale", scaleAnimation);
+                        }
+                    }
+                }
+
+                // 如果当前编辑的块不为空，更新预览
+                if (currentEditingBlock != null)
+                {
+                    currentEditingBlock.BorderColorHex = selectedColor;
+                }
+            };
+
+            parent.Children.Add(button);
+        }
         private async Task UpdateDateSuggestionsAsync(string taskName)
         {
             try
@@ -580,21 +788,17 @@ namespace eComBox.Views
             public string TaskName { get; set; }
             public DateTime? TargetDate { get; set; }
             public string DisplayText { get; set; }
+            public string BorderColorHex { get; set; } = string.Empty;
+
         }
 
         public class DataBlock : Grid
         {
             // elements
             public int title;
-            public StackPanel stackPanel = new StackPanel
-            {
-                Orientation = Orientation.Horizontal
-            };
+            public StackPanel stackPanel = new StackPanel { Orientation = Orientation.Horizontal };
 
-            public Button button1 = new Button
-            {
-                Margin = new Thickness(8, 0, 20, 0)
-            };
+            public Button button1 = new Button { Margin = new Thickness(8, 0, 20, 0) };
             public TextBlock button1Text = new TextBlock
             {
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),
@@ -633,6 +837,113 @@ namespace eComBox.Views
                 Text = "目标日期:",
                 FontSize = 18
             };
+            // 边框颜色字段
+            private string _borderColorHex = string.Empty;
+
+            // 获取或设置卡片边框十六进制颜色
+            public string BorderColorHex
+            {
+                get => _borderColorHex;
+                set
+                {
+                    _borderColorHex = value;
+                    ApplyCustomBorderColor();
+                }
+            }
+
+            // 应用自定义边框颜色
+            private Brush CreateGradientBrushForBorder(string gradientType)
+            {
+                var brush = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(1, 1)
+                };
+
+                switch (gradientType)
+                {
+                    case "gradient:starry_sky":
+                        // 星空渐变（深蓝色到紫色，加入星星点缀效果）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 8, 24, 58), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 37, 25, 84), Offset = 0.7 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 74, 30, 93), Offset = 1.0 });
+                        break;
+
+                    case "gradient:festive":
+                        // 喜庆渐变（红色到金色）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 210, 4, 45), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 64, 25), Offset = 0.5 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 196, 25), Offset = 1.0 });
+                        break;
+
+                    default:
+                        // 默认为浅蓝色渐变
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 59, 130, 246), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 37, 99, 235), Offset = 1.0 });
+                        break;
+                }
+
+                return brush;
+            }
+            private void ApplyCustomBorderColor()
+            {
+                if (!string.IsNullOrEmpty(_borderColorHex))
+                {
+                    try
+                    {
+                        // 检查是否是渐变色
+                        if (_borderColorHex.StartsWith("gradient:"))
+                        {
+                            var brush = CreateGradientBrushForBorder(_borderColorHex);
+                            this.BorderBrush = brush;
+                        }
+                        else
+                        {
+                            // 普通颜色
+                            var color = HexStringToColor(_borderColorHex);
+                            this.BorderBrush = new SolidColorBrush(color);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"应用边框颜色时出错: {ex.Message}");
+                    }
+                }
+            }
+
+            // 辅助方法：将十六进制颜色字符串转换为 Color 对象
+            public static Windows.UI.Color HexStringToColor(string hex)
+            {
+                hex = hex.Replace("#", string.Empty);
+                byte a = 255;
+                byte r = 0;
+                byte g = 0;
+                byte b = 0;
+
+                if (hex.Length == 8)
+                {
+                    // 带透明度的颜色
+                    a = Convert.ToByte(hex.Substring(0, 2), 16);
+                    r = Convert.ToByte(hex.Substring(2, 2), 16);
+                    g = Convert.ToByte(hex.Substring(4, 2), 16);
+                    b = Convert.ToByte(hex.Substring(6, 2), 16);
+                }
+                else if (hex.Length == 6)
+                {
+                    // 不带透明度的颜色
+                    r = Convert.ToByte(hex.Substring(0, 2), 16);
+                    g = Convert.ToByte(hex.Substring(2, 2), 16);
+                    b = Convert.ToByte(hex.Substring(4, 2), 16);
+                }
+
+                return Windows.UI.Color.FromArgb(a, r, g, b);
+            }
+
+            // 辅助方法：将 Color 对象转换为十六进制颜色字符串
+            public static string ColorToHexString(Windows.UI.Color color)
+            {
+                return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+            }
             public CalendarDatePicker datePicker = new CalendarDatePicker
             {
                 Name = "DatePicker",
@@ -712,10 +1023,12 @@ namespace eComBox.Views
                 this.Height = Double.NaN;
                 this.title = title;
                 this.saveDataAction = saveDataAction;
-                this.CanDrag = true;
-                this.DragStarting += DataBlock_DragStarting;
+                //this.CanDrag = true;
+                //this.DragStarting += DataBlock_DragStarting;
+                
+                this.RightTapped += DataBlock_RightTapped;
 
-           
+
                 this.Background = (Brush)Application.Current.Resources["AcrylicBackgroundFillColorDefaultBrush"];
 
 
@@ -735,8 +1048,8 @@ namespace eComBox.Views
         
                     
                     ambientShadow.BlurRadius = 30.0f;
-                    ambientShadow.Opacity = _elementTheme==ElementTheme.Light ? 0.3f : 0.1f;
-                ambientShadow.Color = Windows.UI.Colors.Black;
+                    ambientShadow.Opacity = _elementTheme==ElementTheme.Light ? 0.1f : 0.3f;
+                ambientShadow.Color = Windows.UI.Colors.Gray;
                     ambientShadow.Offset = new Vector3(0.5f, 0, 0);
                
                
@@ -808,48 +1121,294 @@ namespace eComBox.Views
                     dropShadow.StartAnimation("Offset", offsetAnimation);
                 };
             }
-            
-            // 修改为完全匹配的事件处理程序签名
-            private void DataBlock_DragStarting(UIElement sender, Windows.UI.Xaml.DragStartingEventArgs e)
+
+            private async void DataBlock_RightTapped(object sender, RightTappedRoutedEventArgs e)
+            {
+                // 防止事件冒泡
+                e.Handled = true;
+
+                // 创建右键菜单
+                var flyout = new MenuFlyout();
+
+                // 添加编辑菜单项
+                var editItem = new MenuFlyoutItem
+                {
+                    Text = "编辑卡片",
+                    Icon = new FontIcon { Glyph = "\uE70F" }  // 编辑图标
+                };
+                editItem.Click += (s, args) => showEditGrid();
+                flyout.Items.Add(editItem);
+
+                // 添加删除菜单项
+                var deleteItem = new MenuFlyoutItem
+                {
+                    Text = "删除卡片",
+                    Icon = new FontIcon { Glyph = "\uE74D" }  // 删除图标
+                };
+                deleteItem.Click += async (s, args) => await DeleteCardAsync();
+                flyout.Items.Add(deleteItem);
+
+                // 显示右键菜单
+                flyout.ShowAt(this, e.GetPosition(this));
+            }
+
+            // 添加删除卡片的方法
+            private async Task DeleteCardAsync()
             {
                 try
                 {
-                    // 不传递完整对象，而是传递唯一 ID 或者索引
-                    // 将 DataBlock 的 ID 或唯一标识符作为字符串传递
-                    e.Data.SetData("DataBlockId", this.title.ToString());
-
-                    // 设置拖拽提示
-                    e.Data.Properties.Title = textBox.Text ?? "拖动卡片";
-                    e.Data.Properties.Description = "拖放到新位置";
-
-                    // 设置拖拽视觉效果
-                    e.DragUI.SetContentFromBitmapImage(GetDragUIContent());
-
-                    this.Opacity = 0.7; // 使原始卡片半透明
-
-                    var timer = new DispatcherTimer();
-                    timer.Interval = TimeSpan.FromMilliseconds(800);
-                    timer.Tick += (s, args) =>
+                    // 询问用户确认
+                    ContentDialog deleteDialog = new ContentDialog
                     {
-                        this.Opacity = 1.0;
-                        timer.Stop();
+                        Title = "删除卡片",
+                        Content = "确定要删除此卡片吗？此操作不可撤销。",
+                        PrimaryButtonText = "删除",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Close
                     };
-                    timer.Start();
+
+                    var result = await deleteDialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        // 先获取父面板引用，避免动画完成后可能引用已经改变
+                        Panel parentPanel = this.Parent as Panel;
+                        if (parentPanel == null)
+                        {
+                            Debug.WriteLine("无法获取父面板");
+                            return; // 无法找到父面板，无法删除
+                        }
+
+                        try
+                        {
+                            // 执行删除前的动画
+                            var visual = ElementCompositionPreview.GetElementVisual(this);
+                            var compositor = visual.Compositor;
+
+                            // 创建缩小和淡出动画
+                            var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
+                            scaleAnimation.InsertKeyFrame(0f, new Vector3(1, 1, 1));
+                            scaleAnimation.InsertKeyFrame(1f, new Vector3(0.8f, 0.8f, 1));
+                            scaleAnimation.Duration = TimeSpan.FromMilliseconds(200);
+
+                            var fadeAnimation = compositor.CreateScalarKeyFrameAnimation();
+                            fadeAnimation.InsertKeyFrame(0f, 1f);
+                            fadeAnimation.InsertKeyFrame(1f, 0f);
+                            fadeAnimation.Duration = TimeSpan.FromMilliseconds(200);
+
+                            visual.StartAnimation("Scale", scaleAnimation);
+                            visual.StartAnimation("Opacity", fadeAnimation);
+
+                            // 等待动画完成后再移除
+                            await Task.Delay(200);
+
+                            // 获取DatePage实例用于后续操作
+                            var page = GetDatePage();
+
+                            // 删除元素并更新布局
+                            bool removed = false;
+                            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                try
+                                {
+                                    int indexToRemove = parentPanel.Children.IndexOf(this);
+                                    if (indexToRemove >= 0)
+                                    {
+                                        parentPanel.Children.RemoveAt(indexToRemove);
+                                        removed = true;
+
+                                        // 立即更新UI布局
+                                        if (page != null)
+                                        {
+                                            page.UpdateGridLayout();
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debug.WriteLine($"UI线程上删除卡片失败: {ex.Message}");
+                                }
+                            });
+
+                            // 如果删除成功，保存数据
+                            if (removed && page != null)
+                            {
+                                try
+                                {
+                                    await page.SaveData();
+                                    Debug.WriteLine("删除卡片后成功保存数据");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debug.WriteLine($"保存数据失败: {ex.Message}");
+
+                                    // 显示保存错误提示
+                                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                                    {
+                                        ContentDialog errorDialog = new ContentDialog
+                                        {
+                                            Title = "保存失败",
+                                            Content = "删除卡片后保存数据失败，但卡片已被移除。",
+                                            CloseButtonText = "确定"
+                                        };
+                                        await errorDialog.ShowAsync();
+                                    });
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"删除卡片过程中出错: {ex.Message}");
+                            Debug.WriteLine($"错误详细信息: {ex.StackTrace}");
+
+                            // 显示错误消息
+                            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                            {
+                                ContentDialog errorDialog = new ContentDialog
+                                {
+                                    Title = "操作失败",
+                                    Content = $"删除卡片时出现错误: {ex.Message}",
+                                    CloseButtonText = "确定"
+                                };
+                                await errorDialog.ShowAsync();
+                            });
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // 记录异常，不让应用崩溃
-                    Debug.WriteLine($"拖拽开始错误: {ex.Message}");
+                    Debug.WriteLine($"删除对话框显示失败: {ex.Message}");
+
+                    // 如果连对话框都无法显示，可能是UI线程出现了严重问题
+                    // 尝试直接删除卡片
+                    try
+                    {
+                        Panel parentPanel = this.Parent as Panel;
+                        if (parentPanel != null)
+                        {
+                            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                parentPanel.Children.Remove(this);
+                            });
+
+                            // 获取DatePage实例
+                            var page = GetDatePage();
+                            if (page != null)
+                            {
+                                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                                {
+                                    page.UpdateGridLayout();
+                                });
+                                await page.SaveData();
+                            }
+                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        Debug.WriteLine($"紧急删除失败: {innerEx.Message}");
+                    }
                 }
             }
 
-            private Windows.UI.Xaml.Media.Imaging.BitmapImage GetDragUIContent()
+            // 修改为完全匹配的事件处理程序签名
+            private async void DataBlock_DragStarting(UIElement sender, Windows.UI.Xaml.DragStartingEventArgs e)
             {
-                // 简单实现，实际项目中可以创建卡片的截图
-                var image = new Windows.UI.Xaml.Media.Imaging.BitmapImage();
-                return image;
+                try
+                {
+                    // 设置要传递的数据（DataBlock的唯一ID）
+                    e.Data.SetData("DataBlockId", this.title.ToString());
+
+                    // 设置拖拽提示信息
+                    e.Data.Properties.Title = string.IsNullOrEmpty(textBox.Text) ? "拖动卡片" : textBox.Text;
+                    e.Data.Properties.Description = "拖放到新位置";
+
+                    try
+                    {
+                        // 创建可视化元素的位图表示
+                        RenderTargetBitmap renderBitmap = new RenderTargetBitmap();
+                        await renderBitmap.RenderAsync(this);
+
+                        // 获取像素数据
+                        var pixelBuffer = await renderBitmap.GetPixelsAsync();
+                        if (pixelBuffer != null)
+                        {
+                            // 创建一个BitmapImage并设置为拖动UI内容
+                            BitmapImage bitmapImage = new BitmapImage();
+                            using (var stream = pixelBuffer.AsStream())
+                            {
+                                await bitmapImage.SetSourceAsync(stream.AsRandomAccessStream());
+                            }
+                            e.DragUI.SetContentFromBitmapImage(bitmapImage);
+                        }
+                        else
+                        {
+                            // 回退选项 - 如果无法获取位图
+                            e.DragUI.SetContentFromBitmapImage(GetDragUIContent());
+                        }
+                    }
+                    catch (Exception bitmapEx)
+                    {
+                        Debug.WriteLine($"创建拖拽缩略图失败: {bitmapEx.Message}");
+                        // 回退到简单的设置
+                        e.DragUI.SetContentFromBitmapImage(GetDragUIContent());
+                    }
+
+                    e.DragUI.SetContentFromDataPackage();
+                    e.DragUI.SetContentFromBitmapImage(GetDragUIContent());
+
+                    // 当拖拽开始时，降低源卡片的不透明度作为视觉提示
+                    this.Opacity = 0.6;
+
+                    // 创建一个定时器，在短时间后恢复原始不透明度
+                    var timer = new DispatcherTimer();
+                    timer.Interval = TimeSpan.FromMilliseconds(1500); // 较长时间确保拖拽过程中保持半透明
+                    timer.Tick += (s, args) =>
+                    {
+                        if (this.Opacity < 1.0) // 确保仅在需要时恢复
+                        {
+                            // 使用动画平滑恢复不透明度
+                            var visual = ElementCompositionPreview.GetElementVisual(this);
+                            var compositor = visual.Compositor;
+
+                            var fadeAnimation = compositor.CreateScalarKeyFrameAnimation();
+                            fadeAnimation.InsertKeyFrame(0.0f, 0.6f);
+                            fadeAnimation.InsertKeyFrame(1.0f, 1.0f);
+                            fadeAnimation.Duration = TimeSpan.FromMilliseconds(300);
+
+                            visual.StartAnimation("Opacity", fadeAnimation);
+                        }
+                        timer.Stop();
+                    };
+                    timer.Start();
+
+                    // With these lines
+                    e.DragUI.SetContentFromDataPackage();
+                }
+                catch (Exception ex)
+                {
+                    // 捕获并记录异常，确保应用不会崩溃
+                    Debug.WriteLine($"拖拽初始化错误: {ex.Message}");
+                    Debug.WriteLine($"堆栈跟踪: {ex.StackTrace}");
+
+                    // 确保不透明度恢复
+                    this.Opacity = 1.0;
+                }
             }
-            
+
+            private BitmapImage GetDragUIContent()
+            {
+                try
+                {
+                    // 创建一个基本的BitmapImage作为拖拽内容的备选方案
+                    var image = new BitmapImage(new Uri("ms-appx:///Assets/DragIndicator.png"));
+                    return image;
+                }
+                catch
+                {
+                    // 如果无法加载图像，返回一个空的BitmapImage
+                    return new BitmapImage();
+                }
+            }
             public void animateGrid(System.Action action)
             {
                 // 创建连接到Composition API的对象
@@ -907,25 +1466,6 @@ namespace eComBox.Views
                 button1r.SetValue(Grid.RowProperty, 0);
 
                 textBlock5.SetValue(Grid.RowProperty, 1);
-
-                if (string.IsNullOrEmpty(textBox.Text))
-                {
-                    textBox.Text = $"{datePicker.Date.Value.Year}年{datePicker.Date.Value.Month}月{datePicker.Date.Value.Day}日";
-                }
-                else
-                {
-                    textBlock2.Text = textBox.Text;
-                }
-
-                if (diffTime.Days > 0)
-                {
-                    textBlock5.Text = $"今天距离{textBox.Text}还有";
-                }
-                else if (diffTime.Days < 0)
-                {
-                    textBlock5.Text = $"今天距离{textBox.Text}已经过去了";
-                }
-
                 var textBlock6 = new TextBlock
                 {
                     Margin = new Thickness(8),
@@ -935,42 +1475,191 @@ namespace eComBox.Views
                     Style = (Style)Application.Current.Resources["TitleTextBlockStyle"],
                     Text = $"{Math.Abs(diffTime.Days)}天"
                 };
-                // 修改expressGrid方法中的当天事件高亮部分
-                if (diffTime.Days == 0)
+                if (string.IsNullOrEmpty(textBox.Text))
                 {
-                    textBlock5.Text = "今天就是";
-                    textBlock6.Text = $"{textBox.Text}";
+                    textBox.Text = $"{datePicker.Date.Value.Year}年{datePicker.Date.Value.Month}月{datePicker.Date.Value.Day}日";
+                }
+                else
+                {
+                    textBlock2.Text = textBox.Text;
+                }
 
-                    // 当天事件使用更吸引人的渐变色边框
+                // 使用更加统一的色彩方案，创建递进的视觉效果
+                if (diffTime.Days > 0)
+                {
+                    // 统一设置边框样式和厚度
+                    this.BorderThickness = new Thickness(1.5);
+
+                    // 设置文本内容
+                    if (diffTime.Days == 1)
+                    {
+                        textBlock5.Text = $"{textBox.Text}就在";
+                        textBlock6.Text = "明天";
+                    }
+                    else if (diffTime.Days == 2)
+                    {
+                        textBlock5.Text = $"{textBox.Text}就在";
+                        textBlock6.Text = "后天";
+                    }
+                    else
+                    {
+                        textBlock5.Text = $"今天距离{textBox.Text}还有";
+                        this.BorderThickness = new Thickness(1); // 普通未来日期使用标准边框厚度
+                    }
+
+                    // 设置统一的渐变色方案，根据天数变化亮度和色调
                     if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
                     {
-                        // 深色主题中的高亮边框 - 使用更明亮的颜色
+                        // 深色主题 - 使用紫蓝到蓝绿到绿色的渐变方案
                         var borderBrush = new LinearGradientBrush
                         {
                             StartPoint = new Point(0, 0),
                             EndPoint = new Point(1, 1)
                         };
-                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 90, 150, 230), Offset = 0.0 });
+
+                        if (diffTime.Days == 1) // 明天 - 紫蓝色调
+                        {
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 80, 130, 230), Offset = 0.0 });
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 120, 120, 240), Offset = 1.0 });
+
+                            // 文字颜色（更柔和）
+                            textBlock5.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 110, 150, 235));
+                            textBlock6.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 100, 140, 240));
+                        }
+                        else if (diffTime.Days == 2) // 后天 - 蓝绿色调
+                        {
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 40, 160, 190), Offset = 0.0 });
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 70, 150, 200), Offset = 1.0 });
+
+                            // 文字颜色（更柔和）
+                            textBlock5.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 80, 170, 190));
+                            textBlock6.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 60, 160, 200));
+                        }
+                        else // 其他未来日期 - 默认色调
+                        {
+                            this.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(40, 255, 255, 255));
+                            textBlock5.ClearValue(TextBlock.ForegroundProperty);
+                            textBlock6.ClearValue(TextBlock.ForegroundProperty);
+                        }
+
+                        if (diffTime.Days <= 2)
+                        {
+                            this.BorderBrush = borderBrush;
+                        }
+                    }
+                    else // 浅色主题
+                    {
+                        // 浅色主题 - 使用同样色调但更深沉的颜色
+                        var borderBrush = new LinearGradientBrush
+                        {
+                            StartPoint = new Point(0, 0),
+                            EndPoint = new Point(1, 1)
+                        };
+
+                        if (diffTime.Days == 1) // 明天 - 蓝紫色调
+                        {
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 50, 120, 220), Offset = 0.0 });
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 100, 100, 220), Offset = 1.0 });
+
+                            // 文字颜色
+                            textBlock5.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 50, 120, 220));
+                            textBlock6.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 60, 100, 220));
+                        }
+                        else if (diffTime.Days == 2) // 后天 - 蓝绿色调
+                        {
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 20, 140, 170), Offset = 0.0 });
+                            borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 40, 130, 180), Offset = 1.0 });
+
+                            // 文字颜色
+                            textBlock5.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 20, 140, 160));
+                            textBlock6.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 30, 130, 170));
+                        }
+                        else // 其他未来日期 - 默认色调
+                        {
+                            this.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(40, 0, 0, 0));
+                            textBlock5.ClearValue(TextBlock.ForegroundProperty);
+                            textBlock6.ClearValue(TextBlock.ForegroundProperty);
+                        }
+
+                        if (diffTime.Days <= 2)
+                        {
+                            this.BorderBrush = borderBrush;
+                        }
+                    }
+                }
+                else if (diffTime.Days < 0) // 过去的日期
+                {
+                    textBlock5.Text = $"今天距离{textBox.Text}已经过去了";
+                    this.BorderThickness = new Thickness(1);
+
+                    // 设置过去日期的边框和文字颜色 - 保持橙红色调
+                    if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
+                    {
+                        // 深色主题 - 橙红色调
+                        var borderBrush = new LinearGradientBrush
+                        {
+                            StartPoint = new Point(0, 0),
+                            EndPoint = new Point(1, 1)
+                        };
+                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(200, 180, 90, 70), Offset = 0.0 });
+                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(200, 150, 80, 60), Offset = 1.0 });
+                        this.BorderBrush = borderBrush;
+
+                        // 文字颜色也调整为橙红色调
+                        textBlock5.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 220, 130, 90));
+                        textBlock6.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 230, 140, 90));
+                    }
+                    else
+                    {
+                        // 浅色主题 - 橙褐色调
+                        var borderBrush = new LinearGradientBrush
+                        {
+                            StartPoint = new Point(0, 0),
+                            EndPoint = new Point(1, 1)
+                        };
+                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 180, 90, 50), Offset = 0.0 });
+                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 160, 80, 40), Offset = 1.0 });
+                        this.BorderBrush = borderBrush;
+
+                        // 文字颜色调整为深橙色
+                        textBlock5.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 180, 80, 40));
+                        textBlock6.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 190, 85, 40));
+                    }
+                }
+                else // 当天事件
+                {
+                    textBlock5.Text = "今天就是";
+                    textBlock6.Text = $"{textBox.Text}";
+                    this.BorderThickness = new Thickness(2); // 当天用最粗的边框
+
+                    // 当天事件保持高亮的紫色系
+                    if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
+                    {
+                        // 深色主题中的高亮边框
+                        var borderBrush = new LinearGradientBrush
+                        {
+                            StartPoint = new Point(0, 0),
+                            EndPoint = new Point(1, 1)
+                        };
+                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 110, 80, 240), Offset = 0.0 });
                         borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 170, 110, 240), Offset = 1.0 });
                         this.BorderBrush = borderBrush;
                     }
                     else
                     {
-                        // 浅色主题中的高亮边框 - 使用更活泼的颜色
+                        // 浅色主题中的高亮边框
                         var borderBrush = new LinearGradientBrush
                         {
                             StartPoint = new Point(0, 0),
                             EndPoint = new Point(1, 1)
                         };
-                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 50, 140, 240), Offset = 0.0 });
+                        borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 100, 70, 220), Offset = 0.0 });
                         borderBrush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 150, 80, 240), Offset = 1.0 });
                         this.BorderBrush = borderBrush;
                     }
-
-                    this.BorderThickness = new Thickness(2);
-                
-            }
-
+                    textBlock5.ClearValue(TextBlock.ForegroundProperty);
+                    textBlock6.ClearValue(TextBlock.ForegroundProperty);
+                }
 
                 textBlock6.SetValue(Grid.RowProperty, 2);
                 this.Children.Clear();
@@ -978,10 +1667,15 @@ namespace eComBox.Views
                 this.Children.Add(textBlock5);
                 this.Children.Add(textBlock6);
 
+                if (!string.IsNullOrEmpty(BorderColorHex))
+                {
+                    ApplyCustomBorderColor();
+                }
                 button1r.Click += (sender, e) =>
                 {
                     showEditGrid();
                 };
+                
             }
 
             public void editGrid()
@@ -1071,12 +1765,11 @@ namespace eComBox.Views
 
             public async Task<ContentDialogResult> ShowEditDialogAsync()
             {
-                // 添加互斥锁，防止并发编辑
+                // 保留原有互斥锁代码...
                 if (_isEditing)
                 {
                     return ContentDialogResult.None; // 如果已经在编辑，直接返回
                 }
-
                 try
                 {
                     _isEditing = true;
@@ -1091,23 +1784,76 @@ namespace eComBox.Views
                     page.dialogTaskNameBox.Text = this.textBox.Text;
                     page.dialogDatePicker.Date = this.datePicker.Date;
 
+                    // 设置当前颜色选中
+                    if (page.editDialog.Content is ScrollViewer scrollViewer &&
+    scrollViewer.Content is Grid dialogContent)
+                    {
+                        // 找到颜色面板
+                        var children = dialogContent.Children;
+                        foreach (var child in children)
+                        {
+                            if (child is StackPanel panel &&
+                                Grid.GetRow(panel) == 9) // 颜色面板所在的行
+                            {
+                                foreach (var colorButton in panel.Children)
+                                {
+                                    if (colorButton is Button button)
+                                    {
+                                        string buttonColorHex = (string)button.Tag;
+
+                                        // 重置所有按钮样式
+                                        if (string.IsNullOrEmpty(buttonColorHex))
+                                        {
+                                            // 默认按钮
+                                            button.BorderThickness = new Thickness(1);
+                                            button.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(120, 128, 128, 128));
+                                        }
+                                        else
+                                        {
+                                            // 颜色按钮
+                                            button.BorderThickness = new Thickness(0);
+                                            button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                                        }
+
+                                        // 设置选中的按钮样式
+                                        if (buttonColorHex == this.BorderColorHex)
+                                        {
+                                            button.BorderThickness = new Thickness(3);
+
+                                            // 根据主题选择高对比度的边框颜色
+                                            var borderColor = Application.Current.RequestedTheme == ApplicationTheme.Dark
+                                                ? Windows.UI.Colors.White
+                                                : Windows.UI.Colors.Black;
+
+                                            button.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(200, borderColor.R, borderColor.G, borderColor.B));
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+
                     var result = await page.editDialog.ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
-                     
-                        
-                      
                         // 用户点击了确定按钮，更新DataBlock数据
                         this.textBox.Text = page.dialogTaskNameBox.Text;
                         this.datePicker.Date = page.dialogDatePicker.Date;
 
+                        // 已在点击颜色按钮时设置了BorderColorHex，此处无需再设置
+
                         if (this.datePicker.Date != null)
                         {
-                            
                             // 使用简化版的动画方法，避免动画冲突
                             await SafeAnimateGridAsync(delegate () { expressGrid(); });
 
+                            // 确保在expressGrid后应用自定义颜色，因为expressGrid会重设边框
+                            if (!string.IsNullOrEmpty(this.BorderColorHex))
+                            {
+                                ApplyCustomBorderColor();
+                            }
                             try
                             {
                                 // 确保SaveData操作完成后再返回
@@ -1142,6 +1888,8 @@ namespace eComBox.Views
 
                                 visual.StartAnimation("Opacity", fadeInAnimation);
                             }
+
+                            // 保留原有代码...
                         }
                     }
                     else if (result == ContentDialogResult.Secondary)
@@ -1256,12 +2004,13 @@ namespace eComBox.Views
 
         private AzureDatePredictionService _predictionService;
         private StackPanel _suggestionPanel;
+        private Border _dragTargetIndicator;
         public DatePage()
         {
             InitializeComponent();
             _predictionService = new AzureDatePredictionService(
-        "https://ai-jinqiaoli1752ai485205845953.cognitiveservices.azure.com/",
-        "F37Fkmz1W7kD8veNTpU35sG6HOcU0f84zFr52LBsmbmE0IEPNgVhJQQJ99ALACHYHv6XJ3w3AAAAACOGdqmg");
+                "https://ai-jinqiaoli1752ai485205845953.cognitiveservices.azure.com/",
+                "F37Fkmz1W7kD8veNTpU35sG6HOcU0f84zFr52LBsmbmE0IEPNgVhJQQJ99ALACHYHv6XJ3w3AAAAACOGdqmg");
             ContentArea.SizeChanged += ContentArea_SizeChanged;
             ContentArea_SizeChanged(ContentArea, null);
 
@@ -1270,83 +2019,135 @@ namespace eComBox.Views
             ContentArea.DragOver += ContentArea_DragOver;
             ContentArea.Drop += ContentArea_Drop;
 
+            // 创建拖拽指示器
+            _dragTargetIndicator = new Border
+            {
+                Name = "DragTargetIndicator", // 添加名字方便调试
+                BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(180, 0, 120, 215)),
+                BorderThickness = new Thickness(2),
+                CornerRadius = new CornerRadius(6),
+                Margin = new Thickness(2),
+                Background = new SolidColorBrush(Windows.UI.Color.FromArgb(40, 0, 120, 215)),
+                Visibility = Visibility.Collapsed
+            };
+            ContentArea.Children.Add(_dragTargetIndicator);
+
             // 在页面加载时添加一个 DataBlock
             LoadData();
         }
         private void ContentArea_DragOver(object sender, DragEventArgs e)
-    {
-        e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
-        
-        // 获取拖拽位置，判断目标位置
-        var position = e.GetPosition(ContentArea);
-        
-        // 更新拖拽位置指示器效果
-        UpdateDragPositionIndicator(position);
-    }
-    
-    // 更新拖拽位置指示器
-    private int currentDragTargetIndex = -1;
-    private void UpdateDragPositionIndicator(Point position)
-    {
-        int columnsForItems = ColMax;
-        int childCount = ContentArea.Children.Count;
-        
-        // 计算目标索引
-        int col = Math.Min(Math.Max((int)(position.X / (ContentArea.ActualWidth / columnsForItems)), 0), columnsForItems - 1);
-        int row = 0;
-        
-        // 计算行数
-        double accumulatedHeight = 0;
-        int itemsPerRow = Math.Min(columnsForItems, childCount);
-        for (int i = 0; i < childCount; i += itemsPerRow)
         {
-            int itemsInThisRow = Math.Min(itemsPerRow, childCount - i);
-            double rowHeight = 0;
-            
-            // 找出当前行中最高的项目
-            for (int j = 0; j < itemsInThisRow; j++)
+            try
             {
-                if (i + j < childCount && ContentArea.Children[i + j] is FrameworkElement element)
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+
+                // 获取拖拽位置，判断目标位置
+                var position = e.GetPosition(ContentArea);
+
+                // 更新拖拽位置指示器效果
+                UpdateDragPositionIndicator(position);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"拖拽悬停处理错误: {ex.Message}");
+
+                // 在出现错误时立即隐藏指示器
+                if (_dragTargetIndicator != null)
                 {
-                    rowHeight = Math.Max(rowHeight, element.ActualHeight);
+                    _dragTargetIndicator.Visibility = Visibility.Collapsed;
+
+                    // 确保指示器回到视觉树的合适位置
+                    if (ContentArea.Children.Contains(_dragTargetIndicator))
+                    {
+                        ContentArea.Children.Remove(_dragTargetIndicator);
+                        ContentArea.Children.Add(_dragTargetIndicator); // 重新添加到末尾
+                    }
+                }
+
+                // 重置拖拽状态
+                currentDragTargetIndex = -1;
+
+                // 停止计时器
+                if (_dragDebounceTimer != null && _dragDebounceTimer.IsEnabled)
+                {
+                    _dragDebounceTimer.Stop();
                 }
             }
-            
-            accumulatedHeight += rowHeight + 20; // 20是项目之间的垂直间距
-            
-            if (position.Y < accumulatedHeight)
+        }
+        private DispatcherTimer _dragDebounceTimer;
+        private Point _lastDragPosition;
+        // 更新拖拽位置指示器
+        private int currentDragTargetIndex = -1;
+        private void UpdateDragPositionIndicator(Point position)
+        {
+            // 保存当前拖拽位置
+            _lastDragPosition = position;
+
+            // 如果指示器不存在，退出
+            if (_dragTargetIndicator == null)
             {
-                row = i / itemsPerRow;
-                break;
+                return;
+            }
+
+            // 使用计时器来减少视觉更新频率
+            if (_dragDebounceTimer == null)
+            {
+                _dragDebounceTimer = new DispatcherTimer();
+                _dragDebounceTimer.Interval = TimeSpan.FromMilliseconds(50);
+                _dragDebounceTimer.Tick += (s, e) =>
+                {
+                    try
+                    {
+                        UpdateIndicatorPosition();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"更新指示器位置时出错: {ex.Message}");
+
+                        // 出错时隐藏指示器
+                        if (_dragTargetIndicator != null)
+                        {
+                            _dragTargetIndicator.Visibility = Visibility.Collapsed;
+                        }
+
+                        // 停止计时器
+                        if (_dragDebounceTimer != null && _dragDebounceTimer.IsEnabled)
+                        {
+                            _dragDebounceTimer.Stop();
+                        }
+                    }
+                };
+                _dragDebounceTimer.Start();
+            }
+            else if (!_dragDebounceTimer.IsEnabled)
+            {
+                _dragDebounceTimer.Start();
             }
         }
-        
-        // 计算目标索引
-        int targetIndex = row * columnsForItems + col;
-        if (targetIndex >= childCount) targetIndex = childCount - 1;
-        
-        // 更新当前拖拽目标索引
-        if (targetIndex != currentDragTargetIndex)
-        {
-            currentDragTargetIndex = targetIndex;
-            
-            // 在实际应用中，可以添加视觉提示，比如高亮显示目标位置
-        }
-    }
-    
-// 处理放置事件
         private async void ContentArea_Drop(object sender, DragEventArgs e)
         {
             try
             {
+                // 立即停止更新计时器
+                if (_dragDebounceTimer != null && _dragDebounceTimer.IsEnabled)
+                {
+                    _dragDebounceTimer.Stop();
+                }
+
+                // 首先确保指示器被隐藏
+                if (_dragTargetIndicator != null)
+                {
+                    _dragTargetIndicator.Visibility = Visibility.Collapsed;
+                }
+
                 if (e.DataView.Contains("DataBlockId"))
                 {
-                    // 获取 DataBlock 的 ID
+                    // 获取被拖拽的数据块ID
                     string blockIdString = await e.DataView.GetDataAsync("DataBlockId") as string;
 
                     if (!string.IsNullOrEmpty(blockIdString) && int.TryParse(blockIdString, out int blockId))
                     {
-                        // 在 ContentArea 中查找对应的 DataBlock
+                        // 查找源数据块
                         DataBlock sourceBlock = null;
                         int sourceIndex = -1;
 
@@ -1360,17 +2161,19 @@ namespace eComBox.Views
                             }
                         }
 
-                        if (sourceBlock != null && sourceIndex >= 0 && currentDragTargetIndex >= 0
-                            && sourceIndex != currentDragTargetIndex)
+                        if (sourceBlock != null && sourceIndex >= 0 && currentDragTargetIndex >= 0 && sourceIndex != currentDragTargetIndex)
                         {
-                            // 移动卡片
+                            // 从源位置移除
                             ContentArea.Children.RemoveAt(sourceIndex);
 
-                            // 计算目标索引
-                            int targetIndex = (currentDragTargetIndex > sourceIndex)
-                                ? currentDragTargetIndex - 1
-                                : currentDragTargetIndex;
+                            // 调整目标索引（移除源项后索引会变化）
+                            int targetIndex = currentDragTargetIndex;
+                            if (targetIndex > sourceIndex)
+                            {
+                                targetIndex--;
+                            }
 
+                            // 插入到新位置
                             if (targetIndex >= ContentArea.Children.Count)
                             {
                                 ContentArea.Children.Add(sourceBlock);
@@ -1380,33 +2183,232 @@ namespace eComBox.Views
                                 ContentArea.Children.Insert(targetIndex, sourceBlock);
                             }
 
+                            // 添加放置动画效果
+                            var visual = ElementCompositionPreview.GetElementVisual(sourceBlock);
+                            var compositor = visual.Compositor;
+
+                            // 缩放和不透明度动画
+                            var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
+                            scaleAnimation.InsertKeyFrame(0.0f, new Vector3(0.95f, 0.95f, 1.0f));
+                            scaleAnimation.InsertKeyFrame(0.3f, new Vector3(1.05f, 1.05f, 1.0f));
+                            scaleAnimation.InsertKeyFrame(1.0f, new Vector3(1.0f, 1.0f, 1.0f));
+                            scaleAnimation.Duration = TimeSpan.FromMilliseconds(400);
+
+                            var opacityAnimation = compositor.CreateScalarKeyFrameAnimation();
+                            opacityAnimation.InsertKeyFrame(0.0f, 0.7f);
+                            opacityAnimation.InsertKeyFrame(1.0f, 1.0f);
+                            opacityAnimation.Duration = TimeSpan.FromMilliseconds(300);
+
+                            visual.StartAnimation("Scale", scaleAnimation);
+                            visual.StartAnimation("Opacity", opacityAnimation);
+
                             // 更新布局
                             UpdateGridLayout();
 
-                            // 保存新的排序
+                            // 保存新排序
                             await SaveData();
+
+                            // 播放放置音效（如果支持）
+                            try
+                            {
+                                ElementSoundPlayer.Play(ElementSoundKind.Invoke);
+                            }
+                            catch { /* 忽略声音播放失败 */ }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // 记录异常信息
-                Debug.WriteLine($"拖放操作出错: {ex.Message}");
+                Debug.WriteLine($"拖放操作错误: {ex.Message}");
 
-                // 显示友好的错误消息
-                ContentDialog dialog = new ContentDialog
+                try
                 {
-                    Title = "操作失败",
-                    Content = "拖放操作未能完成，请重试。",
-                    CloseButtonText = "确定"
-                };
-
-                await dialog.ShowAsync();
+                    ContentDialog dialog = new ContentDialog
+                    {
+                        Title = "操作提示",
+                        Content = "拖放操作未能完成，请重试。",
+                        CloseButtonText = "确定"
+                    };
+                    await dialog.ShowAsync();
+                }
+                catch { /* 忽略对话框显示失败 */ }
             }
             finally
             {
-                // 重置当前拖拽目标索引
+                // 重置拖拽状态
+                await CleanupDragVisuals();
+            }
+
+
+        }
+        void UpdateIndicatorPosition()
+        {
+            // 先停止计时器
+            if (_dragDebounceTimer != null && _dragDebounceTimer.IsEnabled)
+            {
+                _dragDebounceTimer.Stop();
+            }
+
+            try
+            {
+                if (_dragTargetIndicator == null)
+                {
+                    Debug.WriteLine("拖拽指示器未初始化");
+                    return;
+                }
+
+                // 计算新的目标位置
+                int columnsForItems = ColMax;
+                int childCount = ContentArea.Children.Count;
+
+                // 排除拖拽指示器自身
+                var realChildren = ContentArea.Children.Cast<UIElement>()
+                    .Where(c => c != _dragTargetIndicator && c is DataBlock)
+                    .ToList();
+
+                childCount = realChildren.Count;
+
+                // 如果没有有效的数据块，则不显示指示器
+                if (childCount == 0)
+                {
+                    _dragTargetIndicator.Visibility = Visibility.Collapsed;
+                    currentDragTargetIndex = -1; // 重置目标索引
+                    return;
+                }
+
+                // 计算目标位置的列
+                double colWidth = ContentArea.ActualWidth / columnsForItems;
+                if (colWidth <= 0)
+                {
+                    _dragTargetIndicator.Visibility = Visibility.Collapsed;
+                    return;
+                }
+
+                int col = Math.Min(Math.Max((int)(_lastDragPosition.X / colWidth), 0), columnsForItems - 1);
+
+                // 计算鼠标在网格中的行位置
+                double vertPosition = _lastDragPosition.Y;
+                int targetRow = 0;
+                double accumulatedHeight = 0;
+
+                // 计算每行的高度和位置，找出鼠标所在的行
+                List<(int RowIndex, double Top, double Height)> rowInfo = new List<(int, double, double)>();
+
+                for (int r = 0; r < (childCount + columnsForItems - 1) / columnsForItems; r++)
+                {
+                    int startIndex = r * columnsForItems;
+                    int endIndex = Math.Min(startIndex + columnsForItems - 1, childCount - 1);
+
+                    double rowHeight = 0;
+
+                    // 找出当前行中最高的项
+                    for (int i = startIndex; i <= endIndex; i++)
+                    {
+                        if (i < realChildren.Count && realChildren[i] is FrameworkElement element)
+                        {
+                            rowHeight = Math.Max(rowHeight, element.ActualHeight + element.Margin.Top + element.Margin.Bottom);
+                        }
+                    }
+
+                    rowInfo.Add((r, accumulatedHeight, rowHeight));
+                    accumulatedHeight += rowHeight + 10; // 10px是行间距
+                }
+
+                // 找出鼠标所在的行
+                for (int i = 0; i < rowInfo.Count; i++)
+                {
+                    var (rowIndex, top, height) = rowInfo[i];
+
+                    // 如果点在此行范围内，或者是最后一行下方
+                    if (vertPosition >= top && (vertPosition <= top + height || i == rowInfo.Count - 1))
+                    {
+                        targetRow = rowIndex;
+                        break;
+                    }
+                }
+
+                // 计算最终索引位置
+                int targetIndex = targetRow * columnsForItems + col;
+
+                // 将索引限制在有效范围内
+                targetIndex = Math.Min(targetIndex, childCount);
+
+                // 只有当目标索引发生变化时才更新
+                if (targetIndex == currentDragTargetIndex && _dragTargetIndicator.Visibility == Visibility.Visible)
+                {
+                    return; // 如果位置没变且已经显示，则无需更新
+                }
+
+                currentDragTargetIndex = targetIndex;
+
+                // 确保有足够的行
+                while (ContentArea.RowDefinitions.Count <= targetRow)
+                {
+                    ContentArea.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                }
+
+                // 设置指示器在网格中的位置
+                Grid.SetRow(_dragTargetIndicator, targetRow);
+                Grid.SetColumn(_dragTargetIndicator, col);
+
+                // 调整指示器大小以匹配目标位置的大小
+                DataBlock referenceBlock = null;
+
+                // 尝试使用附近的DataBlock作为尺寸参考
+                foreach (var child in realChildren)
+                {
+                    if (child is DataBlock block)
+                    {
+                        referenceBlock = block;
+                        break;
+                    }
+                }
+
+                if (referenceBlock != null)
+                {
+                    _dragTargetIndicator.MinHeight = referenceBlock.MinHeight;
+                    _dragTargetIndicator.MaxWidth = referenceBlock.MaxWidth;
+                    _dragTargetIndicator.Width = referenceBlock.ActualWidth > 0 ? referenceBlock.ActualWidth : referenceBlock.MaxWidth;
+                }
+
+                // 显示指示器
+                _dragTargetIndicator.Visibility = Visibility.Visible;
+
+                // 简单动画效果增强视觉反馈
+                var visual = ElementCompositionPreview.GetElementVisual(_dragTargetIndicator);
+                var compositor = visual.Compositor;
+
+                var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
+                scaleAnimation.InsertKeyFrame(0.0f, new Vector3(0.97f, 0.97f, 1.0f));
+                scaleAnimation.InsertKeyFrame(1.0f, new Vector3(1.0f, 1.0f, 1.0f));
+                scaleAnimation.Duration = TimeSpan.FromMilliseconds(150);
+
+                var opacityAnimation = compositor.CreateScalarKeyFrameAnimation();
+                opacityAnimation.InsertKeyFrame(0.0f, 0.7f);
+                opacityAnimation.InsertKeyFrame(1.0f, 0.85f);
+                opacityAnimation.Duration = TimeSpan.FromMilliseconds(150);
+
+                visual.StartAnimation("Scale", scaleAnimation);
+                visual.StartAnimation("Opacity", opacityAnimation);
+
+                // 确保指示器在最上层
+                if (ContentArea.Children.Contains(_dragTargetIndicator))
+                {
+                    ContentArea.Children.Remove(_dragTargetIndicator);
+                }
+                ContentArea.Children.Add(_dragTargetIndicator);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"拖拽指示器更新错误: {ex.Message}");
+
+                if (_dragTargetIndicator != null)
+                {
+                    _dragTargetIndicator.Visibility = Visibility.Collapsed;
+                }
+
+                // 出错时重置目标索引
                 currentDragTargetIndex = -1;
             }
         }
@@ -1444,34 +2446,45 @@ namespace eComBox.Views
                 });
             }
 
-            int childCount = ContentArea.Children.Count;
+            // 只考虑DataBlock类型的元素进行布局
+            var dataBlocks = ContentArea.Children.OfType<DataBlock>().ToList();
+            int dataBlockCount = dataBlocks.Count;
+
             int columnsForItems = ColMax;
-            int rowCount = (int)Math.Ceiling((double)childCount / columnsForItems);
+            int rowCount = (int)Math.Ceiling((double)dataBlockCount / columnsForItems);
 
             // 添加行定义
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < Math.Max(1, rowCount); i++)  // 确保至少有一行
             {
                 ContentArea.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             }
 
-            // 重新排列子元素
-            // 重新排列子元素
-            for (int i = 0; i < childCount; i++)
+            // 重新排列DataBlock元素
+            for (int i = 0; i < dataBlockCount; i++)
             {
                 int row = i / columnsForItems;
                 int col = i % columnsForItems;
 
-                var element = ContentArea.Children[i];
-                Grid.SetRow((FrameworkElement)element, row);
-                Grid.SetColumn((FrameworkElement)element, col);
-
-                // 明确检查DataBlock类型
-                if (element is DataBlock dataBlock)
-                {
-                    dataBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
-                }
+                var dataBlock = dataBlocks[i];
+                Grid.SetRow(dataBlock, row);
+                Grid.SetColumn(dataBlock, col);
+                dataBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
 
+            // 确保拖拽指示器总是位于最上层，且不受上面布局影响
+            if (_dragTargetIndicator != null)
+            {
+                // 如果已经在集合中，先移除它
+                if (ContentArea.Children.Contains(_dragTargetIndicator))
+                {
+                    ContentArea.Children.Remove(_dragTargetIndicator);
+                }
+                // 重新添加到最后
+                ContentArea.Children.Add(_dragTargetIndicator);
+
+                // 确保指示器保持隐藏状态
+                _dragTargetIndicator.Visibility = Visibility.Collapsed;
+            }
         }
 
 
@@ -1490,7 +2503,8 @@ namespace eComBox.Views
                             Title = dataBlock.title,
                             TaskName = dataBlock.textBox.Text,
                             TargetDate = dataBlock.datePicker.Date?.DateTime,
-                            DisplayText = dataBlock.textBlock2.Text
+                            DisplayText = dataBlock.textBlock2.Text,
+                            BorderColorHex = dataBlock.BorderColorHex // 保存边框颜色
                         };
                         data.Add(model);
                     }
@@ -1506,16 +2520,26 @@ namespace eComBox.Views
             // 非常重要：设置为Stretch而不是Center，这样ContentArea会充满整个可用宽度
             ContentArea.HorizontalAlignment = HorizontalAlignment.Stretch;
 
+            // 暂时移除拖拽指示器（如果已存在）
+            if (_dragTargetIndicator != null && ContentArea.Children.Contains(_dragTargetIndicator))
+            {
+                ContentArea.Children.Remove(_dragTargetIndicator);
+            }
 
             var data = await DataStorage.LoadDataAsync();
 
+            // 清空现有的数据块
+            ContentArea.Children.Clear();
+
+            // 只加载一次数据
             foreach (var model in data)
             {
                 var dataBlock = new DataBlock(model.Title, async () => await SaveData())
                 {
                     textBox = { Text = model.TaskName },
                     datePicker = { Date = model.TargetDate },
-                    textBlock2 = { Text = model.DisplayText }
+                    textBlock2 = { Text = model.DisplayText },
+                    BorderColorHex = model.BorderColorHex // 加载边框颜色
                 };
 
                 if (model.TargetDate.HasValue)
@@ -1527,15 +2551,32 @@ namespace eComBox.Views
                     dataBlock.editGrid();
                 }
 
+                // 限制最大宽度
+                dataBlock.MaxWidth = 380;
+
                 ContentArea.Children.Add(dataBlock);
             }
-            foreach (var child in ContentArea.Children)
+
+            // 将拖拽指示器添加回来（确保在最上层）
+            if (_dragTargetIndicator != null)
             {
-                if (child is FrameworkElement element)
-                {
-                    element.MaxWidth = 380; // 限制最大宽度
-                }
+                ContentArea.Children.Add(_dragTargetIndicator);
             }
+            else
+            {
+                // 如果指示器为null，重新初始化它
+                _dragTargetIndicator = new Border
+                {
+                    BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(180, 0, 120, 215)),
+                    BorderThickness = new Thickness(2),
+                    CornerRadius = new CornerRadius(6),
+                    Margin = new Thickness(2),
+                    Background = new SolidColorBrush(Windows.UI.Color.FromArgb(40, 0, 120, 215)),
+                    Visibility = Visibility.Collapsed
+                };
+                ContentArea.Children.Add(_dragTargetIndicator);
+            }
+
             UpdateGridLayout();
         }
         public void printAddRow()
@@ -1560,13 +2601,37 @@ namespace eComBox.Views
                 // 如果用户取消编辑或未设置日期，则从UI中移除此卡片
                 if (result != ContentDialogResult.Primary || dataBlock.datePicker.Date == null)
                 {
-                    ContentArea.Children.Remove(dataBlock);
-                    UpdateGridLayout();
+                    // 确保在UI线程上执行，并且在移除前后正确处理布局
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        // 先检查卡片是否仍在容器中
+                        if (ContentArea.Children.Contains(dataBlock))
+                        {
+                            ContentArea.Children.Remove(dataBlock);
+
+                            // 过滤有效的子元素，只考虑DataBlock类型的元素
+                            var validBlocks = ContentArea.Children.OfType<DataBlock>().ToList();
+
+                            // 强制重绘和重新布局
+                            UpdateGridLayout();
+                            ContentArea.UpdateLayout();
+                        }
+                    });
+
+                    // 保存当前状态，确保与UI一致
+                    await SaveData();
                 }
                 else
                 {
                     // 用户完成编辑并有有效数据，设置卡片透明度为1，使其可见
                     dataBlock.Opacity = 1;
+
+                    // 强制更新布局
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        UpdateGridLayout();
+                        ContentArea.UpdateLayout();
+                    });
                 }
             });
         }
@@ -1607,7 +2672,8 @@ namespace eComBox.Views
                             Title = dataBlock.title,
                             TaskName = dataBlock.textBox.Text,
                             TargetDate = dataBlock.datePicker.Date?.DateTime,
-                            DisplayText = dataBlock.textBlock2.Text
+                            DisplayText = dataBlock.textBlock2.Text,
+                            BorderColorHex = dataBlock.BorderColorHex 
                         };
                         data.Add(model);
                     }
@@ -1689,7 +2755,8 @@ namespace eComBox.Views
                         {
                             textBox = { Text = model.TaskName },
                             datePicker = { Date = model.TargetDate },
-                            textBlock2 = { Text = model.DisplayText }
+                            textBlock2 = { Text = model.DisplayText },
+                            BorderColorHex = model.BorderColorHex ?? "" 
                         };
 
                         if (model.TargetDate.HasValue)

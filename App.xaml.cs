@@ -6,7 +6,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-
+using Windows.UI.Xaml.Data;
 namespace eComBox
 {
     public sealed partial class App : Application

@@ -9,6 +9,7 @@
     xmlns:xaml="using:Windows.UI.Xaml"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d"
     winui:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Page.Resources>
@@ -46,9 +47,6 @@
                 </Style.Setters>
             </Style>
         </ResourceDictionary>
-        
-       
-
     </Page.Resources>
     <ScrollViewer>
         <Grid Margin="24,10,24,16">
@@ -57,6 +55,12 @@
                 MaxWidth="1000"
                 HorizontalAlignment="Stretch"
                 Spacing="{StaticResource SettingsCardSpacing}">
+                <win:StackPanel.ChildrenTransitions>
+                    <win:TransitionCollection>
+                        <win:EntranceThemeTransition FromVerticalOffset="50" />
+                        <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                    </win:TransitionCollection>
+                </win:StackPanel.ChildrenTransitions>
 
                 <TextBlock x:Uid="Settings_Personalization" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <toolkit:SettingsExpander x:Uid="ThemeSelection" Margin="{StaticResource XSmallTopMargin}" x:Name="AppThemeExpander"
@@ -110,18 +114,8 @@
                         <ComboBoxItem Content="中文简体" Tag="zh-Hans-CN" />
                         <ComboBoxItem Content="English(US)" Tag="en-US" />
                     </ComboBox>
-
                 </toolkit:SettingsCard>
                 <TextBlock x:Uid="Settings_Advanced" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-
-                <!--
-                <toolkit:SettingsCard Description="测试页面，仅供开发使用"
-                               Header="测试页面"
-                               HeaderIcon="{ui:FontIcon Glyph=&#xE745;}">
-                    <Button Content="betaPage"
-                    Style="{StaticResource AccentButtonStyle}" Click="openBetaPage" />
-                </toolkit:SettingsCard>
-                -->
                 <toolkit:SettingsExpander x:Uid="Settings_TranslatorTool" Margin="{StaticResource XSmallTopMargin}">
                     <HyperlinkButton x:Uid="Settings_AzureTranslator" NavigateUri="https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator/" Margin="{StaticResource XSmallTopMargin}" />
                     <toolkit:SettingsExpander.HeaderIcon>
@@ -154,8 +148,6 @@
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
-
-
                 <toolkit:SettingsExpander x:Uid="Settings_HotList" Margin="{StaticResource XSmallTopMargin}">
                     <ToggleSwitch x:Name="HotListToggleSwitch"
                   Margin="{StaticResource XSmallTopMargin}"
@@ -176,14 +168,11 @@
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
                 <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
-
-
                 <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <toolkit:SettingsExpander x:Uid="Settings_AppInfo" HeaderIcon="{ui:BitmapIcon Source=../Assets/StoreLogo.scale-400.png}" Header="{x:Bind AppName, Mode=OneWay}" >
                     <TextBlock IsTextSelectionEnabled="True"
                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                Text="{x:Bind VersionDescription,Mode=OneWay}" />
-
                     <toolkit:SettingsExpander.Items>
                         <toolkit:SettingsCard HorizontalContentAlignment="Left"
                            ContentAlignment="Left">

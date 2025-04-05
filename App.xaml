@@ -8,14 +8,15 @@
             
     <Application.Resources>
         <ResourceDictionary>
-            
+
 
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources  xmlns="using:Microsoft.UI.Xaml.Controls" />
-                
 
 
+    
                 <ResourceDictionary>
+
                     <!-- overwrite the background of navigationview content to transparent to show Mica background -->
                     <StaticResource x:Key="NavigationViewContentBackground" ResourceKey="SystemControlTransparentBrush"/>
                     <!-- overwrite the NavigationView content margin -->
@@ -36,6 +37,8 @@
                         <ResourceDictionary x:Key="HighContrast">
                             <StaticResource x:Key="HCAcrylicInAppFillColorDefaultBrush" ResourceKey="AcrylicInAppFillColorDefaultBrush"/>
                             <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="HCAcrylicInAppFillColorDefaultBrush"/>
+                            
+
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>

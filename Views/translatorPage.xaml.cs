@@ -381,6 +381,7 @@ namespace eComBox.Views
                 statusBar.Message = resourceLoader.GetString("Translator_MissingSettings/Message");
                 statusBar.IsOpen = true;
                 translateButton.IsEnabled = false;
+                sequenceTranslateButton.IsEnabled = false;
             }
         }
 

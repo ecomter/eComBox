@@ -28,7 +28,6 @@ namespace eComBox.Views
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 };
-                dialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
 
                 await dialog.ShowAsync();
                 return;
@@ -43,7 +42,6 @@ namespace eComBox.Views
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 };
-                dialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
 
                 await dialog.ShowAsync();
                 return;
@@ -60,7 +58,6 @@ namespace eComBox.Views
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 };
-                dialog.Background = (Brush)Application.Current.Resources["ContentDialogBackgroundThemeBrush"];
                 await dialog.ShowAsync();
                 return;
 

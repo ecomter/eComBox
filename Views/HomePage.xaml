@@ -16,6 +16,7 @@
 
                 <Grid Margin="0,20,0,0" VerticalAlignment="Top">
 
+                    <ScrollViewer HorizontalScrollMode="Enabled">
                     <StackPanel x:Name="headerTileGallery" Grid.Row="0" Orientation="Horizontal"   Spacing="15" Margin="25,0,36,0" RenderTransformOrigin="0.5,0.5" >
                         <StackPanel.RenderTransform>
                             <CompositeTransform/>
@@ -80,7 +81,8 @@
                                 </Grid>
                             </HyperlinkButton>
                         </Grid>
-                    </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
 
                 <StackPanel Orientation="Vertical" Grid.Row="1" x:Name="board" Visibility="Collapsed" Spacing="10" Margin="35,10,36,30">
@@ -95,7 +97,7 @@
                         </Button>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1" x:Name="Nav1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1" x:Name="Nav1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8"  Text="1" FontSize="23" FontWeight="ExtraBold" Foreground="#FFFF0600"/>
                                 <TextBlock x:Name="Trend1" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -104,7 +106,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" TextWrapping="Wrap" Text="2" FontSize="23" FontWeight="ExtraBold" Foreground="HotPink" />
                                 <TextBlock x:Name="Trend2" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -113,7 +115,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2" >
+                        <HyperlinkButton Padding="-1"  x:Name="Nav3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2" >
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock TextWrapping="Wrap" Margin="8" Text="3" FontSize="23" FontWeight="ExtraBold" Foreground="LightPink"/>
                                 <TextBlock x:Name="Trend3" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -122,7 +124,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" Text="4" FontSize="23" FontWeight="ExtraBold" />
                                 <TextBlock x:Name="Trend4" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -131,7 +133,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" Text="5" FontSize="23" FontWeight="ExtraBold" />
                                 <TextBlock x:Name="Trend5" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -140,7 +142,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" Text="6" FontSize="23" FontWeight="ExtraBold" />
                                 <TextBlock x:Name="Trend6" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -149,7 +151,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" Text="7" FontSize="23" FontWeight="ExtraBold" />
                                 <TextBlock x:Name="Trend7" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -158,7 +160,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" Text="8" FontSize="23" FontWeight="ExtraBold" />
                                 <TextBlock x:Name="Trend8" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -167,7 +169,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" Text="9" FontSize="23" FontWeight="ExtraBold" />
                                 <TextBlock x:Name="Trend9" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />
@@ -176,7 +178,7 @@
                         </HyperlinkButton>
                     </Grid>
                     <Grid Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}" CornerRadius="8">
-                        <HyperlinkButton Padding="-1"  x:Name="Nav10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" CornerRadius="2">
+                        <HyperlinkButton Padding="-1"  x:Name="Nav10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" CornerRadius="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Margin="8" Text="10" FontSize="23" FontWeight="ExtraBold" />
                                 <TextBlock x:Name="Trend10" Foreground="{ThemeResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="8" FontSize="17" />

@@ -43,7 +43,7 @@ xmlns:winui="using:Microsoft.UI.Xaml.Controls"
                     <Run x:Uid="WhatsNew_Feature3" />
                 </Paragraph>
             </RichTextBlock>
-            <HyperlinkButton x:Uid="WhatsNew_PrivacyPolicy" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+            <HyperlinkButton x:Uid="Settings_PrivacyPolicy" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>
