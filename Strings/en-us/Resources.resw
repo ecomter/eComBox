@@ -170,7 +170,7 @@
     <value>Region</value>
   </data>
   <data name="Settings_HotList.Header" xml:space="preserve">
-    <value>Real-time Hotspots (Beta)</value>
+    <value>Real-time Hotspots (Preview)</value>
   </data>
   <data name="Settings_HotList.Description" xml:space="preserve">
     <value>You can view trending information from various platforms and weather conditions on the app homepage.</value>
@@ -713,5 +713,26 @@ Thank you for your support!</value>
   </data>
   <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">
     <value>Fixed some other issues</value>
+  </data>
+  <data name="errorStartDialog.CloseButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="errorStartDialog.Content" xml:space="preserve">
+    <value>The auto-start function cannot be enabled, please check your system settings.</value>
+  </data>
+  <data name="errorStartDialog.Title" xml:space="preserve">
+    <value>Failed to start auto-start</value>
+  </data>
+  <data name="Settings_ai.Description" xml:space="preserve">
+    <value>Predict the date based on the text you enter</value>
+  </data>
+  <data name="Settings_ai.Header" xml:space="preserve">
+    <value>AI Date Prediction (Preview)</value>
+  </data>
+  <data name="Settings_autostart.Description" xml:space="preserve">
+    <value>Automatically launches the app and displays a date notification when the system starts</value>
+  </data>
+  <data name="Settings_autostart.Header" xml:space="preserve">
+    <value>Auto-start</value>
   </data>
 </root>

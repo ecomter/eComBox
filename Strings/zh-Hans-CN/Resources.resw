@@ -149,7 +149,7 @@
     <value>区域</value>
   </data>
   <data name="Settings_HotList.Header" xml:space="preserve">
-    <value>实时热点（测试功能）</value>
+    <value>实时热点（预览）</value>
   </data>
   <data name="Settings_HotList.Description" xml:space="preserve">
     <value>你可以在软件首页查看一些平台的热榜信息、天气状况。</value>
@@ -717,5 +717,26 @@ eComBox-简易工具箱支持多配置日期倒计时计算，根据三角形边
   </data>
   <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">
     <value>修复了一些其他问题</value>
+  </data>
+  <data name="errorStartDialog.CloseButtonText" xml:space="preserve">
+    <value>好的</value>
+  </data>
+  <data name="errorStartDialog.Content" xml:space="preserve">
+    <value>无法启用开机自启动功能，请检查您的系统设置。</value>
+  </data>
+  <data name="errorStartDialog.Title" xml:space="preserve">
+    <value>开机自启动失败</value>
+  </data>
+  <data name="Settings_ai.Description" xml:space="preserve">
+    <value>根据您所输入的文字预测日期</value>
+  </data>
+  <data name="Settings_ai.Header" xml:space="preserve">
+    <value>AI 日期预测（预览）</value>
+  </data>
+  <data name="Settings_autostart.Description" xml:space="preserve">
+    <value>系统启动时自动启动应用并显示日期通知</value>
+  </data>
+  <data name="Settings_autostart.Header" xml:space="preserve">
+    <value>开机自启动</value>
   </data>
 </root>

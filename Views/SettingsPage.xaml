@@ -148,6 +148,26 @@
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
+                <toolkit:SettingsCard x:Uid="Settings_ai" Margin="{StaticResource XSmallTopMargin}">
+                    <ToggleSwitch x:Name="AIToggleSwitch"
+    Margin="{StaticResource XSmallTopMargin}"
+    Toggled="AIToggleSwitch_Toggled" />
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE781;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                </toolkit:SettingsCard>
+
+                <toolkit:SettingsCard x:Uid="Settings_autostart" Margin="{StaticResource XSmallTopMargin}">
+                    <ToggleSwitch x:Name="StartupToggle"
+                                IsOn="{x:Bind IsStartupEnabled, Mode=TwoWay}"
+Margin="{StaticResource XSmallTopMargin}"
+Toggled="StartupToggle_Toggled" />
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7C4;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                </toolkit:SettingsCard>
+
+
                 <toolkit:SettingsExpander x:Uid="Settings_HotList" Margin="{StaticResource XSmallTopMargin}">
                     <ToggleSwitch x:Name="HotListToggleSwitch"
                   Margin="{StaticResource XSmallTopMargin}"
@@ -201,6 +221,9 @@
                         </StackPanel>
                     </ScrollViewer>
                 </ContentDialog.Content>
+            </ContentDialog>
+            <ContentDialog x:Uid="errorStartDialog" x:Name="errorStartDialog">
+                
             </ContentDialog>
         </Grid>
     </ScrollViewer>

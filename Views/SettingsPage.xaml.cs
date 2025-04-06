@@ -9,6 +9,7 @@ using eComBox.Services;
 using Microsoft.UI.Xaml.Controls;
 
 using Microsoft.Web.WebView2.Core;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Globalization;
@@ -40,6 +41,20 @@ namespace eComBox.Views
             get { return _elementTheme; }
             set { Set(ref _elementTheme, value); }
         }
+        private bool _isStartupEnabled;
+
+        public bool IsStartupEnabled
+        {
+            get => _isStartupEnabled;
+            set
+            {
+                if (_isStartupEnabled != value)
+                {
+                    _isStartupEnabled = value;
+                    OnPropertyChanged(nameof(IsStartupEnabled));
+                }
+            }
+        }
 
         private bool _cardEnable = false;
 
@@ -62,7 +77,40 @@ namespace eComBox.Views
             get { return _appName; }
             set { Set(ref _appName, value); }
         }
+        private const string AIEnabledKey = "AIEnabled";
+        private bool _initialAIToggleState;
 
+
+
+        private async void StartupToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (StartupToggle.IsOn)
+            {
+                // 启用开机自启动
+                var state = await StartupService.EnableStartupAsync();
+
+                if (state == StartupTaskState.Enabled)
+                {
+                    IsStartupEnabled = true;
+                    await StartupService.RegisterBackgroundNotificationTask();
+                }
+                else
+                {
+                    // 如果用户拒绝了权限，更新UI状态
+                    StartupToggle.IsOn = false;
+                    IsStartupEnabled = false;
+
+                   
+                    await errorStartDialog.ShowAsync();
+                }
+            }
+            else
+            {
+                // 关闭开机自启动
+                StartupService.DisableStartup();
+                IsStartupEnabled = false;
+            }
+        }
         private void InitializeLanguageComboBox()
         {
             _isInitializingLanguageComboBox = true;
@@ -112,12 +160,32 @@ namespace eComBox.Views
             LoadSelectedUrl();
             LoadHotListToggleState();
             LoadTranslatorSettings();
+            LoadAIToggleState();
 
         }
-        
+        private void LoadAIToggleState()
+        {
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(AIEnabledKey, out object aiEnabled))
+            {
+                _initialAIToggleState = (bool)aiEnabled;
+                AIToggleSwitch.IsOn = _initialAIToggleState;
+            }
+            else
+            {
+                // 默认启用AI功能
+                _initialAIToggleState = false;
+                AIToggleSwitch.IsOn = false;
+                ApplicationData.Current.LocalSettings.Values[AIEnabledKey] = false;
+            }
+        }
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+
             await InitializeAsync();
+            base.OnNavigatedTo(e);
+
+            // 检查是否已开启开机启动
+            IsStartupEnabled = await StartupService.IsStartupEnabled();
         }
 
         private async Task InitializeAsync()
@@ -231,6 +299,14 @@ namespace eComBox.Views
             _initialHotListToggleState = toggleSwitch.IsOn;
         }
 
+        private async void AIToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = sender as ToggleSwitch;
+
+            ApplicationData.Current.LocalSettings.Values[AIEnabledKey] = toggleSwitch.IsOn;
+            _initialAIToggleState = toggleSwitch.IsOn;
+
+        }
         private void TermsHyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             TermsOfServiceDialog.IsPrimaryButtonEnabled = true;

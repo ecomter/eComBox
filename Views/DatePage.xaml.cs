@@ -19,6 +19,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Navigation;
 
 
 namespace eComBox.Views
@@ -48,7 +51,17 @@ namespace eComBox.Views
 
         public static async Task SaveDataAsync(List<DataBlockModel> data)
         {
+            foreach (var model in data)
+            {
+                var settings = ApplicationData.Current.LocalSettings;
+                if (settings.Values.TryGetValue($"Card_{model.Title}_Notification", out object value) && value is bool)
+                {
+                    model.EnableDateNotification = (bool)value;
+                }
+            }
+
             var json = JsonConvert.SerializeObject(data);
+
             var fileLock = new object();
             string tempFilePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "temp_data.json");
 
@@ -56,6 +69,8 @@ namespace eComBox.Views
             int retryCount = 0;
             int maxRetries = 3;
             int delay = 1000; // 1 second delay
+           
+            
 
             while (!fileAccessed && retryCount < maxRetries)
             {
@@ -148,12 +163,13 @@ namespace eComBox.Views
 
         private void InitializeEditDialog()
         {
+
             editDialog = new ContentDialog()
             {
                 Title = "编辑事件",
                 PrimaryButtonText = "确定",
                 CloseButtonText = "取消",
-                SecondaryButtonText = "清除日期",
+                SecondaryButtonText = "删除卡片",
                 DefaultButton = ContentDialogButton.Primary,
             };
 
@@ -267,7 +283,7 @@ namespace eComBox.Views
             TextBlock aiIcon = new TextBlock
             {
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Text = "\uE1E3", // AI/机器学习图标
+                Text = "\uE781", // AI/机器学习图标
                 Margin = new Thickness(0, 0, 8, 0),
                 VerticalAlignment = VerticalAlignment.Center,
                 Foreground = Application.Current.RequestedTheme == ApplicationTheme.Dark
@@ -318,7 +334,20 @@ namespace eComBox.Views
             };
             Grid.SetRow(dialogTaskNameBox, 1);
             Grid.SetColumn(dialogTaskNameBox, 0);
+            CheckBox notificationCheckBox = new CheckBox
+            {
+                Content = "开机时通知剩余天数",
+                Margin = new Thickness(8, 16, 8, 4),
+                VerticalAlignment = VerticalAlignment.Center
+            };
 
+            // 设置新的行定义用于通知选项
+            Grid.SetRow(notificationCheckBox, 7);
+            Grid.SetColumn(notificationCheckBox, 0);
+            dialogContent.Children.Add(notificationCheckBox);
+
+            // 将建议面板的行向后移动一行
+            Grid.SetRow(_suggestionPanel, 8);
             TextBlock dateLabel = new TextBlock
             {
                 Text = "目标日期:",
@@ -466,6 +495,37 @@ namespace eComBox.Views
 
             // 将ScrollViewer设置为对话框的内容
             editDialog.Content = scrollViewer;
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // 检查是否有来自浮动卡片的编辑请求
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("EditCardRequested", out object cardIdObj))
+            {
+                // 移除请求标志
+                ApplicationData.Current.LocalSettings.Values.Remove("EditCardRequested");
+
+                // 确保能解析卡片ID
+                if (int.TryParse(cardIdObj.ToString(), out int cardId))
+                {
+                    // 查找相应的卡片
+                    foreach (var child in ContentArea.Children.OfType<DataBlock>())
+                    {
+                        if (child.title == cardId)
+                        {
+                            // 延迟执行编辑操作，确保页面完全加载
+                            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                            {
+                                await Task.Delay(300); // 等待UI完全渲染
+                                await child.ShowEditDialogAsync();
+                            });
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 执行其他导航逻辑
+            LoadData();
         }
         private Brush CreateGradientBrushForButton(string gradientType)
         {
@@ -617,6 +677,21 @@ namespace eComBox.Views
         {
             try
             {
+                // 检查AI功能是否启用
+                bool aiEnabled = true; // 默认启用
+                if (ApplicationData.Current.LocalSettings.Values.TryGetValue("AIEnabled", out object aiEnabledValue))
+                {
+                    aiEnabled = (bool)aiEnabledValue;
+                }
+
+                // 如果AI功能被禁用，隐藏建议面板并直接返回
+                if (!aiEnabled)
+                {
+                    _suggestionPanel.Visibility = Visibility.Collapsed;
+                    return;
+                }
+
+                // 以下是原有的代码逻辑
                 // 任务名称太短则不预测
                 if (string.IsNullOrWhiteSpace(taskName) || taskName.Length < 2)
                 {
@@ -789,7 +864,8 @@ namespace eComBox.Views
             public DateTime? TargetDate { get; set; }
             public string DisplayText { get; set; }
             public string BorderColorHex { get; set; } = string.Empty;
-
+            // 添加通知标志
+            public bool EnableDateNotification { get; set; } = false;
         }
 
         public class DataBlock : Grid
@@ -1122,7 +1198,7 @@ namespace eComBox.Views
                 };
             }
 
-            private async void DataBlock_RightTapped(object sender, RightTappedRoutedEventArgs e)
+            public async void DataBlock_RightTapped(object sender, RightTappedRoutedEventArgs e)
             {
                 // 防止事件冒泡
                 e.Handled = true;
@@ -1139,6 +1215,15 @@ namespace eComBox.Views
                 editItem.Click += (s, args) => showEditGrid();
                 flyout.Items.Add(editItem);
 
+                // 添加"固定到桌面"菜单项
+                var pinItem = new MenuFlyoutItem
+                {
+                    Text = "固定为悬浮窗",
+                    Icon = new FontIcon { Glyph = "\uE141" }  // 固定图标
+                };
+                pinItem.Click += async (s, args) => await PinToDesktopAsync();
+                flyout.Items.Add(pinItem);
+
                 // 添加删除菜单项
                 var deleteItem = new MenuFlyoutItem
                 {
@@ -1151,7 +1236,54 @@ namespace eComBox.Views
                 // 显示右键菜单
                 flyout.ShowAt(this, e.GetPosition(this));
             }
+            private async Task PinToDesktopAsync()
+            {
+                try
+                {
+                    // 创建卡片数据模型
+                    var cardData = new DataBlockModel
+                    {
+                        Title = this.title,
+                        TaskName = this.textBox.Text,
+                        TargetDate = this.datePicker.Date?.DateTime,
+                        DisplayText = this.textBlock2.Text,
+                        BorderColorHex = this.BorderColorHex
+                    };
 
+                    // 创建新的应用视图
+                    var viewId = 0;
+
+                    await CoreApplication.CreateNewView().Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                    {
+                        var frame = new Frame();
+                        frame.Navigate(typeof(FloatingCardPage), cardData);
+                        Window.Current.Content = frame;
+                        Window.Current.Activate();
+
+                        viewId = ApplicationView.GetForCurrentView().Id;
+
+                        // 确保新视图已激活后才继续
+                        await Task.Delay(100);
+                    });
+
+                    // 从主视图切换到新视图
+                    await ApplicationViewSwitcher.TryShowAsViewModeAsync(
+                        viewId,
+                        ApplicationViewMode.CompactOverlay,
+                        ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay));
+                }
+                catch (Exception ex)
+                {
+                    // 显示错误信息
+                    ContentDialog dialog = new ContentDialog
+                    {
+                        Title = "操作失败",
+                        Content = $"无法创建悬浮窗: {ex.Message}",
+                        CloseButtonText = "确定"
+                    };
+                    await dialog.ShowAsync();
+                }
+            }
             // 添加删除卡片的方法
             private async Task DeleteCardAsync()
             {
@@ -1707,7 +1839,7 @@ namespace eComBox.Views
                 // 清除按钮
                 Button clearButton = new Button
                 {
-                    Content = "清除日期",
+                    Content = "删除卡片",
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Margin = new Thickness(8)
                 };
@@ -1762,6 +1894,45 @@ namespace eComBox.Views
             }
             private static object _editLock = new object();
             private static bool _isEditing = false;
+            // 获取特定卡片的数据模型
+            public DataBlockModel GetDataBlockModel(int title)
+            {
+                foreach (var child in Children)
+                {
+                    if (child is DataBlock dataBlock && dataBlock.title == title)
+                    {
+                        return new DataBlockModel
+                        {
+                            Title = dataBlock.title,
+                            TaskName = dataBlock.textBox.Text,
+                            TargetDate = dataBlock.datePicker.Date?.DateTime,
+                            DisplayText = dataBlock.textBlock2.Text,
+                            BorderColorHex = dataBlock.BorderColorHex,
+                            EnableDateNotification = GetNotificationSetting(title)
+                        };
+                    }
+                }
+                return null;
+            }
+
+            // 更新特定卡片的通知设置
+            public void UpdateDataBlockNotificationSetting(int title, bool enableNotification)
+            {
+                // 将通知设置保存到本地存储
+                var settings = ApplicationData.Current.LocalSettings;
+                settings.Values[$"Card_{title}_Notification"] = enableNotification;
+            }
+
+            // 获取通知设置
+            private bool GetNotificationSetting(int title)
+            {
+                var settings = ApplicationData.Current.LocalSettings;
+                if (settings.Values.TryGetValue($"Card_{title}_Notification", out object value) && value is bool)
+                {
+                    return (bool)value;
+                }
+                return false;
+            }
 
             public async Task<ContentDialogResult> ShowEditDialogAsync()
             {
@@ -1784,16 +1955,33 @@ namespace eComBox.Views
                     page.dialogTaskNameBox.Text = this.textBox.Text;
                     page.dialogDatePicker.Date = this.datePicker.Date;
 
-                    // 设置当前颜色选中
+                    // 设置当前颜色选中和通知设置
                     if (page.editDialog.Content is ScrollViewer scrollViewer &&
-    scrollViewer.Content is Grid dialogContent)
+                        scrollViewer.Content is Grid dialogContent)
                     {
-                        // 找到颜色面板
-                        var children = dialogContent.Children;
-                        foreach (var child in children)
+                        // 查找并设置通知复选框的状态
+                        foreach (var child in dialogContent.Children)
                         {
-                            if (child is StackPanel panel &&
-                                Grid.GetRow(panel) == 9) // 颜色面板所在的行
+                            if (child is CheckBox notificationCheckBox && Grid.GetRow(child as FrameworkElement) == 7)
+                            {
+                                // 根据本地存储设置复选框状态
+                                var settings = ApplicationData.Current.LocalSettings;
+                                bool isNotificationEnabled = false;
+
+                                if (settings.Values.TryGetValue($"Card_{this.title}_Notification", out object value) && value is bool)
+                                {
+                                    isNotificationEnabled = (bool)value;
+                                }
+
+                                notificationCheckBox.IsChecked = isNotificationEnabled;
+                                break;
+                            }
+                        }
+
+                        // 设置颜色按钮
+                        foreach (var child in dialogContent.Children)
+                        {
+                            if (child is StackPanel panel && Grid.GetRow(panel) == 9) // 颜色面板所在的行
                             {
                                 foreach (var colorButton in panel.Children)
                                 {
@@ -1842,7 +2030,21 @@ namespace eComBox.Views
                         this.textBox.Text = page.dialogTaskNameBox.Text;
                         this.datePicker.Date = page.dialogDatePicker.Date;
 
-                        // 已在点击颜色按钮时设置了BorderColorHex，此处无需再设置
+                        // 保存通知设置
+                        if (page.editDialog.Content is ScrollViewer sv &&
+                            sv.Content is Grid dc)
+                        {
+                            foreach (var child in dc.Children)
+                            {
+                                if (child is CheckBox notificationCheckBox && Grid.GetRow(child as FrameworkElement) == 7)
+                                {
+                                    // 将通知设置保存到本地存储
+                                    var settings = ApplicationData.Current.LocalSettings;
+                                    settings.Values[$"Card_{this.title}_Notification"] = notificationCheckBox.IsChecked ?? false;
+                                    break;
+                                }
+                            }
+                        }
 
                         if (this.datePicker.Date != null)
                         {
@@ -1888,13 +2090,11 @@ namespace eComBox.Views
 
                                 visual.StartAnimation("Opacity", fadeInAnimation);
                             }
-
-                            // 保留原有代码...
                         }
                     }
                     else if (result == ContentDialogResult.Secondary)
                     {
-                        // 用户点击了"清除日期"按钮
+                        // 用户点击了"删除卡片"按钮
                         // 清除当前 DataBlock 的内容
                         this.datePicker.Date = null;
                         this.textBox.Text = "";
@@ -1905,6 +2105,7 @@ namespace eComBox.Views
                         {
                             parentPanel = panel;
                         }
+
                         await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                         {
                             if (parentPanel != null)
@@ -2008,9 +2209,22 @@ namespace eComBox.Views
         public DatePage()
         {
             InitializeComponent();
-            _predictionService = new AzureDatePredictionService(
-                "https://ai-jinqiaoli1752ai485205845953.cognitiveservices.azure.com/",
-                "F37Fkmz1W7kD8veNTpU35sG6HOcU0f84zFr52LBsmbmE0IEPNgVhJQQJ99ALACHYHv6XJ3w3AAAAACOGdqmg");
+
+            // 检查AI功能是否启用
+            bool aiEnabled = false; 
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("AIEnabled", out object aiEnabledValue))
+            {
+                aiEnabled = (bool)aiEnabledValue;
+            }
+
+            // 仅当AI功能启用时才初始化AI服务
+            if (aiEnabled)
+            {
+                _predictionService = new AzureDatePredictionService(
+                    "https://ai-jinqiaoli1752ai485205845953.cognitiveservices.azure.com/",
+                    "F37Fkmz1W7kD8veNTpU35sG6HOcU0f84zFr52LBsmbmE0IEPNgVhJQQJ99ALACHYHv6XJ3w3AAAAACOGdqmg");
+            }
+
             ContentArea.SizeChanged += ContentArea_SizeChanged;
             ContentArea_SizeChanged(ContentArea, null);
 

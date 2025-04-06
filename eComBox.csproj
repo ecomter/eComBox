@@ -176,8 +176,10 @@
     <Compile Include="Activation\DefaultActivationHandler.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\AzureDatePredictionService.cs" />
+    <Compile Include="Tasks\DateNotificationBackgroundTask.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\StartupService.cs" />
     <Compile Include="Services\StoreService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="Services\ToastNotificationsService.cs" />
@@ -196,6 +198,9 @@
     </Compile>
     <Compile Include="Views\FirstRunDialog.xaml.cs">
       <DependentUpon>FirstRunDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FloatingCardPage.xaml.cs">
+      <DependentUpon>FloatingCardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GeometryPage.xaml.cs">
       <DependentUpon>GeometryPage.xaml</DependentUpon>
@@ -256,6 +261,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FirstRunDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FloatingCardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

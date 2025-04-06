@@ -43,7 +43,7 @@
             -->
                 <winui:NavigationViewItem x:Uid="Shell_Home" Icon="Home" helpers:NavHelper.NavigateTo="views:HomePage" />
                 <winui:NavigationViewItem x:Uid="Shell_Date" Icon="Calendar" helpers:NavHelper.NavigateTo="views:DatePage" />
-            <winui:NavigationViewItem x:Uid="Shell_Geometry" Icon="Play" helpers:NavHelper.NavigateTo="views:GeometryPage" />
+            <winui:NavigationViewItem x:Uid="Shell_Geometry" Icon="Calculator" helpers:NavHelper.NavigateTo="views:GeometryPage" />
             <winui:NavigationViewItem x:Uid="Shell_translator" helpers:NavHelper.NavigateTo="views:translatorPage" >
                 <winui:NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xF2B7;" />
