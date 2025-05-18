@@ -4,77 +4,80 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/templatestudio"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
   xmlns:uap18="http://schemas.microsoft.com/appx/manifest/uap/windows10/18"
-  IgnorableNamespaces="uap mp genTemplate uap18">
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap5 mp rescap uap18">
 
-  <Identity
-    Name="12814ecomter.eComBox"
-    Publisher="CN=2EE6EBC2-5C74-49F9-BE3F-443A16407D40"
+	<Identity
+	  Name="12814ecomter.eComBox"
+	  Publisher="CN=2EE6EBC2-5C74-49F9-BE3F-443A16407D40"
+	  Version="0.4.0.0" />
 
-    Version="0.3.5.0" />
+	<mp:PhoneIdentity PhoneProductId="edbc9e7b-1439-4c87-8932-ea26165713da" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
-  <mp:PhoneIdentity PhoneProductId="edbc9e7b-1439-4c87-8932-ea26165713da" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+	<Properties>
+		<DisplayName>eComBox</DisplayName>
+		<PublisherDisplayName>ecomter</PublisherDisplayName>
+		<Logo>Assets\StoreLogo.png</Logo>
+	</Properties>
 
-  <Properties>
-    <DisplayName>eComBox</DisplayName>
-    <PublisherDisplayName>ecomter</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
-  </Properties>
+	<Dependencies>
+		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.17763.0" />
+	</Dependencies>
 
-  <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
-  </Dependencies>
+	<Resources>
+		<Resource Language="x-generate"/>
+	</Resources>
 
-  <Resources>
-    <Resource Language="x-generate"/>
-  </Resources>
+	<Applications>
+		<Application Id="App"
+		  Executable="$targetnametoken$.exe"
+		  EntryPoint="eComBox.App" uap18:RuntimeBehavior="windowsApp">
+			<Extensions>
+				<uap5:Extension Category="windows.startupTask" Executable="eComBox.exe" EntryPoint="eComBox.App">
+					<uap5:StartupTask DisplayName="eComBox" Enabled="false" TaskId="eComBox.AutoRun" />
+				</uap5:Extension>
+  
+				<Extension Category="windows.backgroundTasks" EntryPoint="eComBox.Tasks.DateNotificationBackgroundTask">
+					<BackgroundTasks>
+						<Task Type="timer" />
+						<Task Type="systemEvent" />
+					</BackgroundTasks>
+				</Extension>
+			</Extensions>
 
-  <Applications>
-    <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="eComBox.App" uap18:RuntimeBehavior="windowsApp">
-		<Extensions>
-			<Extension Category="windows.backgroundTasks" EntryPoint="eComBox.Tasks.DateNotificationBackgroundTask">
-				<BackgroundTasks>
-					<Task Type="systemEvent" />
-					<Task Type="timer" />
-				</BackgroundTasks>
-			</Extension>
-		</Extensions>
-		
-      <uap:VisualElements
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png"
-        BackgroundColor="transparent" DisplayName="ms-resource:AppDisplayName" Description="AppDescrption">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="eComBox">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square150x150Logo"/>
-            <uap:ShowOn Tile="wide310x150Logo"/>
-            <uap:ShowOn Tile="square310x310Logo"/>
-          </uap:ShowNameOnTiles>
-        </uap:DefaultTile >
-        <uap:InitialRotationPreference>
-          <uap:Rotation Preference="landscape"/>
-          <uap:Rotation Preference="portrait"/></uap:InitialRotationPreference>
-        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badgeAndTileText"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png"/>
-      </uap:VisualElements>
-    </Application>
-  </Applications>
+			<uap:VisualElements
+			  Square150x150Logo="Assets\Square150x150Logo.png"
+			  Square44x44Logo="Assets\Square44x44Logo.png"
+			  BackgroundColor="transparent" DisplayName="ms-resource:AppDisplayName" Description="AppDescrption">
+				<uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="eComBox">
+					<uap:ShowNameOnTiles>
+						<uap:ShowOn Tile="square150x150Logo"/>
+						<uap:ShowOn Tile="wide310x150Logo"/>
+						<uap:ShowOn Tile="square310x310Logo"/>
+					</uap:ShowNameOnTiles>
+				</uap:DefaultTile>
+				<uap:InitialRotationPreference>
+					<uap:Rotation Preference="landscape"/>
+					<uap:Rotation Preference="portrait"/>
+				</uap:InitialRotationPreference>
+				<uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badgeAndTileText"/>
+				<uap:SplashScreen Image="Assets\SplashScreen.png"/>
+			</uap:VisualElements>
+		</Application>
+	</Applications>
 
-  <Capabilities>
-	  
-    <Capability Name="internetClient" />
-	  <rescap:Capability Name="runFullTrust" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" />
-	  <rescap:Capability Name="confirmAppClose" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" />
-  </Capabilities>
+	<Capabilities>
+		<Capability Name="internetClient" />
+	</Capabilities>
 
-  <genTemplate:Metadata>
-    <genTemplate:Item Name="generator" Value="Template Studio"/>
-    <genTemplate:Item Name="wizardVersion" Version="v5.3" />
-    <genTemplate:Item Name="projectType" Value="SplitView" />
-    <genTemplate:Item Name="framework" Value="CodeBehind" />
-    <genTemplate:Item Name="platform" Value="Uwp" />
-  </genTemplate:Metadata>
+	<Extensions>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>eComBox.exe</Path>
+				<ActivatableClass ActivatableClassId="eComBox.Tasks.DateNotificationBackgroundTask" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+	</Extensions>
 </Package>

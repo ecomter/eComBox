@@ -29,7 +29,7 @@ xmlns:winui="using:Microsoft.UI.Xaml.Controls"
         <StackPanel Orientation="Vertical">
             <!-- 添加 x:Uid 标识符用于本地化 -->
             <TextBlock x:Uid="FirstRun_Body" TextWrapping="WrapWholeWords" />
-            <HyperlinkButton x:Uid="WhatsNew_PrivacyPolicy.Content" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+            <HyperlinkButton x:Uid="WhatsNew_PrivacyPolicy" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
         </StackPanel>
     </ScrollViewer>
 

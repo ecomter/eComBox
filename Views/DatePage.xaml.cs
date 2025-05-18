@@ -15,6 +15,7 @@ using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using eComBox.Services;
+
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Linq;
@@ -22,6 +23,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Navigation;
+using CommunityToolkit.WinUI;
+using Windows.Services.Maps;
+using Windows.ApplicationModel.Resources;
 
 
 namespace eComBox.Views
@@ -122,12 +126,12 @@ namespace eComBox.Views
 
     public sealed partial class DatePage : Page, INotifyPropertyChanged
     {
-        
         public int ColMax = 1, title = 0;
         private ContentDialog editDialog;
         private TextBox dialogTaskNameBox;
         private CalendarDatePicker dialogDatePicker;
         private DataBlock currentEditingBlock;
+        private ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView();
         private async Task CleanupDragVisuals()
         {
             // 立即隐藏指示器
@@ -163,17 +167,16 @@ namespace eComBox.Views
 
         private void InitializeEditDialog()
         {
-
             editDialog = new ContentDialog()
             {
-                Title = "编辑事件",
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消",
-                SecondaryButtonText = "删除卡片",
+                Title = "DatePage_EditDialog_Title".GetLocalized(),
+                PrimaryButtonText = "DatePage_EditDialog_PrimaryButton".GetLocalized(),
+                CloseButtonText = "DatePage_EditDialog_CloseButton".GetLocalized(),
+                SecondaryButtonText = "DatePage_EditDialog_SecondaryButton".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
             };
 
-            // 创建一个ScrollViewer作为主容器
+            // 创建颜色选择标签// 创建一个ScrollViewer作为主容器
             ScrollViewer scrollViewer = new ScrollViewer
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
@@ -197,40 +200,44 @@ namespace eComBox.Views
             dialogContent.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             dialogContent.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             dialogContent.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            dialogContent.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
             TextBlock colorLabel = new TextBlock
             {
-                Text = "卡片颜色:",
+                Text = "DatePage_ColorLabel".GetLocalized(),
                 Margin = new Thickness(8, 16, 8, 4),
                 VerticalAlignment = VerticalAlignment.Center
             };
-            Grid.SetRow(colorLabel, 8); // 使用新添加的行
+            Grid.SetRow(colorLabel, 9);
+
             Grid.SetColumn(colorLabel, 0);
             dialogContent.Children.Add(colorLabel);
-
-            // 创建颜色选择面板
             var colorPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
                 Margin = new Thickness(8, 0, 8, 8),
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-            Grid.SetRow(colorPanel, 9);
+            Grid.SetRow(colorPanel, 10);
             Grid.SetColumn(colorPanel, 0);
             dialogContent.Children.Add(colorPanel);
 
-            // 添加预设颜色选项
-            AddColorOption(colorPanel, "#3B82F6", "蓝色");
-            AddColorOption(colorPanel, "#10B981", "绿色");
-            AddColorOption(colorPanel, "#F59E0B", "黄色");
-            AddColorOption(colorPanel, "#EF4444", "红色");
-            AddColorOption(colorPanel, "#8B5CF6", "紫色");
-            AddColorOption(colorPanel, "#EC4899", "粉色");
-            AddColorOption(colorPanel, "#6B7280", "灰色");
-            AddColorOption(colorPanel, GRADIENT_STARRY_SKY, "星空");  // 添加星空渐变选项
-            AddColorOption(colorPanel, GRADIENT_FESTIVE, "喜庆");    // 添加喜庆渐变选项
-            AddColorOption(colorPanel, "", "默认"); // 留空表示使用默认颜色
+            AddColorOption(colorPanel, "", "DatePage_Color_Default".GetLocalized());
+            AddColorOption(colorPanel, "#F59E0B", "DatePage_Color_Yellow".GetLocalized());
+            AddColorOption(colorPanel, "#EF4444", "DatePage_Color_Red".GetLocalized());
+            AddColorOption(colorPanel, "#6B7280", "DatePage_Color_Gray".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_STARRY_SKY, "DatePage_Color_Starry".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_FESTIVE, "DatePage_Color_Festive".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_SUNSET, "DatePage_Color_Sunset".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_OCEAN, "DatePage_Color_Ocean".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_FOREST, "DatePage_Color_Forest".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_LAVENDER, "DatePage_Color_Lavender".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_CANDY, "DatePage_Color_Candy".GetLocalized());
+            AddColorOption(colorPanel, GRADIENT_AURORA, "DatePage_Color_Aurora".GetLocalized());
+           
 
-            // 创建建议面板
+
+
             _suggestionPanel = new StackPanel
             {
                 Orientation = Orientation.Vertical,
@@ -240,6 +247,7 @@ namespace eComBox.Views
                 CornerRadius = new CornerRadius(6),  // 为面板添加圆角
                 Padding = new Thickness(10, 8, 10, 12)
             };
+           
 
             // 根据主题设置不同的样式
             if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
@@ -293,7 +301,7 @@ namespace eComBox.Views
 
             TextBlock suggestionLabel = new TextBlock
             {
-                Text = "AI 推荐日期",
+                Text = "DatePage_AI_Title".GetLocalized(),
                 FontWeight = Windows.UI.Text.FontWeights.SemiBold,
                 FontSize = 14,
                 VerticalAlignment = VerticalAlignment.Center
@@ -318,7 +326,7 @@ namespace eComBox.Views
 
             TextBlock taskNameLabel = new TextBlock
             {
-                Text = "事件名称:",
+                Text = "DatePage_TaskNameLabel".GetLocalized(),
                 Margin = new Thickness(8),
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -336,7 +344,7 @@ namespace eComBox.Views
             Grid.SetColumn(dialogTaskNameBox, 0);
             CheckBox notificationCheckBox = new CheckBox
             {
-                Content = "开机时通知剩余天数",
+                Content = "DatePage_NotificationCheckBox".GetLocalized(),
                 Margin = new Thickness(8, 16, 8, 4),
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -350,7 +358,7 @@ namespace eComBox.Views
             Grid.SetRow(_suggestionPanel, 8);
             TextBlock dateLabel = new TextBlock
             {
-                Text = "目标日期:",
+                Text = "DatePage_DateLabel".GetLocalized(),
                 Margin = new Thickness(8),
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -363,7 +371,7 @@ namespace eComBox.Views
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 FontSize = 18,
                 PlaceholderText = "",
-                DateFormat = "{year.full}年{month.integer}月{day.integer}日"
+                DateFormat = "{year.full}.{month.integer}.{day.integer}"
             };
             Grid.SetRow(dialogDatePicker, 3);
             Grid.SetColumn(dialogDatePicker, 0);
@@ -371,7 +379,7 @@ namespace eComBox.Views
             // 添加快速未来日期选择
             TextBlock quickDaysLabel = new TextBlock
             {
-                Text = "快速设置:",
+                Text = "DatePage_QuickDaysLabel".GetLocalized(),
                 Margin = new Thickness(8, 16, 8, 4),
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -380,12 +388,13 @@ namespace eComBox.Views
             dialogContent.Children.Add(quickDaysLabel);
 
             // 创建一个水平StackPanel放置快速日期按钮
-            var quickDaysPanel = new StackPanel
+            var quickDaysPanel = new VariableSizedWrapGrid
             {
                 Orientation = Orientation.Horizontal,
                 Margin = new Thickness(8, 0, 8, 8),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                MaximumRowsOrColumns = 4 // 限制每行最多3个按钮
             };
             Grid.SetRow(quickDaysPanel, 5);
             Grid.SetColumn(quickDaysPanel, 0);
@@ -396,7 +405,7 @@ namespace eComBox.Views
             {
                 Button dayButton = new Button
                 {
-                    Content = $"{days}天后",
+                    Content = string.Format(resourceLoader.GetString("DatePage_DaysAfter"),days),
                     Margin = new Thickness(4),
                     Padding = new Thickness(8, 4, 8, 4),
                     MinWidth = 60
@@ -414,7 +423,7 @@ namespace eComBox.Views
             // 添加自定义按钮
             Button customDaysButton = new Button
             {
-                Content = "自定义",
+                Content = "DatePage_CustomDays".GetLocalized(),
                 Margin = new Thickness(4),
                 Padding = new Thickness(8, 4, 8, 4),
                 MinWidth = 50
@@ -438,8 +447,8 @@ namespace eComBox.Views
             {
                 Margin = new Thickness(4),
                 MinWidth = 100,
-                Header = "自定义天数",
-                PlaceholderText = "输入天数",
+                Header = "DatePage_CustomDaysHeader".GetLocalized(),
+                PlaceholderText = "DatePage_CustomDaysPlaceholder".GetLocalized(),
                 SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact,
                 Minimum = 1,
                 Maximum = 3650, // 约10年
@@ -450,7 +459,7 @@ namespace eComBox.Views
 
             Button applyCustomDays = new Button
             {
-                Content = "应用",
+                Content = "DatePage_ApplyButton".GetLocalized(),
                 Margin = new Thickness(8, 24, 4, 0),
                 Padding = new Thickness(12, 4, 12, 4),
                 HorizontalAlignment = HorizontalAlignment.Left
@@ -485,11 +494,10 @@ namespace eComBox.Views
             dialogContent.Children.Add(dateLabel);
             dialogContent.Children.Add(dialogDatePicker);
 
-            dialogTaskNameBox.TextChanged += async (s, e) =>
-            {
-                await UpdateDateSuggestionsAsync(dialogTaskNameBox.Text);
-            };
+            dialogTaskNameBox.TextChanged += DialogTaskNameBox_TextChanged;
 
+            // 确保在对话框初始化后调用 SetupAIDebounce
+            SetupAIDebounce();
             // 把Grid设置为ScrollViewer的内容
             scrollViewer.Content = dialogContent;
 
@@ -538,7 +546,7 @@ namespace eComBox.Views
             switch (gradientType)
             {
                 case GRADIENT_STARRY_SKY:
-                    // 星空渐变（深蓝色到紫色，加入星星点缀效果）
+                    // 星空渐变（深蓝色到紫色）
                     brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 8, 24, 58), Offset = 0.0 });
                     brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 37, 25, 84), Offset = 0.7 });
                     brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 74, 30, 93), Offset = 1.0 });
@@ -551,6 +559,47 @@ namespace eComBox.Views
                     brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 196, 25), Offset = 1.0 });
                     break;
 
+                case GRADIENT_SUNSET:
+                    // 日落渐变（橙红色到紫色）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 126, 95), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 254, 180, 123), Offset = 0.5 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 152, 80, 160), Offset = 1.0 });
+                    break;
+
+                case GRADIENT_OCEAN:
+                    // 海洋渐变（浅蓝色到深蓝色）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 86, 171, 199), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 55, 109, 138), Offset = 0.5 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 18, 52, 86), Offset = 1.0 });
+                    break;
+
+                case GRADIENT_FOREST:
+                    // 森林渐变（深绿色到浅绿色）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 16, 85, 43), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 50, 142, 69), Offset = 0.5 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 130, 180, 64), Offset = 1.0 });
+                    break;
+
+                case GRADIENT_LAVENDER:
+                    // 薰衣草渐变（浅紫色到深紫色）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 182, 154, 255), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 128, 90, 213), Offset = 0.5 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 87, 54, 153), Offset = 1.0 });
+                    break;
+
+                case GRADIENT_CANDY:
+                    // 糖果渐变（粉红色到蓝色）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 107, 160), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 154, 187), Offset = 0.3 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 118, 168, 255), Offset = 1.0 });
+                    break;
+
+                case GRADIENT_AURORA:
+                    // 极光渐变（绿色到蓝色到紫色）
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 0, 210, 153), Offset = 0.0 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 86, 152, 214), Offset = 0.5 });
+                    brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 124, 95, 189), Offset = 1.0 });
+                    break;
                 default:
                     // 默认为浅蓝色渐变
                     brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 59, 130, 246), Offset = 0.0 });
@@ -562,6 +611,12 @@ namespace eComBox.Views
         }
         private const string GRADIENT_STARRY_SKY = "gradient:starry_sky";
         private const string GRADIENT_FESTIVE = "gradient:festive";
+        private const string GRADIENT_SUNSET = "gradient:sunset"; 
+        private const string GRADIENT_OCEAN = "gradient:ocean";
+        private const string GRADIENT_FOREST = "gradient:forest"; 
+        private const string GRADIENT_LAVENDER = "gradient:lavender";    
+        private const string GRADIENT_CANDY = "gradient:candy";         
+        private const string GRADIENT_AURORA = "gradient:aurora";        
 
         private void AddColorOption(Panel parent, string colorHex, string name)
         {
@@ -657,7 +712,7 @@ namespace eComBox.Views
                             scaleAnimation.InsertKeyFrame(0.0f, new Vector3(1.0f, 1.0f, 1.0f));
                             scaleAnimation.InsertKeyFrame(0.5f, new Vector3(1.15f, 1.15f, 1.0f));
                             scaleAnimation.InsertKeyFrame(1.0f, new Vector3(1.1f, 1.1f, 1.0f));
-                            scaleAnimation.Duration = TimeSpan.FromMilliseconds(300);
+                            scaleAnimation.Duration = TimeSpan.FromMilliseconds(400);
 
                             visual.StartAnimation("Scale", scaleAnimation);
                         }
@@ -673,68 +728,287 @@ namespace eComBox.Views
 
             parent.Children.Add(button);
         }
+        private DispatcherTimer _aiRequestDebounceTimer;
+        private string _lastProcessedText = string.Empty;
+
+        private void SetupAIDebounce()
+        {
+            _aiRequestDebounceTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(800) // 设置800毫秒的防抖动延迟
+            };
+
+            _aiRequestDebounceTimer.Tick += async (s, e) =>
+            {
+                _aiRequestDebounceTimer.Stop();
+                string textToProcess = dialogTaskNameBox.Text;
+
+                // 确保文本与上次处理的不同且不为空
+                if (!string.IsNullOrWhiteSpace(textToProcess) && textToProcess != _lastProcessedText)
+                {
+                    _lastProcessedText = textToProcess;
+                    await UpdateDateSuggestionsAsync(textToProcess);
+                }
+            };
+        }
+
+        // 修改文本变化事件处理程序
+        private void DialogTaskNameBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // 重置并启动防抖动计时器
+            if (_aiRequestDebounceTimer != null)
+            {
+                _aiRequestDebounceTimer.Stop();
+                _aiRequestDebounceTimer.Start();
+            }
+        }
+
         private async Task UpdateDateSuggestionsAsync(string taskName)
         {
             try
             {
                 // 检查AI功能是否启用
-                bool aiEnabled = true; // 默认启用
+                bool aiEnabled = false;
                 if (ApplicationData.Current.LocalSettings.Values.TryGetValue("AIEnabled", out object aiEnabledValue))
                 {
                     aiEnabled = (bool)aiEnabledValue;
                 }
 
-                // 如果AI功能被禁用，隐藏建议面板并直接返回
-                if (!aiEnabled)
+                if (!aiEnabled || string.IsNullOrWhiteSpace(taskName) || taskName.Length < 2)
                 {
                     _suggestionPanel.Visibility = Visibility.Collapsed;
                     return;
                 }
 
-                // 以下是原有的代码逻辑
-                // 任务名称太短则不预测
-                if (string.IsNullOrWhiteSpace(taskName) || taskName.Length < 2)
+                // 确保 _aiService 已正确初始化
+                if (_aiService == null)
                 {
+                    Debug.WriteLine("AI服务未初始化");
                     _suggestionPanel.Visibility = Visibility.Collapsed;
                     return;
                 }
 
-                // 调用 Azure AI 获取预测
-                var predictionResult = await _predictionService.PredictDateFromTaskNameAsync(taskName);
+                // 安全调用 HasAIPermissionAsync 方法
+                bool hasPermission = false;
+                try
+                {
+                    hasPermission = await _aiService.HasAIPermissionAsync();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"检查AI权限时出错: {ex.Message}");
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                        ShowErrorMessage("无法检查AI权限，请检查网络连接");
+                    });
+                    return;
+                }
 
-                // 获取或创建内容面板（第二个子元素是内容面板）
+                if (!hasPermission)
+                {
+                    ShowLimitReachedMessage();
+                    return;
+                }
+
+                ShowLoadingState("DatePage_AI_analyzing".GetLocalized());
+
+                // 安全调用 PredictDateFromTaskNameAsync 方法
+                DatePredictionResult predictionResult = null;
+                try
+                {
+                    predictionResult = await _aiService.PredictDateFromTaskNameAsync(taskName);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"AI预测出错: {ex.Message}");
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                        ShowErrorMessage("AI ERROR");
+                    });
+                    return;
+                }
+
+                // 3. 在UI线程上更新UI
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    // 如果预测失败或没有结果，则隐藏面板
+                    if (predictionResult == null || !predictionResult.IsSuccessful ||
+                        predictionResult.GetSortedSuggestions().Count == 0)
+                    {
+                        if (predictionResult != null && !string.IsNullOrEmpty(predictionResult.ErrorMessage))
+                        {
+                            ShowErrorMessage(predictionResult.ErrorMessage);
+                        }
+                        else
+                        {
+                            _suggestionPanel.Visibility = Visibility.Collapsed;
+                        }
+                        return;
+                    }
+
+                    // 显示预测结果
+                    DisplayPredictions(predictionResult);
+
+                    // 如果用户使用的是免费版，更新使用次数显示
+                   
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"更新预测错误: {ex.Message}");
+                Debug.WriteLine($"异常堆栈: {ex.StackTrace}");
+
+                // 确保在UI线程上隐藏面板
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    _suggestionPanel.Visibility = Visibility.Collapsed;
+                });
+            }
+        }
+        private void ShowLimitReachedMessage()
+        {
+            // 获取或创建内容面板
+            StackPanel suggestionContent = _suggestionPanel.Children.Count > 1 && _suggestionPanel.Children[1] is StackPanel
+                ? _suggestionPanel.Children[1] as StackPanel
+                : new StackPanel { Orientation = Orientation.Vertical };
+
+            suggestionContent.Children.Clear();
+
+            // 添加达到限制的提示
+            TextBlock limitMessage = new TextBlock
+            {
+                Text = "DatePage_AI_Limit".GetLocalized(),
+                Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 220, 53, 69)),
+                FontWeight = Windows.UI.Text.FontWeights.SemiBold,
+                Margin = new Thickness(2, 8, 2, 8),
+                TextWrapping = TextWrapping.Wrap
+            };
+            suggestionContent.Children.Add(limitMessage);
+
+            // 添加升级按钮
+            Button upgradeButton = new Button
+            {
+                Content = "Settings_AIUsage_PurchaseButton.Content".GetLocalized(),
+                Margin = new Thickness(2, 8, 2, 8),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            upgradeButton.Click += async (s, e) =>
+            {
+                upgradeButton.IsEnabled = false;
+
+                try
+                {
+                    bool purchaseSuccess = await AIUsageService.RequestPurchaseAIPremiumAsync();
+
+                    if (purchaseSuccess)
+                    {
+                        // 购买成功，重新尝试预测
+                        string textToProcess = dialogTaskNameBox.Text;
+                        await UpdateDateSuggestionsAsync(textToProcess);
+
+                        
+                       
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"升级过程中出错: {ex.Message}");
+                }
+                finally
+                {
+                    upgradeButton.IsEnabled = true;
+                }
+            };
+
+            suggestionContent.Children.Add(upgradeButton);
+
+            // 确保内容面板已添加到父容器
+            if (_suggestionPanel.Children.Count <= 1)
+            {
+                _suggestionPanel.Children.Add(suggestionContent);
+            }
+
+            // 显示面板
+            _suggestionPanel.Visibility = Visibility.Visible;
+        }
+        private void ShowErrorMessage(string errorMessage)
+        {
+            // 获取或创建内容面板
+            StackPanel suggestionContent = _suggestionPanel.Children.Count > 1 && _suggestionPanel.Children[1] is StackPanel
+                ? _suggestionPanel.Children[1] as StackPanel
+                : new StackPanel { Orientation = Orientation.Vertical };
+
+            suggestionContent.Children.Clear();
+
+            // 添加错误消息
+            TextBlock errorText = new TextBlock
+            {
+                Text = errorMessage,
+                Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 220, 53, 69)),
+                Margin = new Thickness(2, 8, 2, 8),
+                TextWrapping = TextWrapping.Wrap
+            };
+            suggestionContent.Children.Add(errorText);
+
+            // 确保内容面板已添加到父容器
+            if (_suggestionPanel.Children.Count <= 1)
+            {
+                _suggestionPanel.Children.Add(suggestionContent);
+            }
+
+            // 显示面板
+            _suggestionPanel.Visibility = Visibility.Visible;
+        }
+        private void DisplayPredictions(DatePredictionResult predictionResult)
+        {
+            try
+            {
+                // 获取内容面板
                 StackPanel suggestionContent = _suggestionPanel.Children.Count > 1 && _suggestionPanel.Children[1] is StackPanel
                     ? _suggestionPanel.Children[1] as StackPanel
                     : new StackPanel { Orientation = Orientation.Vertical };
 
-                // 清除当前建议
                 suggestionContent.Children.Clear();
 
-                if (predictionResult != null && predictionResult.IsSuccessful && predictionResult.GetSortedSuggestions().Count > 0)
+                // 添加标题
+                TextBlock aiProcessing = new TextBlock
                 {
-                    _suggestionPanel.Visibility = Visibility.Visible;
+                    Text = "DatePage_AI_Suggestion".GetLocalized(),
+                    FontStyle = Windows.UI.Text.FontStyle.Italic,
+                    Opacity = 0.7,
+                    Margin = new Thickness(2, 4, 2, 8),
+                    TextWrapping = TextWrapping.Wrap
+                };
+                suggestionContent.Children.Add(aiProcessing);
 
-                    // 添加表示AI思考中的小提示文本
-                    TextBlock aiProcessing = new TextBlock
+                // 检查是否有建议
+                var suggestions = predictionResult.GetSortedSuggestions();
+                if (suggestions == null || suggestions.Count == 0)
+                {
+                    // 如果没有建议，显示一个提示
+                    TextBlock noSuggestions = new TextBlock
                     {
-                        Text = "根据事件名称分析，以下日期可能与您的计划相关:",
-                        FontStyle = Windows.UI.Text.FontStyle.Italic,
+                        Text = "DatePage_AI_nosuggestions".GetLocalized(),
                         Opacity = 0.7,
-                        Margin = new Thickness(2, 4, 2, 8),
-                        TextWrapping = TextWrapping.Wrap
+                        Margin = new Thickness(2, 8, 2, 8)
                     };
-                    suggestionContent.Children.Add(aiProcessing);
+                    suggestionContent.Children.Add(noSuggestions);
+                    Debug.WriteLine("没有找到日期建议");
+                }
+                else
+                {
+                    Debug.WriteLine($"找到 {suggestions.Count} 个日期建议");
 
-                    // 为每个预测创建按钮
-                    foreach (var suggestion in predictionResult.GetSortedSuggestions())
+                    // 添加建议
+                    foreach (var suggestion in suggestions)
                     {
-                        // 验证建议是否有效
                         if (suggestion == null || suggestion.SuggestedDate == DateTime.MinValue)
                         {
+                            Debug.WriteLine("跳过无效建议");
                             continue;
                         }
 
-                        // 创建建议容器
+                        Debug.WriteLine($"处理建议: 日期={suggestion.SuggestedDate.ToString("yyyy-MM-dd")}, 置信度={suggestion.Confidence}, 原因={suggestion.Reason}");
+
                         Border suggestionBorder = new Border
                         {
                             BorderThickness = new Thickness(0, 0, 0, 1),
@@ -775,17 +1049,23 @@ namespace eComBox.Views
 
                         TextBlock dateText = new TextBlock
                         {
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                          
                             Text = suggestion.SuggestedDate.ToString("yyyy年MM月dd日"),
                             FontWeight = Windows.UI.Text.FontWeights.SemiBold,
+
                             Margin = new Thickness(0, 0, 0, 4)
                         };
                         Grid.SetColumn(dateText, 0);
                         dateGrid.Children.Add(dateText);
 
-                        // 添加一个标签显示置信度或相关性
                         TextBlock confidenceText = new TextBlock
                         {
-                            Text = suggestion.Confidence > 0.8 ? "高相关" : (suggestion.Confidence > 0.5 ? "相关" : "可能相关"),
+                            Text = suggestion.Confidence > 0.8
+                                ? "DatePage_AI_HighRelevance".GetLocalized()
+                                : (suggestion.Confidence > 0.5
+                                    ? "DatePage_AI_MediumRelevance".GetLocalized()
+                                    : "DatePage_AI_LowRelevance".GetLocalized()),
                             FontSize = 12,
                             Opacity = 0.6,
                             Margin = new Thickness(0, 0, 0, 4),
@@ -800,10 +1080,10 @@ namespace eComBox.Views
                         string reason = suggestion.Reason ?? "推荐日期";
                         TextBlock reasonText = new TextBlock
                         {
+                            Padding = new Thickness(8, 6, 8, 6),
                             Text = reason,
                             Opacity = 0.7,
                             TextWrapping = TextWrapping.Wrap,
-                            MaxWidth = 280,
                             FontSize = 13
                         };
                         buttonContent.Children.Add(reasonText);
@@ -811,11 +1091,13 @@ namespace eComBox.Views
                         suggestionButton.Content = buttonContent;
 
                         // 点击按钮设置日期
+                        DateTime suggestedDate = suggestion.SuggestedDate; // 创建本地副本以供闭包使用
                         suggestionButton.Click += (s, e) =>
                         {
                             try
                             {
-                                dialogDatePicker.Date = suggestion.SuggestedDate;
+                                Debug.WriteLine($"选择日期: {suggestedDate.ToString("yyyy-MM-dd")}");
+                                dialogDatePicker.Date = suggestedDate;
                             }
                             catch (Exception clickEx)
                             {
@@ -826,36 +1108,86 @@ namespace eComBox.Views
                         suggestionBorder.Child = suggestionButton;
                         suggestionContent.Children.Add(suggestionBorder);
                     }
-
-                    // 添加一个重新显示内容的小动画，增强用户体验
-                    var contentVisual = ElementCompositionPreview.GetElementVisual(suggestionContent);
-                    var compositor = contentVisual.Compositor;
-
-                    var fadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
-                    fadeInAnimation.InsertKeyFrame(0f, 0.6f);
-                    fadeInAnimation.InsertKeyFrame(1f, 1f);
-                    fadeInAnimation.Duration = TimeSpan.FromMilliseconds(300);
-
-                    contentVisual.Opacity = 0.6f;
-                    contentVisual.StartAnimation("Opacity", fadeInAnimation);
-
-                    // 确保内容面板已添加
-                    if (_suggestionPanel.Children.Count <= 1)
-                    {
-                        _suggestionPanel.Children.Add(suggestionContent);
-                    }
                 }
-                else
+
+                // 添加动画效果
+                var contentVisual = ElementCompositionPreview.GetElementVisual(suggestionContent);
+                var compositor = contentVisual.Compositor;
+
+                var fadeInAnimation = compositor.CreateScalarKeyFrameAnimation();
+                fadeInAnimation.InsertKeyFrame(0f, 0.6f);
+                fadeInAnimation.InsertKeyFrame(1f, 1f);
+                fadeInAnimation.Duration = TimeSpan.FromMilliseconds(300);
+
+                contentVisual.Opacity = 0.6f;
+                contentVisual.StartAnimation("Opacity", fadeInAnimation);
+
+                // 确保内容面板已添加到建议面板
+                if (_suggestionPanel.Children.Count <= 1)
                 {
-                    _suggestionPanel.Visibility = Visibility.Collapsed;
+                    _suggestionPanel.Children.Add(suggestionContent);
                 }
+
+                // 确保面板可见
+                _suggestionPanel.Visibility = Visibility.Visible;
+                Debug.WriteLine("建议面板已显示");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"更新预测错误: {ex.Message}");
-                Debug.WriteLine($"异常堆栈: {ex.StackTrace}");
-                _suggestionPanel.Visibility = Visibility.Collapsed;
+                Debug.WriteLine($"显示预测时出错: {ex.Message}\n{ex.StackTrace}");
+
+                // 确保在出错时也能显示面板
+                _suggestionPanel.Visibility = Visibility.Visible;
+
+                // 获取内容面板
+                StackPanel suggestionContent = _suggestionPanel.Children.Count > 1 && _suggestionPanel.Children[1] is StackPanel
+                    ? _suggestionPanel.Children[1] as StackPanel
+                    : new StackPanel { Orientation = Orientation.Vertical };
+
+                suggestionContent.Children.Clear();
+
+                TextBlock errorText = new TextBlock
+                {
+                    Text = "ERROR ON DISPLAY",
+                    Opacity = 0.7,
+                    Margin = new Thickness(2, 8, 2, 8)
+                };
+                suggestionContent.Children.Add(errorText);
+
+                if (_suggestionPanel.Children.Count <= 1)
+                {
+                    _suggestionPanel.Children.Add(suggestionContent);
+                }
             }
+        }
+        private void ShowLoadingState(string message)
+        {
+            // 获取或创建内容面板
+            StackPanel suggestionContent = _suggestionPanel.Children.Count > 1 && _suggestionPanel.Children[1] is StackPanel
+                ? _suggestionPanel.Children[1] as StackPanel
+                : new StackPanel { Orientation = Orientation.Vertical };
+
+            suggestionContent.Children.Clear();
+
+            // 添加加载提示
+            TextBlock loadingText = new TextBlock
+            {
+                Text = message,
+                FontStyle = Windows.UI.Text.FontStyle.Italic,
+                Opacity = 0.7,
+                Margin = new Thickness(2, 4, 2, 8),
+                TextWrapping = TextWrapping.Wrap
+            };
+            suggestionContent.Children.Add(loadingText);
+
+            // 确保内容面板已添加到父容器
+            if (_suggestionPanel.Children.Count <= 1)
+            {
+                _suggestionPanel.Children.Add(suggestionContent);
+            }
+
+            // 显示面板
+            _suggestionPanel.Visibility = Visibility.Visible;
         }
         public class DataBlockModel
         {
@@ -910,7 +1242,7 @@ namespace eComBox.Views
             public TextBlock textBlock4 = new TextBlock
             {
                 Margin = new Thickness(8),
-                Text = "目标日期:",
+                Text = "DatePage_DateLabel".GetLocalized(),
                 FontSize = 18
             };
             // 边框颜色字段
@@ -939,7 +1271,7 @@ namespace eComBox.Views
                 switch (gradientType)
                 {
                     case "gradient:starry_sky":
-                        // 星空渐变（深蓝色到紫色，加入星星点缀效果）
+                        // 星空渐变（深蓝色到紫色）
                         brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 8, 24, 58), Offset = 0.0 });
                         brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 37, 25, 84), Offset = 0.7 });
                         brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 74, 30, 93), Offset = 1.0 });
@@ -950,6 +1282,48 @@ namespace eComBox.Views
                         brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 210, 4, 45), Offset = 0.0 });
                         brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 64, 25), Offset = 0.5 });
                         brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 196, 25), Offset = 1.0 });
+                        break;
+
+                    case "gradient:sunset":
+                        // 日落渐变（橙红色到紫色）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 126, 95), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 254, 180, 123), Offset = 0.5 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 152, 80, 160), Offset = 1.0 });
+                        break;
+
+                    case "gradient:ocean":
+                        // 海洋渐变（浅蓝色到深蓝色）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 86, 171, 199), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 55, 109, 138), Offset = 0.5 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 18, 52, 86), Offset = 1.0 });
+                        break;
+
+                    case "gradient:forest":
+                        // 森林渐变（深绿色到浅绿色）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 16, 85, 43), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 50, 142, 69), Offset = 0.5 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 130, 180, 64), Offset = 1.0 });
+                        break;
+
+                    case "gradient:lavender":
+                        // 薰衣草渐变（浅紫色到深紫色）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 182, 154, 255), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 128, 90, 213), Offset = 0.5 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 87, 54, 153), Offset = 1.0 });
+                        break;
+
+                    case "gradient:candy":
+                        // 糖果渐变（粉红色到蓝色）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 107, 160), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 255, 154, 187), Offset = 0.3 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 118, 168, 255), Offset = 1.0 });
+                        break;
+
+                    case "gradient:aurora":
+                        // 极光渐变（绿色到蓝色到紫色）
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 0, 210, 153), Offset = 0.0 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 86, 152, 214), Offset = 0.5 });
+                        brush.GradientStops.Add(new GradientStop { Color = Windows.UI.Color.FromArgb(255, 124, 95, 189), Offset = 1.0 });
                         break;
 
                     default:
@@ -1027,7 +1401,7 @@ namespace eComBox.Views
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 FontSize = 18,
                 PlaceholderText = "",
-                DateFormat = "{year.full}年{month.integer}月{day.integer}日"
+                DateFormat = "{year.full}.{month.integer}.{day.integer}"
             };
 
             public Button button2 = new Button
@@ -1200,40 +1574,34 @@ namespace eComBox.Views
 
             public async void DataBlock_RightTapped(object sender, RightTappedRoutedEventArgs e)
             {
-                // 防止事件冒泡
                 e.Handled = true;
 
-                // 创建右键菜单
                 var flyout = new MenuFlyout();
 
-                // 添加编辑菜单项
                 var editItem = new MenuFlyoutItem
                 {
-                    Text = "编辑卡片",
-                    Icon = new FontIcon { Glyph = "\uE70F" }  // 编辑图标
+                    Text = "DatePage_Menu_Edit".GetLocalized(),
+                    Icon = new FontIcon { Glyph = "\uE70F" }
                 };
                 editItem.Click += (s, args) => showEditGrid();
                 flyout.Items.Add(editItem);
 
-                // 添加"固定到桌面"菜单项
                 var pinItem = new MenuFlyoutItem
                 {
-                    Text = "固定为悬浮窗",
-                    Icon = new FontIcon { Glyph = "\uE141" }  // 固定图标
+                    Text = "DatePage_Menu_Pin".GetLocalized(),
+                    Icon = new FontIcon { Glyph = "\uE141" }
                 };
                 pinItem.Click += async (s, args) => await PinToDesktopAsync();
                 flyout.Items.Add(pinItem);
 
-                // 添加删除菜单项
                 var deleteItem = new MenuFlyoutItem
                 {
-                    Text = "删除卡片",
-                    Icon = new FontIcon { Glyph = "\uE74D" }  // 删除图标
+                    Text = "DatePage_Menu_Delete".GetLocalized(),
+                    Icon = new FontIcon { Glyph = "\uE74D" }
                 };
                 deleteItem.Click += async (s, args) => await DeleteCardAsync();
                 flyout.Items.Add(deleteItem);
 
-                // 显示右键菜单
                 flyout.ShowAt(this, e.GetPosition(this));
             }
             private async Task PinToDesktopAsync()
@@ -1292,14 +1660,15 @@ namespace eComBox.Views
                     // 询问用户确认
                     ContentDialog deleteDialog = new ContentDialog
                     {
-                        Title = "删除卡片",
-                        Content = "确定要删除此卡片吗？此操作不可撤销。",
-                        PrimaryButtonText = "删除",
-                        CloseButtonText = "取消",
+                        Title = "DatePage_DeleteCard_Title".GetLocalized(),
+                        Content = "DatePage_DeleteCard_Content".GetLocalized(),
+                        PrimaryButtonText = "DatePage_DeleteCard_PrimaryButton".GetLocalized(),
+                        CloseButtonText = "DatePage_DeleteCard_CloseButton".GetLocalized(),
                         DefaultButton = ContentDialogButton.Close
                     };
 
                     var result = await deleteDialog.ShowAsync();
+
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -1598,6 +1967,7 @@ namespace eComBox.Views
                 button1r.SetValue(Grid.RowProperty, 0);
 
                 textBlock5.SetValue(Grid.RowProperty, 1);
+                // 将硬编码的天数显示修改为使用本地化资源
                 var textBlock6 = new TextBlock
                 {
                     Margin = new Thickness(8),
@@ -1605,41 +1975,24 @@ namespace eComBox.Views
                     TextAlignment = TextAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     Style = (Style)Application.Current.Resources["TitleTextBlockStyle"],
-                    Text = $"{Math.Abs(diffTime.Days)}天"
+                    Text = string.Format("DatePage_DaysLeft".GetLocalized(), Math.Abs(diffTime.Days))
                 };
                 if (string.IsNullOrEmpty(textBox.Text))
                 {
-                    textBox.Text = $"{datePicker.Date.Value.Year}年{datePicker.Date.Value.Month}月{datePicker.Date.Value.Day}日";
+                    textBox.Text = $"{datePicker.Date.Value.Year}.{datePicker.Date.Value.Month}.{datePicker.Date.Value.Day}";
                 }
                 else
                 {
                     textBlock2.Text = textBox.Text;
                 }
-
-                // 使用更加统一的色彩方案，创建递进的视觉效果
                 if (diffTime.Days > 0)
                 {
-                    // 统一设置边框样式和厚度
                     this.BorderThickness = new Thickness(1.5);
 
-                    // 设置文本内容
-                    if (diffTime.Days == 1)
-                    {
-                        textBlock5.Text = $"{textBox.Text}就在";
-                        textBlock6.Text = "明天";
-                    }
-                    else if (diffTime.Days == 2)
-                    {
-                        textBlock5.Text = $"{textBox.Text}就在";
-                        textBlock6.Text = "后天";
-                    }
-                    else
-                    {
-                        textBlock5.Text = $"今天距离{textBox.Text}还有";
-                        this.BorderThickness = new Thickness(1); // 普通未来日期使用标准边框厚度
-                    }
-
-                    // 设置统一的渐变色方案，根据天数变化亮度和色调
+                    textBlock5.Text = diffTime.Days == 1
+                        ? string.Format("DatePage_Event_Tomorrow".GetLocalized(), textBox.Text)
+                        : string.Format("DatePage_Event_Future".GetLocalized(), textBox.Text);
+                    textBlock6.Text = string.Format("DatePage_DaysLeft".GetLocalized(), diffTime.Days);
                     if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
                     {
                         // 深色主题 - 使用紫蓝到蓝绿到绿色的渐变方案
@@ -1718,10 +2071,11 @@ namespace eComBox.Views
                             this.BorderBrush = borderBrush;
                         }
                     }
+
                 }
-                else if (diffTime.Days < 0) // 过去的日期
+                else if (diffTime.Days < 0)
                 {
-                    textBlock5.Text = $"今天距离{textBox.Text}已经过去了";
+                    textBlock5.Text = string.Format("DatePage_Event_Past".GetLocalized(), textBox.Text);
                     this.BorderThickness = new Thickness(1);
 
                     // 设置过去日期的边框和文字颜色 - 保持橙红色调
@@ -1758,10 +2112,11 @@ namespace eComBox.Views
                         textBlock6.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 190, 85, 40));
                     }
                 }
-                else // 当天事件
+                else
                 {
-                    textBlock5.Text = "今天就是";
-                    textBlock6.Text = $"{textBox.Text}";
+                    textBlock5.Text = "DatePage_Event_Today".GetLocalized();
+                    textBlock6.Text = textBox.Text;
+
                     this.BorderThickness = new Thickness(2); // 当天用最粗的边框
 
                     // 当天事件保持高亮的紫色系
@@ -1792,7 +2147,6 @@ namespace eComBox.Views
                     textBlock5.ClearValue(TextBlock.ForegroundProperty);
                     textBlock6.ClearValue(TextBlock.ForegroundProperty);
                 }
-
                 textBlock6.SetValue(Grid.RowProperty, 2);
                 this.Children.Clear();
                 this.Children.Add(button1r);
@@ -1807,7 +2161,6 @@ namespace eComBox.Views
                 {
                     showEditGrid();
                 };
-                
             }
 
             public void editGrid()
@@ -1882,9 +2235,9 @@ namespace eComBox.Views
                     {
                         ContentDialog dialog = new ContentDialog()
                         {
-                            Title = "警告",
-                            Content = "文件读写出现错误，不过您还可以使用本软件，但是会丢失保存配置功能。点击删除全部可能会解决此问题",
-                            CloseButtonText = "知道了",
+                            Title = "WARNING",
+                            Content = "ERROR ON SAVING FILES",
+                            CloseButtonText = "OK",
                             DefaultButton = ContentDialogButton.Close
                         };
 
@@ -2202,7 +2555,7 @@ namespace eComBox.Views
             }
 
         }
-
+        private IAIService _aiService;
         private AzureDatePredictionService _predictionService;
         private StackPanel _suggestionPanel;
         private Border _dragTargetIndicator;
@@ -2211,7 +2564,7 @@ namespace eComBox.Views
             InitializeComponent();
 
             // 检查AI功能是否启用
-            bool aiEnabled = false; 
+            bool aiEnabled = false;
             if (ApplicationData.Current.LocalSettings.Values.TryGetValue("AIEnabled", out object aiEnabledValue))
             {
                 aiEnabled = (bool)aiEnabledValue;
@@ -2220,11 +2573,23 @@ namespace eComBox.Views
             // 仅当AI功能启用时才初始化AI服务
             if (aiEnabled)
             {
-                _predictionService = new AzureDatePredictionService(
-                    "https://ai-jinqiaoli1752ai485205845953.cognitiveservices.azure.com/",
-                    "F37Fkmz1W7kD8veNTpU35sG6HOcU0f84zFr52LBsmbmE0IEPNgVhJQQJ99ALACHYHv6XJ3w3AAAAACOGdqmg");
-            }
+                try
+                {
+                    _aiService = new AIService();
 
+                    // 移除对 _predictionService 的直接实例化，使用 AIService 内部实例
+                    // _predictionService = new AzureDatePredictionService("https://ecomter-ailo...", "1V2rNw889y...", "gpt-4o");
+
+                    SetupAIDebounce();
+                }
+                catch (Exception ex)
+                {
+                    // 记录错误但不中断应用程序流程
+                    Debug.WriteLine($"初始化AI服务失败: {ex.Message}");
+                    // 确保将服务引用设置为空
+                    _aiService = null;
+                }
+            }
             ContentArea.SizeChanged += ContentArea_SizeChanged;
             ContentArea_SizeChanged(ContentArea, null);
 
@@ -2858,7 +3223,15 @@ namespace eComBox.Views
 
         private async void deleteall(object sender, RoutedEventArgs e)
         {
-            
+
+            ContentDialog deleteAll= new ContentDialog
+            {
+                Title = "DatePage_DeleteAll_Title".GetLocalized(),
+                Content = "DatePage_DeleteAll_Content".GetLocalized(),
+                PrimaryButtonText = "DatePage_DeleteAll_PrimaryButton".GetLocalized(),
+                CloseButtonText = "DatePage_DeleteAll_CloseButton".GetLocalized(),
+                DefaultButton = ContentDialogButton.Close
+            };
             var result = await deleteAll.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
@@ -2902,25 +3275,29 @@ namespace eComBox.Views
             {
                 SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
             };
-            savePicker.FileTypeChoices.Add("JSON 文件", new List<string> { ".json" });
-            savePicker.SuggestedFileName = "config";
+            savePicker.FileTypeChoices.Add("DatePage_Export_FileType".GetLocalized(), new List<string> { ".json" });
+            savePicker.SuggestedFileName = "DatePage_Export_FileName".GetLocalized();
 
             Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
             if (file != null)
             {
-                // 防止更新文件时的文件冲突
                 CachedFileManager.DeferUpdates(file);
-                // 将 JSON 数据写入文件
-                await FileIO.WriteTextAsync(file, json);
-                // 完成文件更新
-                Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                if (status != Windows.Storage.Provider.FileUpdateStatus.Complete)
+                try
                 {
-                    ContentDialog dialog = new ContentDialog()
+                    await FileIO.WriteTextAsync(file, json);
+                    Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                    if (status != Windows.Storage.Provider.FileUpdateStatus.Complete)
                     {
-                        Title = "错误",
-                        Content = "无法保存文件。",
-                        CloseButtonText = "确定"
+                        throw new Exception("File update failed");
+                    }
+                }
+                catch
+                {
+                    ContentDialog dialog = new ContentDialog
+                    {
+                        Title = "DatePage_Export_Failed_Title".GetLocalized(),
+                        Content = "DatePage_Export_Failed_Content".GetLocalized(),
+                        CloseButtonText = "DatePage_Export_Failed_CloseButton".GetLocalized()
                     };
                     await dialog.ShowAsync();
                 }
@@ -2942,7 +3319,14 @@ namespace eComBox.Views
                 // 如果当前有内容，提示用户导入会清除原有内容
                 if (ContentArea.Children.Count > 0)
                 {
-                    
+                    ContentDialog importWarning = new ContentDialog
+                    {
+                        Title = "DatePage_importWarning_Title".GetLocalized(),
+                        Content = "DatePage_importWarning_Content".GetLocalized(),
+                        PrimaryButtonText = "DatePage_importWarning_PrimaryButton".GetLocalized(),
+                        CloseButtonText = "DatePage_importWarning_CloseButton".GetLocalized(),
+                        DefaultButton = ContentDialogButton.Close
+                    };
 
                     var result = await importWarning.ShowAsync();
                     if (result != ContentDialogResult.Primary)
@@ -2984,11 +3368,7 @@ namespace eComBox.Views
 
                         ContentArea.Children.Add(dataBlock);
                     }
-
-                    // 更新布局
                     UpdateGridLayout();
-
-                    // 保存导入的数据
                     await SaveData();
                 }
                 catch (Exception ex)

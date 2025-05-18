@@ -130,6 +130,54 @@
   <data name="Settings_Advanced.Text" xml:space="preserve">
     <value>高级</value>
   </data>
+  <data name="Settings_AISection.Text" xml:space="preserve">
+    <value>AI 功能</value>
+  </data>
+  <data name="Settings_AIUsage_Status.Text" xml:space="preserve">
+    <value>使用状态</value>
+  </data>
+  <data name="Settings_AIUsage_PremiumBadge.Text" xml:space="preserve">
+    <value>高级版</value>
+  </data>
+  <data name="Settings_AIUsage_Remaining.Text" xml:space="preserve">
+    <value>今日剩余次数：</value>
+  </data>
+  <data name="Settings_AIUsage_LimitInfo.Text" xml:space="preserve">
+    <value>为节约成本，免费用户每天可以使用 AI 日期预测功能最多 25 次。升级到高级版可获得无限使用权限。</value>
+  </data>
+  <data name="Settings_AIUsage_PremiumInfo.Text" xml:space="preserve">
+    <value>您已拥有高级版权限，可以无限制使用 AI 日期预测功能。感谢您的支持！</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseButton.Content" xml:space="preserve">
+    <value>升级到高级版</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_Title" xml:space="preserve">
+    <value>购买成功</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_Content" xml:space="preserve">
+    <value>感谢您升级到高级版！您现在可以无限制使用 AI 日期预测功能。</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_Title" xml:space="preserve">
+    <value>购买未完成</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_Content" xml:space="preserve">
+    <value>购买未能完成。请稍后重试，如果问题持续存在，请联系客服支持。</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_CloseButton" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_Title" xml:space="preserve">
+    <value>购买过程中出错</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_Content" xml:space="preserve">
+    <value>购买过程中发生错误：</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_CloseButton" xml:space="preserve">
+    <value>关闭</value>
+  </data>
   <data name="Settings_TranslatorTool.Header" xml:space="preserve">
     <value>翻译工具</value>
   </data>
@@ -141,6 +189,345 @@
   </data>
   <data name="Settings_Endpoint.Header" xml:space="preserve">
     <value>终结点</value>
+  </data>
+  <data name="DatePage_ClearButton.Label" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="DatePage_NewButton.Label" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="DatePage_ImportButton.Label" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="DatePage_ExportButton.Label" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="DatePage_DeleteAll_Title" xml:space="preserve">
+    <value>删除全部</value>
+  </data>
+  <data name="DatePage_DeleteAll_Content" xml:space="preserve">
+    <value>此操作不可撤销</value>
+  </data>
+  <data name="DatePage_DeleteAll_PrimaryButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_DeleteAll_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_ImportWarning_Title" xml:space="preserve">
+    <value>确认导入</value>
+  </data>
+  <data name="DatePage_ImportWarning_Content" xml:space="preserve">
+    <value>导入新配置文件会清除当前所有内容，是否继续？</value>
+  </data>
+  <data name="DatePage_ImportWarning_PrimaryButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_ImportWarning_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_EditDialog_Title" xml:space="preserve">
+    <value>编辑事件</value>
+  </data>
+  <data name="DatePage_EditDialog_PrimaryButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_EditDialog_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_EditDialog_SecondaryButton" xml:space="preserve">
+    <value>删除卡片</value>
+  </data>
+  <data name="DatePage_ColorLabel" xml:space="preserve">
+    <value>卡片颜色:</value>
+  </data>
+  <data name="DatePage_Color_Blue" xml:space="preserve">
+    <value>蓝色</value>
+  </data>
+  <data name="DatePage_Color_Green" xml:space="preserve">
+    <value>绿色</value>
+  </data>
+  <data name="DatePage_Color_Yellow" xml:space="preserve">
+    <value>黄色</value>
+  </data>
+  <data name="DatePage_Color_Red" xml:space="preserve">
+    <value>红色</value>
+  </data>
+  <data name="DatePage_Color_Purple" xml:space="preserve">
+    <value>紫色</value>
+  </data>
+  <data name="DatePage_Color_Pink" xml:space="preserve">
+    <value>粉色</value>
+  </data>
+  <data name="DatePage_Color_Gray" xml:space="preserve">
+    <value>灰色</value>
+  </data>
+  <data name="DatePage_Color_Starry" xml:space="preserve">
+    <value>星空</value>
+  </data>
+  <data name="DatePage_Color_Festive" xml:space="preserve">
+    <value>喜庆</value>
+  </data>
+  <data name="DatePage_Color_Default" xml:space="preserve">
+    <value>默认</value>
+	  </data>
+	  <data name="DatePage_Color_Sunset" xml:space="preserve">
+    <value>日落</value>
+	  
+  </data>
+	<data name="DatePage_Color_Ocean" xml:space="preserve">
+    <value>海洋</value>
+  </data>
+	<data name="DatePage_Color_Forest" xml:space="preserve">
+    <value>森林</value>
+  </data>
+	<data name="DatePage_Color_Lavender" xml:space="preserve">
+    <value>薰衣草</value>
+  </data>
+	<data name="DatePage_Color_Candy" xml:space="preserve">
+    <value>糖果</value>
+  </data>
+
+	<data name="DatePage_Color_Aurora" xml:space="preserve">
+    <value>极光</value>
+  </data>
+	<data name="Geometry_Conic.Header" xml:space="preserve">
+  <value>圆锥曲线</value>
+</data>
+	<data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
+  <value>边长a</value>
+</data>
+	<data name="Geometry_Triangle_SideB.Text" xml:space="preserve">
+  <value>边长b</value>
+</data>
+	<data name="Geometry_Triangle_SideC.Text" xml:space="preserve">
+  <value>边长c</value>
+</data>
+	<data name="Geometry_Calculate.Content" xml:space="preserve">
+  <value>计算</value>
+</data>
+	<data name="Geometry_DecimalPlaces.Header" xml:space="preserve">
+  <value>保留小数位数</value>
+</data>
+	<data name="Geometry_Area.Text" xml:space="preserve">
+  <value>面积</value>
+</data>
+	<data name="Geometry_Perimeter.Text" xml:space="preserve">
+  <value>周长</value>
+</data>
+	<data name="Geometry_Angle_A_Cos.Text" xml:space="preserve">
+  <value>a 边对角的 cos 值及角度</value>
+</data>
+	<data name="Geometry_Angle_B_Cos.Text" xml:space="preserve">
+  <value>b 边对角的 cos 值及角度</value>
+</data>
+	<data name="Geometry_Angle_C_Cos.Text" xml:space="preserve">
+  <value>c 边对角的 cos 值及角度</value>
+</data>
+	<data name="Geometry_Triangle_Image.Text" xml:space="preserve">
+  <value>三角形图像</value>
+</data>
+	<data name="Geometry_WaitingForCalculation.Text" xml:space="preserve">
+  <value>等待计算</value>
+</data>
+	<data name="Geometry_InfoBar_Title.Title" xml:space="preserve">
+  <value>提示</value>
+</data>
+	<data name="Geometry_InfoBar_Message.Message" xml:space="preserve">
+  <value>本功能尚未完成，请等待后续版本升级</value>
+</data>
+	<data name="Geometry_Error_Title" xml:space="preserve">
+  <value>输入错误</value>
+</data>
+	<data name="Geometry_Error_InvalidNumber" xml:space="preserve">
+  <value>请确保您输入了数字</value>
+</data>
+	<data name="Geometry_Error_NegativeNumber" xml:space="preserve">
+  <value>请输入大于0的数</value>
+</data>
+	<data name="Geometry_Error_NotTriangle" xml:space="preserve">
+  <value>无法构成三角形</value>
+</data>
+	<data name="Geometry_Error_TriangleRule" xml:space="preserve">
+  <value>三角形的两边之和必须大于第三边</value>
+</data>
+	<data name="Geometry_Angle_Degrees" xml:space="preserve">
+  <value>度</value>
+</data>
+
+	<data name="DatePage_TaskNameLabel" xml:space="preserve">
+    <value>事件名称:</value>
+  </data>
+  <data name="DatePage_DateLabel" xml:space="preserve">
+    <value>目标日期:</value>
+  </data>
+  <data name="DatePage_QuickDaysLabel" xml:space="preserve">
+    <value>快速设置:</value>
+  </data>
+  <data name="DatePage_CustomDays" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="DatePage_DaysAfter" xml:space="preserve">
+    <value>{0}天后</value>
+  </data>
+  <data name="DatePage_CustomDaysHeader" xml:space="preserve">
+    <value>自定义天数</value>
+  </data>
+  <data name="DatePage_CustomDaysPlaceholder" xml:space="preserve">
+    <value>输入天数</value>
+  </data>
+  <data name="DatePage_ApplyButton" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="DatePage_NotificationCheckBox" xml:space="preserve">
+    <value>开机时通知剩余天数</value>
+  </data>
+  <data name="DatePage_AI_Title" xml:space="preserve">
+    <value>AI 推荐日期</value>
+  </data>
+	<data name="DatePage_AI_analyzing" xml:space="preserve">
+    <value>正在分析任务名称...</value>
+  </data>
+	<data name="DatePage_AI_upcoming" xml:space="preserve">
+    <value>即将到来的</value>
+  </data>
+	<data name="DatePage_AI_Limit" xml:space="preserve">
+    <value>您今天的 AI 分析次数已达到上限(25次)。请升级到高级版获取无限使用权限。</value>
+  </data>
+	<data name="DatePage_AI_nosuggestions" xml:space="preserve">
+    <value>没有找到相关日期建议</value>
+  </data>
+  <data name="DatePage_AI_Suggestion" xml:space="preserve">
+    <value>根据事件名称分析，以下日期可能与您的计划相关:</value>
+  </data>
+  <data name="DatePage_AI_HighRelevance" xml:space="preserve">
+    <value>高相关</value>
+  </data>
+  <data name="DatePage_AI_MediumRelevance" xml:space="preserve">
+    <value>相关</value>
+  </data>
+  <data name="DatePage_AI_LowRelevance" xml:space="preserve">
+    <value>可能相关</value>
+  </data>
+  <data name="DatePage_Tomorrow" xml:space="preserve">
+    <value>明天</value>
+  </data>
+  <data name="DatePage_DayAfterTomorrow" xml:space="preserve">
+    <value>后天</value>
+  </data>
+  <data name="DatePage_Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="DatePage_DaysLeft" xml:space="preserve">
+    <value>{0}天</value>
+  </data>
+  <data name="DatePage_Event_Today" xml:space="preserve">
+    <value>今天就是</value>
+  </data>
+  <data name="DatePage_Event_Future" xml:space="preserve">
+    <value>今天距离{0}还有</value>
+  </data>
+  <data name="DatePage_Event_Tomorrow" xml:space="preserve">
+    <value>{0}就在</value>
+  </data>
+  <data name="DatePage_Event_Past" xml:space="preserve">
+    <value>今天距离{0}已经过去了</value>
+  </data>
+  <data name="DatePage_Menu_Edit" xml:space="preserve">
+    <value>编辑卡片</value>
+  </data>
+  <data name="DatePage_Menu_Pin" xml:space="preserve">
+    <value>固定为悬浮窗</value>
+  </data>
+  <data name="DatePage_Menu_Delete" xml:space="preserve">
+    <value>删除卡片</value>
+  </data>
+  <data name="DatePage_DeleteCard_Title" xml:space="preserve">
+    <value>删除卡片</value>
+  </data>
+  <data name="DatePage_DeleteCard_Content" xml:space="preserve">
+    <value>确定要删除此卡片吗？此操作不可撤销。</value>
+  </data>
+  <data name="DatePage_DeleteCard_PrimaryButton" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="DatePage_DeleteCard_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_OperationFailed_Title" xml:space="preserve">
+    <value>操作失败</value>
+  </data>
+  <data name="DatePage_OperationFailed_Content" xml:space="preserve">
+    <value>无法创建悬浮窗: {0}</value>
+  </data>
+  <data name="DatePage_OperationFailed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_DragDropFailed_Title" xml:space="preserve">
+    <value>操作提示</value>
+  </data>
+  <data name="DatePage_DragDropFailed_Content" xml:space="preserve">
+    <value>拖放操作未能完成，请重试。</value>
+  </data>
+  <data name="DatePage_DragDropFailed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_SaveFailed_Title" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="DatePage_SaveFailed_Content" xml:space="preserve">
+    <value>文件读写出现错误，不过您还可以使用本软件，但是会丢失保存配置功能。点击删除全部可能会解决此问题</value>
+  </data>
+  <data name="DatePage_SaveFailed_CloseButton" xml:space="preserve">
+    <value>知道了</value>
+  </data>
+  <data name="DatePage_Export_FileType" xml:space="preserve">
+    <value>JSON 文件</value>
+  </data>
+  <data name="DatePage_Export_FileName" xml:space="preserve">
+    <value>config</value>
+  </data>
+  <data name="DatePage_Export_Failed_Title" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="DatePage_Export_Failed_Content" xml:space="preserve">
+    <value>无法保存文件。</value>
+  </data>
+  <data name="DatePage_Export_Failed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_Import_Failed_Title" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="DatePage_Import_Failed_Content" xml:space="preserve">
+    <value>导入文件时发生错误: {0}</value>
+  </data>
+  <data name="DatePage_Import_Failed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Settings_ExportLog_FileType" xml:space="preserve">
+    <value>文本文件</value>
+  </data>
+  <data name="Settings_ExportLog_Success_Title" xml:space="preserve">
+    <value>导出成功</value>
+  </data>
+  <data name="Settings_ExportLog_Success_Content" xml:space="preserve">
+    <value>诊断日志已成功导出到：{0}</value>
+  </data>
+  <data name="Settings_ExportLog_Fail_Title" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="Settings_ExportLog_Fail_Content" xml:space="preserve">
+    <value>无法完成文件写入。请检查磁盘空间和权限。</value>
+  </data>
+  <data name="Settings_ExportLog_Error_Title" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="Settings_ExportLog_Error_Content" xml:space="preserve">
+    <value>导出日志时发生错误：{0}</value>
+  </data>
+  <data name="Settings_ExportLog_CloseButton" xml:space="preserve">
+    <value>确定</value>
   </data>
   <data name="Settings_ApiKey.Header" xml:space="preserve">
     <value>API 密钥</value>
@@ -697,26 +1084,26 @@
   <data name="FirstRun_Body.Text" xml:space="preserve">
     <value>欢迎您使用 eComBox-简易工具箱！
 
-eComBox-简易工具箱支持多配置日期倒计时计算，根据三角形边长解三角形，连续翻译20遍文本。目前功能仍在不断扩充之中。
+eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成本，普通版本每日最多可以使用 25 次 AI 功能），根据三角形边长解三角形，连续翻译20遍文本。目前功能仍在不断扩充之中。
 
 感谢您的支持！</value>
   </data>
   <data name="WhatsNew_Feature1.Text" xml:space="preserve">
-    <value>增加翻译工具</value>
+    <value>重新设计了日期计数器</value>
     <comment>What's new prompt message title</comment>
   </data>
   <data name="WhatsNew_Feature2.Text" xml:space="preserve">
-    <value>对英文的软件支持（暂未完全完成）</value>
+    <value>引入 AI 功能（为了节约成本，普通版本每日最多可以使用 25 次 ai 功能）</value>
   </data>
   <data name="WhatsNew_Feature3.Text" xml:space="preserve">
-    <value>隐私政策</value>
+    <value>修复了一些其他问题</value>
   </data>
   <data name="WhatsNew_Header.Text" xml:space="preserve">
-    <value>已更新到 eComBox 0.3.4 版本</value>
+    <value>已更新到 eComBox 0.4.0 版本</value>
     <comment>What's new prompt message primary button text</comment>
   </data>
   <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">
-    <value>修复了一些其他问题</value>
+    <value>隐私政策</value>
   </data>
   <data name="errorStartDialog.CloseButtonText" xml:space="preserve">
     <value>好的</value>
@@ -738,5 +1125,14 @@ eComBox-简易工具箱支持多配置日期倒计时计算，根据三角形边
   </data>
   <data name="Settings_autostart.Header" xml:space="preserve">
     <value>开机自启动</value>
+  </data>
+  <data name="ExportLogButton.Content" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="Settings_ExportLog.Description" xml:space="preserve">
+    <value>导出应用日志以帮助诊断问题</value>
+  </data>
+  <data name="Settings_ExportLog.Header" xml:space="preserve">
+    <value>诊断日志</value>
   </data>
 </root>

@@ -10,7 +10,7 @@ namespace eComBox.Services
 {
     public static class StartupService
     {
-        private const string StartupTaskId = "eComBoxStartupTask";
+        private const string StartupTaskId = "eComBox.AutoRun";
         private static StartupTask _startupTask;
 
         public static async Task<bool> IsStartupEnabled()
@@ -67,39 +67,68 @@ namespace eComBox.Services
         // 注册后台通知任务
         public static async Task RegisterBackgroundNotificationTask()
         {
-            // 取消所有现有的后台任务
-            foreach (var existingTask in BackgroundTaskRegistration.AllTasks)
+            try
             {
-                if (existingTask.Value.Name == "DateNotificationTask")
+                // 取消所有现有的后台任务
+                foreach (var existingTask in BackgroundTaskRegistration.AllTasks)
                 {
-                    existingTask.Value.Unregister(true);
+                    if (existingTask.Value.Name == "DateNotificationTask")
+                    {
+                        existingTask.Value.Unregister(true);
+                    }
+                }
+
+                // 获取访问权限
+                var status = await BackgroundExecutionManager.RequestAccessAsync();
+                if (status == BackgroundAccessStatus.DeniedByUser ||
+                    status == BackgroundAccessStatus.DeniedBySystemPolicy)
+                {
+                    // 用户或系统拒绝了后台任务访问权限
+                    return;
+                }
+
+                // 创建新的后台触发器
+                var builder = new BackgroundTaskBuilder
+                {
+                    Name = "DateNotificationTask",
+                    TaskEntryPoint = "eComBox.Tasks.DateNotificationBackgroundTask" // 确保这个名字与你的类完全匹配
+                };
+
+                // 添加启动触发器
+                builder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
+
+                // 添加时间触发器（每天运行一次）
+                // 添加多种触发器提高触发可能性
+                // 时间触发器（每天运行一次）
+                builder.SetTrigger(new TimeTrigger(1440, false)); // 1440分钟=24小时
+
+                // 系统事件触发器（当用户登录时）
+                builder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
+
+                // 启动触发器（当应用启动时）
+                builder.SetTrigger(new SystemTrigger(SystemTriggerType.TimeZoneChange, false));
+
+                // 增加维护触发器
+                builder.SetTrigger(new MaintenanceTrigger(1440, false));
+
+
+                // 注册后台任务（添加异常处理）
+                try
+                {
+                    BackgroundTaskRegistration task = builder.Register();
+                    System.Diagnostics.Debug.WriteLine("后台任务注册成功");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"注册后台任务时出错: {ex.Message}");
+                    throw; // 重新抛出异常以便上层捕获
                 }
             }
-
-            // 获取访问权限
-            var status = await BackgroundExecutionManager.RequestAccessAsync();
-            if (status == BackgroundAccessStatus.DeniedByUser ||
-                status == BackgroundAccessStatus.DeniedBySystemPolicy)
+            catch (Exception ex)
             {
-                // 用户或系统拒绝了后台任务访问权限
-                return;
+                System.Diagnostics.Debug.WriteLine($"RegisterBackgroundNotificationTask异常: {ex.Message}");
+                throw;
             }
-
-            // 创建新的后台触发器
-            var builder = new BackgroundTaskBuilder
-            {
-                Name = "DateNotificationTask",
-                TaskEntryPoint = "eComBox.Tasks.DateNotificationBackgroundTask"
-            };
-
-            // 添加启动触发器
-            builder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
-
-            // 添加时间触发器（每天运行一次）
-            builder.SetTrigger(new TimeTrigger(1440, false)); // 1440分钟=24小时
-
-            // 注册后台任务
-            BackgroundTaskRegistration task = builder.Register();
         }
     }
 }

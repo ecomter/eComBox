@@ -1,13 +1,19 @@
 ﻿using Azure;
 using Azure.AI.TextAnalytics;
+using Azure.AI.OpenAI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Globalization;
 using eComBox.Views;
-using System.Net.Http;
 using System.Diagnostics;
+using System.Text.Json;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text;
+using System.Net.Http.Headers;
+using CommunityToolkit.WinUI;
+
 
 namespace eComBox.Services
 {
@@ -16,13 +22,24 @@ namespace eComBox.Services
         private readonly TextAnalyticsClient _client;
         private List<UserDateSelection> _userDateHistory = new List<UserDateSelection>();
         private List<HolidayInfo> _holidays = new List<HolidayInfo>();
+        private readonly OpenAIClient _openAIClient;
+        private readonly string _deploymentName;
+        private readonly HttpClient _httpClient = new HttpClient();
+        private string _azureMLEndpoint;
+        private string _azureMLApiKey;
         private string _userRegion = "CN"; // 默认为中国，可以从设置中读取
 
-        public AzureDatePredictionService(string endpoint, string apiKey)
+        public AzureDatePredictionService(string openAIEndpoint, string openAIKey, string deploymentName
+                                  )
         {
-            // 初始化 Azure AI 客户端
-            AzureKeyCredential credential = new AzureKeyCredential(apiKey);
-            _client = new TextAnalyticsClient(new Uri(endpoint), credential);
+           
+            // Update the initialization of OpenAIClient to use the correct constructor
+            _openAIClient = new OpenAIClient(new Uri(openAIEndpoint), new AzureKeyCredential(openAIKey));
+          
+            _deploymentName = deploymentName;
+            //_azureMLEndpoint = azureMLEndpoint;
+            //_azureMLApiKey = azureMLApiKey;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _azureMLApiKey);
 
             // 初始化节假日数据
             InitializeHolidays();
@@ -33,29 +50,55 @@ namespace eComBox.Services
 
         private void InitializeHolidays()
         {
-            // 这里可以从Azure Blob存储或应用内资源加载各地区节假日
-            // 简化版中直接硬编码一些中国节假日示例
-
+            
             int currentYear = DateTime.Now.Year;
             int nextYear = currentYear + 1;
 
             // 添加固定日期的节假日
-            _holidays.Add(new HolidayInfo
-            {
-                Name = "元旦",
-                Date = new DateTime(currentYear, 1, 1),
-                Region = "CN",
-                Category = "NationalHoliday"
-            });
+           
 
             _holidays.Add(new HolidayInfo
             {
                 Name = "劳动节",
-                Date = new DateTime(currentYear, 5, 1),
+                Date = new DateTime(nextYear, 5, 1),
                 Region = "CN",
                 Category = "NationalHoliday"
             });
-
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "端午节",
+                Date = new DateTime(currentYear, 5, 31),
+                Region = "CN",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "父亲节",
+                Date = new DateTime(currentYear, 6, 15),
+                Region = "CN",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "建党节",
+                Date = new DateTime(currentYear, 7, 1),
+                Region = "CN",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "建军节",
+                Date = new DateTime(currentYear, 8, 1),
+                Region = "CN",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "教师节",
+                Date = new DateTime(currentYear, 9, 10),
+                Region = "CN",
+                Category = "NationalHoliday"
+            });
             _holidays.Add(new HolidayInfo
             {
                 Name = "国庆节",
@@ -64,7 +107,6 @@ namespace eComBox.Services
                 Category = "NationalHoliday"
             });
 
-            // 添加明年的相同节日
             _holidays.Add(new HolidayInfo
             {
                 Name = "元旦",
@@ -72,46 +114,68 @@ namespace eComBox.Services
                 Region = "CN",
                 Category = "NationalHoliday"
             });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Independence Day",
+                Date = new DateTime(currentYear, 7, 4),
+                Region = "US",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Juneteenth",
+                Date = new DateTime(currentYear, 6, 19),
+                Region = "US",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Labor Day",
+                Date = new DateTime(currentYear, 9, 1),
+                Region = "US",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Columbus Day",
+                Date = new DateTime(currentYear, 10, 13),
+                Region = "US",
+                Category = "NationalHoliday"
+            });
 
-            // 加载或计算农历节日
-            // 实际应用中应使用更准确的农历转换逻辑
-            AddChineseLunarHolidays(currentYear);
-            AddChineseLunarHolidays(nextYear);
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Thanksgiving Day",
+                Date = new DateTime(currentYear, 11, 27),
+                Region = "US",
+                Category = "NationalHoliday"
+            });
+
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Christmas Day",
+                Date = new DateTime(currentYear, 12, 25),
+                Region = "US",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Christmas Day",
+                Date = new DateTime(currentYear, 12, 25),
+                Region = "UK",
+                Category = "NationalHoliday"
+            });
+            _holidays.Add(new HolidayInfo
+            {
+                Name = "Summer Bank Holiday",
+                Date = new DateTime(currentYear, 8, 25),
+                Region = "UK",
+                Category = "NationalHoliday"
+            });
+
         }
 
-        private void AddChineseLunarHolidays(int year)
-        {
-            // 这里应该使用农历转换库计算确切日期
-            // 以下仅为示例，日期不准确
-
-            // 春节通常在1-2月
-            DateTime springFestival = new DateTime(year, 2, 12);
-            _holidays.Add(new HolidayInfo
-            {
-                Name = "春节",
-                Date = springFestival,
-                Region = "CN",
-                Category = "TraditionalHoliday"
-            });
-
-            // 清明节通常在4月初
-            _holidays.Add(new HolidayInfo
-            {
-                Name = "清明节",
-                Date = new DateTime(year, 4, 5),
-                Region = "CN",
-                Category = "TraditionalHoliday"
-            });
-
-            // 中秋节通常在9-10月
-            _holidays.Add(new HolidayInfo
-            {
-                Name = "中秋节",
-                Date = new DateTime(year, 9, 21),
-                Region = "CN",
-                Category = "TraditionalHoliday"
-            });
-        }
+       
 
         private async Task LoadUserHistoryAsync()
         {
@@ -142,17 +206,21 @@ namespace eComBox.Services
                 // 创建结果对象
                 var result = new DatePredictionResult { IsSuccessful = true };
 
-                // 1. 基于关键词匹配的预测
-                AddKeywordBasedPredictions(taskName, result);
 
-                // 2. 基于用户历史的预测
+                // 1. 基于用户历史的预测
                 AddHistoryBasedPredictions(taskName, result);
 
-                // 3. 节假日预测
+                // 2. 节假日预测
                 AddHolidayPredictions(taskName, result);
 
-                // 4. 使用Azure AI进行分析
+                // 3. 使用Azure AI进行分析
                 await AddAzureAIPredictions(taskName, result);
+
+                // 4. 使用Azure ML进行预测
+                //await AddAzureMLPredictions(taskName, result);
+
+                // 5. 整合预测结果，合并相似日期并调整置信度
+                MergeSimilarPredictions(result);
 
                 return result;
             }
@@ -165,38 +233,90 @@ namespace eComBox.Services
                 };
             }
         }
-
-        private void AddKeywordBasedPredictions(string taskName, DatePredictionResult result)
+        private void MergeSimilarPredictions(DatePredictionResult result)
         {
-            // 常见日期关键词映射
-            var keywordMap = new Dictionary<string, int>
-            {
-                { "生日", 365 },
-                { "周年", 365 },
-                { "纪念日", 365 },
-                { "开学", 30 },
-                { "考试", 14 },
-                { "会议", 7 },
-                { "deadline", 10 },
-                { "截止", 10 },
-                { "演唱会", 60 },
-                { "复查", 90 },
-                { "还款", 30 }
-            };
-
-            foreach (var keyword in keywordMap)
-            {
-                if (taskName.Contains(keyword.Key))
+            // 按日期分组
+            var groupedByDate = result.Suggestions
+                .GroupBy(s => s.SuggestedDate.Date)
+                .Select(g => new
                 {
-                    result.AddPrediction(
-                        DateTime.Now.AddDays(keyword.Value),
-                        0.7,
-                        $"基于{ keyword.Key}关键词预测"
-                    );
+                    Date = g.Key,
+                    MaxConfidence = g.Max(s => s.Confidence),
+                    AvgConfidence = g.Average(s => s.Confidence),
+                    Reasons = g.Select(s => s.Reason).Distinct().ToList()
+                })
+                .OrderByDescending(g => g.MaxConfidence)
+                .ToList();
+
+            // 清除旧建议
+            result.Suggestions.Clear();
+
+            // 添加新的合并后的建议
+            foreach (var group in groupedByDate)
+            {
+                string combinedReason = string.Join("；", group.Reasons);
+                if (combinedReason.Length > 100)
+                {
+                    combinedReason = combinedReason.Substring(0, 97) + "...";
                 }
+
+                result.AddPrediction(
+                    group.Date,
+                    Math.Min(group.MaxConfidence + 0.1, 1.0), // 提升置信度但不超过1
+                    combinedReason
+                );
             }
         }
+        public async Task ProvideUserFeedbackAsync(string taskName, DateTime selectedDate, bool wasUseful)
+        {
+            try
+            {
+                // 记录用户选择
+                var selection = new UserDateSelection
+                {
+                    TaskName = taskName,
+                    SelectedDate = selectedDate,
+                    SelectionTime = DateTime.Now
+                };
 
+                // 添加到历史
+                _userDateHistory.Add(selection);
+
+                // 裁剪历史(保留最近300条)
+                if (_userDateHistory.Count > 300)
+                {
+                    _userDateHistory = _userDateHistory
+                        .OrderByDescending(h => h.SelectionTime)
+                        .Take(300)
+                        .ToList();
+                }
+
+                // 保存到存储
+                await DataStorage.SaveDateHistoryAsync(_userDateHistory);
+
+                // 如果集成了在线学习反馈，则发送到 Azure ML
+                if (wasUseful && !string.IsNullOrEmpty(_azureMLEndpoint) && !string.IsNullOrEmpty(_azureMLApiKey))
+                {
+                    // 构建反馈数据
+                    var feedback = new
+                    {
+                        taskName = taskName,
+                        selectedDate = selectedDate.ToString("yyyy-MM-dd"),
+                        userRegion = _userRegion,
+                        wasUseful = wasUseful,
+                        timestamp = DateTime.Now.ToString("o")
+                    };
+
+                    // 将反馈发送到反馈API终结点
+                    var feedbackEndpoint = _azureMLEndpoint.Replace("/score", "/feedback");
+                    await _httpClient.PostAsJsonAsync(feedbackEndpoint, feedback);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"保存用户反馈失败: {ex.Message}");
+            }
+        }
         private void AddHistoryBasedPredictions(string taskName, DatePredictionResult result)
         {
             if (_userDateHistory.Count == 0) return;
@@ -232,7 +352,6 @@ namespace eComBox.Services
             }
 
             // 分析用户的日期选择模式
-            AnalyzeUserDatePattern(result);
         }
 
         private int EstimateCycle(int days)
@@ -245,69 +364,9 @@ namespace eComBox.Services
             return 1;                    // 日度
         }
 
-        private void AnalyzeUserDatePattern(DatePredictionResult result)
-        {
-            if (_userDateHistory.Count < 3) return;
 
-            // 分析用户常选择的星期几
-            var dayOfWeekPreference = _userDateHistory
-                .GroupBy(h => h.SelectedDate.DayOfWeek)
-                .OrderByDescending(g => g.Count())
-                .First().Key;
 
-            // 寻找未来符合该星期几的日期
-            DateTime nextPreferredDay = DateTime.Now.Date;
-            while (nextPreferredDay.DayOfWeek != dayOfWeekPreference)
-            {
-                nextPreferredDay = nextPreferredDay.AddDays(1);
-            }
-
-            result.AddPrediction(
-                nextPreferredDay,
-                0.6,
-                $"基于您经常选择{GetChineseDayOfWeek(dayOfWeekPreference)}的偏好"
-            );
-
-            // 分析用户常选择的日期
-            var dayOfMonthPreference = _userDateHistory
-                .GroupBy(h => h.SelectedDate.Day)
-                .OrderByDescending(g => g.Count())
-                .First().Key;
-
-            // 构建下个月相同日期
-            var nextMonthSameDay = new DateTime(
-                DateTime.Now.Year,
-                DateTime.Now.Month,
-                1
-            ).AddMonths(1);
-
-            // 确保日期有效
-            int daysInMonth = DateTime.DaysInMonth(nextMonthSameDay.Year, nextMonthSameDay.Month);
-            int targetDay = Math.Min(dayOfMonthPreference, daysInMonth);
-
-            nextMonthSameDay = nextMonthSameDay.AddDays(targetDay - 1);
-
-            result.AddPrediction(
-                nextMonthSameDay,
-                0.6,
-                $"基于您经常选择每月{targetDay}日的偏好"
-            );
-        }
-
-        private string GetChineseDayOfWeek(DayOfWeek day)
-        {
-            switch (day)
-            {
-                case DayOfWeek.Monday: return "星期一";
-                case DayOfWeek.Tuesday: return "星期二";
-                case DayOfWeek.Wednesday: return "星期三";
-                case DayOfWeek.Thursday: return "星期四";
-                case DayOfWeek.Friday: return "星期五";
-                case DayOfWeek.Saturday: return "星期六";
-                case DayOfWeek.Sunday: return "星期日";
-                default: return day.ToString();
-            }
-        }
+      
 
         private void AddHolidayPredictions(string taskName, DatePredictionResult result)
         {
@@ -326,7 +385,7 @@ namespace eComBox.Services
                     result.AddPrediction(
                         holiday.Date,
                         0.9,
-                        $"即将到来的{ holiday.Name}"
+                        "DatePage_AI_upcoming ".GetLocalized()+ holiday.Name
                     );
                 }
                 else
@@ -335,67 +394,202 @@ namespace eComBox.Services
                     result.AddPrediction(
                         holiday.Date,
                         0.5,
-                       $"即将到来的{holiday.Name}"
+                        "DatePage_AI_upcoming".GetLocalized()+ holiday.Name
                     );
                 }
             }
         }
+    
         private async Task AddAzureAIPredictions(string taskName, DatePredictionResult result)
-{
-    // 使用 try-catch 块单独捕获 Azure AI 服务的异常
-    try
-    {
-        // 在调用 Azure 服务前检查网络连接
-        
-        // 1. 分析文本情感
-        var sentimentResponse = await _client.AnalyzeSentimentAsync(taskName);
-
-        // 2. 提取实体（查找时间相关信息）
-        var entitiesResponse = await _client.RecognizeEntitiesAsync(taskName);
-
-        // 添加日期预测结果，确保不会添加 null 日期
-        if (sentimentResponse.Value.Sentiment == TextSentiment.Positive)
         {
-            // 积极情感（如节日、纪念日）通常在未来较远时间
-            result.AddPrediction(DateTime.Now.AddDays(30), 0.6, "可能是重要的积极事件");
-        }
-        else if (sentimentResponse.Value.Sentiment == TextSentiment.Negative)
-        {
-            // 负面情感（如截止日期）通常在近期
-            result.AddPrediction(DateTime.Now.AddDays(7), 0.6, "可能是近期截止事件");
-        }
-
-        // 寻找实体中的日期/时间信息
-        foreach (var entity in entitiesResponse.Value)
-        {
-            if (entity.Category == "DateTime" || entity.Category == "Quantity")
+            try
             {
-                // 尝试提取数值作为天数
-                if (TryExtractDays(entity.Text, out int days) && days > 0 && days < 365)
+                Debug.WriteLine($"开始Azure AI预测: 任务名称={taskName}");
+
+                // 构建系统指令和提示
+                string systemMessage = "你是一个日期预测专家，根据任务描述分析可能的日期。" +
+                                     "今天是 " + DateTime.Now.ToString("yyyy-MM-dd") + "。" +
+                                     "分析任务是否与特定日期有关，如会议、截止日期、节日等。";
+
+                string userPrompt = $"分析以下任务名称，预测最可能的日期（yyyy-MM-dd格式）和信心程度（0-1之间）（信心值不用展示在分析原因中，分析原因言简意赅，你的原因语言和接下来我给你的任务名相同（略微偏向英语），历史事件请给出时间）：\"{taskName}\"。" +
+                                  "回复使用JSON格式：{\"date\": \"yyyy-MM-dd\", \"confidence\": 0.x, \"reason\": \"分析原因\"}";
+
+                // 创建对话消息列表
+                var chatCompletionsOptions = new ChatCompletionsOptions()
                 {
-                    result.AddPrediction(
-                        DateTime.Now.AddDays(days),
-                        0.8,
-                        $"根据{entity.Text}预测"
-                    );
+                    Messages =
+                    {
+                        new ChatMessage(ChatRole.System, systemMessage),
+                        new ChatMessage(ChatRole.User, userPrompt)
+                    },
+                    Temperature = 0.1f, // 低温度以获得更确定的回复
+                    MaxTokens = 800
+                };
+
+                Debug.WriteLine("发送请求到Azure OpenAI...");
+
+                // 发送请求到 Azure OpenAI
+                var response = await _openAIClient.GetChatCompletionsAsync(
+                    _deploymentName,
+                    chatCompletionsOptions);
+
+                var responseContent = response.Value.Choices[0].Message.Content;
+                Debug.WriteLine($"收到原始OpenAI响应: {responseContent}");
+
+                // 清理响应内容，移除Markdown代码块标记
+                string cleanedContent = CleanJsonResponseContent(responseContent);
+                Debug.WriteLine($"清理后的响应内容: {cleanedContent}");
+
+                // 解析 JSON 响应
+                try
+                {
+                    using (JsonDocument doc = JsonDocument.Parse(cleanedContent))
+                    {
+                        var root = doc.RootElement;
+
+                        if (root.TryGetProperty("date", out var dateElement) &&
+                            root.TryGetProperty("confidence", out var confidenceElement) &&
+                            root.TryGetProperty("reason", out var reasonElement))
+                        {
+                            if (DateTime.TryParse(dateElement.GetString(), out DateTime predictedDate))
+                            {
+                                double confidence = confidenceElement.GetDouble();
+                                string reason = reasonElement.GetString();
+
+                                Debug.WriteLine($"成功解析AI预测: 日期={predictedDate}, 置信度={confidence}, 原因={reason}");
+
+                                // 为Azure AI预测增加一个小的置信度加成，确保高相关度的AI预测优先显示
+                                double adjustedConfidence = Math.Min(confidence + 0.05, 1.0);
+
+                                result.AddPrediction(
+                                    predictedDate,
+                                    adjustedConfidence,
+                                    reason,
+                                    true  // 标记为Azure AI预测
+                                );
+                            }
+                            else
+                            {
+                                Debug.WriteLine($"预测日期无效: {dateElement.GetString()}");
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"响应中缺少必要字段");
+                            Debug.WriteLine($"完整响应内容: {cleanedContent}");
+                        }
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    // 解析失败时记录日志
+                    Debug.WriteLine($"无法解析OpenAI响应: {cleanedContent}");
+                    Debug.WriteLine($"JSON解析错误: {ex.Message}");
                 }
             }
+            catch (Exception ex)
+            {
+                // 错误处理
+                Debug.WriteLine($"Azure OpenAI 预测失败: {ex.Message}");
+                Debug.WriteLine($"错误详情: {ex}");
+            }
         }
-    }
-    catch (RequestFailedException azureEx)
-    {
-        // 专门处理 Azure 服务的异常
-        System.Diagnostics.Debug.WriteLine($"Azure AI 服务请求失败: {azureEx.Message}. 状态码: {azureEx.Status}");
-    }
-    catch (Exception ex)
-    {
-        // 捕获其他所有异常
-        System.Diagnostics.Debug.WriteLine($"Azure AI 分析异常: {ex.Message}");
-        // 发生异常时继续使用其他预测结果
-    }
-}
+        private string CleanJsonResponseContent(string content)
+        {
+            // 移除可能的Markdown代码块标记
+            string cleaned = content;
 
-       
+            if (cleaned.StartsWith("```json")){
+
+                cleaned = cleaned.Substring("```json".Length);
+
+            }
+
+            if (cleaned.EndsWith("```"))
+            {
+
+                cleaned = cleaned.Substring(0, cleaned.Length - "```".Length);
+
+
+            }
+
+
+
+            cleaned = cleaned.Trim();
+
+            return cleaned;
+        }
+
+        private async Task AddAzureMLPredictions(string taskName, DatePredictionResult result)
+        {
+            try
+            {
+                if (_userDateHistory.Count < 5)
+                {
+                    return; // 历史数据不足，无法使用 ML 模型
+                }
+
+                // 准备模型输入数据
+                var mlInput = new
+                {
+                    taskName = taskName,
+                    userHistory = _userDateHistory.Select(h => new
+                    {
+                        taskName = h.TaskName,
+                        selectedDate = h.SelectedDate.ToString("yyyy-MM-dd"),
+                        dayOfWeek = (int)h.SelectedDate.DayOfWeek,
+                        dayOfMonth = h.SelectedDate.Day,
+                        month = h.SelectedDate.Month
+                    }).ToArray(),
+                    currentDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                    userRegion = _userRegion
+                };
+
+                // 调用 Azure ML 评分终结点
+                var response = await _httpClient.PostAsJsonAsync(_azureMLEndpoint, mlInput);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var mlPrediction = await response.Content.ReadFromJsonAsync<MLPredictionResponse>();
+
+                    if (mlPrediction != null && mlPrediction.Predictions != null)
+                    {
+                        foreach (var prediction in mlPrediction.Predictions)
+                        {
+                            if (DateTime.TryParse(prediction.PredictedDate, out DateTime predictedDate) &&
+                                predictedDate >= DateTime.Now)
+                            {
+                                result.AddPrediction(
+                                    predictedDate,
+                                    prediction.Confidence,
+                                    $"机器学习模型预测：{prediction.Reason}"
+                                );
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine($"Azure ML API 请求失败: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Azure ML 预测失败: {ex.Message}");
+            }
+        }
+
+        private class MLPredictionResponse
+        {
+            public List<MLPrediction> Predictions { get; set; }
+        }
+
+        private class MLPrediction
+        {
+            public string PredictedDate { get; set; }
+            public double Confidence { get; set; }
+            public string Reason { get; set; }
+        }
         // 尝试从文本中提取天数
         private bool TryExtractDays(string text, out int days)
         {
@@ -442,7 +636,7 @@ namespace eComBox.Services
         public string ErrorMessage { get; set; }
         public List<DateSuggestion> Suggestions { get; private set; } = new List<DateSuggestion>();
 
-        public void AddPrediction(DateTime date, double confidence, string reason)
+        public void AddPrediction(DateTime date, double confidence, string reason, bool isAIPredict = false)
         {
             // 避免添加重复的日期
             if (!Suggestions.Any(s => s.SuggestedDate.Date == date.Date))
@@ -451,16 +645,19 @@ namespace eComBox.Services
                 {
                     SuggestedDate = date,
                     Confidence = confidence,
-                    Reason = reason
+                    Reason = reason,
+                    IsAIPredict = isAIPredict
                 });
             }
         }
 
-        // 获取排序后的建议列表
+        // 获取排序后的建议列表，高相关度AI预测优先
         public List<DateSuggestion> GetSortedSuggestions()
         {
+            // 首先按是否AI预测排序，然后按信心度排序
             return Suggestions
-                .OrderByDescending(s => s.Confidence)
+                .OrderByDescending(s => s.IsAIPredict && s.Confidence > 0.7) // 高相关度的AI预测优先
+                .ThenByDescending(s => s.Confidence)
                 .Take(5)
                 .ToList();
         }
@@ -472,5 +669,7 @@ namespace eComBox.Services
         public DateTime SuggestedDate { get; set; }
         public double Confidence { get; set; } // 0-1之间
         public string Reason { get; set; }
+        public bool IsAIPredict { get; set; } = false; // 新增属性，标识是否来自Azure AI
     }
+
 }

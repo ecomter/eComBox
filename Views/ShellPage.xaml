@@ -27,7 +27,7 @@
         <winui:NavigationView.Resources>
             <!-- Microsoft Store风格的导航项样式 -->
             <Style TargetType="winui:NavigationViewItem">
-                <Setter Property="Margin" Value="4,2"/>
+                <Setter Property="Margin" Value="0,2"/>
                 <Setter Property="Padding" Value="10,4"/>
                 <Setter Property="CornerRadius" Value="8"/>
                 <Setter Property="FontSize" Value="14"/>
