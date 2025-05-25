@@ -4,102 +4,298 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:eComBox.Helpers"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xaml="using:Windows.UI.Xaml"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d"
     winui:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Page.Resources>
-        <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+        <ResourceDictionary>
+            <Style x:Key="SettingsContentScrollViewStyle" TargetType="ScrollViewer">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="HorizontalScrollMode" Value="Disabled"/>
+                <Setter Property="IsHorizontalRailEnabled" Value="False"/>
+                <Setter Property="IsVerticalRailEnabled" Value="True"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="VerticalScrollMode" Value="Auto"/>
+                <Setter Property="ZoomMode" Value="Disabled"/>
+            </Style>
+
+            <Style x:Key="SettingsRichTextBlockStyle" TargetType="RichTextBlock">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+
+            <!-- Override default hyperlink button background color -->
+            <StaticResource x:Key="HyperlinkButtonBackgroundPointerOver" ResourceKey="SubtleFillColorTransparentBrush"/>
+            <StaticResource x:Key="HyperlinkButtonBackgroundPressed" ResourceKey="SubtleFillColorTransparentBrush"/>
+
+            <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+            <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+
+            <!--  Style (inc. the correct spacing) of a section header  -->
+            <Style x:Key="SettingsSectionHeaderTextBlockStyle"
+        BasedOn="{StaticResource BodyTextBlockStyle}"
+        TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="1,30,0,6" />
+                </Style.Setters>
+            </Style>
+        </ResourceDictionary>
     </Page.Resources>
-    <Grid Margin="25,25,0,20">
-        <StackPanel
-            x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <TextBlock x:Uid="Settings_Theme" />
+    <ScrollViewer>
+        <Grid Margin="24,10,24,16">
+            <StackPanel
+                x:Name="ContentArea"
+                MaxWidth="1000"
+                HorizontalAlignment="Stretch"
+                Spacing="{StaticResource SettingsCardSpacing}">
+                <win:StackPanel.ChildrenTransitions>
+                    <win:TransitionCollection>
+                        <win:EntranceThemeTransition FromVerticalOffset="50" />
+                        <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                    </win:TransitionCollection>
+                </win:StackPanel.ChildrenTransitions>
+
+                <TextBlock x:Uid="Settings_Personalization" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <toolkit:SettingsExpander x:Uid="ThemeSelection" Margin="{StaticResource XSmallTopMargin}" x:Name="AppThemeExpander">
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE790;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard ContentAlignment="Left">
+                            <winui:RadioButtons Margin="0,-8,0,0">
+                                <RadioButton
+                                    x:Uid="Settings_Theme_Light"
+                                    Tag="Light"
+                                    GroupName="AppTheme"
+                                    IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
+                                    Checked="ThemeChanged_CheckedAsync">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Light</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="Settings_Theme_Dark"
+                                    Tag="Dark"
+                                    GroupName="AppTheme"
+                                    IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
+                                    Checked="ThemeChanged_CheckedAsync">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton
+                                    GroupName="AppTheme"
+                                    Tag="Default"
+                                    x:Uid="Settings_Theme_Default"
+                                    IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
+                                    Checked="ThemeChanged_CheckedAsync">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Default</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                            </winui:RadioButtons>
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+                <toolkit:SettingsCard Margin="{StaticResource XSmallTopMargin}" x:Uid="LanguageExpander" x:Name="LanguageExpander">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE775;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="LanguageComboBox" SelectionChanged="LanguageComboBox_SelectionChanged">
+                        <ComboBoxItem Content="中文简体" Tag="zh-Hans-CN" />
+                        <ComboBoxItem Content="English(US)" Tag="en-US" />
+                    </ComboBox>
+                </toolkit:SettingsCard>
+                <toolkit:SettingsExpander x:Uid="Settings_TranslatorTool" Margin="{StaticResource XSmallTopMargin}">
+                    <HyperlinkButton x:Uid="Settings_AzureTranslator" NavigateUri="https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator/" Margin="{StaticResource XSmallTopMargin}" />
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xF2B7;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard x:Uid="Settings_Endpoint">
+                            <TextBox x:Name="EndpointTextBox"
+     Margin="{StaticResource XSmallTopMargin}"
+     Width="400"
+     Grid.Row="2"
+     FontSize="18"
+     TextChanged="EndpointTextBox_TextChanged" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard x:Uid="Settings_ApiKey">
+                            <PasswordBox x:Name="ApiTextBox"
+         Margin="{StaticResource XSmallTopMargin}"
+         Width="400"
+         Grid.Row="2"
+         FontSize="18"
+         PasswordChanged="ApiTextBox_PasswordChanged" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard x:Uid="Settings_Region">
+                            <TextBox x:Name="RegionTextBox"
+     Margin="{StaticResource XSmallTopMargin}"
+     Width="400"
+     Grid.Row="2"
+     FontSize="18"
+     TextChanged="RegionTextBox_TextChanged" />
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+
+                <TextBlock x:Uid="Settings_AISection" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <RadioButton 
-                        x:Uid="Settings_Theme_Light"
-                        Checked="ThemeChanged_CheckedAsync" 
-                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme" >
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter> 
-                    </RadioButton>
-                    <RadioButton 
-                        x:Uid="Settings_Theme_Dark"
-                        Checked="ThemeChanged_CheckedAsync" 
-                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton 
-                        x:Uid="Settings_Theme_Default"
-                        Checked="ThemeChanged_CheckedAsync"
-                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
+                    <Grid x:Name="AIUsageCard" 
+          Margin="{StaticResource MediumTopMargin}" 
+          Padding="16" 
+          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+          BorderThickness="1" 
+          CornerRadius="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- 使用情况状态 -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <SymbolIcon Symbol="Refresh" Margin="0,0,8,0" />
+                            <TextBlock x:Name="UsageStatusTextBlock" x:Uid="Settings_AIUsage_Status" Style="{StaticResource SubtitleTextBlockStyle}" />
+                            <Border Margin="12,0,0,0" 
+        Padding="8,2"
+        CornerRadius="4"
+        Visibility="Collapsed"
+        x:Name="PremiumBadge">
+                                <TextBlock x:Uid="Settings_AIUsage_PremiumBadge"
+              Foreground="White" />
+                            </Border>
+                        </StackPanel>
+
+                        <!-- 剩余使用次数 -->
+                        <StackPanel Grid.Row="1" Margin="0,12,0,0" Visibility="Visible" x:Name="UsageStatsPanel">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <TextBlock x:Uid="Settings_AIUsage_Remaining" Margin="0,0,8,0" />
+                                <TextBlock x:Name="RemainingCountTextBlock" Text="25/25" FontWeight="SemiBold" />
+                            </StackPanel>
+                            <ProgressBar x:Name="UsageProgressBar" Height="6" Maximum="25" Value="0" Margin="0,0,0,12" />
+                        </StackPanel>
+
+                        <!-- 购买或说明部分 -->
+                        <StackPanel Grid.Row="2" Margin="0,4,0,0">
+                            <TextBlock x:Name="UsageLimitDescription" 
+                      x:Uid="Settings_AIUsage_LimitInfo" 
+                      TextWrapping="Wrap" 
+                      Margin="0,0,0,12" />
+
+                            <Button x:Name="PurchaseButton" 
+                    x:Uid="Settings_AIUsage_PurchaseButton"
+                    Style="{StaticResource AccentButtonStyle}" 
+                    HorizontalAlignment="Left"
+                    Click="PurchaseButton_Click" />
+
+                            <ProgressRing x:Name="PurchaseProgressRing" 
+                         IsActive="False" 
+                         Width="20" 
+                         Height="20" 
+                         HorizontalAlignment="Left"
+                         Margin="0,8,0,0" 
+                         Visibility="Collapsed" />
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
-            </StackPanel>
-            <TextBlock Text="实时热点（测试功能）" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <ToggleSwitch
-                x:Name="HotListToggleSwitch"
-                Margin="{StaticResource XSmallTopMargin}"
-                Toggled="HotListToggleSwitch_Toggled"/>
-            <StackPanel  Visibility="{x:Bind HotListVisibility, Mode=OneWay}">
-            <ComboBox Header="新闻源选取" Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
-                <ComboBoxItem  Content="抖音" Tag="https://doc.ecomter.site/douyin?cache=false" />
-                <ComboBoxItem Content="百度" Tag="https://doc.ecomter.site/baidu?cache=false" />
-                <ComboBoxItem Content="B站" Tag="https://doc.ecomter.site/bilibili?cache=false" />
-                <ComboBoxItem Content="天气" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
-                <ComboBoxItem Content="微博" Tag="https://doc.ecomter.site/weibo?cache=false" />
-            </ComboBox>
-            <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}"/>
-            </StackPanel>
-            <TextBlock x:Uid="Settings_About" Margin="0,20,0,0" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind VersionDescription, Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" />
 
-                <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
+                <TextBlock x:Uid="Settings_Advanced" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                
+                <toolkit:SettingsCard x:Uid="Settings_ai" Margin="{StaticResource XSmallTopMargin}">
+                    <ToggleSwitch x:Name="AIToggleSwitch"
+    Margin="{StaticResource XSmallTopMargin}"
+    Toggled="AIToggleSwitch_Toggled" />
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE781;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                </toolkit:SettingsCard>
+                <toolkit:SettingsCard x:Uid="Settings_autostart" Margin="{StaticResource XSmallTopMargin}">
+                    <ToggleSwitch x:Name="StartupToggle"
+                                IsOn="{x:Bind IsStartupEnabled, Mode=TwoWay}"
+Margin="{StaticResource XSmallTopMargin}"
+Toggled="StartupToggle_Toggled" />
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7C4;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                </toolkit:SettingsCard>
 
-                <HyperlinkButton Content="Github 仓库" x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
-                <HyperlinkButton Content="隐私政策"  NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+                <toolkit:SettingsCard x:Uid="Settings_ExportLog" Margin="{StaticResource XSmallTopMargin}">
+                    <Button x:Name="ExportLogButton" x:Uid="ExportLogButton"  Click="ExportLogButton_Click" HorizontalAlignment="Left" />
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE9F5;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                </toolkit:SettingsCard>
+
+
+                <toolkit:SettingsExpander x:Uid="Settings_HotList" Margin="{StaticResource XSmallTopMargin}">
+                    <ToggleSwitch x:Name="HotListToggleSwitch"
+                  Margin="{StaticResource XSmallTopMargin}"
+                  Toggled="HotListToggleSwitch_Toggled" />
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE12A;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard x:Uid="Settings_NewsSource" IsEnabled="{x:Bind CardEnable, Mode=OneWay}">
+                            <ComboBox Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
+                                <ComboBoxItem x:Uid="Settings_Source_Douyin" Tag="https://doc.ecomter.site/douyin?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Baidu" Tag="https://doc.ecomter.site/baidu?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Bilibili" Tag="https://doc.ecomter.site/bilibili?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Weather" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Weibo" Tag="https://doc.ecomter.site/weibo?cache=false" />
+                            </ComboBox>
+                        </toolkit:SettingsCard>
+                        
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+                
+                <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
+                <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <toolkit:SettingsExpander x:Uid="Settings_AppInfo" HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.png}" Header="{x:Bind AppName, Mode=OneWay}" >
+                    <TextBlock IsTextSelectionEnabled="True"
+               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+               Text="{x:Bind VersionDescription,Mode=OneWay}" />
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard HorizontalContentAlignment="Left"
+                           ContentAlignment="Left">
+                            <StackPanel Margin="-12,0,0,0"
+                    Orientation="Vertical">
+                                <TextBlock x:Uid="Settings_AboutDescription" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
+                                <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
+                                <HyperlinkButton x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
+                                <HyperlinkButton x:Uid="Settings_PrivacyPolicy" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+                            </StackPanel>
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
             </StackPanel>
-        </StackPanel>
-        <ContentDialog
+            <ContentDialog
+    x:Uid="Settings_TermsOfServiceDialog"
     x:Name="TermsOfServiceDialog"
-    Title="使用条款"
-    PrimaryButtonText="我已阅读并同意"
-    SecondaryButtonText="取消"
     IsPrimaryButtonEnabled="False"
     PrimaryButtonClick="TermsOfServiceDialog_PrimaryButtonClick"
     SecondaryButtonClick="TermsOfServiceDialog_SecondaryButtonClick">
-            <ContentDialog.Content>
-                <ScrollViewer>
-
+                <ContentDialog.Content>
+                    <ScrollViewer>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="这是一个测试性功能，可能会在未来的版本中被移除。" TextWrapping="Wrap" />
-                        <HyperlinkButton Content="“实时热点”使用政策" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click"/>
+                            <TextBlock x:Uid="Settings_TermsDescription" TextWrapping="Wrap" />
+                            <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click" />
                         </StackPanel>
-
-                </ScrollViewer>
-            </ContentDialog.Content>
-        </ContentDialog>
-    </Grid>
-   
+                    </ScrollViewer>
+                </ContentDialog.Content>
+            </ContentDialog>
+            <ContentDialog x:Uid="errorStartDialog" x:Name="errorStartDialog">
+                
+            </ContentDialog>
+        </Grid>
+    </ScrollViewer>
 </Page>

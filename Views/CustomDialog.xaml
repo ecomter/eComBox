@@ -1,0 +1,70 @@
+﻿<UserControl
+    x:Class="eComBox.Views.CustomDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:local="using:eComBox.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Width="800"
+    MinHeight="200">
+
+    <Border
+        CornerRadius="8"
+        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+        >
+        <Border.Shadow>
+            <ThemeShadow/>
+        </Border.Shadow>
+        <!-- 其他内容 -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 标题 -->
+            <TextBlock Text="更改"
+                       FontWeight="SemiBold"
+                       Style="{StaticResource HeaderTextBlockStyle}"
+                       Foreground="{ThemeResource ContentDialogForeground}"
+                       Margin="20,20,20,10"/>
+
+            <!-- 内容区域 -->
+            
+            <Grid Grid.Row="1" Margin="20,0,20,0">
+                <StackPanel Orientation="Vertical">
+                <controls:SettingsCard x:Name="settingsCard"
+                                       Description="计算时的起始日期"
+                                       Header="起始日期"
+                                       HeaderIcon="{ui:FontIcon Glyph=&#xE799;}"
+                                       Margin="0,0,0,3">
+                    <CalendarDatePicker PlaceholderText=" " />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard 
+                       Description="计算时的结束日期"
+                       Header="结束日期"
+                       HeaderIcon="{ui:FontIcon Glyph=&#xE799;}"
+                       Margin="0,0,0,3">
+                        <CalendarDatePicker PlaceholderText=" " />
+                    </controls:SettingsCard>
+                </StackPanel>
+            </Grid>
+
+            <!-- 按钮 -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,20,20">
+                <Button Content="取消"
+                        Click="CancelButton_Click"
+                        Margin="0,0,10,0"
+                        Style="{ThemeResource TextBlockButtonStyle}" />
+                <Button Content="确定"
+                        Click="PrimaryButton_Click"
+                        Style="{ThemeResource AccentButtonStyle}" />
+
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

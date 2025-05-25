@@ -1,0 +1,1138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Translator_History.Header" xml:space="preserve">
+    <value>翻译历史</value>
+  </data>
+  <data name="Translator_InputContent.Text" xml:space="preserve">
+    <value>输入内容</value>
+  </data>
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>个性化</value>
+    <comment>Personalization text for Settings</comment>
+  </data>
+  <data name="Settings_Advanced.Text" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="Settings_AISection.Text" xml:space="preserve">
+    <value>AI 功能</value>
+  </data>
+  <data name="Settings_AIUsage_Status.Text" xml:space="preserve">
+    <value>使用状态</value>
+  </data>
+  <data name="Settings_AIUsage_PremiumBadge.Text" xml:space="preserve">
+    <value>高级版</value>
+  </data>
+  <data name="Settings_AIUsage_Remaining.Text" xml:space="preserve">
+    <value>今日剩余次数：</value>
+  </data>
+  <data name="Settings_AIUsage_LimitInfo.Text" xml:space="preserve">
+    <value>为节约成本，免费用户每天可以使用 AI 日期预测功能最多 25 次。升级到高级版可获得无限使用权限。</value>
+  </data>
+  <data name="Settings_AIUsage_PremiumInfo.Text" xml:space="preserve">
+    <value>您已拥有高级版权限，可以无限制使用 AI 日期预测功能。感谢您的支持！</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseButton.Content" xml:space="preserve">
+    <value>升级到高级版</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_Title" xml:space="preserve">
+    <value>购买成功</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_Content" xml:space="preserve">
+    <value>感谢您升级到高级版！您现在可以无限制使用 AI 日期预测功能。</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_Title" xml:space="preserve">
+    <value>购买未完成</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_Content" xml:space="preserve">
+    <value>购买未能完成。请稍后重试，如果问题持续存在，请联系客服支持。</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_CloseButton" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_Title" xml:space="preserve">
+    <value>购买过程中出错</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_Content" xml:space="preserve">
+    <value>购买过程中发生错误：</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_CloseButton" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Settings_TranslatorTool.Header" xml:space="preserve">
+    <value>翻译工具</value>
+  </data>
+  <data name="Settings_TranslatorTool.Description" xml:space="preserve">
+    <value>借助 Azure 翻译服务</value>
+  </data>
+  <data name="Settings_AzureTranslator.Content" xml:space="preserve">
+    <value>Azure AI 翻译</value>
+  </data>
+  <data name="Settings_Endpoint.Header" xml:space="preserve">
+    <value>终结点</value>
+  </data>
+  <data name="DatePage_ClearButton.Label" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="DatePage_NewButton.Label" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="DatePage_ImportButton.Label" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="DatePage_ExportButton.Label" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="DatePage_DeleteAll_Title" xml:space="preserve">
+    <value>删除全部</value>
+  </data>
+  <data name="DatePage_DeleteAll_Content" xml:space="preserve">
+    <value>此操作不可撤销</value>
+  </data>
+  <data name="DatePage_DeleteAll_PrimaryButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_DeleteAll_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_ImportWarning_Title" xml:space="preserve">
+    <value>确认导入</value>
+  </data>
+  <data name="DatePage_ImportWarning_Content" xml:space="preserve">
+    <value>导入新配置文件会清除当前所有内容，是否继续？</value>
+  </data>
+  <data name="DatePage_ImportWarning_PrimaryButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_ImportWarning_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_EditDialog_Title" xml:space="preserve">
+    <value>编辑事件</value>
+  </data>
+  <data name="DatePage_EditDialog_PrimaryButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_EditDialog_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_EditDialog_SecondaryButton" xml:space="preserve">
+    <value>删除卡片</value>
+  </data>
+  <data name="DatePage_ColorLabel" xml:space="preserve">
+    <value>卡片颜色:</value>
+  </data>
+  <data name="DatePage_Color_Blue" xml:space="preserve">
+    <value>蓝色</value>
+  </data>
+  <data name="DatePage_Color_Green" xml:space="preserve">
+    <value>绿色</value>
+  </data>
+  <data name="DatePage_Color_Yellow" xml:space="preserve">
+    <value>黄色</value>
+  </data>
+  <data name="DatePage_Color_Red" xml:space="preserve">
+    <value>红色</value>
+  </data>
+  <data name="DatePage_Color_Purple" xml:space="preserve">
+    <value>紫色</value>
+  </data>
+  <data name="DatePage_Color_Pink" xml:space="preserve">
+    <value>粉色</value>
+  </data>
+  <data name="DatePage_Color_Gray" xml:space="preserve">
+    <value>灰色</value>
+  </data>
+  <data name="DatePage_Color_Starry" xml:space="preserve">
+    <value>星空</value>
+  </data>
+  <data name="DatePage_Color_Festive" xml:space="preserve">
+    <value>喜庆</value>
+  </data>
+  <data name="DatePage_Color_Default" xml:space="preserve">
+    <value>默认</value>
+	  </data>
+	  <data name="DatePage_Color_Sunset" xml:space="preserve">
+    <value>日落</value>
+	  
+  </data>
+	<data name="DatePage_Color_Ocean" xml:space="preserve">
+    <value>海洋</value>
+  </data>
+	<data name="DatePage_Color_Forest" xml:space="preserve">
+    <value>森林</value>
+  </data>
+	<data name="DatePage_Color_Lavender" xml:space="preserve">
+    <value>薰衣草</value>
+  </data>
+	<data name="DatePage_Color_Candy" xml:space="preserve">
+    <value>糖果</value>
+  </data>
+
+	<data name="DatePage_Color_Aurora" xml:space="preserve">
+    <value>极光</value>
+  </data>
+	<data name="Geometry_Conic.Header" xml:space="preserve">
+  <value>圆锥曲线</value>
+</data>
+	<data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
+  <value>边长a</value>
+</data>
+	<data name="Geometry_Triangle_SideB.Text" xml:space="preserve">
+  <value>边长b</value>
+</data>
+	<data name="Geometry_Triangle_SideC.Text" xml:space="preserve">
+  <value>边长c</value>
+</data>
+	<data name="Geometry_Calculate.Content" xml:space="preserve">
+  <value>计算</value>
+</data>
+	<data name="Geometry_DecimalPlaces.Header" xml:space="preserve">
+  <value>保留小数位数</value>
+</data>
+	<data name="Geometry_Area.Text" xml:space="preserve">
+  <value>面积</value>
+</data>
+	<data name="Geometry_Perimeter.Text" xml:space="preserve">
+  <value>周长</value>
+</data>
+	<data name="Geometry_Angle_A_Cos.Text" xml:space="preserve">
+  <value>a 边对角的 cos 值及角度</value>
+</data>
+	<data name="Geometry_Angle_B_Cos.Text" xml:space="preserve">
+  <value>b 边对角的 cos 值及角度</value>
+</data>
+	<data name="Geometry_Angle_C_Cos.Text" xml:space="preserve">
+  <value>c 边对角的 cos 值及角度</value>
+</data>
+	<data name="Geometry_Triangle_Image.Text" xml:space="preserve">
+  <value>三角形图像</value>
+</data>
+	<data name="Geometry_WaitingForCalculation.Text" xml:space="preserve">
+  <value>等待计算</value>
+</data>
+	<data name="Geometry_InfoBar_Title.Title" xml:space="preserve">
+  <value>提示</value>
+</data>
+	<data name="Geometry_InfoBar_Message.Message" xml:space="preserve">
+  <value>本功能尚未完成，请等待后续版本升级</value>
+</data>
+	<data name="Geometry_Error_Title" xml:space="preserve">
+  <value>输入错误</value>
+</data>
+	<data name="Geometry_Error_InvalidNumber" xml:space="preserve">
+  <value>请确保您输入了数字</value>
+</data>
+	<data name="Geometry_Error_NegativeNumber" xml:space="preserve">
+  <value>请输入大于0的数</value>
+</data>
+	<data name="Geometry_Error_NotTriangle" xml:space="preserve">
+  <value>无法构成三角形</value>
+</data>
+	<data name="Geometry_Error_TriangleRule" xml:space="preserve">
+  <value>三角形的两边之和必须大于第三边</value>
+</data>
+	<data name="Geometry_Angle_Degrees" xml:space="preserve">
+  <value>度</value>
+</data>
+
+	<data name="DatePage_TaskNameLabel" xml:space="preserve">
+    <value>事件名称:</value>
+  </data>
+  <data name="DatePage_DateLabel" xml:space="preserve">
+    <value>目标日期:</value>
+  </data>
+  <data name="DatePage_QuickDaysLabel" xml:space="preserve">
+    <value>快速设置:</value>
+  </data>
+  <data name="DatePage_CustomDays" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="DatePage_DaysAfter" xml:space="preserve">
+    <value>{0}天后</value>
+  </data>
+  <data name="DatePage_CustomDaysHeader" xml:space="preserve">
+    <value>自定义天数</value>
+  </data>
+  <data name="DatePage_CustomDaysPlaceholder" xml:space="preserve">
+    <value>输入天数</value>
+  </data>
+  <data name="DatePage_ApplyButton" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="DatePage_NotificationCheckBox" xml:space="preserve">
+    <value>开机时通知剩余天数</value>
+  </data>
+  <data name="DatePage_AI_Title" xml:space="preserve">
+    <value>AI 推荐日期</value>
+  </data>
+	<data name="DatePage_AI_analyzing" xml:space="preserve">
+    <value>正在分析任务名称...</value>
+  </data>
+	<data name="DatePage_AI_upcoming" xml:space="preserve">
+    <value>即将到来的</value>
+  </data>
+	<data name="DatePage_AI_Limit" xml:space="preserve">
+    <value>您今天的 AI 分析次数已达到上限(25次)。请升级到高级版获取无限使用权限。</value>
+  </data>
+	<data name="DatePage_AI_nosuggestions" xml:space="preserve">
+    <value>没有找到相关日期建议</value>
+  </data>
+  <data name="DatePage_AI_Suggestion" xml:space="preserve">
+    <value>根据事件名称分析，以下日期可能与您的计划相关:</value>
+  </data>
+  <data name="DatePage_AI_HighRelevance" xml:space="preserve">
+    <value>高相关</value>
+  </data>
+  <data name="DatePage_AI_MediumRelevance" xml:space="preserve">
+    <value>相关</value>
+  </data>
+  <data name="DatePage_AI_LowRelevance" xml:space="preserve">
+    <value>可能相关</value>
+  </data>
+  <data name="DatePage_Tomorrow" xml:space="preserve">
+    <value>明天</value>
+  </data>
+  <data name="DatePage_DayAfterTomorrow" xml:space="preserve">
+    <value>后天</value>
+  </data>
+  <data name="DatePage_Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="DatePage_DaysLeft" xml:space="preserve">
+    <value>{0}天</value>
+  </data>
+  <data name="DatePage_Event_Today" xml:space="preserve">
+    <value>今天就是</value>
+  </data>
+  <data name="DatePage_Event_Future" xml:space="preserve">
+    <value>今天距离{0}还有</value>
+  </data>
+  <data name="DatePage_Event_Tomorrow" xml:space="preserve">
+    <value>{0}就在</value>
+  </data>
+  <data name="DatePage_Event_Past" xml:space="preserve">
+    <value>今天距离{0}已经过去了</value>
+  </data>
+  <data name="DatePage_Menu_Edit" xml:space="preserve">
+    <value>编辑卡片</value>
+  </data>
+  <data name="DatePage_Menu_Pin" xml:space="preserve">
+    <value>固定为悬浮窗</value>
+  </data>
+  <data name="DatePage_Menu_Delete" xml:space="preserve">
+    <value>删除卡片</value>
+  </data>
+  <data name="DatePage_DeleteCard_Title" xml:space="preserve">
+    <value>删除卡片</value>
+  </data>
+  <data name="DatePage_DeleteCard_Content" xml:space="preserve">
+    <value>确定要删除此卡片吗？此操作不可撤销。</value>
+  </data>
+  <data name="DatePage_DeleteCard_PrimaryButton" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="DatePage_DeleteCard_CloseButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DatePage_OperationFailed_Title" xml:space="preserve">
+    <value>操作失败</value>
+  </data>
+  <data name="DatePage_OperationFailed_Content" xml:space="preserve">
+    <value>无法创建悬浮窗: {0}</value>
+  </data>
+  <data name="DatePage_OperationFailed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_DragDropFailed_Title" xml:space="preserve">
+    <value>操作提示</value>
+  </data>
+  <data name="DatePage_DragDropFailed_Content" xml:space="preserve">
+    <value>拖放操作未能完成，请重试。</value>
+  </data>
+  <data name="DatePage_DragDropFailed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_SaveFailed_Title" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="DatePage_SaveFailed_Content" xml:space="preserve">
+    <value>文件读写出现错误，不过您还可以使用本软件，但是会丢失保存配置功能。点击删除全部可能会解决此问题</value>
+  </data>
+  <data name="DatePage_SaveFailed_CloseButton" xml:space="preserve">
+    <value>知道了</value>
+  </data>
+  <data name="DatePage_Export_FileType" xml:space="preserve">
+    <value>JSON 文件</value>
+  </data>
+  <data name="DatePage_Export_FileName" xml:space="preserve">
+    <value>config</value>
+  </data>
+  <data name="DatePage_Export_Failed_Title" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="DatePage_Export_Failed_Content" xml:space="preserve">
+    <value>无法保存文件。</value>
+  </data>
+  <data name="DatePage_Export_Failed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DatePage_Import_Failed_Title" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="DatePage_Import_Failed_Content" xml:space="preserve">
+    <value>导入文件时发生错误: {0}</value>
+  </data>
+  <data name="DatePage_Import_Failed_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Settings_ExportLog_FileType" xml:space="preserve">
+    <value>文本文件</value>
+  </data>
+  <data name="Settings_ExportLog_Success_Title" xml:space="preserve">
+    <value>导出成功</value>
+  </data>
+  <data name="Settings_ExportLog_Success_Content" xml:space="preserve">
+    <value>诊断日志已成功导出到：{0}</value>
+  </data>
+  <data name="Settings_ExportLog_Fail_Title" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="Settings_ExportLog_Fail_Content" xml:space="preserve">
+    <value>无法完成文件写入。请检查磁盘空间和权限。</value>
+  </data>
+  <data name="Settings_ExportLog_Error_Title" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="Settings_ExportLog_Error_Content" xml:space="preserve">
+    <value>导出日志时发生错误：{0}</value>
+  </data>
+  <data name="Settings_ExportLog_CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Settings_ApiKey.Header" xml:space="preserve">
+    <value>API 密钥</value>
+  </data>
+  <data name="Settings_Region.Header" xml:space="preserve">
+    <value>区域</value>
+  </data>
+  <data name="Settings_HotList.Header" xml:space="preserve">
+    <value>实时热点（预览）</value>
+  </data>
+  <data name="Settings_HotList.Description" xml:space="preserve">
+    <value>你可以在软件首页查看一些平台的热榜信息、天气状况。</value>
+  </data>
+  <data name="Settings_NewsSource.Header" xml:space="preserve">
+    <value>新闻源选取</value>
+  </data>
+  <data name="Settings_Source_Douyin.Content" xml:space="preserve">
+    <value>抖音热榜</value>
+  </data>
+  <data name="Settings_Source_Baidu.Content" xml:space="preserve">
+    <value>百度热搜榜</value>
+  </data>
+  <data name="Settings_Source_Bilibili.Content" xml:space="preserve">
+    <value>B站热榜</value>
+  </data>
+  <data name="Settings_Source_Weather.Content" xml:space="preserve">
+    <value>天气预警信息</value>
+  </data>
+  <data name="Settings_Source_Weibo.Content" xml:space="preserve">
+    <value>微博热搜榜</value>
+  </data>
+  <data name="Settings_HotListPolicy.Content" xml:space="preserve">
+    <value>“实时热点”使用政策</value>
+  </data>
+  <data name="Settings_AppInfo.Description" xml:space="preserve">
+    <value>© ecomter 2025 保留所有权利</value>
+  </data>
+  <data name="Settings_githubLink.Content" xml:space="preserve">
+    <value>GitHub 仓库</value>
+  </data>
+  <data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
+    <value>使用条款</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
+    <value>我已阅读并同意</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Settings_TermsDescription.Text" xml:space="preserve">
+    <value>这是一个测试性功能，可能会在未来的版本中被移除。</value>
+  </data>
+  <data name="Translator_OutputContent.Text" xml:space="preserve">
+    <value>输出内容</value>
+  </data>
+  <data name="Translator_PivitItem1.Header" xml:space="preserve">
+    <value>普通翻译</value>
+  </data>
+  <data name="Translator_PivitItem2.Header" xml:space="preserve">
+    <value>连续翻译</value>
+  </data>
+  <data name="Translator_Error/Title" xml:space="preserve">
+    <value>初始化错误</value>
+  </data>
+  <data name="Translator_Error/Message" xml:space="preserve">
+    <value>语言选择菜单未能正确加载</value>
+  </data>
+  <data name="Translator_MissingSettings/Title" xml:space="preserve">
+    <value>缺少信息</value>
+  </data>
+  <data name="Translator_MissingSettings/Message" xml:space="preserve">
+    <value>请在设置中输入翻译的配置信息</value>
+  </data>
+  <data name="Translator_MissingInfo/Exception" xml:space="preserve">
+    <value>缺少翻译工具配置信息</value>
+  </data>
+  <data name="Translator_SequenceInProgress/Message" xml:space="preserve">
+    <value>顺序翻译进行中...</value>
+  </data>
+  <data name="Translator_SequenceComplete/Message" xml:space="preserve">
+    <value>顺序翻译完成！</value>
+  </data>
+  <data name="Translator_TranslationError/Message" xml:space="preserve">
+    <value>翻译过程中出现错误！</value>
+  </data>
+  <data name="Translator_HistoryOriginal" xml:space="preserve">
+    <value>原始文本 ({0}): {1}</value>
+  </data>
+  <data name="Translator_HistoryStep" xml:space="preserve">
+    <value>步骤 {0}: {1} -&gt; {2}</value>
+  </data>
+  <data name="Translator_SequenceStatus" xml:space="preserve">
+    <value>顺序翻译中：步骤 {0}/{1} - {2}</value>
+  </data>
+  <data name="Translator_SaveError" xml:space="preserve">
+    <value>保存翻译序列设置失败: {0}</value>
+  </data>
+  <data name="Translator_LoadError" xml:space="preserve">
+    <value>加载翻译序列设置失败: {0}</value>
+  </data>
+  <data name="Translator_ReverseButton.Content" xml:space="preserve">
+    <value>反向翻译</value>
+  </data>
+  <data name="Translator_SequenceButton.Content" xml:space="preserve">
+    <value>连续翻译</value>
+  </data>
+  <data name="Translator_SequenceSettings.Header" xml:space="preserve">
+    <value>连续翻译设置</value>
+  </data>
+  <data name="Translator_SourceLanguage.Text" xml:space="preserve">
+    <value>源语言</value>
+  </data>
+  <data name="Translator_Step.Text" xml:space="preserve">
+    <value>步骤</value>
+  </data>
+  <data name="Translator_TargetLanguage.Text" xml:space="preserve">
+    <value>翻译为</value>
+  </data>
+  <data name="Translator_TranslateButton.Content" xml:space="preserve">
+    <value>普通翻译</value>
+  </data>
+  <data name="Translator_TranslationOrder.Text" xml:space="preserve">
+    <value>翻译顺序</value>
+  </data>
+  <data name="Translator_StatusBar.Title" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Translator_StatusBar.Message" xml:space="preserve">
+    <value>您已填写所有配置项，可以进行翻译了</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>eComBox-简易工具箱</value>
+    <comment>Application display name</comment>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>eComBox-简易工具箱是 ecomter 开发的一款工具箱 UWP 应用，支持日期计算和简单的集合计算。</value>
+    <comment>Application description</comment>
+  </data>
+  <data name="Shell_Date.Content" xml:space="preserve">
+    <value>日期计算</value>
+    <comment>Navigation view item name for Date</comment>
+  </data>
+  <data name="Geometry_PivotItem1.Header" xml:space="preserve">
+    <value>解三角形</value>
+  </data>
+  <data name="Geometry_PivotItem2.Header" xml:space="preserve">
+    <value>直线</value>
+  </data>
+  <data name="Shell_Geometry.Content" xml:space="preserve">
+    <value>几何工具</value>
+    <comment>Navigation view item name for Geometry</comment>
+  </data>
+  <data name="Shell_Home.Content" xml:space="preserve">
+    <value>首页</value>
+    <comment>Navigation view item name for Home</comment>
+  </data>
+  <data name="Settings_Theme.Text" xml:space="preserve">
+    <value>选择主题</value>
+    <comment>Choose theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>暗色</value>
+    <comment>Dark theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>跟随系统</value>
+    <comment>Windows default theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>亮色</value>
+    <comment>Light theme text for Settings</comment>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>关于此应用</value>
+    <comment>About this application title for Settings</comment>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>eComBox-简易工具箱是 ecomter 开发的一款工具箱 UWP 应用，支持日期计算和简单的集合计算。</value>
+    <comment>About this application description for Settings</comment>
+  </data>
+  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>邮件反馈</value>
+    <comment>Privacy Statement link content for Settings</comment>
+  </data>
+  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>mailto:t1472580369@outlook.com</value>
+    <comment>Here is your Privacy Statement url for Settings</comment>
+  </data>
+  <data name="FirstRunDialog.Title" xml:space="preserve">
+    <value>欢迎使用</value>
+    <comment>First use prompt message title</comment>
+  </data>
+  <data name="FirstRunDialog.PrimaryButtonText" xml:space="preserve">
+    <value>好的，我试试</value>
+    <comment>First use prompt message primary button text</comment>
+  </data>
+  <data name="Shell_translator.Content" xml:space="preserve">
+    <value>翻译工具</value>
+  </data>
+  <data name="HomePage_Date_Description.Text" xml:space="preserve">
+    <value>计算距离目标日期的天数，兼具倒计时功能。</value>
+  </data>
+  <data name="HomePage_Date_Title.Text" xml:space="preserve">
+    <value>日期计算</value>
+  </data>
+  <data name="HomePage_Geo_Description.Text" xml:space="preserve">
+    <value>解三角形，圆锥曲线等解析几何的常见计算。</value>
+  </data>
+  <data name="HomePage_Geo_Title.Text" xml:space="preserve">
+    <value>几何工具</value>
+  </data>
+  <data name="LanguageExpander.Description" xml:space="preserve">
+    <value>选择应用程序语言（需要重启）</value>
+  </data>
+  <data name="LanguageExpander.Header" xml:space="preserve">
+    <value>应用程序语言</value>
+  </data>
+  <data name="ThemeSelection.Description" xml:space="preserve">
+    <value>选择要显示的应用程序主题</value>
+  </data>
+  <data name="ThemeSelection.Header" xml:space="preserve">
+    <value>应用程序主题</value>
+  </data>
+  <data name="AppDisplayNamet.Text" xml:space="preserve">
+    <value>eComBox-简易工具箱</value>
+  </data>
+  <data name="Translator_AutoDetect" xml:space="preserve">
+    <value>自动检测</value>
+  </data>
+  <data name="Translator_Lang_Albanian" xml:space="preserve">
+    <value>阿尔巴尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Amharic" xml:space="preserve">
+    <value>阿姆哈拉语</value>
+  </data>
+  <data name="Translator_Lang_Arabic" xml:space="preserve">
+    <value>阿拉伯语</value>
+  </data>
+  <data name="Translator_Lang_Assamese" xml:space="preserve">
+    <value>阿萨姆语</value>
+  </data>
+  <data name="Translator_Lang_Azerbaijani" xml:space="preserve">
+    <value>阿塞拜疆语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_Irish" xml:space="preserve">
+    <value>爱尔兰语</value>
+  </data>
+  <data name="Translator_Lang_Estonian" xml:space="preserve">
+    <value>爱沙尼亚语</value>
+  </data>
+  <data name="Translator_Lang_HmongDaw" xml:space="preserve">
+    <value>白苗语（拉丁语）</value>
+  </data>
+  <data name="Translator_Lang_Bulgarian" xml:space="preserve">
+    <value>保加利亚语</value>
+  </data>
+  <data name="Translator_Lang_Icelandic" xml:space="preserve">
+    <value>冰岛语</value>
+  </data>
+  <data name="Translator_Lang_Polish" xml:space="preserve">
+    <value>波兰语</value>
+  </data>
+  <data name="Translator_Lang_Bosnian" xml:space="preserve">
+    <value>波斯尼亚语(拉丁语系)</value>
+  </data>
+  <data name="Translator_Lang_Persian" xml:space="preserve">
+    <value>波斯语</value>
+  </data>
+  <data name="Translator_Lang_Afrikaans" xml:space="preserve">
+    <value>布尔语</value>
+  </data>
+  <data name="Translator_Lang_Dari" xml:space="preserve">
+    <value>达里语</value>
+  </data>
+  <data name="Translator_Lang_Danish" xml:space="preserve">
+    <value>丹麦语</value>
+  </data>
+  <data name="Translator_Lang_German" xml:space="preserve">
+    <value>德语</value>
+  </data>
+  <data name="Translator_Lang_LowGerman" xml:space="preserve">
+    <value>低地德语</value>
+  </data>
+  <data name="Translator_Lang_Dhivehi" xml:space="preserve">
+    <value>迪维希语</value>
+  </data>
+  <data name="Translator_Lang_Russian" xml:space="preserve">
+    <value>俄语</value>
+  </data>
+  <data name="Translator_Lang_Faroese" xml:space="preserve">
+    <value>法罗语</value>
+  </data>
+  <data name="Translator_Lang_French" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="Translator_Lang_FrenchCanada" xml:space="preserve">
+    <value>法语（加拿大）</value>
+  </data>
+  <data name="Translator_Lang_Filipino" xml:space="preserve">
+    <value>菲律宾语</value>
+  </data>
+  <data name="Translator_Lang_Fijian" xml:space="preserve">
+    <value>斐济语</value>
+  </data>
+  <data name="Translator_Lang_Finnish" xml:space="preserve">
+    <value>芬兰语</value>
+  </data>
+  <data name="Translator_Lang_Khmer" xml:space="preserve">
+    <value>高棉语</value>
+  </data>
+  <data name="Translator_Lang_Georgian" xml:space="preserve">
+    <value>格鲁吉亚语</value>
+  </data>
+  <data name="Translator_Lang_Gujarati" xml:space="preserve">
+    <value>古吉拉特语</value>
+  </data>
+  <data name="Translator_Lang_Kazakh" xml:space="preserve">
+    <value>哈萨克语</value>
+  </data>
+  <data name="Translator_Lang_HaitianCreole" xml:space="preserve">
+    <value>海地克里奥尔语</value>
+  </data>
+  <data name="Translator_Lang_Korean" xml:space="preserve">
+    <value>韩语</value>
+  </data>
+  <data name="Translator_Lang_Hausa" xml:space="preserve">
+    <value>豪萨语</value>
+  </data>
+  <data name="Translator_Lang_Dutch" xml:space="preserve">
+    <value>荷兰语</value>
+  </data>
+  <data name="Translator_Lang_Montenegrin" xml:space="preserve">
+    <value>黑山语</value>
+  </data>
+  <data name="Translator_Lang_Hebrew" xml:space="preserve">
+    <value>希伯来语</value>
+  </data>
+  <data name="Translator_Lang_Greek" xml:space="preserve">
+    <value>希腊语</value>
+  </data>
+  <data name="Translator_Lang_Hungarian" xml:space="preserve">
+    <value>匈牙利语</value>
+  </data>
+  <data name="Translator_Lang_Hindi" xml:space="preserve">
+    <value>印地语</value>
+  </data>
+  <data name="Translator_Lang_Indonesian" xml:space="preserve">
+    <value>印度尼西亚语</value>
+  </data>
+  <data name="Translator_Lang_Inuktitut" xml:space="preserve">
+    <value>因纽特语</value>
+  </data>
+  <data name="Translator_Lang_InuktitutLatin" xml:space="preserve">
+    <value>因纽特语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_Italian" xml:space="preserve">
+    <value>意大利语</value>
+  </data>
+  <data name="Translator_Lang_Yoruba" xml:space="preserve">
+    <value>约鲁巴语</value>
+  </data>
+  <data name="Translator_Lang_Galician" xml:space="preserve">
+    <value>加利西亚语</value>
+  </data>
+  <data name="Translator_Lang_Catalan" xml:space="preserve">
+    <value>加泰罗尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Czech" xml:space="preserve">
+    <value>捷克语</value>
+  </data>
+  <data name="Translator_Lang_Kannada" xml:space="preserve">
+    <value>卡纳达语</value>
+  </data>
+  <data name="Translator_Lang_Kashubian" xml:space="preserve">
+    <value>卡舒比语</value>
+  </data>
+  <data name="Translator_Lang_Klingon" xml:space="preserve">
+    <value>克林贡语</value>
+  </data>
+  <data name="Translator_Lang_KlingonPlqaD" xml:space="preserve">
+    <value>克林贡语(plqaD)</value>
+  </data>
+  <data name="Translator_Lang_Croatian" xml:space="preserve">
+    <value>克罗地亚语</value>
+  </data>
+  <data name="Translator_Lang_KurdishCentral" xml:space="preserve">
+    <value>库尔德语(中部)</value>
+  </data>
+  <data name="Translator_Lang_KurdishNorthern" xml:space="preserve">
+    <value>库尔德语(北部)</value>
+  </data>
+  <data name="Translator_Lang_Latin" xml:space="preserve">
+    <value>拉丁语</value>
+  </data>
+  <data name="Translator_Lang_Latvian" xml:space="preserve">
+    <value>拉脱维亚语</value>
+  </data>
+  <data name="Translator_Lang_Lithuanian" xml:space="preserve">
+    <value>立陶宛语</value>
+  </data>
+  <data name="Translator_Lang_Lingala" xml:space="preserve">
+    <value>林加拉语</value>
+  </data>
+  <data name="Translator_Lang_Luxembourgish" xml:space="preserve">
+    <value>卢森堡语</value>
+  </data>
+  <data name="Translator_Lang_Kinyarwanda" xml:space="preserve">
+    <value>卢旺达语</value>
+  </data>
+  <data name="Translator_Lang_Romanian" xml:space="preserve">
+    <value>罗马尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Maltese" xml:space="preserve">
+    <value>马耳他语</value>
+  </data>
+  <data name="Translator_Lang_Marathi" xml:space="preserve">
+    <value>马拉地语</value>
+  </data>
+  <data name="Translator_Lang_Malayalam" xml:space="preserve">
+    <value>马拉雅拉姆语</value>
+  </data>
+  <data name="Translator_Lang_Malay" xml:space="preserve">
+    <value>马来语(拉丁语系)</value>
+  </data>
+  <data name="Translator_Lang_Macedonian" xml:space="preserve">
+    <value>马其顿语</value>
+  </data>
+  <data name="Translator_Lang_Maori" xml:space="preserve">
+    <value>毛利语</value>
+  </data>
+  <data name="Translator_Lang_MongolianCyrillic" xml:space="preserve">
+    <value>蒙古语(西里尔文)</value>
+  </data>
+  <data name="Translator_Lang_MongolianTraditional" xml:space="preserve">
+    <value>蒙古语(传统)</value>
+  </data>
+  <data name="Translator_Lang_Burmese" xml:space="preserve">
+    <value>缅甸语</value>
+  </data>
+  <data name="Translator_Lang_Nepali" xml:space="preserve">
+    <value>尼泊尔语</value>
+  </data>
+  <data name="Translator_Lang_Norwegian" xml:space="preserve">
+    <value>挪威语</value>
+  </data>
+  <data name="Translator_Lang_Punjabi" xml:space="preserve">
+    <value>旁遮普语</value>
+  </data>
+  <data name="Translator_Lang_PortugueseBrazil" xml:space="preserve">
+    <value>葡萄牙语（巴西）</value>
+  </data>
+  <data name="Translator_Lang_PortuguesePortugal" xml:space="preserve">
+    <value>葡萄牙语(葡萄牙)</value>
+  </data>
+  <data name="Translator_Lang_Pashto" xml:space="preserve">
+    <value>普什图语</value>
+  </data>
+  <data name="Translator_Lang_Nyanja" xml:space="preserve">
+    <value>齐切瓦语</value>
+  </data>
+  <data name="Translator_Lang_Japanese" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="Translator_Lang_Swedish" xml:space="preserve">
+    <value>瑞典语</value>
+  </data>
+  <data name="Translator_Lang_Samoan" xml:space="preserve">
+    <value>萨摩亚语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_SerbianCyrillic" xml:space="preserve">
+    <value>塞尔维亚语（西里尔）</value>
+  </data>
+  <data name="Translator_Lang_SerbianLatin" xml:space="preserve">
+    <value>塞尔维亚语（拉丁）</value>
+  </data>
+  <data name="Translator_Lang_Sinhala" xml:space="preserve">
+    <value>僧伽罗语</value>
+  </data>
+  <data name="Translator_Lang_Slovak" xml:space="preserve">
+    <value>斯洛伐克语</value>
+  </data>
+  <data name="Translator_Lang_Slovenian" xml:space="preserve">
+    <value>斯洛文尼亚语</value>
+  </data>
+  <data name="Translator_Lang_Swahili" xml:space="preserve">
+    <value>斯瓦希里语（拉丁语）</value>
+  </data>
+  <data name="Translator_Lang_Telugu" xml:space="preserve">
+    <value>泰卢固语</value>
+  </data>
+  <data name="Translator_Lang_Tamil" xml:space="preserve">
+    <value>泰米尔语</value>
+  </data>
+  <data name="Translator_Lang_Thai" xml:space="preserve">
+    <value>泰语</value>
+  </data>
+  <data name="Translator_Lang_Tahitian" xml:space="preserve">
+    <value>塔希提语</value>
+  </data>
+  <data name="Translator_Lang_Turkish" xml:space="preserve">
+    <value>土耳其语</value>
+  </data>
+  <data name="Translator_Lang_Turkmen" xml:space="preserve">
+    <value>土库曼语(拉丁语)</value>
+  </data>
+  <data name="Translator_Lang_Welsh" xml:space="preserve">
+    <value>威尔士语</value>
+  </data>
+  <data name="Translator_Lang_Urdu" xml:space="preserve">
+    <value>乌尔都语</value>
+  </data>
+  <data name="Translator_Lang_Ukrainian" xml:space="preserve">
+    <value>乌克兰语</value>
+  </data>
+  <data name="Translator_Lang_Uzbek" xml:space="preserve">
+    <value>乌兹别克语(拉丁文)</value>
+  </data>
+  <data name="Translator_Lang_Spanish" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="Translator_Lang_Vietnamese" xml:space="preserve">
+    <value>越南语</value>
+  </data>
+  <data name="Translator_Lang_ChineseClassical" xml:space="preserve">
+    <value>中文(文言文)</value>
+  </data>
+  <data name="Translator_Lang_ChineseSimplified" xml:space="preserve">
+    <value>中文(简体)</value>
+  </data>
+  <data name="Translator_Lang_ChineseTraditional" xml:space="preserve">
+    <value>中文(繁体)</value>
+  </data>
+  <data name="Translator_Lang_Zulu" xml:space="preserve">
+    <value>祖鲁语</value>
+  </data>
+  <data name="HomePage_Translator_Description.Text" xml:space="preserve">
+    <value>通过微软翻译连续翻译二十遍</value>
+  </data>
+  <data name="HomePage_Translator_Title.Text" xml:space="preserve">
+    <value>翻译工具</value>
+  </data>
+  <data name="Translator_Lang_English" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="Translator_PivotItem1.Header" xml:space="preserve">
+    <value>普通翻译</value>
+  </data>
+  <data name="Translator_PivotItem2.Header" xml:space="preserve">
+    <value>连续翻译</value>
+  </data>
+  <data name="FirstRun_Body.Text" xml:space="preserve">
+    <value>欢迎您使用 eComBox-简易工具箱！
+
+eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成本，普通版本每日最多可以使用 25 次 AI 功能），根据三角形边长解三角形，连续翻译20遍文本。目前功能仍在不断扩充之中。
+
+感谢您的支持！</value>
+  </data>
+  <data name="WhatsNew_Feature1.Text" xml:space="preserve">
+    <value>重新设计了日期计数器</value>
+    <comment>What's new prompt message title</comment>
+  </data>
+  <data name="WhatsNew_Feature2.Text" xml:space="preserve">
+    <value>引入 AI 功能（为了节约成本，普通版本每日最多可以使用 25 次 ai 功能）</value>
+  </data>
+  <data name="WhatsNew_Feature3.Text" xml:space="preserve">
+    <value>修复了一些其他问题</value>
+  </data>
+  <data name="WhatsNew_Header.Text" xml:space="preserve">
+    <value>已更新到 eComBox 0.4.0 版本</value>
+    <comment>What's new prompt message primary button text</comment>
+  </data>
+  <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="errorStartDialog.CloseButtonText" xml:space="preserve">
+    <value>好的</value>
+  </data>
+  <data name="errorStartDialog.Content" xml:space="preserve">
+    <value>无法启用开机自启动功能，请检查您的系统设置。</value>
+  </data>
+  <data name="errorStartDialog.Title" xml:space="preserve">
+    <value>开机自启动失败</value>
+  </data>
+  <data name="Settings_ai.Description" xml:space="preserve">
+    <value>根据您所输入的文字预测日期</value>
+  </data>
+  <data name="Settings_ai.Header" xml:space="preserve">
+    <value>AI 日期预测（预览）</value>
+  </data>
+  <data name="Settings_autostart.Description" xml:space="preserve">
+    <value>系统启动时自动启动应用并显示日期通知</value>
+  </data>
+  <data name="Settings_autostart.Header" xml:space="preserve">
+    <value>开机自启动</value>
+  </data>
+  <data name="ExportLogButton.Content" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="Settings_ExportLog.Description" xml:space="preserve">
+    <value>导出应用日志以帮助诊断问题</value>
+  </data>
+  <data name="Settings_ExportLog.Header" xml:space="preserve">
+    <value>诊断日志</value>
+  </data>
+</root>

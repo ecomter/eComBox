@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eComBox</RootNamespace>
     <AssemblyName>eComBox</AssemblyName>
-    <DefaultLanguage>zh-cn</DefaultLanguage>
+    <DefaultLanguage>zh-Hans-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22621.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
@@ -23,13 +23,13 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <AppxBundle>Auto</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <AppxPackageDir>F:\迅雷下载\</AppxPackageDir>
+    <AppxPackageDir>I:\新建文件夹\</AppxPackageDir>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -112,6 +112,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -129,6 +130,24 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Azure.AI.OpenAI">
+      <Version>1.0.0-beta.7</Version>
+    </PackageReference>
+    <PackageReference Include="Azure.AI.TextAnalytics">
+      <Version>5.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Uwp.Animations">
+      <Version>8.1.240916</Version>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Uwp.Controls.RadialGauge">
+      <Version>8.1.240916</Version>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Uwp.Controls.SettingsControls">
+      <Version>8.1.240916</Version>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Uwp.Extensions">
+      <Version>8.1.240916</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
@@ -144,32 +163,55 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>3.0.0</Version>
     </PackageReference>
+    <PackageReference Include="System.Net.Http.Json">
+      <Version>9.0.4</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\zh-cn\Resources.resw" />
+    <PRIResource Include="Strings\zh-Hans-CN\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
+    <Compile Include="Helpers\LoggingHelper.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
     <Compile Include="Services\ActivationService.cs" />
+    <Compile Include="Services\AIService.cs" />
+    <Compile Include="Services\AIUsageService.cs" />
+    <Compile Include="Services\AzureDatePredictionService.cs" />
+    <Compile Include="Services\ConfigurationService.cs" />
+    <Compile Include="Services\IAIService.cs" />
+    <Compile Include="Tasks\DateNotificationBackgroundTask.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\StartupService.cs" />
+    <Compile Include="Services\StoreService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="Services\ToastNotificationsService.cs" />
     <Compile Include="Services\ToastNotificationsService.Samples.cs" />
     <Compile Include="Services\ViewLifetimeControl.cs" />
     <Compile Include="Services\WhatsNewDisplayService.cs" />
     <Compile Include="Services\WindowManagerService.cs" />
+    <Compile Include="Views\betaPage.xaml.cs">
+      <DependentUpon>betaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomDialog.xaml.cs">
+      <DependentUpon>CustomDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DatePage.xaml.cs">
       <DependentUpon>DatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FirstRunDialog.xaml.cs">
       <DependentUpon>FirstRunDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FloatingCardPage.xaml.cs">
+      <DependentUpon>FloatingCardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GeometryPage.xaml.cs">
       <DependentUpon>GeometryPage.xaml</DependentUpon>
@@ -182,6 +224,9 @@
     </Compile>
     <Compile Include="Views\ShellPage.xaml.cs">
       <DependentUpon>ShellPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\translatorPage.xaml.cs">
+      <DependentUpon>translatorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WhatsNewDialog.xaml.cs">
       <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
@@ -214,11 +259,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\betaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CustomDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DatePage.xaml">
       <Generator>XamlGenerator</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FirstRunDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FloatingCardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -235,6 +292,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\translatorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -260,6 +321,7 @@
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\Header-DatePage.png" />
     <Content Include="Assets\Header-GeoPage.png" />
+    <Content Include="Assets\Header-Translator.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -318,6 +380,9 @@
     <None Include="ecombox.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
+    <PRIResource Include="Strings\en-us\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

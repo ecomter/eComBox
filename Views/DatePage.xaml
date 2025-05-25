@@ -8,23 +8,41 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
-    <Grid Margin="10,5,0,0">
-        <!-- 定义行 -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> <!-- 按钮行 -->
-            <RowDefinition Height="*"/>    <!-- 内容区域 -->
-        </Grid.RowDefinitions>
+    <Grid MaxWidth="1000" HorizontalAlignment="Stretch">
+        <Grid Margin="10,5,0,0">
+            <!-- 定义行 -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- 按钮行 -->
+                <RowDefinition Height="*"/>
+                <!-- 内容区域 -->
+            </Grid.RowDefinitions>
 
-        <!-- 按钮行 -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <AppBarButton Icon="Delete" Click="deleteall" Label="清空"/>
-            <AppBarButton Icon="Add" Click="newItemBar" Label="新建"/>
-        </StackPanel>
+            <!-- 按钮行 -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <AppBarButton x:Uid="DatePage_ClearButton" Icon="Delete" Click="deleteall"/>
+                <AppBarButton x:Uid="DatePage_NewButton" Icon="Add" Click="newItemBar"/>
+                <AppBarButton x:Uid="DatePage_ImportButton" Icon="Import" Click="importItem"/>
+                <AppBarButton x:Uid="DatePage_ExportButton" Click="exportItem">
+                    <FontIcon Glyph="&#xEDE1;" />
+                </AppBarButton>
+            </StackPanel>
 
-        <!-- 可滚动的内容区域 -->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-            <Grid x:Name="ContentArea" Margin="10,5,0,20">
-            </Grid>
-        </ScrollViewer>
+            <!-- 可滚动的内容区域 -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                <Grid x:Name="ContentArea" Margin="10,5,0,20">
+                    <!-- 内容 -->
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+        <ContentDialog
+            x:Uid="DatePage_DeleteAll"
+            x:Name="deleteAll"
+            DefaultButton="Primary"/>
+        <ContentDialog
+            x:Uid="DatePage_ImportWarning"
+            x:Name="importWarning"
+            DefaultButton="Primary"/>
     </Grid>
+
 </Page>

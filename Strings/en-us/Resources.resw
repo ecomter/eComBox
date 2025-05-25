@@ -1,0 +1,1134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>eComBox-Simple Toolbox</value>
+    <comment>Application display name</comment>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>eComBox-Simple Toolbox is a toolbox UWP application developed by ecomter that supports date calculations and simple geometric calculations.</value>
+    <comment>Application description</comment>
+  </data>
+  <data name="Shell_Date.Content" xml:space="preserve">
+    <value>Date Calculator</value>
+    <comment>Navigation view item name for Date</comment>
+  </data>
+  <data name="Geometry_PivotItem1.Header" xml:space="preserve">
+    <value>Solve Triangles</value>
+  </data>
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>Personalization</value>
+    <comment>Personalization text for Settings</comment>
+  </data>
+  <data name="ThemeSelection.Header" xml:space="preserve">
+    <value>App Theme</value>
+  </data>
+  <data name="ThemeSelection.Description" xml:space="preserve">
+    <value>Select which theme to display in the application</value>
+  </data>
+  <data name="LanguageExpander.Header" xml:space="preserve">
+    <value>App Language</value>
+  </data>
+  <data name="LanguageExpander.Description" xml:space="preserve">
+    <value>Select application language (requires restart)</value>
+  </data>
+  <data name="Settings_Advanced.Text" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="DatePage_ClearButton.Label" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="DatePage_NewButton.Label" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="DatePage_ImportButton.Label" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="DatePage_ExportButton.Label" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="DatePage_DeleteAll_Title" xml:space="preserve">
+    <value>Delete All</value>
+  </data>
+  <data name="DatePage_DeleteAll_Content" xml:space="preserve">
+    <value>This action cannot be undone</value>
+  </data>
+  <data name="DatePage_DeleteAll_PrimaryButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DatePage_DeleteAll_CloseButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DatePage_ImportWarning_Title" xml:space="preserve">
+    <value>Confirm Import</value>
+  </data>
+  <data name="DatePage_ImportWarning_Content" xml:space="preserve">
+    <value>Importing a new configuration file will clear all current content. Continue?</value>
+  </data>
+  <data name="DatePage_ImportWarning_PrimaryButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DatePage_ImportWarning_CloseButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DatePage_EditDialog_Title" xml:space="preserve">
+    <value>Edit Event</value>
+  </data>
+  <data name="DatePage_EditDialog_PrimaryButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DatePage_EditDialog_CloseButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DatePage_EditDialog_SecondaryButton" xml:space="preserve">
+    <value>Delete Card</value>
+  </data>
+  <data name="DatePage_ColorLabel" xml:space="preserve">
+    <value>Card Color:</value>
+  </data>
+  <data name="DatePage_Color_Blue" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="DatePage_Color_Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="DatePage_Color_Yellow" xml:space="preserve">
+    <value>Yellow</value>
+  </data>
+  <data name="DatePage_Color_Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="DatePage_Color_Purple" xml:space="preserve">
+    <value>Purple</value>
+  </data>
+  <data name="DatePage_Color_Pink" xml:space="preserve">
+    <value>Pink</value>
+  </data>
+  <data name="DatePage_Color_Gray" xml:space="preserve">
+    <value>Gray</value>
+  </data>
+  <data name="DatePage_Color_Starry" xml:space="preserve">
+    <value>Starry Sky</value>
+  </data>
+	<data name="DatePage_Color_Sunset" xml:space="preserve">
+    <value>Sunset</value>
+	  
+  </data>
+	<data name="DatePage_Color_Ocean" xml:space="preserve">
+    <value>Ocean</value>
+  </data>
+	<data name="DatePage_Color_Forest" xml:space="preserve">
+    <value>Forest</value>
+  </data>
+	<data name="DatePage_Color_Lavender" xml:space="preserve">
+    <value>Lavender</value>
+  </data>
+	<data name="DatePage_Color_Candy" xml:space="preserve">
+    <value>Candy</value>
+  </data>
+
+	<data name="DatePage_Color_Aurora" xml:space="preserve">
+    <value>Aurora</value>
+  </data>
+  <data name="DatePage_Color_Festive" xml:space="preserve">
+    <value>Festive</value>
+  </data>
+  <data name="DatePage_Color_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="DatePage_TaskNameLabel" xml:space="preserve">
+    <value>Event Name:</value>
+  </data>
+  <data name="DatePage_DateLabel" xml:space="preserve">
+    <value>Target Date:</value>
+  </data>
+  <data name="DatePage_QuickDaysLabel" xml:space="preserve">
+    <value>Quick Setup:</value>
+  </data>
+  <data name="DatePage_CustomDays" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="DatePage_DaysAfter" xml:space="preserve">
+    <value>{0} days later</value>
+  </data>
+  <data name="DatePage_CustomDaysHeader" xml:space="preserve">
+    <value>Custom Days</value>
+  </data>
+  <data name="DatePage_CustomDaysPlaceholder" xml:space="preserve">
+    <value>Enter days</value>
+  </data>
+  <data name="DatePage_ApplyButton" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="DatePage_NotificationCheckBox" xml:space="preserve">
+    <value>Notify days remaining on startup</value>
+  </data>
+  <data name="DatePage_AI_Title" xml:space="preserve">
+    <value>AI Date Recommendations</value>
+  </data>
+	<data name="DatePage_AI_Limit" xml:space="preserve">
+    <value>You've reached your limit of 25 AI analyses today. Please upgrade to the premium version to get unlimited usage rights.</value>
+  </data>
+	<data name="DatePage_AI_nosuggestions" xml:space="preserve">
+    <value>No suggestions found</value>
+  </data>
+	<data name="DatePage_AI_upcoming" xml:space="preserve">
+    <value>Upcoming</value>
+  </data>
+	<data name="DatePage_AI_analyzing" xml:space="preserve">
+    <value>AI is thinking...</value>
+  </data>
+  <data name="DatePage_AI_Suggestion" xml:space="preserve">
+    <value>Based on the event name, the following dates may be relevant to your plan:</value>
+  </data>
+  <data name="DatePage_AI_HighRelevance" xml:space="preserve">
+    <value>High Relevance</value>
+  </data>
+  <data name="DatePage_AI_MediumRelevance" xml:space="preserve">
+    <value>Relevant</value>
+  </data>
+  <data name="DatePage_AI_LowRelevance" xml:space="preserve">
+    <value>Possibly Relevant</value>
+  </data>
+  <data name="DatePage_Tomorrow" xml:space="preserve">
+    <value>Tomorrow</value>
+  </data>
+  <data name="DatePage_DayAfterTomorrow" xml:space="preserve">
+    <value>Day after tomorrow</value>
+  </data>
+  <data name="DatePage_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="DatePage_DaysLeft" xml:space="preserve">
+    <value>{0} days</value>
+  </data>
+  <data name="DatePage_Event_Today" xml:space="preserve">
+    <value>Today is</value>
+  </data>
+  <data name="DatePage_Event_Future" xml:space="preserve">
+    <value>Today is {0} days away from</value>
+  </data>
+  <data name="DatePage_Event_Tomorrow" xml:space="preserve">
+    <value>{0} is on</value>
+  </data>
+  <data name="DatePage_Event_Past" xml:space="preserve">
+    <value>Today is {0} days since</value>
+  </data>
+  <data name="DatePage_Menu_Edit" xml:space="preserve">
+    <value>Edit Card</value>
+  </data>
+  <data name="DatePage_Menu_Pin" xml:space="preserve">
+    <value>Pin as Floating Window</value>
+  </data>
+  <data name="DatePage_Menu_Delete" xml:space="preserve">
+    <value>Delete Card</value>
+  </data>
+  <data name="DatePage_DeleteCard_Title" xml:space="preserve">
+    <value>Delete Card</value>
+  </data>
+  <data name="DatePage_DeleteCard_Content" xml:space="preserve">
+    <value>Are you sure you want to delete this card? This action cannot be undone.</value>
+  </data>
+  <data name="DatePage_DeleteCard_PrimaryButton" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DatePage_DeleteCard_CloseButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="Geometry_Conic.Header" xml:space="preserve">
+  <value>Conic Sections</value>
+</data>
+	<data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
+  <value>Side a</value>
+</data>
+	<data name="Geometry_Triangle_SideB.Text" xml:space="preserve">
+  <value>Side b</value>
+</data>
+	<data name="Geometry_Triangle_SideC.Text" xml:space="preserve">
+  <value>Side c</value>
+</data>
+	<data name="Geometry_Calculate.Content" xml:space="preserve">
+  <value>Calculate</value>
+</data>
+	<data name="Geometry_DecimalPlaces.Header" xml:space="preserve">
+  <value>Decimal Places</value>
+</data>
+	<data name="Geometry_Area.Text" xml:space="preserve">
+  <value>Area</value>
+</data>
+	<data name="Geometry_Perimeter.Text" xml:space="preserve">
+  <value>Perimeter</value>
+</data>
+	<data name="Geometry_Angle_A_Cos.Text" xml:space="preserve">
+  <value>Cosine value of angle opposite to side a</value>
+</data>
+	<data name="Geometry_Angle_B_Cos.Text" xml:space="preserve">
+  <value>Cosine value of angle opposite to side b</value>
+</data>
+	<data name="Geometry_Angle_C_Cos.Text" xml:space="preserve">
+  <value>Cosine value of angle opposite to side c</value>
+</data>
+	<data name="Geometry_Triangle_Image.Text" xml:space="preserve">
+  <value>Triangle Image</value>
+</data>
+	<data name="Geometry_WaitingForCalculation.Text" xml:space="preserve">
+  <value>Waiting for calculation</value>
+</data>
+	<data name="Geometry_InfoBar_Title.Title" xml:space="preserve">
+  <value>Note</value>
+</data>
+	<data name="Geometry_InfoBar_Message.Message" xml:space="preserve">
+  <value>This feature is not yet complete, please wait for future updates</value>
+</data>
+	<data name="Geometry_Error_Title" xml:space="preserve">
+  <value>Input Error</value>
+</data>
+	<data name="Geometry_Error_InvalidNumber" xml:space="preserve">
+  <value>Please ensure you have entered numbers</value>
+</data>
+	<data name="Geometry_Error_NegativeNumber" xml:space="preserve">
+  <value>Please enter numbers greater than 0</value>
+</data>
+	<data name="Geometry_Error_NotTriangle" xml:space="preserve">
+  <value>Cannot form a triangle</value>
+</data>
+	<data name="Geometry_Error_TriangleRule" xml:space="preserve">
+  <value>The sum of any two sides must be greater than the third side</value>
+</data>
+	<data name="Geometry_Angle_Degrees" xml:space="preserve">
+  <value>degrees</value>
+</data>
+
+	<data name="DatePage_OperationFailed_Title" xml:space="preserve">
+    <value>Operation Failed</value>
+  </data>
+  <data name="DatePage_OperationFailed_Content" xml:space="preserve">
+    <value>Cannot create floating window: {0}</value>
+  </data>
+  <data name="DatePage_OperationFailed_CloseButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DatePage_DragDropFailed_Title" xml:space="preserve">
+    <value>Operation Tip</value>
+  </data>
+  <data name="DatePage_DragDropFailed_Content" xml:space="preserve">
+    <value>Drag and drop operation failed, please try again.</value>
+  </data>
+  <data name="DatePage_DragDropFailed_CloseButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DatePage_SaveFailed_Title" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="DatePage_SaveFailed_Content" xml:space="preserve">
+    <value>File read/write error occurred, you can still use the software but will lose the save configuration function. Clicking Delete All may solve this problem.</value>
+  </data>
+  <data name="DatePage_SaveFailed_CloseButton" xml:space="preserve">
+    <value>Got it</value>
+  </data>
+  <data name="DatePage_Export_FileType" xml:space="preserve">
+    <value>JSON Files</value>
+  </data>
+  <data name="DatePage_Export_FileName" xml:space="preserve">
+    <value>config</value>
+  </data>
+  <data name="DatePage_Export_Failed_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="DatePage_Export_Failed_Content" xml:space="preserve">
+    <value>Unable to save file.</value>
+  </data>
+  <data name="DatePage_Export_Failed_CloseButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DatePage_Import_Failed_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="DatePage_Import_Failed_Content" xml:space="preserve">
+    <value>Error occurred while importing file: {0}</value>
+  </data>
+  <data name="DatePage_Import_Failed_CloseButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Settings_AISection.Text" xml:space="preserve">
+    <value>AI Features</value>
+  </data>
+  <data name="Settings_AIUsage_Status.Text" xml:space="preserve">
+    <value>Usage Status</value>
+  </data>
+  <data name="Settings_AIUsage_PremiumBadge.Text" xml:space="preserve">
+    <value>PREMIUM</value>
+  </data>
+  <data name="Settings_AIUsage_Remaining.Text" xml:space="preserve">
+    <value>Remaining today:</value>
+  </data>
+  <data name="Settings_AIUsage_LimitInfo.Text" xml:space="preserve">
+    <value>Free users can use AI date prediction up to 25 times per day to save costs. Upgrade to Premium for unlimited usage.</value>
+  </data>
+  <data name="Settings_AIUsage_PremiumInfo.Text" xml:space="preserve">
+    <value>You have Premium access with unlimited AI date predictions. Thank you for your support!</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseButton.Content" xml:space="preserve">
+    <value>Upgrade to Premium</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_Title" xml:space="preserve">
+    <value>Purchase Successful</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_Content" xml:space="preserve">
+    <value>Thank you for upgrading to Premium! You now have unlimited access to AI date prediction features.</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseSuccess_CloseButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_Title" xml:space="preserve">
+    <value>Purchase Not Completed</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_Content" xml:space="preserve">
+    <value>The purchase was not completed. Please try again later or contact support if the issue persists.</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseFailed_CloseButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_Title" xml:space="preserve">
+    <value>Error During Purchase</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_Content" xml:space="preserve">
+    <value>An error occurred during the purchase process:</value>
+  </data>
+  <data name="Settings_AIUsage_PurchaseError_CloseButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Settings_ExportLog_FileType" xml:space="preserve">
+    <value>Text Files</value>
+  </data>
+  <data name="Settings_ExportLog_Success_Title" xml:space="preserve">
+    <value>Export Successful</value>
+  </data>
+  <data name="Settings_ExportLog_Success_Content" xml:space="preserve">
+    <value>Diagnostic log has been successfully exported to: {0}</value>
+  </data>
+  <data name="Settings_ExportLog_Fail_Title" xml:space="preserve">
+    <value>Export Failed</value>
+  </data>
+  <data name="Settings_ExportLog_Fail_Content" xml:space="preserve">
+    <value>Unable to complete file writing. Please check disk space and permissions.</value>
+  </data>
+  <data name="Settings_ExportLog_Error_Title" xml:space="preserve">
+    <value>Export Failed</value>
+  </data>
+  <data name="Settings_ExportLog_Error_Content" xml:space="preserve">
+    <value>Error occurred while exporting log: {0}</value>
+  </data>
+  <data name="Settings_ExportLog_CloseButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Settings_TranslatorTool.Header" xml:space="preserve">
+    <value>Translation Tool</value>
+  </data>
+  <data name="Settings_TranslatorTool.Description" xml:space="preserve">
+    <value>Using Azure Translation Services</value>
+  </data>
+  <data name="Settings_AzureTranslator.Content" xml:space="preserve">
+    <value>Azure AI Translator</value>
+  </data>
+  <data name="Settings_Endpoint.Header" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="Settings_ApiKey.Header" xml:space="preserve">
+    <value>API Key</value>
+  </data>
+  <data name="Settings_Region.Header" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Settings_HotList.Header" xml:space="preserve">
+    <value>Real-time Hotspots (Preview)</value>
+  </data>
+  <data name="Settings_HotList.Description" xml:space="preserve">
+    <value>You can view trending information from various platforms and weather conditions on the app homepage.</value>
+  </data>
+  <data name="Settings_NewsSource.Header" xml:space="preserve">
+    <value>News Source</value>
+  </data>
+  <data name="Settings_Source_Douyin.Content" xml:space="preserve">
+    <value>Douyin Trending</value>
+  </data>
+  <data name="Settings_Source_Baidu.Content" xml:space="preserve">
+    <value>Baidu Hot Search</value>
+  </data>
+  <data name="Settings_Source_Bilibili.Content" xml:space="preserve">
+    <value>Bilibili Trending</value>
+  </data>
+  <data name="Settings_Source_Weather.Content" xml:space="preserve">
+    <value>Weather Alerts</value>
+  </data>
+  <data name="Settings_Source_Weibo.Content" xml:space="preserve">
+    <value>Weibo Hot Search</value>
+  </data>
+  <data name="Settings_HotListPolicy.Content" xml:space="preserve">
+    <value>"Real-time Hotspots" Usage Policy</value>
+  </data>
+  <data name="Settings_AppInfo.Description" xml:space="preserve">
+    <value>© ecomter 2025 All Rights Reserved</value>
+  </data>
+  <data name="Settings_githubLink.Content" xml:space="preserve">
+    <value>GitHub Repository</value>
+  </data>
+  <data name="Settings_PrivacyPolicy.Content" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.Title" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.PrimaryButtonText" xml:space="preserve">
+    <value>I have read and agree</value>
+  </data>
+  <data name="Settings_TermsOfServiceDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Settings_TermsDescription.Text" xml:space="preserve">
+    <value>This is a beta feature that may be removed in future versions.</value>
+  </data>
+  <data name="Translator_Error/Title" xml:space="preserve">
+    <value>Initialization Error</value>
+  </data>
+  <data name="Translator_Error/Message" xml:space="preserve">
+    <value>Language selection menu failed to load correctly</value>
+  </data>
+  <data name="Translator_MissingSettings/Title" xml:space="preserve">
+    <value>Missing Information</value>
+  </data>
+  <data name="Translator_MissingSettings/Message" xml:space="preserve">
+    <value>Please enter translation configuration in settings</value>
+  </data>
+  <data name="Translator_MissingInfo/Exception" xml:space="preserve">
+    <value>Missing translation tool configuration information</value>
+  </data>
+  <data name="Translator_SequenceInProgress/Message" xml:space="preserve">
+    <value>Sequential translation in progress...</value>
+  </data>
+  <data name="Translator_SequenceComplete/Message" xml:space="preserve">
+    <value>Sequential translation complete!</value>
+  </data>
+  <data name="Translator_TranslationError/Message" xml:space="preserve">
+    <value>An error occurred during translation!</value>
+  </data>
+  <data name="Translator_HistoryOriginal" xml:space="preserve">
+    <value>Original text ({0}): {1}</value>
+  </data>
+  <data name="Translator_HistoryStep" xml:space="preserve">
+    <value>Step {0}: {1} -&gt; {2}</value>
+  </data>
+  <data name="Translator_SequenceStatus" xml:space="preserve">
+    <value>Sequential translation: Step {0}/{1} - {2}</value>
+  </data>
+  <data name="Translator_SaveError" xml:space="preserve">
+    <value>Failed to save translation sequence settings: {0}</value>
+  </data>
+  <data name="Translator_LoadError" xml:space="preserve">
+    <value>Failed to load translation sequence settings: {0}</value>
+  </data>
+  <data name="Geometry_PivotItem2.Header" xml:space="preserve">
+    <value>Solve Lines</value>
+  </data>
+  <data name="Shell_Geometry.Content" xml:space="preserve">
+    <value>Geometry Tools</value>
+    <comment>Navigation view item name for Geometry</comment>
+  </data>
+  <data name="Shell_Home.Content" xml:space="preserve">
+    <value>Home</value>
+    <comment>Navigation view item name for Home</comment>
+  </data>
+  <data name="Translator_History.Header" xml:space="preserve">
+    <value>Translation History</value>
+  </data>
+  <data name="Translator_InputContent.Text" xml:space="preserve">
+    <value>Input Content</value>
+  </data>
+  <data name="Translator_OutputContent.Text" xml:space="preserve">
+    <value>Output Content</value>
+  </data>
+  <data name="Translator_PivitItem1.Header" xml:space="preserve">
+    <value>Regular Translation</value>
+  </data>
+  <data name="Translator_PivitItem2.Header" xml:space="preserve">
+    <value>Sequential Translation</value>
+  </data>
+  <data name="Translator_ReverseButton.Content" xml:space="preserve">
+    <value>Reverse Translation</value>
+  </data>
+  <data name="Translator_SequenceButton.Content" xml:space="preserve">
+    <value>Sequential Translation</value>
+  </data>
+  <data name="Translator_SequenceSettings.Header" xml:space="preserve">
+    <value>Sequential Translation Settings</value>
+  </data>
+  <data name="Translator_SourceLanguage.Text" xml:space="preserve">
+    <value>Source Language</value>
+  </data>
+  <data name="Translator_Step.Text" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="Translator_TargetLanguage.Text" xml:space="preserve">
+    <value>Target Language</value>
+  </data>
+  <data name="Translator_TranslateButton.Content" xml:space="preserve">
+    <value>Translate</value>
+  </data>
+  <data name="Translator_TranslationOrder.Text" xml:space="preserve">
+    <value>Translation Order</value>
+  </data>
+  <data name="Translator_StatusBar.Title" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Translator_StatusBar.Message" xml:space="preserve">
+    <value>You have completed all configuration items and are ready for translation</value>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+    <comment>Dark theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>Auto</value>
+    <comment>Windows default theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>Light</value>
+    <comment>Light theme text for Settings</comment>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>About</value>
+    <comment>About this application title for Settings</comment>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>eComBox-Simple Toolbox is a toolbox UWP application developed by ecomter that supports date calculations and simple geometric calculations.</value>
+    <comment>About this application description for Settings</comment>
+  </data>
+  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Feedback</value>
+    <comment>Privacy Statement link content for Settings</comment>
+  </data>
+  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>mailto:t1472580369@outlook.com</value>
+    <comment>Here is your Privacy Statement url for Settings</comment>
+  </data>
+  <data name="FirstRunDialog.Title" xml:space="preserve">
+    <value>Welcome</value>
+    <comment>First use prompt message title</comment>
+  </data>
+  <data name="FirstRunDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+    <comment>First use prompt message primary button text</comment>
+  </data>
+  <data name="WhatsNew_Feature1.Text" xml:space="preserve">
+    <value>Redesigned Date Calculator</value>
+    <comment>What's new prompt message title</comment>
+  </data>
+  <data name="WhatsNew_Header.Text" xml:space="preserve">
+    <value>Updated to eComBox version 0.4.0</value>
+    <comment>What's new prompt message primary button text</comment>
+  </data>
+  <data name="Shell_translator.Content" xml:space="preserve">
+    <value>Translator Tool</value>
+  </data>
+  <data name="HomePage_Date_Description.Text" xml:space="preserve">
+    <value>Calculate the number of days until the target date with a countdown function.</value>
+  </data>
+  <data name="HomePage_Date_Title.Text" xml:space="preserve">
+    <value>Date Calculator</value>
+  </data>
+  <data name="HomePage_Geo_Description.Text" xml:space="preserve">
+    <value>Solve common calculations in analytical geometry such as triangles and conic sections.(Building)</value>
+  </data>
+  <data name="HomePage_Geo_Title.Text" xml:space="preserve">
+    <value>Geometry Tools</value>
+  </data>
+  <data name="AppDisplayNamet.Text" xml:space="preserve">
+    <value>eComBox-Simple Toolbox</value>
+  </data>
+  <data name="Translator_AutoDetect" xml:space="preserve">
+    <value>Auto Detect</value>
+  </data>
+  <data name="Translator_Lang_Albanian" xml:space="preserve">
+    <value>Albanian</value>
+  </data>
+  <data name="Translator_Lang_Amharic" xml:space="preserve">
+    <value>Amharic</value>
+  </data>
+  <data name="Translator_Lang_Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="Translator_Lang_Assamese" xml:space="preserve">
+    <value>Assamese</value>
+  </data>
+  <data name="Translator_Lang_Azerbaijani" xml:space="preserve">
+    <value>Azerbaijani (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Irish" xml:space="preserve">
+    <value>Irish</value>
+  </data>
+  <data name="Translator_Lang_Estonian" xml:space="preserve">
+    <value>Estonian</value>
+  </data>
+  <data name="Translator_Lang_HmongDaw" xml:space="preserve">
+    <value>Hmong Daw (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Bulgarian" xml:space="preserve">
+    <value>Bulgarian</value>
+  </data>
+  <data name="Translator_Lang_Icelandic" xml:space="preserve">
+    <value>Icelandic</value>
+  </data>
+  <data name="Translator_Lang_Polish" xml:space="preserve">
+    <value>Polish</value>
+  </data>
+  <data name="Translator_Lang_Bosnian" xml:space="preserve">
+    <value>Bosnian (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Persian" xml:space="preserve">
+    <value>Persian</value>
+  </data>
+  <data name="Translator_Lang_Afrikaans" xml:space="preserve">
+    <value>Afrikaans</value>
+  </data>
+  <data name="Translator_Lang_Dari" xml:space="preserve">
+    <value>Dari</value>
+  </data>
+  <data name="Translator_Lang_Danish" xml:space="preserve">
+    <value>Danish</value>
+  </data>
+  <data name="Translator_Lang_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Translator_Lang_LowGerman" xml:space="preserve">
+    <value>Low German</value>
+  </data>
+  <data name="Translator_Lang_Dhivehi" xml:space="preserve">
+    <value>Dhivehi</value>
+  </data>
+  <data name="Translator_Lang_Russian" xml:space="preserve">
+    <value>Russian</value>
+  </data>
+  <data name="Translator_Lang_Faroese" xml:space="preserve">
+    <value>Faroese</value>
+  </data>
+  <data name="Translator_Lang_French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Translator_Lang_FrenchCanada" xml:space="preserve">
+    <value>French (Canada)</value>
+  </data>
+  <data name="Translator_Lang_Filipino" xml:space="preserve">
+    <value>Filipino</value>
+  </data>
+  <data name="Translator_Lang_Fijian" xml:space="preserve">
+    <value>Fijian</value>
+  </data>
+  <data name="Translator_Lang_Finnish" xml:space="preserve">
+    <value>Finnish</value>
+  </data>
+  <data name="Translator_Lang_Khmer" xml:space="preserve">
+    <value>Khmer</value>
+  </data>
+  <data name="Translator_Lang_Georgian" xml:space="preserve">
+    <value>Georgian</value>
+  </data>
+  <data name="Translator_Lang_Gujarati" xml:space="preserve">
+    <value>Gujarati</value>
+  </data>
+  <data name="Translator_Lang_Kazakh" xml:space="preserve">
+    <value>Kazakh</value>
+  </data>
+  <data name="Translator_Lang_HaitianCreole" xml:space="preserve">
+    <value>Haitian Creole</value>
+  </data>
+  <data name="Translator_Lang_Korean" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="Translator_Lang_Hausa" xml:space="preserve">
+    <value>Hausa</value>
+  </data>
+  <data name="Translator_Lang_Dutch" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="Translator_Lang_Montenegrin" xml:space="preserve">
+    <value>Montenegrin</value>
+  </data>
+  <data name="Translator_Lang_Hebrew" xml:space="preserve">
+    <value>Hebrew</value>
+  </data>
+  <data name="Translator_Lang_Greek" xml:space="preserve">
+    <value>Greek</value>
+  </data>
+  <data name="Translator_Lang_Hungarian" xml:space="preserve">
+    <value>Hungarian</value>
+  </data>
+  <data name="Translator_Lang_Hindi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="Translator_Lang_Indonesian" xml:space="preserve">
+    <value>Indonesian</value>
+  </data>
+  <data name="Translator_Lang_Inuktitut" xml:space="preserve">
+    <value>Inuktitut</value>
+  </data>
+  <data name="Translator_Lang_InuktitutLatin" xml:space="preserve">
+    <value>Inuktitut (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Italian" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="Translator_Lang_Yoruba" xml:space="preserve">
+    <value>Yoruba</value>
+  </data>
+  <data name="Translator_Lang_Galician" xml:space="preserve">
+    <value>Galician</value>
+  </data>
+  <data name="Translator_Lang_Catalan" xml:space="preserve">
+    <value>Catalan</value>
+  </data>
+  <data name="Translator_Lang_Czech" xml:space="preserve">
+    <value>Czech</value>
+  </data>
+  <data name="Translator_Lang_Kannada" xml:space="preserve">
+    <value>Kannada</value>
+  </data>
+  <data name="Translator_Lang_Kashubian" xml:space="preserve">
+    <value>Kashubian</value>
+  </data>
+  <data name="Translator_Lang_Klingon" xml:space="preserve">
+    <value>Klingon (Latin)</value>
+  </data>
+  <data name="Translator_Lang_KlingonPlqaD" xml:space="preserve">
+    <value>Klingon (plqaD)</value>
+  </data>
+  <data name="Translator_Lang_Croatian" xml:space="preserve">
+    <value>Croatian</value>
+  </data>
+  <data name="Translator_Lang_KurdishCentral" xml:space="preserve">
+    <value>Kurdish (Central)</value>
+  </data>
+  <data name="Translator_Lang_KurdishNorthern" xml:space="preserve">
+    <value>Kurdish (Northern)</value>
+  </data>
+  <data name="Translator_Lang_Latin" xml:space="preserve">
+    <value>Latin</value>
+  </data>
+  <data name="Translator_Lang_Latvian" xml:space="preserve">
+    <value>Latvian</value>
+  </data>
+  <data name="Translator_Lang_Lithuanian" xml:space="preserve">
+    <value>Lithuanian</value>
+  </data>
+  <data name="Translator_Lang_Lingala" xml:space="preserve">
+    <value>Lingala</value>
+  </data>
+  <data name="Translator_Lang_Luxembourgish" xml:space="preserve">
+    <value>Luxembourgish</value>
+  </data>
+  <data name="Translator_Lang_Kinyarwanda" xml:space="preserve">
+    <value>Kinyarwanda</value>
+  </data>
+  <data name="Translator_Lang_Romanian" xml:space="preserve">
+    <value>Romanian</value>
+  </data>
+  <data name="Translator_Lang_Maltese" xml:space="preserve">
+    <value>Maltese</value>
+  </data>
+  <data name="Translator_Lang_Marathi" xml:space="preserve">
+    <value>Marathi</value>
+  </data>
+  <data name="Translator_Lang_Malayalam" xml:space="preserve">
+    <value>Malayalam</value>
+  </data>
+  <data name="Translator_Lang_Malay" xml:space="preserve">
+    <value>Malay (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Macedonian" xml:space="preserve">
+    <value>Macedonian</value>
+  </data>
+  <data name="Translator_Lang_Maori" xml:space="preserve">
+    <value>Maori</value>
+  </data>
+  <data name="Translator_Lang_MongolianCyrillic" xml:space="preserve">
+    <value>Mongolian (Cyrillic)</value>
+  </data>
+  <data name="Translator_Lang_MongolianTraditional" xml:space="preserve">
+    <value>Mongolian (Traditional)</value>
+  </data>
+  <data name="Translator_Lang_Burmese" xml:space="preserve">
+    <value>Burmese</value>
+  </data>
+  <data name="Translator_Lang_Nepali" xml:space="preserve">
+    <value>Nepali</value>
+  </data>
+  <data name="Translator_Lang_Norwegian" xml:space="preserve">
+    <value>Norwegian</value>
+  </data>
+  <data name="Translator_Lang_Punjabi" xml:space="preserve">
+    <value>Punjabi</value>
+  </data>
+  <data name="Translator_Lang_PortugueseBrazil" xml:space="preserve">
+    <value>Portuguese (Brazil)</value>
+  </data>
+  <data name="Translator_Lang_PortuguesePortugal" xml:space="preserve">
+    <value>Portuguese (Portugal)</value>
+  </data>
+  <data name="Translator_Lang_Pashto" xml:space="preserve">
+    <value>Pashto</value>
+  </data>
+  <data name="Translator_Lang_Nyanja" xml:space="preserve">
+    <value>Chichewa</value>
+  </data>
+  <data name="Translator_Lang_Japanese" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Translator_Lang_Swedish" xml:space="preserve">
+    <value>Swedish</value>
+  </data>
+  <data name="Translator_Lang_Samoan" xml:space="preserve">
+    <value>Samoan (Latin)</value>
+  </data>
+  <data name="Translator_Lang_SerbianCyrillic" xml:space="preserve">
+    <value>Serbian (Cyrillic)</value>
+  </data>
+  <data name="Translator_Lang_SerbianLatin" xml:space="preserve">
+    <value>Serbian (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Sinhala" xml:space="preserve">
+    <value>Sinhala</value>
+  </data>
+  <data name="Translator_Lang_Slovak" xml:space="preserve">
+    <value>Slovak</value>
+  </data>
+  <data name="Translator_Lang_Slovenian" xml:space="preserve">
+    <value>Slovenian</value>
+  </data>
+  <data name="Translator_Lang_Swahili" xml:space="preserve">
+    <value>Swahili (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Telugu" xml:space="preserve">
+    <value>Telugu</value>
+  </data>
+  <data name="Translator_Lang_Tamil" xml:space="preserve">
+    <value>Tamil</value>
+  </data>
+  <data name="Translator_Lang_Thai" xml:space="preserve">
+    <value>Thai</value>
+  </data>
+  <data name="Translator_Lang_Tahitian" xml:space="preserve">
+    <value>Tahitian</value>
+  </data>
+  <data name="Translator_Lang_Turkish" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="Translator_Lang_Turkmen" xml:space="preserve">
+    <value>Turkmen (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Welsh" xml:space="preserve">
+    <value>Welsh</value>
+  </data>
+  <data name="Translator_Lang_Urdu" xml:space="preserve">
+    <value>Urdu</value>
+  </data>
+  <data name="Translator_Lang_Ukrainian" xml:space="preserve">
+    <value>Ukrainian</value>
+  </data>
+  <data name="Translator_Lang_Uzbek" xml:space="preserve">
+    <value>Uzbek (Latin)</value>
+  </data>
+  <data name="Translator_Lang_Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Translator_Lang_Vietnamese" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+  <data name="Translator_Lang_ChineseClassical" xml:space="preserve">
+    <value>Chinese (Classical)</value>
+  </data>
+  <data name="Translator_Lang_ChineseSimplified" xml:space="preserve">
+    <value>Chinese (Simplified)</value>
+  </data>
+  <data name="Translator_Lang_ChineseTraditional" xml:space="preserve">
+    <value>Chinese (Traditional)</value>
+  </data>
+  <data name="Translator_Lang_Zulu" xml:space="preserve">
+    <value>Zulu</value>
+  </data>
+  <data name="HomePage_Translator_Description.Text" xml:space="preserve">
+    <value>Translated twenty times in a row by Microsoft Translator</value>
+  </data>
+  <data name="HomePage_Translator_Title.Text" xml:space="preserve">
+    <value>Translator Tool</value>
+  </data>
+  <data name="Translator_Lang_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Translator_PivotItem1.Header" xml:space="preserve">
+    <value>Simple Translate</value>
+  </data>
+  <data name="Translator_PivotItem2.Header" xml:space="preserve">
+    <value>Sequential Translate</value>
+  </data>
+  <data name="FirstRun_Body.Text" xml:space="preserve">
+    <value>Welcome to eComBox-Simple Toolbox!
+
+eComBox-Simple Toolbox supports multiple date countdown calculations with AI prediction (up to 25 times per day for the regular version to save costs), triangle solving based on side lengths, and translating text 20 times in a row. Features are still being expanded.
+
+Thank you for your support!</value>
+  </data>
+  <data name="WhatsNew_Feature2.Text" xml:space="preserve">
+    <value>AI features (up to 25 times per day for the regular version to save costs)</value>
+  </data>
+  <data name="WhatsNew_Feature3.Text" xml:space="preserve">
+    <value>Fixed other bugs</value>
+  </data>
+  <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="errorStartDialog.CloseButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="errorStartDialog.Content" xml:space="preserve">
+    <value>The auto-start function cannot be enabled, please check your system settings.</value>
+  </data>
+  <data name="errorStartDialog.Title" xml:space="preserve">
+    <value>Failed to start auto-start</value>
+  </data>
+  <data name="Settings_ai.Description" xml:space="preserve">
+    <value>Predict the date based on the text you enter</value>
+  </data>
+  <data name="Settings_ai.Header" xml:space="preserve">
+    <value>AI Date Prediction (Preview)</value>
+  </data>
+  <data name="Settings_autostart.Description" xml:space="preserve">
+    <value>Automatically launches the app and displays a date notification when the system starts</value>
+  </data>
+  <data name="Settings_autostart.Header" xml:space="preserve">
+    <value>Auto-start</value>
+  </data>
+  <data name="ExportLogButton.Content" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Settings_ExportLog.Description" xml:space="preserve">
+    <value>Export app logs to help diagnose issues</value>
+  </data>
+  <data name="Settings_ExportLog.Header" xml:space="preserve">
+    <value>Diagnostic logs</value>
+  </data>
+</root>

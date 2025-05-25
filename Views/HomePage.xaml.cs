@@ -35,7 +35,7 @@ namespace eComBox.Views
             TextBlock[] texts = { Trend1, Trend2, Trend3, Trend4, Trend5, Trend6, Trend7, Trend8, Trend9, Trend10 };
             HyperlinkButton[] links = { Nav1, Nav2, Nav3, Nav4, Nav5, Nav6, Nav7, Nav8, Nav9, Nav10 };
             string url = ApplicationData.Current.LocalSettings.Values[SelectedUrlKey]?.ToString() ?? "https://doc.ecomter.site/baidu?cache=false";
-            newsHeader.Text = (ApplicationData.Current.LocalSettings.Values[SelectedUrlContent]?.ToString() ?? "百度") + "热搜榜";
+            newsHeader.Text = (ApplicationData.Current.LocalSettings.Values[SelectedUrlContent]?.ToString() ?? "百度热搜榜");
 
             var cacheFolder = ApplicationData.Current.LocalCacheFolder;
             StorageFile cacheFile = await cacheFolder.TryGetItemAsync(CacheFileName) as StorageFile;
@@ -131,7 +131,10 @@ namespace eComBox.Views
         {
             Frame.Navigate(typeof(DatePage));
         }
-
+        private void ToTranslatorPage(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(translatorPage));
+        }
         private async void refreshUrl(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var cacheFolder = ApplicationData.Current.LocalCacheFolder;
