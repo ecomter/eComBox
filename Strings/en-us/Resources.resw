@@ -265,7 +265,7 @@
     <value>Custom</value>
   </data>
   <data name="DatePage_DaysAfter" xml:space="preserve">
-    <value>{0} days later</value>
+    <value>{0} days</value>
   </data>
   <data name="DatePage_CustomDaysHeader" xml:space="preserve">
     <value>Custom Days</value>
@@ -322,13 +322,13 @@
     <value>Today is</value>
   </data>
   <data name="DatePage_Event_Future" xml:space="preserve">
-    <value>Today is {0} days away from</value>
+    <value>{0} days arrives in</value>
   </data>
   <data name="DatePage_Event_Tomorrow" xml:space="preserve">
     <value>{0} is on</value>
   </data>
   <data name="DatePage_Event_Past" xml:space="preserve">
-    <value>Today is {0} days since</value>
+    <value>{0} already</value>
   </data>
   <data name="DatePage_Menu_Edit" xml:space="preserve">
     <value>Edit Card</value>

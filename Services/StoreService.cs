@@ -63,7 +63,7 @@ namespace eComBox.Services
                 // 获取内购产品信息
                 StoreProductQueryResult result = await storeContext.GetStoreProductsAsync(
                     new string[] { "Durable" }, new string[] { ConicSectionFeatureId });
-                /*
+               
                 if (result.Products.TryGetValue(ConicSectionFeatureId, out StoreProduct product))
                 {
                     // 启动购买流程
@@ -78,7 +78,7 @@ namespace eComBox.Services
                 }
 
                 return false;
-                */
+                
                 await CurrentAppSimulator.RequestProductPurchaseAsync("9NV3C9STGW4Z");
                 return false;
             }
