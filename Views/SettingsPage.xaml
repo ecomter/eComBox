@@ -191,7 +191,7 @@
                       TextWrapping="Wrap" 
                       Margin="0,0,0,12" />
 
-                            <Button x:Name="PurchaseButton" 
+                            <Button IsEnabled="false" x:Name="PurchaseButton" 
                     x:Uid="Settings_AIUsage_PurchaseButton"
                     Style="{StaticResource AccentButtonStyle}" 
                     HorizontalAlignment="Left"
@@ -212,9 +212,8 @@
                 <TextBlock x:Uid="Settings_Advanced" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 
                 <toolkit:SettingsCard x:Uid="Settings_ai" Margin="{StaticResource XSmallTopMargin}">
-                    <ToggleSwitch x:Name="AIToggleSwitch"
-    Margin="{StaticResource XSmallTopMargin}"
-    Toggled="AIToggleSwitch_Toggled" />
+                    <ToggleSwitch IsOn="False" IsEnabled="False" x:Name="AIToggleSwitch"
+    Margin="{StaticResource XSmallTopMargin}" />
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE781;" />
                     </toolkit:SettingsCard.HeaderIcon>

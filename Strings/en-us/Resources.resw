@@ -226,24 +226,22 @@
   <data name="DatePage_Color_Starry" xml:space="preserve">
     <value>Starry Sky</value>
   </data>
-	<data name="DatePage_Color_Sunset" xml:space="preserve">
+  <data name="DatePage_Color_Sunset" xml:space="preserve">
     <value>Sunset</value>
-	  
   </data>
-	<data name="DatePage_Color_Ocean" xml:space="preserve">
+  <data name="DatePage_Color_Ocean" xml:space="preserve">
     <value>Ocean</value>
   </data>
-	<data name="DatePage_Color_Forest" xml:space="preserve">
+  <data name="DatePage_Color_Forest" xml:space="preserve">
     <value>Forest</value>
   </data>
-	<data name="DatePage_Color_Lavender" xml:space="preserve">
+  <data name="DatePage_Color_Lavender" xml:space="preserve">
     <value>Lavender</value>
   </data>
-	<data name="DatePage_Color_Candy" xml:space="preserve">
+  <data name="DatePage_Color_Candy" xml:space="preserve">
     <value>Candy</value>
   </data>
-
-	<data name="DatePage_Color_Aurora" xml:space="preserve">
+  <data name="DatePage_Color_Aurora" xml:space="preserve">
     <value>Aurora</value>
   </data>
   <data name="DatePage_Color_Festive" xml:space="preserve">
@@ -265,7 +263,7 @@
     <value>Custom</value>
   </data>
   <data name="DatePage_DaysAfter" xml:space="preserve">
-    <value>{0} days later</value>
+    <value>{0} days</value>
   </data>
   <data name="DatePage_CustomDaysHeader" xml:space="preserve">
     <value>Custom Days</value>
@@ -282,16 +280,16 @@
   <data name="DatePage_AI_Title" xml:space="preserve">
     <value>AI Date Recommendations</value>
   </data>
-	<data name="DatePage_AI_Limit" xml:space="preserve">
+  <data name="DatePage_AI_Limit" xml:space="preserve">
     <value>You've reached your limit of 25 AI analyses today. Please upgrade to the premium version to get unlimited usage rights.</value>
   </data>
-	<data name="DatePage_AI_nosuggestions" xml:space="preserve">
+  <data name="DatePage_AI_nosuggestions" xml:space="preserve">
     <value>No suggestions found</value>
   </data>
-	<data name="DatePage_AI_upcoming" xml:space="preserve">
+  <data name="DatePage_AI_upcoming" xml:space="preserve">
     <value>Upcoming</value>
   </data>
-	<data name="DatePage_AI_analyzing" xml:space="preserve">
+  <data name="DatePage_AI_analyzing" xml:space="preserve">
     <value>AI is thinking...</value>
   </data>
   <data name="DatePage_AI_Suggestion" xml:space="preserve">
@@ -322,13 +320,13 @@
     <value>Today is</value>
   </data>
   <data name="DatePage_Event_Future" xml:space="preserve">
-    <value>Today is {0} days away from</value>
+    <value>{0} days arrives in</value>
   </data>
   <data name="DatePage_Event_Tomorrow" xml:space="preserve">
     <value>{0} is on</value>
   </data>
   <data name="DatePage_Event_Past" xml:space="preserve">
-    <value>Today is {0} days since</value>
+    <value>{0} already</value>
   </data>
   <data name="DatePage_Menu_Edit" xml:space="preserve">
     <value>Edit Card</value>
@@ -351,71 +349,70 @@
   <data name="DatePage_DeleteCard_CloseButton" xml:space="preserve">
     <value>Cancel</value>
   </data>
-	<data name="Geometry_Conic.Header" xml:space="preserve">
-  <value>Conic Sections</value>
-</data>
-	<data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
-  <value>Side a</value>
-</data>
-	<data name="Geometry_Triangle_SideB.Text" xml:space="preserve">
-  <value>Side b</value>
-</data>
-	<data name="Geometry_Triangle_SideC.Text" xml:space="preserve">
-  <value>Side c</value>
-</data>
-	<data name="Geometry_Calculate.Content" xml:space="preserve">
-  <value>Calculate</value>
-</data>
-	<data name="Geometry_DecimalPlaces.Header" xml:space="preserve">
-  <value>Decimal Places</value>
-</data>
-	<data name="Geometry_Area.Text" xml:space="preserve">
-  <value>Area</value>
-</data>
-	<data name="Geometry_Perimeter.Text" xml:space="preserve">
-  <value>Perimeter</value>
-</data>
-	<data name="Geometry_Angle_A_Cos.Text" xml:space="preserve">
-  <value>Cosine value of angle opposite to side a</value>
-</data>
-	<data name="Geometry_Angle_B_Cos.Text" xml:space="preserve">
-  <value>Cosine value of angle opposite to side b</value>
-</data>
-	<data name="Geometry_Angle_C_Cos.Text" xml:space="preserve">
-  <value>Cosine value of angle opposite to side c</value>
-</data>
-	<data name="Geometry_Triangle_Image.Text" xml:space="preserve">
-  <value>Triangle Image</value>
-</data>
-	<data name="Geometry_WaitingForCalculation.Text" xml:space="preserve">
-  <value>Waiting for calculation</value>
-</data>
-	<data name="Geometry_InfoBar_Title.Title" xml:space="preserve">
-  <value>Note</value>
-</data>
-	<data name="Geometry_InfoBar_Message.Message" xml:space="preserve">
-  <value>This feature is not yet complete, please wait for future updates</value>
-</data>
-	<data name="Geometry_Error_Title" xml:space="preserve">
-  <value>Input Error</value>
-</data>
-	<data name="Geometry_Error_InvalidNumber" xml:space="preserve">
-  <value>Please ensure you have entered numbers</value>
-</data>
-	<data name="Geometry_Error_NegativeNumber" xml:space="preserve">
-  <value>Please enter numbers greater than 0</value>
-</data>
-	<data name="Geometry_Error_NotTriangle" xml:space="preserve">
-  <value>Cannot form a triangle</value>
-</data>
-	<data name="Geometry_Error_TriangleRule" xml:space="preserve">
-  <value>The sum of any two sides must be greater than the third side</value>
-</data>
-	<data name="Geometry_Angle_Degrees" xml:space="preserve">
-  <value>degrees</value>
-</data>
-
-	<data name="DatePage_OperationFailed_Title" xml:space="preserve">
+  <data name="Geometry_Conic.Header" xml:space="preserve">
+    <value>Conic Sections</value>
+  </data>
+  <data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
+    <value>Side a</value>
+  </data>
+  <data name="Geometry_Triangle_SideB.Text" xml:space="preserve">
+    <value>Side b</value>
+  </data>
+  <data name="Geometry_Triangle_SideC.Text" xml:space="preserve">
+    <value>Side c</value>
+  </data>
+  <data name="Geometry_Calculate.Content" xml:space="preserve">
+    <value>Calculate</value>
+  </data>
+  <data name="Geometry_DecimalPlaces.Header" xml:space="preserve">
+    <value>Decimal Places</value>
+  </data>
+  <data name="Geometry_Area.Text" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="Geometry_Perimeter.Text" xml:space="preserve">
+    <value>Perimeter</value>
+  </data>
+  <data name="Geometry_Angle_A_Cos.Text" xml:space="preserve">
+    <value>Cosine value of angle opposite to side a</value>
+  </data>
+  <data name="Geometry_Angle_B_Cos.Text" xml:space="preserve">
+    <value>Cosine value of angle opposite to side b</value>
+  </data>
+  <data name="Geometry_Angle_C_Cos.Text" xml:space="preserve">
+    <value>Cosine value of angle opposite to side c</value>
+  </data>
+  <data name="Geometry_Triangle_Image.Text" xml:space="preserve">
+    <value>Triangle Image</value>
+  </data>
+  <data name="Geometry_WaitingForCalculation.Text" xml:space="preserve">
+    <value>Waiting for calculation</value>
+  </data>
+  <data name="Geometry_InfoBar_Title.Title" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Geometry_InfoBar_Message.Message" xml:space="preserve">
+    <value>This feature is not yet complete, please wait for future updates</value>
+  </data>
+  <data name="Geometry_Error_Title" xml:space="preserve">
+    <value>Input Error</value>
+  </data>
+  <data name="Geometry_Error_InvalidNumber" xml:space="preserve">
+    <value>Please ensure you have entered numbers</value>
+  </data>
+  <data name="Geometry_Error_NegativeNumber" xml:space="preserve">
+    <value>Please enter numbers greater than 0</value>
+  </data>
+  <data name="Geometry_Error_NotTriangle" xml:space="preserve">
+    <value>Cannot form a triangle</value>
+  </data>
+  <data name="Geometry_Error_TriangleRule" xml:space="preserve">
+    <value>The sum of any two sides must be greater than the third side</value>
+  </data>
+  <data name="Geometry_Angle_Degrees" xml:space="preserve">
+    <value>degrees</value>
+  </data>
+  <data name="DatePage_OperationFailed_Title" xml:space="preserve">
     <value>Operation Failed</value>
   </data>
   <data name="DatePage_OperationFailed_Content" xml:space="preserve">
@@ -1093,7 +1090,7 @@ eComBox-Simple Toolbox supports multiple date countdown calculations with AI pre
 Thank you for your support!</value>
   </data>
   <data name="WhatsNew_Feature2.Text" xml:space="preserve">
-    <value>AI features (up to 25 times per day for the regular version to save costs)</value>
+    <value>Disable AI features for all users</value>
   </data>
   <data name="WhatsNew_Feature3.Text" xml:space="preserve">
     <value>Fixed other bugs</value>

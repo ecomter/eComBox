@@ -126,12 +126,14 @@ namespace eComBox.Views
 
     public sealed partial class DatePage : Page, INotifyPropertyChanged
     {
+
         public int ColMax = 1, title = 0;
         private ContentDialog editDialog;
         private TextBox dialogTaskNameBox;
         private CalendarDatePicker dialogDatePicker;
         private DataBlock currentEditingBlock;
         private ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView();
+        
         private async Task CleanupDragVisuals()
         {
             // 立即隐藏指示器
@@ -2559,8 +2561,11 @@ namespace eComBox.Views
         private AzureDatePredictionService _predictionService;
         private StackPanel _suggestionPanel;
         private Border _dragTargetIndicator;
+
         public DatePage()
         {
+
+
             InitializeComponent();
 
             // 检查AI功能是否启用
@@ -2592,6 +2597,8 @@ namespace eComBox.Views
             }
             ContentArea.SizeChanged += ContentArea_SizeChanged;
             ContentArea_SizeChanged(ContentArea, null);
+
+
 
             // 启用ContentArea的拖放功能
             ContentArea.AllowDrop = true;

@@ -270,92 +270,89 @@
   </data>
   <data name="DatePage_Color_Default" xml:space="preserve">
     <value>默认</value>
-	  </data>
-	  <data name="DatePage_Color_Sunset" xml:space="preserve">
-    <value>日落</value>
-	  
   </data>
-	<data name="DatePage_Color_Ocean" xml:space="preserve">
+  <data name="DatePage_Color_Sunset" xml:space="preserve">
+    <value>日落</value>
+  </data>
+  <data name="DatePage_Color_Ocean" xml:space="preserve">
     <value>海洋</value>
   </data>
-	<data name="DatePage_Color_Forest" xml:space="preserve">
+  <data name="DatePage_Color_Forest" xml:space="preserve">
     <value>森林</value>
   </data>
-	<data name="DatePage_Color_Lavender" xml:space="preserve">
+  <data name="DatePage_Color_Lavender" xml:space="preserve">
     <value>薰衣草</value>
   </data>
-	<data name="DatePage_Color_Candy" xml:space="preserve">
+  <data name="DatePage_Color_Candy" xml:space="preserve">
     <value>糖果</value>
   </data>
-
-	<data name="DatePage_Color_Aurora" xml:space="preserve">
+  <data name="DatePage_Color_Aurora" xml:space="preserve">
     <value>极光</value>
   </data>
-	<data name="Geometry_Conic.Header" xml:space="preserve">
-  <value>圆锥曲线</value>
-</data>
-	<data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
-  <value>边长a</value>
-</data>
-	<data name="Geometry_Triangle_SideB.Text" xml:space="preserve">
-  <value>边长b</value>
-</data>
-	<data name="Geometry_Triangle_SideC.Text" xml:space="preserve">
-  <value>边长c</value>
-</data>
-	<data name="Geometry_Calculate.Content" xml:space="preserve">
-  <value>计算</value>
-</data>
-	<data name="Geometry_DecimalPlaces.Header" xml:space="preserve">
-  <value>保留小数位数</value>
-</data>
-	<data name="Geometry_Area.Text" xml:space="preserve">
-  <value>面积</value>
-</data>
-	<data name="Geometry_Perimeter.Text" xml:space="preserve">
-  <value>周长</value>
-</data>
-	<data name="Geometry_Angle_A_Cos.Text" xml:space="preserve">
-  <value>a 边对角的 cos 值及角度</value>
-</data>
-	<data name="Geometry_Angle_B_Cos.Text" xml:space="preserve">
-  <value>b 边对角的 cos 值及角度</value>
-</data>
-	<data name="Geometry_Angle_C_Cos.Text" xml:space="preserve">
-  <value>c 边对角的 cos 值及角度</value>
-</data>
-	<data name="Geometry_Triangle_Image.Text" xml:space="preserve">
-  <value>三角形图像</value>
-</data>
-	<data name="Geometry_WaitingForCalculation.Text" xml:space="preserve">
-  <value>等待计算</value>
-</data>
-	<data name="Geometry_InfoBar_Title.Title" xml:space="preserve">
-  <value>提示</value>
-</data>
-	<data name="Geometry_InfoBar_Message.Message" xml:space="preserve">
-  <value>本功能尚未完成，请等待后续版本升级</value>
-</data>
-	<data name="Geometry_Error_Title" xml:space="preserve">
-  <value>输入错误</value>
-</data>
-	<data name="Geometry_Error_InvalidNumber" xml:space="preserve">
-  <value>请确保您输入了数字</value>
-</data>
-	<data name="Geometry_Error_NegativeNumber" xml:space="preserve">
-  <value>请输入大于0的数</value>
-</data>
-	<data name="Geometry_Error_NotTriangle" xml:space="preserve">
-  <value>无法构成三角形</value>
-</data>
-	<data name="Geometry_Error_TriangleRule" xml:space="preserve">
-  <value>三角形的两边之和必须大于第三边</value>
-</data>
-	<data name="Geometry_Angle_Degrees" xml:space="preserve">
-  <value>度</value>
-</data>
-
-	<data name="DatePage_TaskNameLabel" xml:space="preserve">
+  <data name="Geometry_Conic.Header" xml:space="preserve">
+    <value>圆锥曲线</value>
+  </data>
+  <data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
+    <value>边长a</value>
+  </data>
+  <data name="Geometry_Triangle_SideB.Text" xml:space="preserve">
+    <value>边长b</value>
+  </data>
+  <data name="Geometry_Triangle_SideC.Text" xml:space="preserve">
+    <value>边长c</value>
+  </data>
+  <data name="Geometry_Calculate.Content" xml:space="preserve">
+    <value>计算</value>
+  </data>
+  <data name="Geometry_DecimalPlaces.Header" xml:space="preserve">
+    <value>保留小数位数</value>
+  </data>
+  <data name="Geometry_Area.Text" xml:space="preserve">
+    <value>面积</value>
+  </data>
+  <data name="Geometry_Perimeter.Text" xml:space="preserve">
+    <value>周长</value>
+  </data>
+  <data name="Geometry_Angle_A_Cos.Text" xml:space="preserve">
+    <value>a 边对角的 cos 值及角度</value>
+  </data>
+  <data name="Geometry_Angle_B_Cos.Text" xml:space="preserve">
+    <value>b 边对角的 cos 值及角度</value>
+  </data>
+  <data name="Geometry_Angle_C_Cos.Text" xml:space="preserve">
+    <value>c 边对角的 cos 值及角度</value>
+  </data>
+  <data name="Geometry_Triangle_Image.Text" xml:space="preserve">
+    <value>三角形图像</value>
+  </data>
+  <data name="Geometry_WaitingForCalculation.Text" xml:space="preserve">
+    <value>等待计算</value>
+  </data>
+  <data name="Geometry_InfoBar_Title.Title" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="Geometry_InfoBar_Message.Message" xml:space="preserve">
+    <value>本功能尚未完成，请等待后续版本升级</value>
+  </data>
+  <data name="Geometry_Error_Title" xml:space="preserve">
+    <value>输入错误</value>
+  </data>
+  <data name="Geometry_Error_InvalidNumber" xml:space="preserve">
+    <value>请确保您输入了数字</value>
+  </data>
+  <data name="Geometry_Error_NegativeNumber" xml:space="preserve">
+    <value>请输入大于0的数</value>
+  </data>
+  <data name="Geometry_Error_NotTriangle" xml:space="preserve">
+    <value>无法构成三角形</value>
+  </data>
+  <data name="Geometry_Error_TriangleRule" xml:space="preserve">
+    <value>三角形的两边之和必须大于第三边</value>
+  </data>
+  <data name="Geometry_Angle_Degrees" xml:space="preserve">
+    <value>度</value>
+  </data>
+  <data name="DatePage_TaskNameLabel" xml:space="preserve">
     <value>事件名称:</value>
   </data>
   <data name="DatePage_DateLabel" xml:space="preserve">
@@ -385,16 +382,16 @@
   <data name="DatePage_AI_Title" xml:space="preserve">
     <value>AI 推荐日期</value>
   </data>
-	<data name="DatePage_AI_analyzing" xml:space="preserve">
+  <data name="DatePage_AI_analyzing" xml:space="preserve">
     <value>正在分析任务名称...</value>
   </data>
-	<data name="DatePage_AI_upcoming" xml:space="preserve">
+  <data name="DatePage_AI_upcoming" xml:space="preserve">
     <value>即将到来的</value>
   </data>
-	<data name="DatePage_AI_Limit" xml:space="preserve">
+  <data name="DatePage_AI_Limit" xml:space="preserve">
     <value>您今天的 AI 分析次数已达到上限(25次)。请升级到高级版获取无限使用权限。</value>
   </data>
-	<data name="DatePage_AI_nosuggestions" xml:space="preserve">
+  <data name="DatePage_AI_nosuggestions" xml:space="preserve">
     <value>没有找到相关日期建议</value>
   </data>
   <data name="DatePage_AI_Suggestion" xml:space="preserve">
@@ -1093,7 +1090,7 @@ eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成
     <comment>What's new prompt message title</comment>
   </data>
   <data name="WhatsNew_Feature2.Text" xml:space="preserve">
-    <value>引入 AI 功能（为了节约成本，普通版本每日最多可以使用 25 次 ai 功能）</value>
+    <value>AI 功能暂时维护，不可调用</value>
   </data>
   <data name="WhatsNew_Feature3.Text" xml:space="preserve">
     <value>修复了一些其他问题</value>
