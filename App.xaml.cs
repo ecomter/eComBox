@@ -47,6 +47,10 @@ namespace eComBox
                     await CheckDateNotificationsAsync();
                 }
             }
+
+            
+                ApplicationData.Current.LocalSettings.Values["AIEnabledKey"] = false;
+            
         }
      
 

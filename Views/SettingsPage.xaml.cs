@@ -170,8 +170,8 @@ namespace eComBox.Views
         {
             if (ApplicationData.Current.LocalSettings.Values.TryGetValue(AIEnabledKey, out object aiEnabled))
             {
-                _initialAIToggleState = (bool)aiEnabled;
-                AIToggleSwitch.IsOn = _initialAIToggleState;
+                _initialAIToggleState = false;
+                AIToggleSwitch.IsOn = false;
             }
             else
             {
@@ -589,11 +589,9 @@ namespace eComBox.Views
             }
         }
 
-        private async void AIToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        private async void AIToggleSwitch_Toggled()
         {
-            var toggleSwitch = sender as ToggleSwitch;
-            ApplicationData.Current.LocalSettings.Values[AIEnabledKey] = toggleSwitch.IsOn;
-            _initialAIToggleState = toggleSwitch.IsOn;
+            ApplicationData.Current.LocalSettings.Values[AIEnabledKey] = false;
         }
 
         private void TermsHyperlinkButton_Click(object sender, RoutedEventArgs e)
