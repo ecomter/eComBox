@@ -1,130 +1,230 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Diagnostics;
-using Azure.AI.OpenAI;
-using Azure;
-using Windows.Storage;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
 namespace eComBox.Services
 {
     /// <summary>
-    /// AI 服务的实现，带有使用限制和计费功能
+    /// AI 服务实现（阿里云百炼接入，使用 OpenAI Chat Completions 兼容模式）
+    /// - 默认使用 Qwen3.6-Flash 模型，endpoint 可通过 ConfigurationService.AliBairenEndpoint 覆盖
+    /// - 如果未配置 endpoint，会使用内置 dashscope 兼容模式地址
+    /// - 支持解析 OpenAI 风格响应，并回退到启发式本地规则
     /// </summary>
     public class AIService : IAIService
     {
-        private readonly AzureDatePredictionService _datePredictionService;
+        private readonly HttpClient _httpClient;
+        private readonly string _endpoint;
+        private readonly string _apiKey;
+        private const string DefaultAliBairenEndpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+        private const string DefaultModel = "Qwen3.6-Flash";
 
-        /// <summary>
-        /// 创建 AI 服务实例
-        /// </summary>
         public AIService()
         {
             try
             {
-                // 使用 ConfigurationService 获取配置值
-                string openAIEndpoint = ConfigurationService.OpenAIEndpoint;
-                string openAIKey = ConfigurationService.OpenAIApiKey;
-                string deploymentName = ConfigurationService.OpenAIDeploymentName;
+                _endpoint = string.IsNullOrWhiteSpace(ConfigurationService.AliBairenEndpoint)
+                    ? DefaultAliBairenEndpoint
+                    : ConfigurationService.AliBairenEndpoint.Trim();
 
-                // 确保配置不为空
-                if (string.IsNullOrEmpty(openAIEndpoint) || string.IsNullOrEmpty(openAIKey) || string.IsNullOrEmpty(deploymentName))
+                _apiKey = ConfigurationService.AliBairenApiKey;
+
+                _httpClient = new HttpClient();
+                if (!string.IsNullOrEmpty(_apiKey))
                 {
-                    throw new InvalidOperationException("AI服务配置不完整，请检查设置");
+                    _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _apiKey);
                 }
-
-                _datePredictionService = new AzureDatePredictionService(
-                    openAIEndpoint,
-                    openAIKey,
-                    deploymentName);
+                _httpClient.Timeout = TimeSpan.FromSeconds(20);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"初始化 AIService 失败: {ex.Message}");
-                throw; // 重新抛出异常以便调用者处理
+                Debug.WriteLine($"初始化 AIService(HttpClient) 失败: {ex.Message}");
+                throw;
             }
         }
 
-        /// <summary>
-        /// 检查当前用户是否有权限使用 AI 功能
-        /// </summary>
-        public async Task<bool> HasAIPermissionAsync()
-        {
-            // 如果用户已购买高级版，始终返回 true
-            if (await AIUsageService.IsAIPremiumPurchasedAsync())
-            {
-                return true;
-            }
-
-            // 否则检查是否达到每日免费使用限制
-            return !AIUsageService.IsUsageLimitReached();
-        }
-
-        /// <summary>
-        /// 获取当前用户的剩余 AI 使用次数
-        /// </summary>
-        public async Task<int> GetRemainingUsageCountAsync()
-        {
-            return await AIUsageService.GetRemainingUsageCountAsync();
-        }
-
-        /// <summary>
-        /// 根据任务名称预测日期
-        /// </summary>
         public async Task<DatePredictionResult> PredictDateFromTaskNameAsync(string taskName)
         {
+            var result = new DatePredictionResult { IsSuccessful = false };
+
+            if (string.IsNullOrWhiteSpace(taskName))
+            {
+                result.ErrorMessage = "Empty task name";
+                return result;
+            }
+
             try
             {
-                // 检查用户是否有权限使用 AI 功能
-                if (!await HasAIPermissionAsync())
+                if (string.IsNullOrEmpty(_endpoint))
                 {
-                    return new DatePredictionResult
+                    return HeuristicFallback(taskName);
+                }
+
+                // 构建 Chat Completions 风格的请求体，兼容 OpenAI / dashscope
+                var systemPrompt = "You are a date prediction assistant. Given a short task name, return a JSON object with keys: date (yyyy-MM-dd), confidence (0-1), reason (short). Respond ONLY with the JSON object and nothing else.";
+                var userPrompt = taskName;
+
+                var payload = new
+                {
+                    model = DefaultModel,
+                    messages = new object[]
                     {
-                        IsSuccessful = false,
-                        ErrorMessage = "您今日的免费 AI 使用次数已用完。请明天再试或升级到高级版获取无限使用权限。"
-                    };
-                }
-
-                // 增加使用计数（仅对免费用户）
-                if (!await AIUsageService.IsAIPremiumPurchasedAsync())
-                {
-                    AIUsageService.IncrementUsageCount();
-                }
-
-                // 调用底层 Azure 服务进行预测
-                return await _datePredictionService.PredictDateFromTaskNameAsync(taskName);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"AI 预测失败: {ex.Message}");
-                return new DatePredictionResult
-                {
-                    IsSuccessful = false,
-                    ErrorMessage = $"AI 预测过程中出错: {ex.Message}"
+                        new { role = "system", content = systemPrompt },
+                        new { role = "user", content = userPrompt }
+                    },
+                    max_tokens = 200,
+                    temperature = 0.1
                 };
-            }
-        }
 
-        /// <summary>
-        /// 提供用户反馈以改进 AI 模型
-        /// </summary>
-        public async Task ProvideUserFeedbackAsync(string taskName, DateTime selectedDate, bool wasUseful)
-        {
-            try
-            {
-                // 无论用户是否有高级版，都允许提供反馈
-                await _datePredictionService.ProvideUserFeedbackAsync(taskName, selectedDate, wasUseful);
+                var json = JsonSerializer.Serialize(payload);
+                using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
+                {
+                    HttpResponseMessage resp = await _httpClient.PostAsync(_endpoint, content);
+                    if (!resp.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine($"百炼请求失败: {resp.StatusCode}");
+                        return HeuristicFallback(taskName);
+                    }
+
+                    string respText = await resp.Content.ReadAsStringAsync();
+                    if (string.IsNullOrWhiteSpace(respText))
+                    {
+                        return HeuristicFallback(taskName);
+                    }
+
+                    // 尝试解析 OpenAI/dashscope 风格的 JSON 响应
+                    try
+                    {
+                        using (JsonDocument doc = JsonDocument.Parse(respText))
+                        {
+                            var root = doc.RootElement;
+
+                            // 支持 choices[0].message.content 或 choices[0].text
+                            if (root.TryGetProperty("choices", out JsonElement choices) && choices.GetArrayLength() > 0)
+                            {
+                                var first = choices[0];
+                                string contentText = null;
+
+                                if (first.TryGetProperty("message", out JsonElement message) && message.TryGetProperty("content", out JsonElement contentEl))
+                                {
+                                    contentText = contentEl.GetString();
+                                }
+                                else if (first.TryGetProperty("text", out JsonElement textEl))
+                                {
+                                    contentText = textEl.GetString();
+                                }
+
+                                if (!string.IsNullOrWhiteSpace(contentText))
+                                {
+                                    // 提取并解析第一个 JSON 对象
+                                    string jsonObj = ExtractFirstJsonObject(contentText);
+                                    if (string.IsNullOrEmpty(jsonObj)) jsonObj = contentText.Trim();
+
+                                    try
+                                    {
+                                        using (JsonDocument inner = JsonDocument.Parse(jsonObj))
+                                        {
+                                            var r = inner.RootElement;
+                                            if (r.TryGetProperty("date", out JsonElement dateEl) && r.TryGetProperty("confidence", out JsonElement confEl))
+                                            {
+                                                string dateStr = dateEl.GetString();
+                                                double conf = confEl.GetDouble();
+                                                string reason = r.TryGetProperty("reason", out JsonElement reasonEl) ? reasonEl.GetString() : string.Empty;
+
+                                                if (DateTime.TryParse(dateStr, out DateTime parsedDate))
+                                                {
+                                                    result.IsSuccessful = true;
+                                                    result.AddPrediction(parsedDate.Date, Math.Max(0.0, Math.Min(1.0, conf)), string.IsNullOrEmpty(reason) ? "AI prediction" : reason, true);
+                                                    return result;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    catch (JsonException) { /* fallthrough to text-date extraction */ }
+
+                                    // 如果没有解析到 JSON，再尝试从文本中找日期
+                                    var dateMatch = Regex.Match(contentText, "\\d{4}[-/.]\\d{1,2}[-/.]\\d{1,2}");
+                                    if (dateMatch.Success && DateTime.TryParse(dateMatch.Value, out DateTime dt))
+                                    {
+                                        result.IsSuccessful = true;
+                                        result.AddPrediction(dt.Date, 0.6, "百炼返回文本中的日期");
+                                        return result;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (JsonException jex)
+                    {
+                        Debug.WriteLine($"解析 百炼 响应 JSON 失败: {jex.Message}");
+                    }
+
+                    // 最终回退
+                    return HeuristicFallback(taskName);
+                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"提供用户反馈失败: {ex.Message}");
+                Debug.WriteLine($"百炼 请求异常: {ex}");
+                return HeuristicFallback(taskName);
             }
         }
 
-        /// <summary>
-        /// 设置用户区域
-        /// </summary>
-        public void SetUserRegion(string regionCode)
+        private string ExtractFirstJsonObject(string text)
         {
-            _datePredictionService.SetUserRegion(regionCode);
+            int start = text.IndexOf('{');
+            if (start < 0) return null;
+            int depth = 0;
+            for (int i = start; i < text.Length; i++)
+            {
+                if (text[i] == '{') depth++;
+                else if (text[i] == '}') depth--;
+
+                if (depth == 0) return text.Substring(start, i - start + 1);
+            }
+            return null;
+        }
+
+        private DatePredictionResult HeuristicFallback(string taskName)
+        {
+            var result = new DatePredictionResult { IsSuccessful = true };
+            string lower = taskName.ToLowerInvariant();
+
+            var dateMatch = Regex.Match(lower, "(?<y>\\d{4})[-/.](?<m>\\d{1,2})[-/.](?<d>\\d{1,2})");
+            if (dateMatch.Success)
+            {
+                if (int.TryParse(dateMatch.Groups["y"].Value, out int y) && int.TryParse(dateMatch.Groups["m"].Value, out int m) && int.TryParse(dateMatch.Groups["d"].Value, out int d))
+                {
+                    if (DateTime.TryParse($"{y}-{m}-{d}", out DateTime parsed))
+                    {
+                        result.AddPrediction(parsed.Date, 0.9, "包含明确日期（本地规则）");
+                        return result;
+                    }
+                }
+            }
+
+            if (lower.Contains("明天") || lower.Contains("tomorrow")) result.AddPrediction(DateTime.Today.AddDays(1), 0.8, "识别到“明天”");
+            else if (lower.Contains("后天") || lower.Contains("day after tomorrow")) result.AddPrediction(DateTime.Today.AddDays(2), 0.75, "识别到“后天”");
+            else
+            {
+                var m2 = Regex.Match(lower, "(\\d+)\\s*天后|in\\s*(\\d+)\\s*days");
+                if (m2.Success)
+                {
+                    string n = !string.IsNullOrEmpty(m2.Groups[1].Value) ? m2.Groups[1].Value : m2.Groups[2].Value;
+                    if (int.TryParse(n, out int days)) result.AddPrediction(DateTime.Today.AddDays(days), 0.7, $"识别到 {days} 天后");
+                }
+            }
+
+            if (result.Suggestions.Count == 0)
+            {
+                result.AddPrediction(DateTime.Today.AddDays(7), 0.3, "默认建议：一周后");
+                result.AddPrediction(DateTime.Today.AddDays(3), 0.2, "默认建议：三天后");
+            }
+
+            return result;
         }
     }
 }

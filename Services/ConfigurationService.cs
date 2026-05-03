@@ -14,12 +14,15 @@ namespace eComBox.Services
         private const string OPENAI_API_KEY_KEY = "OpenAIApiKey";
         private const string OPENAI_DEPLOYMENT_NAME_KEY = "OpenAIDeploymentName";
         private const string FREE_USAGE_LIMIT_KEY = "FreeUsageLimit";
+        private const string ALI_BAIREN_ENDPOINT_KEY = "AliBairenEndpoint";
+        private const string ALI_BAIREN_API_KEY_KEY = "AliBairenApiKey";
 
         // 默认配置
         private static readonly string DEFAULT_OPENAI_ENDPOINT = "url";
         private static readonly string DEFAULT_OPENAI_API_KEY = "key";
         private static readonly string DEFAULT_OPENAI_DEPLOYMENT_NAME = "gpt-4o";
         private static readonly int DEFAULT_FREE_USAGE_LIMIT = 25;
+        private static readonly string DEFAULT_ALI_BAIREN_ENDPOINT = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
 
         /// <summary>
         /// 获取 OpenAI 终结点
@@ -106,6 +109,49 @@ namespace eComBox.Services
         }
 
         /// <summary>
+        /// 阿里云百炼终结点（可选）
+        /// </summary>
+        public static string AliBairenEndpoint
+        {
+            get
+            {
+                var settings = ApplicationData.Current.RoamingSettings;
+                if (settings.Values.TryGetValue(ALI_BAIREN_ENDPOINT_KEY, out object value) && value is string endpoint && !string.IsNullOrWhiteSpace(endpoint))
+                {
+                    return endpoint;
+                }
+                // 默认使用华北（北京）地域的 dashscope 兼容接口
+                return DEFAULT_ALI_BAIREN_ENDPOINT;
+            }
+            set
+            {
+                var settings = ApplicationData.Current.RoamingSettings;
+                settings.Values[ALI_BAIREN_ENDPOINT_KEY] = value;
+            }
+        }
+
+        /// <summary>
+        /// 阿里云百炼 API 密钥（可选）
+        /// </summary>
+        public static string AliBairenApiKey
+        {
+            get
+            {
+                var settings = ApplicationData.Current.RoamingSettings;
+                if (settings.Values.TryGetValue(ALI_BAIREN_API_KEY_KEY, out object value) && value is string key)
+                {
+                    return key;
+                }
+                return string.Empty;
+            }
+            set
+            {
+                var settings = ApplicationData.Current.RoamingSettings;
+                settings.Values[ALI_BAIREN_API_KEY_KEY] = value;
+            }
+        }
+
+        /// <summary>
         /// 重置所有配置为默认值
         /// </summary>
         public static void ResetToDefaults()
@@ -115,6 +161,8 @@ namespace eComBox.Services
             settings.Values.Remove(OPENAI_API_KEY_KEY);
             settings.Values.Remove(OPENAI_DEPLOYMENT_NAME_KEY);
             settings.Values.Remove(FREE_USAGE_LIMIT_KEY);
+            settings.Values.Remove(ALI_BAIREN_ENDPOINT_KEY);
+            settings.Values.Remove(ALI_BAIREN_API_KEY_KEY);
         }
     }
 }

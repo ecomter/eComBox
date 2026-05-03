@@ -129,7 +129,7 @@ namespace eComBox.Views
 
         private void ToDatePage(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(DatePage));
+            Frame.Navigate(typeof(TimeCounter));
         }
         private void ToTranslatorPage(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {

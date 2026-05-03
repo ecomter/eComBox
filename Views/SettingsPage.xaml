@@ -121,108 +121,79 @@
                     <toolkit:SettingsExpander.Items>
                         <toolkit:SettingsCard x:Uid="Settings_Endpoint">
                             <TextBox x:Name="EndpointTextBox"
-     Margin="{StaticResource XSmallTopMargin}"
-     Width="400"
-     Grid.Row="2"
-     FontSize="18"
-     TextChanged="EndpointTextBox_TextChanged" />
+      Margin="{StaticResource XSmallTopMargin}"
+      Width="400"
+      Grid.Row="2"
+      FontSize="18"
+      TextChanged="EndpointTextBox_TextChanged" />
                         </toolkit:SettingsCard>
                         <toolkit:SettingsCard x:Uid="Settings_ApiKey">
                             <PasswordBox x:Name="ApiTextBox"
-         Margin="{StaticResource XSmallTopMargin}"
-         Width="400"
-         Grid.Row="2"
-         FontSize="18"
-         PasswordChanged="ApiTextBox_PasswordChanged" />
+          Margin="{StaticResource XSmallTopMargin}"
+          Width="400"
+          Grid.Row="2"
+          FontSize="18"
+          PasswordChanged="ApiTextBox_PasswordChanged" />
                         </toolkit:SettingsCard>
                         <toolkit:SettingsCard x:Uid="Settings_Region">
                             <TextBox x:Name="RegionTextBox"
-     Margin="{StaticResource XSmallTopMargin}"
-     Width="400"
-     Grid.Row="2"
-     FontSize="18"
-     TextChanged="RegionTextBox_TextChanged" />
+      Margin="{StaticResource XSmallTopMargin}"
+      Width="400"
+      Grid.Row="2"
+      FontSize="18"
+      TextChanged="RegionTextBox_TextChanged" />
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+
+                <!-- 新增：阿里云百炼 (Ali Bairen) 设置 -->
+                <toolkit:SettingsExpander x:Uid="Settings_AliBairen" Margin="{StaticResource XSmallTopMargin}">
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE7C3;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard x:Uid="Settings_AliEndpoint">
+                            <TextBox x:Name="AliEndpointTextBox"
+                                     Margin="{StaticResource XSmallTopMargin}"
+                                     Width="600"
+                                     FontSize="16"
+                                     Header="Ali Bairen Endpoint"
+                                     TextChanged="AliEndpointTextBox_TextChanged" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard x:Uid="Settings_AliApiKey">
+                            <PasswordBox x:Name="AliApiKeyBox"
+                                         Margin="{StaticResource XSmallTopMargin}"
+                                         Width="400"
+                                         FontSize="16"
+                                         Header="Ali Bairen API Key"
+                                         PasswordChanged="AliApiKeyBox_PasswordChanged" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard>
+                            <TextBlock Text="填写后普通用户可使用内置 AI 功能（默认每日限制由应用设置控制），专业用户请购买以获取无限次访问。" TextWrapping="Wrap" />
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
 
                 <TextBlock x:Uid="Settings_AISection" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <Grid x:Name="AIUsageCard" 
-          Margin="{StaticResource MediumTopMargin}" 
-          Padding="16" 
-          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
-          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
-          BorderThickness="1" 
-          CornerRadius="8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <!-- 使用情况状态 -->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal">
-                            <SymbolIcon Symbol="Refresh" Margin="0,0,8,0" />
-                            <TextBlock x:Name="UsageStatusTextBlock" x:Uid="Settings_AIUsage_Status" Style="{StaticResource SubtitleTextBlockStyle}" />
-                            <Border Margin="12,0,0,0" 
-        Padding="8,2"
-        CornerRadius="4"
-        Visibility="Collapsed"
-        x:Name="PremiumBadge">
-                                <TextBlock x:Uid="Settings_AIUsage_PremiumBadge"
-              Foreground="White" />
-                            </Border>
-                        </StackPanel>
-
-                        <!-- 剩余使用次数 -->
-                        <StackPanel Grid.Row="1" Margin="0,12,0,0" Visibility="Visible" x:Name="UsageStatsPanel">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock x:Uid="Settings_AIUsage_Remaining" Margin="0,0,8,0" />
-                                <TextBlock x:Name="RemainingCountTextBlock" Text="25/25" FontWeight="SemiBold" />
-                            </StackPanel>
-                            <ProgressBar x:Name="UsageProgressBar" Height="6" Maximum="25" Value="0" Margin="0,0,0,12" />
-                        </StackPanel>
-
-                        <!-- 购买或说明部分 -->
-                        <StackPanel Grid.Row="2" Margin="0,4,0,0">
-                            <TextBlock x:Name="UsageLimitDescription" 
-                      x:Uid="Settings_AIUsage_LimitInfo" 
-                      TextWrapping="Wrap" 
-                      Margin="0,0,0,12" />
-
-                            <Button IsEnabled="false" x:Name="PurchaseButton" 
-                    x:Uid="Settings_AIUsage_PurchaseButton"
-                    Style="{StaticResource AccentButtonStyle}" 
-                    HorizontalAlignment="Left"
-                    Click="PurchaseButton_Click" />
-
-                            <ProgressRing x:Name="PurchaseProgressRing" 
-                         IsActive="False" 
-                         Width="20" 
-                         Height="20" 
-                         HorizontalAlignment="Left"
-                         Margin="0,8,0,0" 
-                         Visibility="Collapsed" />
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-
-
-                <TextBlock x:Uid="Settings_Advanced" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                
-                <toolkit:SettingsCard x:Uid="Settings_ai" Margin="{StaticResource XSmallTopMargin}">
-                    <ToggleSwitch IsOn="False" IsEnabled="False" x:Name="AIToggleSwitch"
-    Margin="{StaticResource XSmallTopMargin}" />
+                <toolkit:SettingsCard Margin="{StaticResource XSmallTopMargin}" x:Uid="Settings_ai">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE781;" />
                     </toolkit:SettingsCard.HeaderIcon>
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}" Spacing="8">
+                        <ToggleSwitch x:Name="AIToggleSwitch"
+                                      IsOn="False"
+                                      Toggled="AIToggleSwitch_Toggled" />
+                        <TextBlock Text="启用后，任务名称将进入 AI 日期建议流程。" TextWrapping="Wrap" />
+                    </StackPanel>
                 </toolkit:SettingsCard>
+
+                <TextBlock x:Uid="Settings_Advanced" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
                 <toolkit:SettingsCard x:Uid="Settings_autostart" Margin="{StaticResource XSmallTopMargin}">
                     <ToggleSwitch x:Name="StartupToggle"
                                 IsOn="{x:Bind IsStartupEnabled, Mode=TwoWay}"
-Margin="{StaticResource XSmallTopMargin}"
-Toggled="StartupToggle_Toggled" />
+ Margin="{StaticResource XSmallTopMargin}"
+ Toggled="StartupToggle_Toggled" />
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE7C4;" />
                     </toolkit:SettingsCard.HeaderIcon>

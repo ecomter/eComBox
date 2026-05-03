@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using eComBox.Activation;
+using eComBox.Models;
 using eComBox.Services;
 using eComBox.Views;
 using Windows.ApplicationModel.Activation;
@@ -35,6 +36,7 @@ namespace eComBox
         {
             await Helpers.LoggingHelper.InitializeAsync();
             await Helpers.LoggingHelper.LogAsync("应用启动");
+            InitializeDefaultSettings();
 
             if (!args.PrelaunchActivated)
             {
@@ -47,24 +49,16 @@ namespace eComBox
                     await CheckDateNotificationsAsync();
                 }
             }
-
-            
-                ApplicationData.Current.LocalSettings.Values["AIEnabledKey"] = false;
-            
         }
-     
 
         private void InitializeDefaultSettings()
         {
-            // ConfigurationService 已经内置了默认值处理，不需要额外设置
-            // 但如果需要，可以在这里检查特定配置并设置
-
-            // 例如，确保 AIEnabled 设置存在
             if (!ApplicationData.Current.LocalSettings.Values.ContainsKey("AIEnabled"))
             {
-                ApplicationData.Current.LocalSettings.Values["AIEnabled"] = false; // 默认关闭AI功能
+                ApplicationData.Current.LocalSettings.Values["AIEnabled"] = false;
             }
         }
+
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
@@ -89,56 +83,43 @@ namespace eComBox
             {
                 await Helpers.LoggingHelper.LogAsync("开始检查日期通知...");
 
-                // 加载所有卡片数据
-                var data = await DataStorage.LoadDataAsync();
+                var data = await CountdownStorageService.LoadCardsAsync();
                 await Helpers.LoggingHelper.LogAsync($"已加载 {data.Count} 个卡片");
 
-                // 今天的日期
                 var today = DateTime.Now.Date;
-
-                // 提取需要发送通知的卡片
-                var notificationCards = new List<DatePage.DataBlockModel>();
+                var notificationCards = new List<CountdownCardModel>();
 
                 foreach (var card in data)
                 {
-                    // 检查是否启用了通知且日期在未来
                     var settings = ApplicationData.Current.LocalSettings;
-                    bool enableNotification = false;
-
-                    if (settings.Values.TryGetValue($"Card_{card.Title}_Notification", out object value) && value is bool)
-                    {
-                        enableNotification = (bool)value;
-                    }
+                    var enableNotification = settings.Values.TryGetValue($"Card_{card.Title}_Notification", out object value) && value is bool enabled && enabled;
 
                     await Helpers.LoggingHelper.LogAsync($"卡片 '{card.Title}': 通知已{(enableNotification ? "启用" : "禁用")}, " +
                                       $"目标日期: {(card.TargetDate.HasValue ? card.TargetDate.Value.ToString("yyyy-MM-dd") : "未设置")}");
 
-                    // 只对启用了通知且日期在未来的卡片发送通知
                     if (enableNotification && card.TargetDate.HasValue && card.TargetDate.Value >= today)
                     {
                         notificationCards.Add(card);
                     }
                 }
 
-                // 如果有需要通知的卡片，发送通知
                 if (notificationCards.Count > 0)
                 {
                     await Helpers.LoggingHelper.LogAsync($"找到 {notificationCards.Count} 个需要通知的卡片");
-                    // 使用ToastNotifier发送通知
                     await SendDateNotificationsAsync(notificationCards);
                 }
                 else
                 {
-                    await Helpers.LoggingHelper.LogAsync("没有需要通知的卡片");
+                    await Helpers.LoggingHelper.LogAsync("没有需要发送通知的卡片");
                 }
             }
             catch (Exception ex)
             {
-                await Helpers.LoggingHelper.LogAsync($"检查日期通知时出错: {ex.Message}", "ERROR");
-                Debug.WriteLine($"检查日期通知时出错: {ex.Message}");
+                await Helpers.LoggingHelper.LogAsync($"检查日期通知时出错: {ex.Message}");
             }
         }
-        private async Task SendDateNotificationsAsync(List<DatePage.DataBlockModel> cards)
+
+        private async Task SendDateNotificationsAsync(List<CountdownCardModel> cards)
         {
             // 确保应用有权发送通知
             var notifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier();
