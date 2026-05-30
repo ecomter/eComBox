@@ -729,7 +729,7 @@ namespace eComBox.Views
                     VerticalAlignment = VerticalAlignment.Center,
                     MinWidth = 560,
                     MaxWidth = 920,
-                    Padding = new Thickness(40, 12, 24, 12)
+                    Padding = new Thickness(38, 12, 24, 12)
                 };
                 dialogRoot.Children.Add(scroll);
 
@@ -845,14 +845,16 @@ namespace eComBox.Views
             {
                 var button = new Button
                 {
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    HorizontalContentAlignment = HorizontalAlignment.Left,
                     Padding = new Thickness(12, 10, 12, 10),
                     BorderThickness = new Thickness(1),
                     CornerRadius = new CornerRadius(12),
                     Background = (Brush)Application.Current.Resources["SubtleFillColorSecondaryBrush"],
                     BorderBrush = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"],
-                    Tag = suggestion
+                    Tag = suggestion,
+                    MinWidth = 440,
+                    MaxWidth = 640
                 };
 
                 var row = new Grid
