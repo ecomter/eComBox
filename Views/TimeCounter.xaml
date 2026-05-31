@@ -20,7 +20,7 @@
             Padding="6,6,6,8"
             CornerRadius="8"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-            <StackPanel Spacing="8">
+            <StackPanel Spacing="2" Orientation="Horizontal">
                 <CommandBar DefaultLabelPosition="Right">
                     <AppBarButton x:Uid="DatePage_NewButton" Icon="Add" Click="AddCard_Click" />
                     <AppBarButton x:Uid="DatePage_ClearButton" Icon="Delete" Click="ClearAll_Click" />
@@ -30,15 +30,7 @@
                         <FontIcon Glyph="&#xEDE1;" />
                     </AppBarButton>
 
-                    <AppBarSeparator />
-                    <AppBarButton Label="排序">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="日期由近到远" Click="SortByDate_Click" />
-                                <MenuFlyoutItem Text="A-Z 排序" Click="SortByName_Click" />
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
+                    
 
                     <AppBarSeparator />
                     <AppBarToggleButton
@@ -57,20 +49,31 @@
                             <SymbolIcon Symbol="Bullets" />
                         </AppBarToggleButton.Icon>
                     </AppBarToggleButton>
-                </CommandBar>
+                    <AppBarSeparator />
+                    <AppBarButton Label="排序">
+                        Click="ListView_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Sort" />
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="日期由近到远" Click="SortByDate_Click" />
+                                <MenuFlyoutItem Text="A-Z 排序" Click="SortByName_Click" />
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
 
-                <Border
-                    HorizontalAlignment="Left"
-                    Padding="10,4"
-                    CornerRadius="999"
-                    Background="{ThemeResource SubtleFillColorSecondaryBrush}">
-                    <TextBlock
-                        Text="{Binding SortModeDisplayText}"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        TextWrapping="NoWrap"
-                        TextTrimming="CharacterEllipsis" />
-                </Border>
+                </CommandBar>
+                <TextBlock
+    Text="{Binding SortModeDisplayText}"
+    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+    Style="{StaticResource CaptionTextBlockStyle}"
+    VerticalAlignment="Center"
+    TextWrapping="NoWrap"
+    TextTrimming="CharacterEllipsis" />
+
+
+
             </StackPanel>
         </Border>
 
