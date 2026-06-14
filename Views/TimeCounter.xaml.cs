@@ -748,7 +748,7 @@ namespace eComBox.Views
                     return null;
                 }
 
-                var nextId = source?.Title ?? (Cards.Count == 0 ? 1 : Cards.Max(card => card.Title) + 1);
+                var nextId = source?.Title ?? (Cards.Count == 0 ? 1 : Cards.Max(card => card.Title) + 1); // 保持原有 ID 生成逻辑，不影响展示行为
                 var colorKey = colorSelector.SelectedValue as string;
                 if (string.IsNullOrWhiteSpace(colorKey))
                 {
@@ -758,7 +758,7 @@ namespace eComBox.Views
                 return new TimeCounterCardViewModel
                 {
                     Title = nextId,
-                    TaskName = string.IsNullOrWhiteSpace(nameBox.Text) ? "未命名事件" : nameBox.Text.Trim(),
+                    TaskName = string.IsNullOrWhiteSpace(nameBox.Text) ? string.Empty : nameBox.Text.Trim(),
                     TargetDate = picker.Date,
                     EnableDateNotification = notifySwitch.IsOn,
                     BorderColorHex = colorKey
@@ -1019,6 +1019,10 @@ namespace eComBox.Views
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsPastDue));
                 OnPropertyChanged(nameof(PastMarkerVisibility));
+                OnPropertyChanged(nameof(DisplayTitle));
+                OnPropertyChanged(nameof(TargetDateText));
+                OnPropertyChanged(nameof(TargetDateSecondaryVisibility));
+                OnPropertyChanged(nameof(DisplayTitleFontSize));
             }
         }
 
@@ -1037,6 +1041,8 @@ namespace eComBox.Views
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsPastDue));
                 OnPropertyChanged(nameof(PastMarkerVisibility));
+                OnPropertyChanged(nameof(DisplayTitle));
+                OnPropertyChanged(nameof(DisplayTitleFontSize));
             }
         }
 
@@ -1085,16 +1091,26 @@ namespace eComBox.Views
  
          public Brush CardAccentBrush => CreateGradientBrush(BorderColorHex);
 
-        public string TargetDateText => TargetDate?.ToString("yyyy-MM-dd") ?? "未设置目标日期";
+        public string TargetDateText => HasCustomTaskName ? (TargetDate?.ToString("yyyy-MM-dd") ?? "未设置目标日期") : string.Empty;
 
         public string CountdownText => GetCountdownText(TargetDate?.Date);
+
+        public string DisplayTitle => HasCustomTaskName
+            ? _taskName
+            : TargetDate?.ToString("yyyy-MM-dd") ?? "未设置目标日期";
+
+        public double DisplayTitleFontSize => HasCustomTaskName ? (double)16 : (double)20;
+
+        public Visibility TargetDateSecondaryVisibility => TargetDate.HasValue ? Visibility.Visible : Visibility.Collapsed;
+
+        private bool HasCustomTaskName => !string.IsNullOrWhiteSpace(_taskName) && !string.Equals(_taskName, "未命名事件", StringComparison.Ordinal);
 
         public static TimeCounterCardViewModel FromModel(CountdownCardModel model)
         {
             var viewModel = new TimeCounterCardViewModel
             {
                 Title = model.Title,
-                TaskName = string.IsNullOrWhiteSpace(model.TaskName) ? "未命名事件" : model.TaskName,
+                TaskName = string.IsNullOrWhiteSpace(model.TaskName) ? string.Empty : model.TaskName,
                 TargetDate = model.TargetDate.HasValue ? new DateTimeOffset(model.TargetDate.Value) : (DateTimeOffset?)null,
                 BorderColorHex = string.IsNullOrWhiteSpace(model.BorderColorHex) ? "gradient:aurora" : model.BorderColorHex,
                 EnableDateNotification = model.EnableDateNotification

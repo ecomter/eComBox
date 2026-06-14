@@ -125,7 +125,7 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding TaskName}" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="WrapWholeWords" />
+                                        <TextBlock Text="{Binding DisplayTitle}" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="WrapWholeWords" FontSize="{Binding DisplayTitleFontSize}" />
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                                             <Border
                                                 Padding="6,2"
@@ -206,7 +206,7 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding TaskName}" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="WrapWholeWords" />
+                                        <TextBlock Text="{Binding DisplayTitle}" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="WrapWholeWords" FontSize="{Binding DisplayTitleFontSize}" />
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                                             <Border
                                                 Padding="6,2"
