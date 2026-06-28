@@ -5,16 +5,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:views="using:eComBox.Views"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
+    <Page.Resources>
+        <views:EntityTypeToColorConverter x:Key="EntityTypeToColorConverter" />
+        <views:EntityTypeToGlyphConverter x:Key="EntityTypeToGlyphConverter" />
+    </Page.Resources>
+    
     <ScrollViewer>
+        
         <Grid 
             x:Name="ContentArea"
             Margin="20,15,0,20">
+
             <StackPanel
                 Orientation="Vertical"
                 MaxWidth="1000"
                 HorizontalAlignment="Stretch">
+                
                 <Pivot
                     x:Name="Items">
                     <Pivot.HeaderTemplate>
@@ -24,6 +33,7 @@
                     </Pivot.HeaderTemplate>
                     <PivotItem x:Uid="Geometry_PivotItem1">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            
                             <Grid Margin="0,0,0,40">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -98,7 +108,7 @@
                                         x:Name="DemPlace" 
                                         Maximum="10" 
                                         Minimum="1" 
-                                        Value="{x:Bind DPlace, Mode=TwoWay}" 
+                                        Value="5" 
                                         x:Uid="Geometry_DecimalPlaces"
   
                                         PlaceholderText="5" 
@@ -204,30 +214,122 @@
                     </PivotItem>
 
                     <PivotItem x:Uid="Geometry_PivotItem2">
-                        <Grid>
-                            <muxc:InfoBar
-                                IsOpen="True"
-                                IsIconVisible="True"
-                                IsClosable="False"
-                                
-                         
-                                x:Uid="Geometry_InfoBar_Message" />
-                        </Grid>
-                    </PivotItem>
-                    <PivotItem x:Uid="Geometry_Conic" >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <muxc:InfoBar
-                                IsOpen="True"
-                                IsIconVisible="True"
-                                IsClosable="False"
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="0,20,0,40" Spacing="16" MaxWidth="1000">
+                                <muxc:InfoBar Content="Beta" Severity="Informational"/>
+                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
+                                    <StackPanel Spacing="12">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <TextBlock Text="对象库" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="WorkspaceCounts" VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                        </StackPanel>
+                                        <ListView x:Name="EntityList" SelectionMode="Single" SelectionChanged="EntityList_SelectionChanged" MaxHeight="300">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="4,8" />
+                                                    <Setter Property="Margin" Value="0,0,0,2" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid ColumnSpacing="12" HorizontalAlignment="Stretch">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" VerticalAlignment="Center">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="{Binding Type, Converter={StaticResource EntityTypeToColorConverter}}" />
+                                                            </Border.Background>
+                                                            <FontIcon Glyph="{Binding Type, Converter={StaticResource EntityTypeToGlyphConverter}}"
+                                                                      Foreground="White" FontSize="16" 
+                                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            
+                                                        </Border>
+                                                        <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Name}" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="15" />
+                                                            <TextBlock Text="{Binding Summary}" Style="{ThemeResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                            <Button Content="＋添加形状" Click="AddShapeViaDialog" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button Content="删除选中" Click="DeleteSelectedEntity" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button Content="清空全部" Click="ClearEntities" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
 
-                             
-                                x:Uid="Geometry_InfoBar_Message"/>
-                        </Grid>
+                                <!-- 绘图预览 -->
+                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
+                                    <StackPanel Spacing="10">
+                                        <TextBlock Text="绘图预览" Style="{ThemeResource TitleTextBlockStyle}" />
+                                        <Canvas x:Name="PlotCanvas" Height="520" MinWidth="400" HorizontalAlignment="Stretch"
+                                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" SizeChanged="PlotCanvas_SizeChanged" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- 交点结果 -->
+                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
+                                    <StackPanel Spacing="10">
+                                        <TextBlock Text="交点结果" Style="{ThemeResource TitleTextBlockStyle}" />
+                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                            <Button Content="计算交点" Click="ComputeIntersections" Style="{StaticResource AccentButtonStyle}" />
+                                        </StackPanel>
+                                        <ListView x:Name="IntersectionList" MaxHeight="220">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="4,6" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                        </ListView>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </PivotItem>
+
+                    <PivotItem x:Uid="Geometry_Conic">
+                        
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="0,20,0,40" Spacing="16" MaxWidth="760" HorizontalAlignment="Left">
+
+                                <TextBlock Text="高级几何操作" Style="{ThemeResource TitleTextBlockStyle}" />
+                                <TextBlock Text="先在工作区选择一个对象，再执行切线、对称和分析。" TextWrapping="Wrap" Opacity="0.8" />
+
+                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16">
+                                    <StackPanel Spacing="10">
+                                        <TextBlock Text="当前选中对象" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                        <TextBox x:Name="SelectedEntityInfo" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60" />
+                                        <TextBox x:Name="SelectedEntityEquation" IsReadOnly="True" TextWrapping="Wrap" />
+                                        <TextBox x:Name="SelectedEntityStats" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="70" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16">
+                                    <StackPanel Spacing="10">
+                                        <TextBlock Text="点操作" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                        <Grid ColumnSpacing="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <muxc:NumberBox x:Name="OpPointX" Header="点 X" PlaceholderText="0.0" Value="0" />
+                                            <muxc:NumberBox x:Name="OpPointY" Grid.Column="1" Header="点 Y" PlaceholderText="0.0" Value="0" />
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <Button Content="点关于直线对称" Click="ReflectPointAcrossSelectedLine" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button Content="点关于圆反演" Click="InvertPointInSelectedCircle" />
+                                            <Button Content="圆上点切线" Click="BuildTangentAtPoint" />
+                                        </StackPanel>
+                                        <TextBox x:Name="OperationResult" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="90" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
                     </PivotItem>
                 </Pivot>
             </StackPanel>

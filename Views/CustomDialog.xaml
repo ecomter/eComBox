@@ -2,23 +2,71 @@
     x:Class="eComBox.Views.CustomDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-    xmlns:ui="using:CommunityToolkit.WinUI"
-    xmlns:local="using:eComBox.Views"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Width="800"
-    MinHeight="200">
+    MinWidth="500"
+    MinHeight="280">
 
-    <Border
-        CornerRadius="8"
-        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-        >
+    <UserControl.Resources>
+        <Style x:Key="ShapeTypeToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14,10" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="RootBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootBorder.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Checked">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootBorder.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                            <Setter Target="RootBorder.BorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                            <Setter Target="ContentPresenter.Foreground" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootBorder.Background" Value="{ThemeResource AccentFillColorSecondaryBrush}" />
+                                            <Setter Target="RootBorder.BorderBrush" Value="{ThemeResource AccentFillColorSecondaryBrush}" />
+                                            <Setter Target="ContentPresenter.Foreground" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border CornerRadius="8"
+            Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
         <Border.Shadow>
             <ThemeShadow/>
         </Border.Shadow>
-        <!-- 其他内容 -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -27,42 +75,124 @@
             </Grid.RowDefinitions>
 
             <!-- 标题 -->
-            <TextBlock Text="更改"
-                       FontWeight="SemiBold"
-                       Style="{StaticResource HeaderTextBlockStyle}"
-                       Foreground="{ThemeResource ContentDialogForeground}"
-                       Margin="20,20,20,10"/>
+            <StackPanel Margin="10,20,20,8" Spacing="4">
+                <TextBlock Text="创建形状"
+                           FontWeight="SemiBold"
+                           Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="选择类型并填写参数，确认后加入几何工作区。"
+                           TextWrapping="Wrap" Opacity="0.7" FontSize="13" />
+                <TextBox Margin="0,20,0,10" x:Name="AliasBox" Header="别名（可选）"
+                             PlaceholderText="例如：主轴线、圆A" />
+            </StackPanel>
 
-            <!-- 内容区域 -->
-            
-            <Grid Grid.Row="1" Margin="20,0,20,0">
-                <StackPanel Orientation="Vertical">
-                <controls:SettingsCard x:Name="settingsCard"
-                                       Description="计算时的起始日期"
-                                       Header="起始日期"
-                                       HeaderIcon="{ui:FontIcon Glyph=&#xE799;}"
-                                       Margin="0,0,0,3">
-                    <CalendarDatePicker PlaceholderText=" " />
-                    </controls:SettingsCard>
-                    <controls:SettingsCard 
-                       Description="计算时的结束日期"
-                       Header="结束日期"
-                       HeaderIcon="{ui:FontIcon Glyph=&#xE799;}"
-                       Margin="0,0,0,3">
-                        <CalendarDatePicker PlaceholderText=" " />
-                    </controls:SettingsCard>
-                </StackPanel>
-            </Grid>
 
-            <!-- 按钮 -->
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,20,20">
-                <Button Content="取消"
-                        Click="CancelButton_Click"
-                        Margin="0,0,10,0"
-                        Style="{ThemeResource TextBlockButtonStyle}" />
-                <Button Content="确定"
-                        Click="PrimaryButton_Click"
-                        Style="{ThemeResource AccentButtonStyle}" />
+            <!-- 可滚动内容 -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10,0,20,0" Spacing="16">
+
+                    <!-- 图标型选择器 -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="对象类型" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="13"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Left">
+                            <ToggleButton x:Name="LineTypeBtn" IsChecked="True"
+                                          Click="TypeButton_Click" Tag="Line"
+                                          Style="{StaticResource ShapeTypeToggleButtonStyle}">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf7af;" FontSize="18" />
+                                    <TextBlock Text="直线" FontSize="11" />
+                                </StackPanel>
+                            </ToggleButton>
+                            <ToggleButton x:Name="CircleTypeBtn"
+                                          Click="TypeButton_Click" Tag="Circle"
+                                          Style="{StaticResource ShapeTypeToggleButtonStyle}">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe91f;" FontSize="18" />
+                                    <TextBlock Margin="3,0,0,0" Text="圆" FontSize="11" />
+                                </StackPanel>
+                            </ToggleButton>
+                        </StackPanel>
+                    </StackPanel>
+
+
+
+
+                    <!-- ===== 直线参数面板 ===== -->
+                    <StackPanel x:Name="LineSection" Spacing="10" Visibility="Visible">
+                        <TextBlock Text="直线参数" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <muxc:RadioButtons  x:Name="LineModeBox"  Header="输入方式" SelectedIndex="0"
+                                           SelectionChanged="LineModeBox_SelectionChanged">
+                            <RadioButton Content="两点式"/>
+                            <RadioButton Content="点斜式"/>
+                            <RadioButton Content="一般式"/>
+                        </muxc:RadioButtons>
+                        <Grid x:Name="TwoPointSection" ColumnSpacing="12" RowSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <muxc:NumberBox x:Name="LineX1Box" Header="X₁" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="LineY1Box" Grid.Column="1" Header="Y₁" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="LineX2Box" Grid.Row="1" Header="X₂" Value="1" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="LineY2Box" Grid.Row="1" Grid.Column="1" Header="Y₂" Value="1" ValueChanged="LineInput_ValueChanged"/>
+                        </Grid>
+
+                        <StackPanel x:Name="PointSlopeSection" Visibility="Collapsed" Spacing="10">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <muxc:NumberBox x:Name="LinePXBox" Header="X" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                                <muxc:NumberBox x:Name="LinePYBox" Grid.Column="1" Header="Y" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            </Grid>
+                            <muxc:NumberBox x:Name="SlopeBox" Header="斜率 m" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                        </StackPanel>
+
+                        <Grid x:Name="GeneralSection" Visibility="Collapsed" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <muxc:NumberBox x:Name="LineABox" Header="A" Value="1" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="LineBBox" Grid.Column="1" Header="B" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="LineCBox" Grid.Column="2" Header="C" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ===== 圆参数面板 ===== -->
+                    <StackPanel Margin="0,-30,0,0" x:Name="CircleSection" Spacing="10" Visibility="Collapsed">
+                        <TextBlock Text="圆参数" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <Grid ColumnSpacing="12" RowSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <muxc:NumberBox x:Name="CircleXBox" Header="圆心 X" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="CircleYBox" Grid.Column="1" Header="圆心 Y" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="RadiusBox" Grid.Row="1" Header="半径 r" Value="1" ValueChanged="LineInput_ValueChanged"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- 预览 -->
+                                    </StackPanel>
+            </ScrollViewer>
+
+            <!-- 按钮栏 -->
+            <StackPanel Margin="10,20,20,8" Grid.Row="2">
+                <TextBox x:Name="PreviewBox" Header="预览"
+         IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" 
+         Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" />
 
             </StackPanel>
         </Grid>

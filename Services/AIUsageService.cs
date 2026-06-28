@@ -6,11 +6,11 @@ namespace eComBox.Services
 {
     /// <summary>
     /// 管理 AI 使用计数和付费检查（免费用户每天限额，付费用户不限）
+    /// 购买流程委托给 StoreService
     /// </summary>
     public static class AIUsageService
     {
         private const string UsageKeyPrefix = "AIUsageCount_"; // 后接日期 yyyy-MM-dd
-        private const string AIProKey = "AIProPurchased"; // 本地标记用户已付费
 
         public static async Task<int> GetTodayUsageAsync()
         {
@@ -49,65 +49,44 @@ namespace eComBox.Services
             }
         }
 
-        public static async Task<bool> IsProUserAsync()
-        {
-            try
-            {
-                var settings = ApplicationData.Current.LocalSettings;
-                if (settings.Values.TryGetValue(AIProKey, out object value) && value is bool v && v)
-                {
-                    return true;
-                }
+        /// <summary>
+        /// 检查是否为 Pro 用户（委托 StoreService，本地缓存 + Store 回退 + 超时保护）
+        /// </summary>
+        public static Task<bool> IsProUserAsync()
+            => StoreService.IsAIPremiumPurchasedAsync();
 
-                // 作为回退，可尝试检查 Store 中的购买（如果你已将商店内购ID对应为AI Premium）
-                try
-                {
-                    bool purchased = await StoreService.IsConicSectionFeaturePurchasedAsync();
-                    if (purchased)
-                    {
-                        settings.Values[AIProKey] = true;
-                        return true;
-                    }
-                }
-                catch
-                {
-                    // ignore
-                }
+        /// <summary>
+        /// 发起 AI 高级版购买（委托 StoreService），返回 (是否成功, 错误描述)
+        /// </summary>
+        public static Task<(bool Success, string Error)> RequestPurchaseAIPremiumAsync()
+            => StoreService.RequestPurchaseAIPremiumAsync();
 
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public static async Task<bool> RequestPurchaseAIPremiumAsync()
-        {
-            try
-            {
-                // 调用 StoreService 进行购买流程
-                bool ok = await StoreService.RequestPurchaseConicSectionFeatureAsync();
-                if (ok)
-                {
-                    ApplicationData.Current.LocalSettings.Values[AIProKey] = true;
-                }
-                return ok;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        // 判断当日是否可继续使用 AI（对免费用户限额限制）
+        /// <summary>
+        /// 判断当日是否可继续使用 AI（免费用户限额限制）
+        /// 仅检查本地缓存，不查询 Store API，避免阻塞 UI
+        /// </summary>
         public static async Task<bool> CanUseAIAsync()
         {
-            if (await IsProUserAsync()) return true;
+            // 快速本地检查：Pro 用户直接放行（不触发 Store API）
+            if (IsProUserLocally())
+            {
+                return true;
+            }
 
             int used = await GetTodayUsageAsync();
             int limit = ConfigurationService.FreeUsageLimit;
             return used < limit;
+        }
+
+        /// <summary>
+        /// 仅检查本地缓存的 Pro 状态，不访问 Store（毫秒级）
+        /// </summary>
+        public static bool IsProUserLocally()
+        {
+            var settings = ApplicationData.Current.LocalSettings;
+            // 同时检查 AIUsageService 旧 key 和 StoreService 新 key
+            return (settings.Values.TryGetValue("AIProPurchased", out object v1) && v1 is bool b1 && b1)
+                || (settings.Values.TryGetValue("AIPremiumPurchased", out object v2) && v2 is bool b2 && b2);
         }
 
         // 用于测试/调试：重置今日计数

@@ -27,8 +27,12 @@ namespace eComBox.Views
         private const string ViewModeSettingKey = "TimeCounter_ViewMode";
         private const string SortModeSettingKey = "TimeCounter_SortMode";
 
-        private readonly AzureDatePredictionService _predictionService = new AzureDatePredictionService();
-        private readonly IAIService _aiService = new AIService();
+        // 延迟初始化 AI 服务，避免页面首次加载时的 I/O 阻塞
+        private Lazy<QwenDatePredictionService> _lazyPredictionService = new Lazy<QwenDatePredictionService>(() => new QwenDatePredictionService());
+        private Lazy<IAIService> _lazyAIService = new Lazy<IAIService>(() => new AIService());
+
+        private QwenDatePredictionService _predictionService => _lazyPredictionService.Value;
+        private IAIService _aiService => _lazyAIService.Value;
 
         private TimeCounterViewMode _viewMode = TimeCounterViewMode.Card;
         private TimeCounterSortMode _sortMode = TimeCounterSortMode.DateNearest;
@@ -600,9 +604,11 @@ namespace eComBox.Views
                     Visibility = Visibility.Collapsed
                 };
 
+                bool aiEnabled = IsAiEnabled();
+
                 var aiSummary = new TextBlock
                 {
-                    Text = "输入名称后，点击生成建议。",
+                    Text = aiEnabled ? "输入名称后，点击生成建议。" : "AI 功能未启用，请在设置中开启。",
                     Foreground = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"],
                     TextWrapping = TextWrapping.Wrap
                 };
@@ -616,11 +622,18 @@ namespace eComBox.Views
                 var aiButton = new Button
                 {
                     Content = "生成 AI 建议",
-                    HorizontalAlignment = HorizontalAlignment.Left
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    IsEnabled = aiEnabled
                 };
 
                 aiButton.Click += async (_, __) =>
                 {
+                    if (!IsAiEnabled())
+                    {
+                        aiSummary.Text = "AI 功能未启用，请在设置中开启。";
+                        return;
+                    }
+
                     try
                     {
                         aiLoading.Visibility = Visibility.Visible;
@@ -802,28 +815,45 @@ namespace eComBox.Views
             grid.Children.Add(item);
         }
 
-        private async Task<List<DateSuggestion>> GetAiSuggestionsAsync(string taskName)
+        private bool IsAiEnabled()
         {
-            var results = new List<DateSuggestion>();
-            if (string.IsNullOrWhiteSpace(taskName))
+            try
             {
-                return results;
-            }
-
-            var localResult = await _predictionService.PredictDateFromTaskNameAsync(taskName);
-            if (localResult != null)
-            {
-                results.AddRange(localResult.GetSortedSuggestions());
-            }
-
-            if (results.Count == 0)
-            {
-                var fallbackResult = await _aiService.PredictDateFromTaskNameAsync(taskName);
-                if (fallbackResult != null)
+                if (ApplicationData.Current.LocalSettings.Values.TryGetValue("AIEnabled", out object aiEnabled) && aiEnabled is bool enabled)
                 {
-                    results.AddRange(fallbackResult.GetSortedSuggestions());
+                    return enabled;
                 }
             }
+            catch
+            {
+                // 忽略任何读取配置时的异常，默认返回 false
+            }
+
+            return false;
+        }
+
+        private async Task<List<DateSuggestion>> GetAiSuggestionsAsync(string taskName)
+        {
+            if (string.IsNullOrWhiteSpace(taskName))
+            {
+                return new List<DateSuggestion>();
+            }
+
+            // 检查每日使用限制
+            if (!await AIUsageService.CanUseAIAsync())
+            {
+                throw new InvalidOperationException("DatePage_AI_Limit".GetLocalized());
+            }
+
+            var results = new List<DateSuggestion>();
+            var aiResult = await _aiService.PredictDateFromTaskNameAsync(taskName);
+            if (aiResult != null)
+            {
+                results.AddRange(aiResult.GetSortedSuggestions());
+            }
+
+            // AI 调用成功后增加使用计数
+            await AIUsageService.IncrementUsageAsync();
 
             var distinct = new List<DateSuggestion>();
             foreach (var item in results)
@@ -911,15 +941,24 @@ namespace eComBox.Views
                 return null;
             }
 
-            var prediction = await _predictionService.PredictDateFromTaskNameAsync(taskName);
+            // 检查每日使用限制
+            if (!await AIUsageService.CanUseAIAsync())
+            {
+                return null;
+            }
+
+            var prediction = await _aiService.PredictDateFromTaskNameAsync(taskName);
+
+            // AI 调用成功后增加使用计数
+            await AIUsageService.IncrementUsageAsync();
+
             var best = prediction?.GetSortedSuggestions()?.FirstOrDefault();
             if (best != null)
             {
                 return best;
             }
 
-            var fallback = await _aiService.PredictDateFromTaskNameAsync(taskName);
-            return fallback?.GetSortedSuggestions()?.FirstOrDefault();
+            return null;
         }
 
         private async Task ShowSimpleDialogAsync(string title, string content)

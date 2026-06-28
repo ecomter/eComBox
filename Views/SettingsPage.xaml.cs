@@ -31,13 +31,9 @@ namespace eComBox.Views
         private const string DefaultUrl = "https://doc.ecomter.site/baidu?cache=false";
         private const string HotListEnabledKey = "HotListEnabled";
         private const string AIEnabledKey = "AIEnabled";
-        private const string TranslatorEndpointKey = "TranslatorEndpoint";
-        private const string TranslatorApiKeyKey = "TranslatorApiKey";
-        private const string TranslatorRegionKey = "TranslatorRegion";
 
         private bool _initialHotListToggleState;
         private bool _isInitializingLanguageComboBox;
-        private bool _isLoadingTranslatorSettings;
         private bool _isLoadingAISettings;
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
@@ -92,7 +88,6 @@ namespace eComBox.Views
             InitializeLanguageComboBox();
             LoadSelectedUrl();
             LoadHotListToggleState();
-            LoadTranslatorSettings();
             LoadAIEnabledState();
         }
 
@@ -174,9 +169,118 @@ namespace eComBox.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await InitializeAsync();
             base.OnNavigatedTo(e);
-            IsStartupEnabled = await StartupService.IsStartupEnabled();
+
+            // 快速初始化（同步/轻量操作）
+            _ = InitializeAsync();
+
+            // 后台异步刷新，不阻塞页面渲染
+            _ = RefreshAIUsageAsync();
+            _ = LoadStartupStateAsync();
+        }
+
+        private async Task LoadStartupStateAsync()
+        {
+            try
+            {
+                var task = StartupService.IsStartupEnabled();
+                var timeout = Task.Delay(1500);
+                if (await Task.WhenAny(task, timeout) == task)
+                {
+                    IsStartupEnabled = await task;
+                }
+            }
+            catch { }
+        }
+
+        private async Task RefreshAIUsageAsync()
+        {
+            try
+            {
+                // 仅本地检查，绝不调用 Store API，确保设置页秒开
+                bool isPro = AIUsageService.IsProUserLocally();
+
+                int used = await AIUsageService.GetTodayUsageAsync();
+                int limit = ConfigurationService.FreeUsageLimit;
+                int remaining = Math.Max(0, limit - used);
+
+                if (isPro)
+                {
+                    RemainingCountTextBlock.Text = "∞ / ∞";
+                    UsageProgressBar.Value = UsageProgressBar.Maximum;
+                    PurchaseButton.Visibility = Visibility.Collapsed;
+                    PurchaseProgressRing.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    RemainingCountTextBlock.Text = remaining + " / " + limit;
+                    UsageProgressBar.Maximum = limit;
+                    UsageProgressBar.Value = used;
+                    PurchaseButton.Visibility = Visibility.Visible;
+                    PurchaseProgressRing.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch
+            {
+                RemainingCountTextBlock.Text = "-- / --";
+                PurchaseButton.Visibility = Visibility.Collapsed;
+                PurchaseProgressRing.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private async void PurchaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PurchaseButton.IsEnabled = false;
+                PurchaseProgressRing.Visibility = Visibility.Visible;
+                PurchaseProgressRing.IsActive = true;
+
+                var (success, error) = await AIUsageService.RequestPurchaseAIPremiumAsync();
+
+                if (success)
+                {
+                    await RefreshAIUsageAsync();
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Settings_AIUsage_PurchaseSuccess_Title".GetLocalized(),
+                        Content = "Settings_AIUsage_PurchaseSuccess_Content".GetLocalized(),
+                        CloseButtonText = "Settings_AIUsage_PurchaseSuccess_CloseButton".GetLocalized()
+                    };
+                    await dialog.ShowAsync();
+                }
+                else
+                {
+                    var message = "Settings_AIUsage_PurchaseFailed_Content".GetLocalized();
+                    if (!string.IsNullOrWhiteSpace(error))
+                    {
+                        message += "\n\n" + error;
+                    }
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Settings_AIUsage_PurchaseFailed_Title".GetLocalized(),
+                        Content = message,
+                        CloseButtonText = "Settings_AIUsage_PurchaseFailed_CloseButton".GetLocalized()
+                    };
+                    await dialog.ShowAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = "Settings_AIUsage_PurchaseError_Title".GetLocalized(),
+                    Content = "Settings_AIUsage_PurchaseError_Content".GetLocalized() + "\n\n" + ex.Message,
+                    CloseButtonText = "Settings_AIUsage_PurchaseError_CloseButton".GetLocalized()
+                };
+                await dialog.ShowAsync();
+            }
+            finally
+            {
+                PurchaseButton.IsEnabled = true;
+                PurchaseProgressRing.IsActive = false;
+                PurchaseProgressRing.Visibility = Visibility.Collapsed;
+            }
         }
 
         private async Task InitializeAsync()
@@ -417,103 +521,6 @@ namespace eComBox.Views
 
         private void TermsOfServiceDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-        }
-
-        private void LoadTranslatorSettings()
-        {
-            _isLoadingTranslatorSettings = true;
-            try
-            {
-                var localSettings = ApplicationData.Current.LocalSettings;
-                if (localSettings.Values.TryGetValue(TranslatorEndpointKey, out object endpointValue))
-                {
-                    EndpointTextBox.Text = endpointValue as string;
-                }
-                if (localSettings.Values.TryGetValue(TranslatorApiKeyKey, out object apiKeyValue))
-                {
-                    ApiTextBox.Password = apiKeyValue as string;
-                }
-                if (localSettings.Values.TryGetValue(TranslatorRegionKey, out object regionValue))
-                {
-                    RegionTextBox.Text = regionValue as string;
-                }
-
-                // 加载阿里百炼设置
-                if (localSettings.Values.TryGetValue("AliBairenEndpoint", out object aliEndpoint))
-                {
-                    AliEndpointTextBox.Text = aliEndpoint as string;
-                }
-                if (localSettings.Values.TryGetValue("AliBairenApiKey", out object aliKey))
-                {
-                    AliApiKeyBox.Password = aliKey as string;
-                }
-            }
-            finally
-            {
-                _isLoadingTranslatorSettings = false;
-            }
-        }
-
-        private void SaveTranslatorSettings()
-        {
-            var localSettings = ApplicationData.Current.LocalSettings;
-            localSettings.Values[TranslatorEndpointKey] = EndpointTextBox.Text;
-            localSettings.Values[TranslatorApiKeyKey] = ApiTextBox.Password;
-            localSettings.Values[TranslatorRegionKey] = RegionTextBox.Text;
-
-            // 保存阿里百炼设置
-            localSettings.Values["AliBairenEndpoint"] = AliEndpointTextBox.Text;
-            localSettings.Values["AliBairenApiKey"] = AliApiKeyBox.Password;
-        }
-
-        private void EndpointTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_isLoadingTranslatorSettings)
-            {
-                return;
-            }
-
-            SaveTranslatorSettings();
-        }
-
-        private void ApiTextBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (_isLoadingTranslatorSettings)
-            {
-                return;
-            }
-
-            SaveTranslatorSettings();
-        }
-
-        private void RegionTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_isLoadingTranslatorSettings)
-            {
-                return;
-            }
-
-            SaveTranslatorSettings();
-        }
-
-        private void AliEndpointTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_isLoadingTranslatorSettings)
-            {
-                return;
-            }
-
-            SaveTranslatorSettings();
-        }
-
-        private void AliApiKeyBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (_isLoadingTranslatorSettings)
-            {
-                return;
-            }
-
-            SaveTranslatorSettings();
         }
 
         private bool GetBoolSetting(string key)

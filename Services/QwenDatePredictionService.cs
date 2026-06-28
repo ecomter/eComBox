@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,11 +7,11 @@ using System.Diagnostics;
 namespace eComBox.Services
 {
     /// <summary>
-    /// 精简后的 AzureDatePredictionService：不再直接依赖 Azure/OpenAI SDK。
-    /// 改为使用本地的 AIService（已切换为 Qwen HTTP 实现）并整合用户历史与节假日建议。
+    /// 精简后的 QwenDatePredictionService：已完全迁移至阿里云 Qwen（兼容 OpenAI Chat 接口）。
+    /// 使用本地的 AIService（Qwen HTTP 实现）并整合用户历史与节假日建议。
     /// 保留原有的公共模型以兼容项目其它代码。
     /// </summary>
-    public class AzureDatePredictionService
+    public class QwenDatePredictionService
     {
         private List<UserDateSelection> _userDateHistory = new List<UserDateSelection>();
         private List<HolidayInfo> _holidays = new List<HolidayInfo>();
@@ -20,7 +20,7 @@ namespace eComBox.Services
         // 使用本地 AIService（Qwen 接入）作为后端
         private readonly IAIService _localAiService;
 
-        public AzureDatePredictionService(string openAIEndpoint = null, string openAIKey = null, string deploymentName = null)
+        public QwenDatePredictionService(string openAIEndpoint = null, string openAIKey = null, string deploymentName = null)
         {
             try
             {

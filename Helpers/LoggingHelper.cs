@@ -19,7 +19,7 @@ namespace eComBox.Helpers
         private static StorageFile _logFile;
 
         /// <summary>
-        /// 初始化日志系统
+        /// 初始化日志系统（快速路径：不再读取旧日志文件，避免启动 I/O 阻塞）
         /// </summary>
         public static async Task InitializeAsync()
         {
@@ -30,29 +30,12 @@ namespace eComBox.Helpers
             {
                 await _semaphore.WaitAsync();
 
-                // 获取日志文件
+                // 只创建日志文件引用，不读取已有内容
                 var folder = ApplicationData.Current.LocalFolder;
                 _logFile = await folder.CreateFileAsync(_logFileName, CreationCollisionOption.OpenIfExists);
 
-                // 读取现有日志（如果存在）
-                if (_logFile != null)
-                {
-                    string existingLogs = await FileIO.ReadTextAsync(_logFile);
-                    if (!string.IsNullOrEmpty(existingLogs))
-                    {
-                        string[] logEntries = existingLogs.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
-                        // 只保留最新的日志（避免文件过大）
-                        int startIndex = Math.Max(0, logEntries.Length - _maxBufferSize);
-                        for (int i = startIndex; i < logEntries.Length; i++)
-                        {
-                            _logBuffer.Add(logEntries[i]);
-                        }
-                    }
-                }
-
                 // 添加启动日志
-                _logBuffer.Add($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}] [INFO] 应用启动，日志系统初始化完成");
+                _logBuffer.Add($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}] [INFO] 应用启动");
 
                 // 设置调试输出重定向
                 Trace.Listeners.Add(new LoggingTraceListener());

@@ -133,7 +133,7 @@
   <data name="Settings_AISection.Text" xml:space="preserve">
     <value>AI 功能</value>
   </data>
-  <data name="Settings_AIUsage_Status.Text" xml:space="preserve">
+  <data name="Settings_AIUsage_Status.Header" xml:space="preserve">
     <value>使用状态</value>
   </data>
   <data name="Settings_AIUsage_PremiumBadge.Text" xml:space="preserve">
@@ -705,7 +705,7 @@
     <comment>About this application title for Settings</comment>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>eComBox-简易工具箱是 ecomter 开发的一款工具箱 UWP 应用，支持日期计算和简单的集合计算。</value>
+    <value>eComBox-简易工具箱是 ecomter 开发的一款工具箱 UWP 应用，支持日期计算和简单的几何计算。</value>
     <comment>About this application description for Settings</comment>
   </data>
   <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
@@ -734,7 +734,7 @@
     <value>日期计算</value>
   </data>
   <data name="HomePage_Geo_Description.Text" xml:space="preserve">
-    <value>解三角形，圆锥曲线等解析几何的常见计算。</value>
+    <value>解三角形，直线和圆等解析几何的常见计算。</value>
   </data>
   <data name="HomePage_Geo_Title.Text" xml:space="preserve">
     <value>几何工具</value>
@@ -1081,7 +1081,7 @@
   <data name="FirstRun_Body.Text" xml:space="preserve">
     <value>欢迎您使用 eComBox-简易工具箱！
 
-eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成本，普通版本每日最多可以使用 25 次 AI 功能），根据三角形边长解三角形，连续翻译20遍文本。目前功能仍在不断扩充之中。
+eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成本，普通版本每日最多可以使用 25 次 AI 功能），根据三角形边长解三角形，简单的直线和圆的计算，连续翻译文本。目前功能仍在不断扩充之中。
 
 感谢您的支持！</value>
   </data>
@@ -1090,13 +1090,13 @@ eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成
     <comment>What's new prompt message title</comment>
   </data>
   <data name="WhatsNew_Feature2.Text" xml:space="preserve">
-    <value>AI 功能暂时维护，不可调用</value>
+    <value>恢复 AI 功能</value>
   </data>
   <data name="WhatsNew_Feature3.Text" xml:space="preserve">
     <value>修复了一些其他问题</value>
   </data>
   <data name="WhatsNew_Header.Text" xml:space="preserve">
-    <value>已更新到 eComBox 0.4.0 版本</value>
+    <value>已更新到 eComBox 0.5.0 版本</value>
     <comment>What's new prompt message primary button text</comment>
   </data>
   <data name="WhatsNew_PrivacyPolicy.Content" xml:space="preserve">

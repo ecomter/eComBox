@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
 using eComBox.Activation;
 using eComBox.Models;
@@ -57,6 +58,21 @@ namespace eComBox
             {
                 ApplicationData.Current.LocalSettings.Values["AIEnabled"] = false;
             }
+
+            if (!ApplicationData.Current.LocalSettings.Values.ContainsKey("AliBairenEndpoint"))
+            {
+                ApplicationData.Current.LocalSettings.Values["AliBairenEndpoint"] = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+            }
+
+            if (!ApplicationData.Current.LocalSettings.Values.ContainsKey("AliBairenApiKey"))
+            {
+                ApplicationData.Current.LocalSettings.Values["AliBairenApiKey"] = "sk-043858a081d44e1bac5a1b9a91b8967a";
+            }
+
+            if (string.IsNullOrWhiteSpace(Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride))
+            {
+                Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = CultureInfo.CurrentUICulture.Name;
+            }
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
@@ -81,11 +97,7 @@ namespace eComBox
         {
             try
             {
-                await Helpers.LoggingHelper.LogAsync("开始检查日期通知...");
-
                 var data = await CountdownStorageService.LoadCardsAsync();
-                await Helpers.LoggingHelper.LogAsync($"已加载 {data.Count} 个卡片");
-
                 var today = DateTime.Now.Date;
                 var notificationCards = new List<CountdownCardModel>();
 
@@ -93,9 +105,6 @@ namespace eComBox
                 {
                     var settings = ApplicationData.Current.LocalSettings;
                     var enableNotification = settings.Values.TryGetValue($"Card_{card.Title}_Notification", out object value) && value is bool enabled && enabled;
-
-                    await Helpers.LoggingHelper.LogAsync($"卡片 '{card.Title}': 通知已{(enableNotification ? "启用" : "禁用")}, " +
-                                      $"目标日期: {(card.TargetDate.HasValue ? card.TargetDate.Value.ToString("yyyy-MM-dd") : "未设置")}");
 
                     if (enableNotification && card.TargetDate.HasValue && card.TargetDate.Value >= today)
                     {
@@ -105,47 +114,31 @@ namespace eComBox
 
                 if (notificationCards.Count > 0)
                 {
-                    await Helpers.LoggingHelper.LogAsync($"找到 {notificationCards.Count} 个需要通知的卡片");
+                    await Helpers.LoggingHelper.LogAsync($"发送 {notificationCards.Count} 条通知（共 {data.Count} 卡片）");
                     await SendDateNotificationsAsync(notificationCards);
-                }
-                else
-                {
-                    await Helpers.LoggingHelper.LogAsync("没有需要发送通知的卡片");
                 }
             }
             catch (Exception ex)
             {
-                await Helpers.LoggingHelper.LogAsync($"检查日期通知时出错: {ex.Message}");
+                await Helpers.LoggingHelper.LogAsync($"通知检查失败: {ex.Message}");
             }
         }
 
         private async Task SendDateNotificationsAsync(List<CountdownCardModel> cards)
         {
-            // 确保应用有权发送通知
             var notifier = Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier();
-            await Helpers.LoggingHelper.LogAsync($"通知权限状态: {notifier.Setting}");
 
             if (notifier.Setting != Windows.UI.Notifications.NotificationSetting.DisabledForApplication)
             {
                 try
                 {
-                    // 为每个卡片创建一个通知
                     foreach (var card in cards)
                     {
-                        // 计算剩余天数
                         var today = DateTime.Now.Date;
                         var daysLeft = (card.TargetDate.Value - today).Days;
-
-                        // 创建通知内容
                         var title = string.IsNullOrEmpty(card.TaskName) ? "日期提醒" : card.TaskName;
                         var content = $"距离 {title} 还有 {daysLeft} 天";
-                        await Helpers.LoggingHelper.LogAsync($"准备发送通知: 标题='{title}', 内容='{content}'");
 
-                        // 创建通知
-                        var toastContent = new Windows.UI.Notifications.ToastNotification(
-                            new Windows.Data.Xml.Dom.XmlDocument());
-
-                        // 构建通知XML
                         var xmlContent = $@"
                         <toast>
                             <visual>
@@ -159,7 +152,6 @@ namespace eComBox
                         var doc = new Windows.Data.Xml.Dom.XmlDocument();
                         doc.LoadXml(xmlContent);
 
-                        // 发送通知
                         var notification = new Windows.UI.Notifications.ToastNotification(doc);
                         notification.ExpirationTime = DateTime.Now.AddDays(1);
 

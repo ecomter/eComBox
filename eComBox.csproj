@@ -24,9 +24,9 @@
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Auto</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageDir>I:\新建文件夹\</AppxPackageDir>
@@ -185,10 +185,10 @@
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\AIService.cs" />
     <Compile Include="Services\AIUsageService.cs" />
-    <Compile Include="Services\AzureDatePredictionService.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\CountdownStorageService.cs" />
     <Compile Include="Services\IAIService.cs" />
+    <Compile Include="Services\QwenDatePredictionService.cs" />
     <Compile Include="Tasks\DateNotificationBackgroundTask.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\NavigationService.cs" />
@@ -369,6 +369,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -381,6 +382,7 @@
     <None Include=".editorconfig" />
     <None Include="ecombox.pfx" />
     <None Include="eComBox_TemporaryKey.pfx" />
+    <None Include="llm_readme.md" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
     <PRIResource Include="Strings\en-us\Resources.resw">

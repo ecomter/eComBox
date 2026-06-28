@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Linq;
+using Windows.Globalization;
 
 namespace eComBox.Services
 {
@@ -17,21 +19,17 @@ namespace eComBox.Services
     public class AIService : IAIService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _endpoint;
-        private readonly string _apiKey;
         private const string DefaultAliBairenEndpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
-        private const string DefaultModel = "Qwen3.6-Flash";
+        private const string DefaultModel = "qwen-turbo";
+        private const string BuiltInApiKey = "sk-043858a081d44e1bac5a1b9a91b8967a";
+
+        private readonly string _endpoint = DefaultAliBairenEndpoint;
+        private readonly string _apiKey = BuiltInApiKey;
 
         public AIService()
         {
             try
             {
-                _endpoint = string.IsNullOrWhiteSpace(ConfigurationService.AliBairenEndpoint)
-                    ? DefaultAliBairenEndpoint
-                    : ConfigurationService.AliBairenEndpoint.Trim();
-
-                _apiKey = ConfigurationService.AliBairenApiKey;
-
                 _httpClient = new HttpClient();
                 if (!string.IsNullOrEmpty(_apiKey))
                 {
@@ -60,11 +58,14 @@ namespace eComBox.Services
             {
                 if (string.IsNullOrEmpty(_endpoint))
                 {
-                    return HeuristicFallback(taskName);
+                    result.ErrorMessage = "AI endpoint is not configured.";
+                    return result;
                 }
 
                 // 构建 Chat Completions 风格的请求体，兼容 OpenAI / dashscope
-                var systemPrompt = "You are a date prediction assistant. Given a short task name, return a JSON object with keys: date (yyyy-MM-dd), confidence (0-1), reason (short). Respond ONLY with the JSON object and nothing else.";
+                var currentYear = DateTime.Now.Year;
+                var preferredLanguage = GetPreferredLanguage();
+                var systemPrompt = $"You are a date prediction assistant. The current year is {currentYear}. The user's preferred language is {preferredLanguage}. Unless the task name explicitly specifies another language or locale, keep your reasoning language consistent with the user's preferred language. Given a short task name, return a JSON object with keys: date (yyyy-MM-dd), confidence (0-1), reason (short). Respond ONLY with the JSON object and nothing else.";
                 var userPrompt = taskName;
 
                 var payload = new
@@ -86,13 +87,15 @@ namespace eComBox.Services
                     if (!resp.IsSuccessStatusCode)
                     {
                         Debug.WriteLine($"百炼请求失败: {resp.StatusCode}");
-                        return HeuristicFallback(taskName);
+                        result.ErrorMessage = $"百炼请求失败: {resp.StatusCode}";
+                        return result;
                     }
 
                     string respText = await resp.Content.ReadAsStringAsync();
                     if (string.IsNullOrWhiteSpace(respText))
                     {
-                        return HeuristicFallback(taskName);
+                        result.ErrorMessage = "百炼返回空响应";
+                        return result;
                     }
 
                     // 尝试解析 OpenAI/dashscope 风格的 JSON 响应
@@ -153,6 +156,8 @@ namespace eComBox.Services
                                         result.AddPrediction(dt.Date, 0.6, "百炼返回文本中的日期");
                                         return result;
                                     }
+
+                                    result.ErrorMessage = "百炼响应未包含可解析的日期 JSON";
                                 }
                             }
                         }
@@ -160,16 +165,18 @@ namespace eComBox.Services
                     catch (JsonException jex)
                     {
                         Debug.WriteLine($"解析 百炼 响应 JSON 失败: {jex.Message}");
+                        result.ErrorMessage = $"解析 百炼 响应 JSON 失败: {jex.Message}";
+                        return result;
                     }
 
-                    // 最终回退
-                    return HeuristicFallback(taskName);
+                    return result;
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"百炼 请求异常: {ex}");
-                return HeuristicFallback(taskName);
+                result.ErrorMessage = ex.Message;
+                return result;
             }
         }
 
@@ -188,43 +195,28 @@ namespace eComBox.Services
             return null;
         }
 
-        private DatePredictionResult HeuristicFallback(string taskName)
+        private string GetPreferredLanguage()
         {
-            var result = new DatePredictionResult { IsSuccessful = true };
-            string lower = taskName.ToLowerInvariant();
-
-            var dateMatch = Regex.Match(lower, "(?<y>\\d{4})[-/.](?<m>\\d{1,2})[-/.](?<d>\\d{1,2})");
-            if (dateMatch.Success)
+            try
             {
-                if (int.TryParse(dateMatch.Groups["y"].Value, out int y) && int.TryParse(dateMatch.Groups["m"].Value, out int m) && int.TryParse(dateMatch.Groups["d"].Value, out int d))
+                if (!string.IsNullOrWhiteSpace(ApplicationLanguages.PrimaryLanguageOverride))
                 {
-                    if (DateTime.TryParse($"{y}-{m}-{d}", out DateTime parsed))
-                    {
-                        result.AddPrediction(parsed.Date, 0.9, "包含明确日期（本地规则）");
-                        return result;
-                    }
+                    return ApplicationLanguages.PrimaryLanguageOverride;
+                }
+
+                var language = ApplicationLanguages.Languages.FirstOrDefault();
+                if (!string.IsNullOrWhiteSpace(language))
+                {
+                    return language;
                 }
             }
-
-            if (lower.Contains("明天") || lower.Contains("tomorrow")) result.AddPrediction(DateTime.Today.AddDays(1), 0.8, "识别到“明天”");
-            else if (lower.Contains("后天") || lower.Contains("day after tomorrow")) result.AddPrediction(DateTime.Today.AddDays(2), 0.75, "识别到“后天”");
-            else
+            catch (Exception ex)
             {
-                var m2 = Regex.Match(lower, "(\\d+)\\s*天后|in\\s*(\\d+)\\s*days");
-                if (m2.Success)
-                {
-                    string n = !string.IsNullOrEmpty(m2.Groups[1].Value) ? m2.Groups[1].Value : m2.Groups[2].Value;
-                    if (int.TryParse(n, out int days)) result.AddPrediction(DateTime.Today.AddDays(days), 0.7, $"识别到 {days} 天后");
-                }
+                Debug.WriteLine($"获取语言失败: {ex.Message}");
             }
 
-            if (result.Suggestions.Count == 0)
-            {
-                result.AddPrediction(DateTime.Today.AddDays(7), 0.3, "默认建议：一周后");
-                result.AddPrediction(DateTime.Today.AddDays(3), 0.2, "默认建议：三天后");
-            }
-
-            return result;
+            return System.Globalization.CultureInfo.CurrentUICulture.Name;
         }
+
     }
 }

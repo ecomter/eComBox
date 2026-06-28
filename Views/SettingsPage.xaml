@@ -49,7 +49,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <ScrollViewer>
-        <Grid Margin="24,10,24,16">
+        <Grid Margin="44,0,24,16">
             <StackPanel
                 x:Name="ContentArea"
                 MaxWidth="1000"
@@ -113,77 +113,61 @@
                         <ComboBoxItem Content="English(US)" Tag="en-US" />
                     </ComboBox>
                 </toolkit:SettingsCard>
-                <toolkit:SettingsExpander x:Uid="Settings_TranslatorTool" Margin="{StaticResource XSmallTopMargin}">
-                    <HyperlinkButton x:Uid="Settings_AzureTranslator" NavigateUri="https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator/" Margin="{StaticResource XSmallTopMargin}" />
-                    <toolkit:SettingsExpander.HeaderIcon>
-                        <FontIcon Glyph="&#xF2B7;" />
-                    </toolkit:SettingsExpander.HeaderIcon>
-                    <toolkit:SettingsExpander.Items>
-                        <toolkit:SettingsCard x:Uid="Settings_Endpoint">
-                            <TextBox x:Name="EndpointTextBox"
-      Margin="{StaticResource XSmallTopMargin}"
-      Width="400"
-      Grid.Row="2"
-      FontSize="18"
-      TextChanged="EndpointTextBox_TextChanged" />
-                        </toolkit:SettingsCard>
-                        <toolkit:SettingsCard x:Uid="Settings_ApiKey">
-                            <PasswordBox x:Name="ApiTextBox"
-          Margin="{StaticResource XSmallTopMargin}"
-          Width="400"
-          Grid.Row="2"
-          FontSize="18"
-          PasswordChanged="ApiTextBox_PasswordChanged" />
-                        </toolkit:SettingsCard>
-                        <toolkit:SettingsCard x:Uid="Settings_Region">
-                            <TextBox x:Name="RegionTextBox"
-      Margin="{StaticResource XSmallTopMargin}"
-      Width="400"
-      Grid.Row="2"
-      FontSize="18"
-      TextChanged="RegionTextBox_TextChanged" />
-                        </toolkit:SettingsCard>
-                    </toolkit:SettingsExpander.Items>
-                </toolkit:SettingsExpander>
-
-                <!-- 新增：阿里云百炼 (Ali Bairen) 设置 -->
-                <toolkit:SettingsExpander x:Uid="Settings_AliBairen" Margin="{StaticResource XSmallTopMargin}">
-                    <toolkit:SettingsExpander.HeaderIcon>
-                        <FontIcon Glyph="&#xE7C3;" />
-                    </toolkit:SettingsExpander.HeaderIcon>
-                    <toolkit:SettingsExpander.Items>
-                        <toolkit:SettingsCard x:Uid="Settings_AliEndpoint">
-                            <TextBox x:Name="AliEndpointTextBox"
-                                     Margin="{StaticResource XSmallTopMargin}"
-                                     Width="600"
-                                     FontSize="16"
-                                     Header="Ali Bairen Endpoint"
-                                     TextChanged="AliEndpointTextBox_TextChanged" />
-                        </toolkit:SettingsCard>
-                        <toolkit:SettingsCard x:Uid="Settings_AliApiKey">
-                            <PasswordBox x:Name="AliApiKeyBox"
-                                         Margin="{StaticResource XSmallTopMargin}"
-                                         Width="400"
-                                         FontSize="16"
-                                         Header="Ali Bairen API Key"
-                                         PasswordChanged="AliApiKeyBox_PasswordChanged" />
-                        </toolkit:SettingsCard>
-                        <toolkit:SettingsCard>
-                            <TextBlock Text="填写后普通用户可使用内置 AI 功能（默认每日限制由应用设置控制），专业用户请购买以获取无限次访问。" TextWrapping="Wrap" />
-                        </toolkit:SettingsCard>
-                    </toolkit:SettingsExpander.Items>
-                </toolkit:SettingsExpander>
-
                 <TextBlock x:Uid="Settings_AISection" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <toolkit:SettingsCard Margin="{StaticResource XSmallTopMargin}" x:Uid="Settings_ai">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE781;" />
                     </toolkit:SettingsCard.HeaderIcon>
-                    <StackPanel Margin="{StaticResource XSmallTopMargin}" Spacing="8">
-                        <ToggleSwitch x:Name="AIToggleSwitch"
-                                      IsOn="False"
+                        <ToggleSwitch x:Name="AIToggleSwitch" 
                                       Toggled="AIToggleSwitch_Toggled" />
-                        <TextBlock Text="启用后，任务名称将进入 AI 日期建议流程。" TextWrapping="Wrap" />
+                </toolkit:SettingsCard>
+
+                <toolkit:SettingsCard x:Uid="Settings_AIUsage_Status" Margin="{StaticResource XSmallTopMargin}">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE90D;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <toolkit:SettingsCard.Description>
+                        <StackPanel Spacing="8" Margin="0,4,0,0" Visibility="Visible" x:Name="UsageStatsPanel">
+
+                            <StackPanel Orientation="Horizontal">
+
+                            <TextBlock x:Uid="Settings_AIUsage_Remaining"/>
+                        <TextBlock x:Name="RemainingCountTextBlock" Text="25/25" FontWeight="SemiBold" />
+                            </StackPanel>
+
+                            <ProgressBar x:Name="UsageProgressBar" Height="6" Maximum="25" MinWidth="450" Value="0"  />
+
+                     </StackPanel>
+
+            </toolkit:SettingsCard.Description>
+                    <StackPanel Spacing="8">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- 剩余使用次数 + 进度条 -->
+
+                            <!-- 购买说明 + 按钮 -->
+                            <StackPanel Grid.Row="2" Margin="0,4,0,0">
+
+                                <Button x:Name="PurchaseButton"
+                                        x:Uid="Settings_AIUsage_PurchaseButton"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        HorizontalAlignment="Left"
+                                        Click="PurchaseButton_Click" />
+
+                                <ProgressRing x:Name="PurchaseProgressRing"
+                                              IsActive="False"
+                                              Width="20"
+                                              Height="20"
+                                              HorizontalAlignment="Left"
+                                              Margin="0,8,0,0"
+                                              Visibility="Collapsed" />
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </toolkit:SettingsCard>
 

@@ -466,7 +466,7 @@
   <data name="Settings_AISection.Text" xml:space="preserve">
     <value>AI Features</value>
   </data>
-  <data name="Settings_AIUsage_Status.Text" xml:space="preserve">
+  <data name="Settings_AIUsage_Status.Header" xml:space="preserve">
     <value>Usage Status</value>
   </data>
   <data name="Settings_AIUsage_PremiumBadge.Text" xml:space="preserve">
@@ -737,7 +737,7 @@
     <comment>What's new prompt message title</comment>
   </data>
   <data name="WhatsNew_Header.Text" xml:space="preserve">
-    <value>Updated to eComBox version 0.4.0</value>
+    <value>Updated to eComBox version 0.5.0</value>
     <comment>What's new prompt message primary button text</comment>
   </data>
   <data name="Shell_translator.Content" xml:space="preserve">
@@ -1087,10 +1087,10 @@
 
 eComBox-Simple Toolbox supports multiple date countdown calculations with AI prediction (up to 25 times per day for the regular version to save costs), triangle solving based on side lengths, and translating text 20 times in a row. Features are still being expanded.
 
-Thank you for your support!</value>
+Thank you for your support! We are expanding language supports.</value>
   </data>
   <data name="WhatsNew_Feature2.Text" xml:space="preserve">
-    <value>Disable AI features for all users</value>
+    <value> New AI features </value>
   </data>
   <data name="WhatsNew_Feature3.Text" xml:space="preserve">
     <value>Fixed other bugs</value>
