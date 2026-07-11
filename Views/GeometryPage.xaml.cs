@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
+using Windows.ApplicationModel.DataTransfer;
 using eComBox.Services;
 using Microsoft.Toolkit.Uwp;
 
@@ -24,7 +25,7 @@ namespace eComBox.Views
             public string Name { get; set; }
             public string Alias { get; set; }
             public GeometryEntityType Type { get; set; }
-            public string KindName => Type == GeometryEntityType.Line ? "直线" : "圆";
+            public string KindName => (Type == GeometryEntityType.Line ? "Geometry_Kind_Line" : "Geometry_Kind_Circle").GetLocalized();
             public string Summary { get; set; }
 
             public LineData Line { get; set; }
@@ -88,6 +89,9 @@ namespace eComBox.Views
 
         public ObservableCollection<GeometryEntity> Entities { get; } = new ObservableCollection<GeometryEntity>();
         public ObservableCollection<string> IntersectionResults { get; } = new ObservableCollection<string>();
+        private readonly List<Point> _intersectionPoints = new List<Point>();
+        private double _plotZoom = 1.0;
+        private bool _showGrid = true;
         private object _selectedEntity;
 
         public object SelectedEntity
@@ -117,6 +121,7 @@ namespace eComBox.Views
         public int DPlace { get; set; } = 5;
         private async void Submit(object sender, RoutedEventArgs e)
         {
+            DPlace = Math.Max(1, Math.Min(10, (int)DemPlace.Value));
             if (!double.TryParse(Tri_a.Text, out double a) || !double.TryParse(Tri_b.Text, out double b) || !double.TryParse(Tri_c.Text, out double c))
             {
                 ContentDialog dialog = new ContentDialog()
@@ -176,6 +181,31 @@ namespace eComBox.Views
             double cosC = (a * a + b * b - c * c) / (2 * a * b);
             cosineC.Text = Math.Round(cosC, DPlace).ToString();
             AngleC.Text = Math.Round((Math.Acos(cosC) * 180 / Math.PI), DPlace).ToString() + "Geometry_Angle_Degrees".GetLocalized();
+            var angleA = Math.Acos(cosA) * 180 / Math.PI;
+            var angleB = Math.Acos(cosB) * 180 / Math.PI;
+            var angleC = Math.Acos(cosC) * 180 / Math.PI;
+            var sideType = NearlyEqual(a, b) && NearlyEqual(b, c)
+                ? "Geometry_Triangle_Equilateral".GetLocalized()
+                : NearlyEqual(a, b) || NearlyEqual(a, c) || NearlyEqual(b, c)
+                    ? "Geometry_Triangle_Isosceles".GetLocalized()
+                    : "Geometry_Triangle_Scalene".GetLocalized();
+            var maxAngle = Math.Max(angleA, Math.Max(angleB, angleC));
+            var angleType = Math.Abs(maxAngle - 90) < 1e-7
+                ? "Geometry_Triangle_Right".GetLocalized()
+                : maxAngle > 90
+                    ? "Geometry_Triangle_Obtuse".GetLocalized()
+                    : "Geometry_Triangle_Acute".GetLocalized();
+            var inradius = area / p;
+            var circumradius = a * b * c / (4 * area);
+            TriangleAnalysis.Text = string.Format(
+                "Geometry_Triangle_AnalysisResult".GetLocalized(),
+                sideType,
+                angleType,
+                Format(inradius),
+                Format(circumradius),
+                Format(2 * area / a),
+                Format(2 * area / b),
+                Format(2 * area / c));
             loaderring.Visibility = Visibility.Collapsed;
             //让loaderring停止转动
             loaderring.IsIndeterminate = false;
@@ -207,7 +237,9 @@ namespace eComBox.Views
 
         private void EntityList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (GetListView("EntityList")?.SelectedItem is GeometryEntity item)
+            var item = GetListView("EntityList")?.SelectedItem as GeometryEntity;
+            DuplicateEntityButton.IsEnabled = item != null;
+            if (item != null)
             {
                 UpdateSelectionDetails(item);
             }
@@ -217,13 +249,43 @@ namespace eComBox.Views
         {
             if (GetListView("EntityList")?.SelectedItem is GeometryEntity item)
                 Entities.Remove(item);
+            UpdateSelectionDetails(null);
             RefreshWorkspace();
+        }
+
+        private void DuplicateSelectedEntity(object sender, RoutedEventArgs e)
+        {
+            if (!(GetListView("EntityList")?.SelectedItem is GeometryEntity source)) return;
+
+            var copyIndex = Entities.Count(entity => entity.Name.StartsWith(source.Name + " ", StringComparison.CurrentCultureIgnoreCase)) + 1;
+            var copy = new GeometryEntity
+            {
+                Name = string.Format("Geometry_CopyName".GetLocalized(), source.Name, copyIndex),
+                Alias = source.Alias,
+                Type = source.Type
+            };
+
+            if (source.Type == GeometryEntityType.Line)
+            {
+                copy.Line = new LineData { A = source.Line.A, B = source.Line.B, C = source.Line.C - source.Line.A - source.Line.B };
+                copy.Summary = copy.Line.ToSlopeString(DPlace);
+            }
+            else
+            {
+                copy.Circle = new CircleData { X = source.Circle.X + 1, Y = source.Circle.Y + 1, R = source.Circle.R };
+                copy.Summary = $"r = {Math.Round(copy.Circle.R, DPlace)}";
+            }
+
+            Entities.Add(copy);
+            EntityList.SelectedItem = copy;
         }
 
         private void ClearEntities(object sender, RoutedEventArgs e)
         {
             Entities.Clear();
             IntersectionResults.Clear();
+            _intersectionPoints.Clear();
+            UpdateSelectionDetails(null);
             RefreshWorkspace();
         }
 
@@ -233,10 +295,10 @@ namespace eComBox.Views
 
             var content = new ContentDialog
             {
-                Title = "创建形状",
+                Title = "ShapeDialog_Title".GetLocalized(),
                 Content = dialog,
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消",
+                PrimaryButtonText = "Common_OK".GetLocalized(),
+                CloseButtonText = "DatePage_DeleteAll_CloseButton".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
                 FullSizeDesired = false
             };
@@ -269,7 +331,11 @@ namespace eComBox.Views
                 line = LineData.FromGeneral(GetDialogNumber(dialog, "LineABox"), GetDialogNumber(dialog, "LineBBox"), GetDialogNumber(dialog, "LineCBox"));
             }
 
-            if (line == null) return;
+            if (line == null || Math.Abs(line.A) + Math.Abs(line.B) < 1e-10)
+            {
+                ShowOperationMessage("Geometry_InvalidLine".GetLocalized());
+                return;
+            }
             var alias = dialog.GetAlias();
             var name = string.IsNullOrWhiteSpace(alias) ? $"L{Entities.Count(x => x.Type == GeometryEntityType.Line) + 1}" : alias;
             Entities.Add(new GeometryEntity
@@ -280,7 +346,7 @@ namespace eComBox.Views
                 Line = line,
                 Summary = line.ToSlopeString(DPlace)
             });
-            UpdateSelectionDetails(Entities.Last());
+            EntityList.SelectedItem = Entities.Last();
             RefreshWorkspace();
         }
 
@@ -293,7 +359,11 @@ namespace eComBox.Views
                 R = GetDialogNumber(dialog, "RadiusBox")
             };
 
-            if (circle.R < 0) return;
+            if (double.IsNaN(circle.R) || double.IsInfinity(circle.R) || circle.R <= 0)
+            {
+                ShowOperationMessage("Geometry_InvalidRadius".GetLocalized());
+                return;
+            }
             var alias = dialog.GetAlias();
             var name = string.IsNullOrWhiteSpace(alias) ? $"C{Entities.Count(x => x.Type == GeometryEntityType.Circle) + 1}" : alias;
             Entities.Add(new GeometryEntity
@@ -304,7 +374,7 @@ namespace eComBox.Views
                 Circle = circle,
                 Summary = $"r = {Math.Round(circle.R, DPlace)}"
             });
-            UpdateSelectionDetails(Entities.Last());
+            EntityList.SelectedItem = Entities.Last();
             RefreshWorkspace();
         }
 
@@ -313,6 +383,7 @@ namespace eComBox.Views
         private void ComputeIntersections(object sender, RoutedEventArgs e)
         {
             IntersectionResults.Clear();
+            _intersectionPoints.Clear();
             var lines = Entities.Where(x => x.Type == GeometryEntityType.Line).ToList();
             var circles = Entities.Where(x => x.Type == GeometryEntityType.Circle).ToList();
 
@@ -320,23 +391,39 @@ namespace eComBox.Views
             for (int j = i + 1; j < lines.Count; j++)
             {
                 var p = Intersect(lines[i].Line, lines[j].Line);
-                if (p.HasValue) IntersectionResults.Add($"{lines[i].Name} ∩ {lines[j].Name} = ({Format(p.Value.X)}, {Format(p.Value.Y)})");
+                if (p.HasValue) AddIntersection(lines[i].Name, lines[j].Name, p.Value);
             }
 
             for (int i = 0; i < lines.Count; i++)
             for (int j = 0; j < circles.Count; j++)
             {
                 foreach (var p in Intersect(lines[i].Line, circles[j].Circle))
-                    IntersectionResults.Add($"{lines[i].Name} ∩ {circles[j].Name} = ({Format(p.X)}, {Format(p.Y)})");
+                    AddIntersection(lines[i].Name, circles[j].Name, p);
             }
 
             for (int i = 0; i < circles.Count; i++)
             for (int j = i + 1; j < circles.Count; j++)
             {
                 foreach (var p in Intersect(circles[i].Circle, circles[j].Circle))
-                    IntersectionResults.Add($"{circles[i].Name} ∩ {circles[j].Name} = ({Format(p.X)}, {Format(p.Y)})");
+                    AddIntersection(circles[i].Name, circles[j].Name, p);
             }
+            IntersectionEmptyText.Visibility = IntersectionResults.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            RefreshWorkspace();
             RefreshCounts();
+        }
+
+        private void AddIntersection(string firstName, string secondName, Point point)
+        {
+            _intersectionPoints.Add(point);
+            IntersectionResults.Add($"{firstName} ∩ {secondName} = ({Format(point.X)}, {Format(point.Y)})");
+        }
+
+        private void CopyIntersectionResults(object sender, RoutedEventArgs e)
+        {
+            if (IntersectionResults.Count == 0) return;
+            var package = new DataPackage();
+            package.SetText(string.Join(Environment.NewLine, IntersectionResults));
+            Clipboard.SetContent(package);
         }
 
         private void ReflectPointAcrossSelectedLine(object sender, RoutedEventArgs e)
@@ -350,7 +437,7 @@ namespace eComBox.Views
             var d = (line.A * px + line.B * py + line.C) / (line.A * line.A + line.B * line.B);
             var rx = px - 2 * line.A * d;
             var ry = py - 2 * line.B * d;
-            if (TryGetTextBox("OperationResult", out var operationResult)) operationResult.Text = $"对称点: ({Format(rx)}, {Format(ry)})";
+            ShowOperationMessage(string.Format("Geometry_ReflectedPointResult".GetLocalized(), Format(rx), Format(ry)));
         }
 
         private void InvertPointInSelectedCircle(object sender, RoutedEventArgs e)
@@ -362,9 +449,9 @@ namespace eComBox.Views
             var dx = GetBoxValue("OpPointX") - circle.X;
             var dy = GetBoxValue("OpPointY") - circle.Y;
             var dist2 = dx * dx + dy * dy;
-            if (dist2 < 1e-10) { if (TryGetTextBox("OperationResult", out var operationResult)) operationResult.Text = "点在圆心，反演无穷远"; return; }
+            if (dist2 < 1e-10) { ShowOperationMessage("Geometry_InversionAtCenter".GetLocalized()); return; }
             var k = circle.R * circle.R / dist2;
-            if (TryGetTextBox("OperationResult", out var operationResult2)) operationResult2.Text = $"反演点: ({Format(circle.X + dx * k)}, {Format(circle.Y + dy * k)})";
+            ShowOperationMessage(string.Format("Geometry_InvertedPointResult".GetLocalized(), Format(circle.X + dx * k), Format(circle.Y + dy * k)));
         }
 
         private void BuildTangentAtPoint(object sender, RoutedEventArgs e)
@@ -378,12 +465,67 @@ namespace eComBox.Views
             var dx = px - circle.X;
             var dy = py - circle.Y;
             var onCircle = Math.Abs(dx * dx + dy * dy - circle.R * circle.R) < 1e-4;
-            if (!onCircle) { if (TryGetTextBox("OperationResult", out var operationResult)) operationResult.Text = "该点不在圆上，无法作切线"; return; }
+            if (!onCircle) { ShowOperationMessage("Geometry_PointNotOnCircle".GetLocalized()); return; }
 
             var a = dx;
             var b = dy;
             var c = -(a * px + b * py);
-            if (TryGetTextBox("OperationResult", out var operationResult3)) operationResult3.Text = $"切线方程: {Format(a)}x + {Format(b)}y + {Format(c)} = 0";
+            ShowOperationMessage(string.Format("Geometry_TangentResult".GetLocalized(), Format(a), Format(b), Format(c)));
+        }
+
+        private void MeasurePointDistance(object sender, RoutedEventArgs e)
+        {
+            var selected = GetListView("EntityList")?.SelectedItem as GeometryEntity;
+            if (selected == null)
+            {
+                ShowOperationMessage("Geometry_SelectObjectFirst".GetLocalized());
+                return;
+            }
+
+            var px = GetBoxValue("OpPointX");
+            var py = GetBoxValue("OpPointY");
+            double distance;
+            if (selected.Type == GeometryEntityType.Line)
+            {
+                distance = Math.Abs(selected.Line.A * px + selected.Line.B * py + selected.Line.C) /
+                    Math.Sqrt(selected.Line.A * selected.Line.A + selected.Line.B * selected.Line.B);
+            }
+            else
+            {
+                var centerDistance = Math.Sqrt(Math.Pow(px - selected.Circle.X, 2) + Math.Pow(py - selected.Circle.Y, 2));
+                distance = Math.Abs(centerDistance - selected.Circle.R);
+            }
+
+            ShowOperationMessage(string.Format("Geometry_PointDistanceResult".GetLocalized(), selected.Name, Format(distance)));
+        }
+
+        private void ShowOperationMessage(string message)
+        {
+            if (TryGetTextBox("OperationResult", out var result)) result.Text = message;
+            if (WorkspaceInfoBar != null)
+            {
+                WorkspaceInfoBar.Content = message;
+                WorkspaceInfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning;
+            }
+        }
+
+        private void GridToggle_Click(object sender, RoutedEventArgs e)
+        {
+            _showGrid = GridToggle.IsChecked == true;
+            RefreshWorkspace();
+        }
+
+        private void PlotZoomSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            _plotZoom = e.NewValue;
+            RefreshWorkspace();
+        }
+
+        private void FitView_Click(object sender, RoutedEventArgs e)
+        {
+            PlotZoomSlider.Value = 1;
+            _plotZoom = 1;
+            RefreshWorkspace();
         }
 
         private void PlotCanvas_SizeChanged(object sender, SizeChangedEventArgs e) => RefreshWorkspace();
@@ -391,21 +533,27 @@ namespace eComBox.Views
         private void RefreshCounts()
         {
             if (TryGetTextBlock("WorkspaceCounts", out var counts))
-                counts.Text = $"直线 {Entities.Count(x => x.Type == GeometryEntityType.Line)} / 圆 {Entities.Count(x => x.Type == GeometryEntityType.Circle)} / 交点 {IntersectionResults.Count}";
+                counts.Text = string.Format("Geometry_WorkspaceCounts".GetLocalized(), Entities.Count(x => x.Type == GeometryEntityType.Line), Entities.Count(x => x.Type == GeometryEntityType.Circle), IntersectionResults.Count);
         }
 
         private void UpdateSelectionDetails(GeometryEntity item)
         {
             SelectedEntity = item;
-            if (item == null) return;
+            if (item == null)
+            {
+                if (TryGetTextBox("SelectedEntityInfo", out var emptyInfo)) emptyInfo.Text = string.Empty;
+                if (TryGetTextBox("SelectedEntityEquation", out var emptyEquation)) emptyEquation.Text = string.Empty;
+                if (TryGetTextBox("SelectedEntityStats", out var emptyStats)) emptyStats.Text = string.Empty;
+                return;
+            }
 
             if (TryGetTextBox("SelectedEntityInfo", out var info)) info.Text = $"{item.Name} · {item.KindName}";
             if (TryGetTextBox("SelectedEntityEquation", out var equation)) equation.Text = item.Type == GeometryEntityType.Line ? item.Line.ToGeneralString(DPlace) : item.Circle.ToEquation(DPlace);
             if (TryGetTextBox("SelectedEntityStats", out var stats))
             {
                 stats.Text = item.Type == GeometryEntityType.Line
-                    ? $"斜率: {(item.Line.Slope.HasValue ? Math.Round(item.Line.Slope.Value, DPlace).ToString() : "无穷大")}\nX截距: {Format(item.Line.XIntercept)}"
-                    : $"面积: {Math.Round(Math.PI * item.Circle.R * item.Circle.R, DPlace)}\n周长: {Math.Round(2 * Math.PI * item.Circle.R, DPlace)}";
+                    ? string.Format("Geometry_LineStats".GetLocalized(), item.Line.Slope.HasValue ? Math.Round(item.Line.Slope.Value, DPlace).ToString() : "Geometry_Infinity".GetLocalized(), Format(item.Line.XIntercept))
+                    : string.Format("Geometry_CircleStats".GetLocalized(), Math.Round(Math.PI * item.Circle.R * item.Circle.R, DPlace), Math.Round(2 * Math.PI * item.Circle.R, DPlace));
             }
         }
 
@@ -423,6 +571,8 @@ namespace eComBox.Views
 
         private string Format(double value) => double.IsNaN(value) || double.IsInfinity(value) ? value.ToString() : Math.Round(value, DPlace).ToString();
 
+        private static bool NearlyEqual(double first, double second) => Math.Abs(first - second) <= 1e-9 * Math.Max(1, Math.Max(Math.Abs(first), Math.Abs(second)));
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void RefreshWorkspace()
@@ -433,25 +583,62 @@ namespace eComBox.Views
 
             var width = Math.Max(plotCanvas.ActualWidth, 300);
             var height = Math.Max(plotCanvas.ActualHeight, 300);
-            var scale = Math.Min(width, height) / 18.0;
+            var halfSpan = GetAutomaticHalfSpan() / Math.Max(_plotZoom, 0.25);
+            var scale = Math.Min(width, height) / (halfSpan * 2);
             var cx = width / 2;
             var cy = height / 2;
 
-            DrawAxis(plotCanvas, width, height, cx, cy);
+            DrawCoordinateSystem(plotCanvas, width, height, cx, cy, scale, halfSpan);
 
             foreach (var item in Entities)
             {
                 if (item.Type == GeometryEntityType.Line) DrawLine(plotCanvas, item.Line, cx, cy, scale);
                 else DrawCircle(plotCanvas, item.Circle, cx, cy, scale);
+                DrawEntityLabel(plotCanvas, item, cx, cy, scale);
             }
+
+            for (var index = 0; index < _intersectionPoints.Count; index++)
+                DrawIntersectionPoint(plotCanvas, _intersectionPoints[index], index + 1, cx, cy, scale);
 
             RefreshCounts();
         }
 
-        private void DrawAxis(Canvas plotCanvas, double width, double height, double cx, double cy)
+        private double GetAutomaticHalfSpan()
         {
-            plotCanvas.Children.Add(new Line { X1 = 0, Y1 = cy, X2 = width, Y2 = cy, Stroke = new SolidColorBrush(Colors.LightGray), StrokeThickness = 1 });
-            plotCanvas.Children.Add(new Line { X1 = cx, Y1 = 0, X2 = cx, Y2 = height, Stroke = new SolidColorBrush(Colors.LightGray), StrokeThickness = 1 });
+            var extent = 5.0;
+            foreach (var circle in Entities.Where(item => item.Type == GeometryEntityType.Circle).Select(item => item.Circle))
+                extent = Math.Max(extent, Math.Max(Math.Abs(circle.X) + circle.R, Math.Abs(circle.Y) + circle.R));
+            foreach (var point in _intersectionPoints)
+                extent = Math.Max(extent, Math.Max(Math.Abs(point.X), Math.Abs(point.Y)));
+            return Math.Ceiling(extent * 1.2);
+        }
+
+        private void DrawCoordinateSystem(Canvas plotCanvas, double width, double height, double cx, double cy, double scale, double halfSpan)
+        {
+            var gridBrush = new SolidColorBrush(Color.FromArgb(28, 128, 128, 128));
+            var axisBrush = new SolidColorBrush(Color.FromArgb(115, 128, 128, 128));
+            var step = halfSpan > 25 ? 10 : halfSpan > 12 ? 5 : halfSpan > 6 ? 2 : 1;
+
+            if (_showGrid)
+            {
+                for (var world = -Math.Ceiling(halfSpan / step) * step; world <= halfSpan; world += step)
+                {
+                    var x = cx + world * scale;
+                    var y = cy - world * scale;
+                    plotCanvas.Children.Add(new Line { X1 = x, Y1 = 0, X2 = x, Y2 = height, Stroke = gridBrush, StrokeThickness = 1 });
+                    plotCanvas.Children.Add(new Line { X1 = 0, Y1 = y, X2 = width, Y2 = y, Stroke = gridBrush, StrokeThickness = 1 });
+                    if (Math.Abs(world) > 1e-10)
+                    {
+                        AddCanvasText(plotCanvas, Format(world), x + 3, cy + 3, 11);
+                        AddCanvasText(plotCanvas, Format(world), cx + 4, y - 15, 11);
+                    }
+                }
+            }
+
+            plotCanvas.Children.Add(new Line { X1 = 0, Y1 = cy, X2 = width, Y2 = cy, Stroke = axisBrush, StrokeThickness = 1.5 });
+            plotCanvas.Children.Add(new Line { X1 = cx, Y1 = 0, X2 = cx, Y2 = height, Stroke = axisBrush, StrokeThickness = 1.5 });
+            AddCanvasText(plotCanvas, "x", width - 18, cy + 5, 12);
+            AddCanvasText(plotCanvas, "y", cx + 7, 3, 12);
         }
 
         private void DrawLine(Canvas plotCanvas, LineData line, double cx, double cy, double scale)
@@ -482,6 +669,62 @@ namespace eComBox.Views
             Canvas.SetLeft(ellipse, cx + circle.X * scale - circle.R * scale);
             Canvas.SetTop(ellipse, cy - circle.Y * scale - circle.R * scale);
             plotCanvas.Children.Add(ellipse);
+        }
+
+        private void DrawEntityLabel(Canvas plotCanvas, GeometryEntity item, double cx, double cy, double scale)
+        {
+            double x;
+            double y;
+            if (item.Type == GeometryEntityType.Circle)
+            {
+                x = cx + (item.Circle.X + item.Circle.R) * scale + 5;
+                y = cy - item.Circle.Y * scale - 18;
+            }
+            else if (item.Line.IsVertical)
+            {
+                x = cx + item.Line.XIntercept * scale + 5;
+                y = 8;
+            }
+            else
+            {
+                var worldX = (plotCanvas.ActualWidth * 0.35 - cx) / scale;
+                x = cx + worldX * scale + 5;
+                y = cy - item.Line.YAt(worldX) * scale - 20;
+            }
+
+            AddCanvasText(plotCanvas, item.Name, x, y, 12, true);
+        }
+
+        private void DrawIntersectionPoint(Canvas plotCanvas, Point point, int index, double cx, double cy, double scale)
+        {
+            var x = cx + point.X * scale;
+            var y = cy - point.Y * scale;
+            var marker = new Ellipse
+            {
+                Width = 9,
+                Height = 9,
+                Fill = new SolidColorBrush(Colors.Crimson),
+                Stroke = new SolidColorBrush(Colors.White),
+                StrokeThickness = 1.5
+            };
+            Canvas.SetLeft(marker, x - 4.5);
+            Canvas.SetTop(marker, y - 4.5);
+            plotCanvas.Children.Add(marker);
+            AddCanvasText(plotCanvas, $"P{index}", x + 7, y - 18, 11, true);
+        }
+
+        private static void AddCanvasText(Canvas canvas, string text, double left, double top, double fontSize, bool strong = false)
+        {
+            var label = new TextBlock
+            {
+                Text = text,
+                FontSize = fontSize,
+                FontWeight = strong ? Windows.UI.Text.FontWeights.SemiBold : Windows.UI.Text.FontWeights.Normal,
+                Foreground = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"]
+            };
+            Canvas.SetLeft(label, Math.Max(0, left));
+            Canvas.SetTop(label, Math.Max(0, top));
+            canvas.Children.Add(label);
         }
 
         private double GetBoxValue(string name)

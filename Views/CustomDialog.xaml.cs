@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using eComBox.Helpers;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -95,16 +96,16 @@ namespace eComBox.Views
 
             if (IsCircle)
             {
-                previewBox.Text = $"圆：圆心({GetNumber("CircleXBox")}, {GetNumber("CircleYBox")}), 半径 r={GetNumber("RadiusBox")}";
+                previewBox.Text = string.Format("ShapeDialog_CirclePreview".GetLocalized(), GetNumber("CircleXBox"), GetNumber("CircleYBox"), GetNumber("RadiusBox"));
                 return;
             }
 
             var mode = GetRadioButtonsIndex("LineModeBox");
             previewBox.Text = mode == 0
-                ? $"直线（两点式）：({GetNumber("LineX1Box")}, {GetNumber("LineY1Box")}) → ({GetNumber("LineX2Box")}, {GetNumber("LineY2Box")})"
+                ? string.Format("ShapeDialog_TwoPointPreview".GetLocalized(), GetNumber("LineX1Box"), GetNumber("LineY1Box"), GetNumber("LineX2Box"), GetNumber("LineY2Box"))
                 : mode == 1
-                    ? $"直线（点斜式）：过 ({GetNumber("LinePXBox")}, {GetNumber("LinePYBox")}), 斜率 m={GetNumber("SlopeBox")}"
-                    : $"直线（一般式）：{GetNumber("LineABox")}x + {GetNumber("LineBBox")}y + {GetNumber("LineCBox")} = 0";
+                    ? string.Format("ShapeDialog_PointSlopePreview".GetLocalized(), GetNumber("LinePXBox"), GetNumber("LinePYBox"), GetNumber("SlopeBox"))
+                    : string.Format("ShapeDialog_GeneralPreview".GetLocalized(), GetNumber("LineABox"), GetNumber("LineBBox"), GetNumber("LineCBox"));
         }
 
         private double GetNumber(string name)

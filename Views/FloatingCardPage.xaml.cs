@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using eComBox.Helpers;
 using eComBox.Models;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
@@ -56,10 +57,10 @@ namespace eComBox.Views
 
         private void CreateCardFromData(CountdownCardModel cardData)
         {
-            var targetDate = cardData.TargetDate?.ToString("yyyy-MM-dd") ?? "未设置日期";
+            var targetDate = cardData.TargetDate?.ToString("yyyy-MM-dd") ?? "FloatingCard_NoDate".GetLocalized();
             var countdown = cardData.TargetDate.HasValue
                 ? GetCountdownText(cardData.TargetDate.Value.Date)
-                : "等待设置日期";
+                : "DatePage_WaitingForDate".GetLocalized();
 
             var card = new Border
             {
@@ -74,7 +75,7 @@ namespace eComBox.Views
                     Spacing = 6,
                     Children =
                     {
-                        new TextBlock { Text = cardData.TaskName ?? "未命名事件", Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"], TextWrapping = TextWrapping.WrapWholeWords },
+                        new TextBlock { Text = cardData.TaskName ?? "FloatingCard_Untitled".GetLocalized(), Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"], TextWrapping = TextWrapping.WrapWholeWords },
                         new TextBlock { Text = targetDate, Foreground = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"] },
                         new TextBlock { Text = countdown, Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"] }
                     }
@@ -90,15 +91,15 @@ namespace eComBox.Views
             var days = (targetDate - DateTime.Now.Date).Days;
             if (days > 0)
             {
-                return $"还有 {days} 天";
+                return string.Format("DatePage_DaysRemaining".GetLocalized(), days);
             }
 
             if (days == 0)
             {
-                return "就是今天";
+                return "DatePage_IsToday".GetLocalized();
             }
 
-            return $"已过 {-days} 天";
+            return string.Format("DatePage_DaysElapsed".GetLocalized(), -days);
         }
 
         private async void MakeDesktopWindow()
@@ -117,9 +118,9 @@ namespace eComBox.Views
             {
                 var dialog = new ContentDialog
                 {
-                    Title = "错误",
-                    Content = $"无法创建桌面小部件: {ex.Message}",
-                    CloseButtonText = "确定"
+                    Title = "Common_Error".GetLocalized(),
+                    Content = string.Format("FloatingCard_CreateFailed".GetLocalized(), ex.Message),
+                    CloseButtonText = "Common_OK".GetLocalized()
                 };
                 await dialog.ShowAsync();
             }
@@ -136,9 +137,9 @@ namespace eComBox.Views
             {
                 var dialog = new ContentDialog
                 {
-                    Title = "错误",
-                    Content = $"无法关闭窗口: {ex.Message}",
-                    CloseButtonText = "确定"
+                    Title = "Common_Error".GetLocalized(),
+                    Content = string.Format("FloatingCard_CloseFailed".GetLocalized(), ex.Message),
+                    CloseButtonText = "Common_OK".GetLocalized()
                 };
                 await dialog.ShowAsync();
             }

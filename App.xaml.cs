@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using eComBox.Activation;
+using eComBox.Helpers;
 using eComBox.Models;
 using eComBox.Services;
 using eComBox.Views;
@@ -136,8 +137,8 @@ namespace eComBox
                     {
                         var today = DateTime.Now.Date;
                         var daysLeft = (card.TargetDate.Value - today).Days;
-                        var title = string.IsNullOrEmpty(card.TaskName) ? "日期提醒" : card.TaskName;
-                        var content = $"距离 {title} 还有 {daysLeft} 天";
+                        var title = string.IsNullOrEmpty(card.TaskName) ? "Notification_DateReminder".GetLocalized() : card.TaskName;
+                        var content = string.Format("Notification_DaysUntil".GetLocalized(), title, daysLeft);
 
                         var xmlContent = $@"
                         <toast>
@@ -196,9 +197,9 @@ namespace eComBox
                 {
                     ContentDialog dialog = new ContentDialog
                     {
-                        Title = "应用遇到了问题",
-                        Content = $"很抱歉，应用遇到了意外错误。请重试您的操作，如果问题持续存在，请重启应用。错误信息：{e.Exception.Message}",
-                        CloseButtonText = "确定"
+                        Title = "App_UnhandledError_Title".GetLocalized(),
+                        Content = string.Format("App_UnhandledError_Content".GetLocalized(), e.Exception.Message),
+                        CloseButtonText = "Common_OK".GetLocalized()
                     };
 
                     await dialog.ShowAsync();

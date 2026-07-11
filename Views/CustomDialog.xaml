@@ -76,13 +76,12 @@
 
             <!-- 标题 -->
             <StackPanel Margin="10,20,20,8" Spacing="4">
-                <TextBlock Text="创建形状"
+                <TextBlock x:Uid="ShapeDialog_Title"
                            FontWeight="SemiBold"
                            Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="选择类型并填写参数，确认后加入几何工作区。"
+                <TextBlock x:Uid="ShapeDialog_Description"
                            TextWrapping="Wrap" Opacity="0.7" FontSize="13" />
-                <TextBox Margin="0,20,0,10" x:Name="AliasBox" Header="别名（可选）"
-                             PlaceholderText="例如：主轴线、圆A" />
+                <TextBox Margin="0,20,0,10" x:Name="AliasBox" x:Uid="ShapeDialog_Alias" />
             </StackPanel>
 
 
@@ -92,7 +91,7 @@
 
                     <!-- 图标型选择器 -->
                     <StackPanel Spacing="6">
-                        <TextBlock Text="对象类型" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="13"
+                        <TextBlock x:Uid="ShapeDialog_ObjectType" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="13"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                         <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Left">
                             <ToggleButton x:Name="LineTypeBtn" IsChecked="True"
@@ -100,7 +99,7 @@
                                           Style="{StaticResource ShapeTypeToggleButtonStyle}">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
                                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf7af;" FontSize="18" />
-                                    <TextBlock Text="直线" FontSize="11" />
+                                    <TextBlock x:Uid="ShapeDialog_Line" FontSize="11" />
                                 </StackPanel>
                             </ToggleButton>
                             <ToggleButton x:Name="CircleTypeBtn"
@@ -108,7 +107,7 @@
                                           Style="{StaticResource ShapeTypeToggleButtonStyle}">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
                                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe91f;" FontSize="18" />
-                                    <TextBlock Margin="3,0,0,0" Text="圆" FontSize="11" />
+                                    <TextBlock Margin="3,0,0,0" x:Uid="ShapeDialog_Circle" FontSize="11" />
                                 </StackPanel>
                             </ToggleButton>
                         </StackPanel>
@@ -119,12 +118,12 @@
 
                     <!-- ===== 直线参数面板 ===== -->
                     <StackPanel x:Name="LineSection" Spacing="10" Visibility="Visible">
-                        <TextBlock Text="直线参数" Style="{ThemeResource BodyStrongTextBlockStyle}" />
-                        <muxc:RadioButtons  x:Name="LineModeBox"  Header="输入方式" SelectedIndex="0"
+                        <TextBlock x:Uid="ShapeDialog_LineParameters" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <muxc:RadioButtons x:Name="LineModeBox" x:Uid="ShapeDialog_InputMode" SelectedIndex="0"
                                            SelectionChanged="LineModeBox_SelectionChanged">
-                            <RadioButton Content="两点式"/>
-                            <RadioButton Content="点斜式"/>
-                            <RadioButton Content="一般式"/>
+                            <RadioButton x:Uid="ShapeDialog_TwoPoint"/>
+                            <RadioButton x:Uid="ShapeDialog_PointSlope"/>
+                            <RadioButton x:Uid="ShapeDialog_General"/>
                         </muxc:RadioButtons>
                         <Grid x:Name="TwoPointSection" ColumnSpacing="12" RowSpacing="10">
                             <Grid.ColumnDefinitions>
@@ -150,7 +149,7 @@
                                 <muxc:NumberBox x:Name="LinePXBox" Header="X" Value="0" ValueChanged="LineInput_ValueChanged"/>
                                 <muxc:NumberBox x:Name="LinePYBox" Grid.Column="1" Header="Y" Value="0" ValueChanged="LineInput_ValueChanged"/>
                             </Grid>
-                            <muxc:NumberBox x:Name="SlopeBox" Header="斜率 m" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="SlopeBox" x:Uid="ShapeDialog_Slope" Value="0" ValueChanged="LineInput_ValueChanged"/>
                         </StackPanel>
 
                         <Grid x:Name="GeneralSection" Visibility="Collapsed" ColumnSpacing="12">
@@ -167,7 +166,7 @@
 
                     <!-- ===== 圆参数面板 ===== -->
                     <StackPanel Margin="0,-30,0,0" x:Name="CircleSection" Spacing="10" Visibility="Collapsed">
-                        <TextBlock Text="圆参数" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <TextBlock x:Uid="ShapeDialog_CircleParameters" Style="{ThemeResource BodyStrongTextBlockStyle}" />
                         <Grid ColumnSpacing="12" RowSpacing="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -177,9 +176,9 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <muxc:NumberBox x:Name="CircleXBox" Header="圆心 X" Value="0" ValueChanged="LineInput_ValueChanged"/>
-                            <muxc:NumberBox x:Name="CircleYBox" Grid.Column="1" Header="圆心 Y" Value="0" ValueChanged="LineInput_ValueChanged"/>
-                            <muxc:NumberBox x:Name="RadiusBox" Grid.Row="1" Header="半径 r" Value="1" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="CircleXBox" x:Uid="ShapeDialog_CenterX" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="CircleYBox" x:Uid="ShapeDialog_CenterY" Grid.Column="1" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="RadiusBox" x:Uid="ShapeDialog_Radius" Grid.Row="1" Value="1" ValueChanged="LineInput_ValueChanged"/>
                         </Grid>
                     </StackPanel>
 
@@ -189,7 +188,7 @@
 
             <!-- 按钮栏 -->
             <StackPanel Margin="10,20,20,8" Grid.Row="2">
-                <TextBox x:Name="PreviewBox" Header="预览"
+                <TextBox x:Name="PreviewBox" x:Uid="ShapeDialog_Preview"
          IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" 
          Background="{ThemeResource SubtleFillColorSecondaryBrush}"
          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" />

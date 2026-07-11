@@ -9,6 +9,25 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="DateCardBackgroundBrush" Color="#FF292929" />
+                    <SolidColorBrush x:Key="DateCardTagBackgroundBrush" Color="#14FFFFFF" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="DateCardBackgroundBrush" Color="#FFFDFDFD" />
+                    <SolidColorBrush x:Key="DateCardTagBackgroundBrush" Color="#0A000000" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="DateCardBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                    <SolidColorBrush x:Key="DateCardTagBackgroundBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid MaxWidth="1000" HorizontalAlignment="Stretch" Margin="16,8,16,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -35,7 +54,7 @@
                     <AppBarSeparator />
                     <AppBarToggleButton
                         x:Name="CardViewButton"
-                        Label="卡片"
+                        x:Uid="DatePage_CardView"
                         Click="CardView_Click">
                         <AppBarToggleButton.Icon>
                             <SymbolIcon Symbol="View" />
@@ -43,22 +62,22 @@
                     </AppBarToggleButton>
                     <AppBarToggleButton
                         x:Name="ListViewButton"
-                        Label="列表"
+                        x:Uid="DatePage_ListView"
                         Click="ListView_Click">
                         <AppBarToggleButton.Icon>
                             <SymbolIcon Symbol="Bullets" />
                         </AppBarToggleButton.Icon>
                     </AppBarToggleButton>
                     <AppBarSeparator />
-                    <AppBarButton Label="排序">
+                    <AppBarButton x:Uid="DatePage_Sort">
                         Click="ListView_Click">
                         <AppBarButton.Icon>
                             <SymbolIcon Symbol="Sort" />
                         </AppBarButton.Icon>
                         <AppBarButton.Flyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Text="日期由近到远" Click="SortByDate_Click" />
-                                <MenuFlyoutItem Text="A-Z 排序" Click="SortByName_Click" />
+                                <MenuFlyoutItem x:Uid="DatePage_SortByDate" Click="SortByDate_Click" />
+                                <MenuFlyoutItem x:Uid="DatePage_SortByName" Click="SortByName_Click" />
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
@@ -89,7 +108,6 @@
                 Visibility="{Binding CardViewVisibility}">
                 <GridView.ItemContainerTransitions>
                     <TransitionCollection>
-                        <EntranceThemeTransition FromHorizontalOffset="48" />
                         <ReorderThemeTransition />
                         <AddDeleteThemeTransition />
                     </TransitionCollection>
@@ -102,13 +120,11 @@
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <Border
-                            Loaded="CardItem_Loaded"
-                            Unloaded="CardItem_Unloaded"
                             Width="300"
                             Margin="6"
                             Padding="0"
                             CornerRadius="12"
-                            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                            Background="{ThemeResource DateCardBackgroundBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1">
                             <Grid>
@@ -130,14 +146,14 @@
                                             <Border
                                                 Padding="6,2"
                                                 CornerRadius="10"
-                                                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                                Background="{ThemeResource DateCardTagBackgroundBrush}"
                                                 Visibility="{Binding NotificationMarkerVisibility}">
                                                 <TextBlock Text="🔔" FontSize="12" VerticalAlignment="Center" />
                                             </Border>
                                             <Border
                                                 Padding="8,2"
                                                 CornerRadius="10"
-                                                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                                Background="{ThemeResource DateCardTagBackgroundBrush}"
                                                 Visibility="{Binding RelativeHintVisibility}">
                                                 <TextBlock Text="{Binding RelativeHintText}" FontSize="12" VerticalAlignment="Center" />
                                             </Border>
@@ -175,7 +191,6 @@
                 Visibility="{Binding ListViewVisibility}">
                 <ListView.ItemContainerTransitions>
                     <TransitionCollection>
-                        <EntranceThemeTransition FromHorizontalOffset="32" />
                         <ReorderThemeTransition />
                         <AddDeleteThemeTransition />
                     </TransitionCollection>
@@ -183,12 +198,10 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Border
-                            Loaded="ListItem_Loaded"
-                            Unloaded="ListItem_Unloaded"
                             Margin="0,0,0,10"
                             Padding="0"
                             CornerRadius="12"
-                            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                            Background="{ThemeResource DateCardBackgroundBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1">
                             <Grid>
@@ -211,14 +224,14 @@
                                             <Border
                                                 Padding="6,2"
                                                 CornerRadius="10"
-                                                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                                Background="{ThemeResource DateCardTagBackgroundBrush}"
                                                 Visibility="{Binding NotificationMarkerVisibility}">
                                                 <TextBlock Text="🔔" FontSize="12" VerticalAlignment="Center" />
                                             </Border>
                                             <Border
                                                 Padding="8,2"
                                                 CornerRadius="10"
-                                                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                                Background="{ThemeResource DateCardTagBackgroundBrush}"
                                                 Visibility="{Binding RelativeHintVisibility}">
                                                 <TextBlock Text="{Binding RelativeHintText}" FontSize="12" VerticalAlignment="Center" />
                                             </Border>
@@ -251,7 +264,7 @@
                 Spacing="8"
                 Visibility="{Binding EmptyStateVisibility}">
                 <FontIcon Glyph="&#xE823;" FontSize="40" HorizontalAlignment="Center" />
-                <TextBlock Text="暂时没有倒计时，点击上方 + 新建一个目标日期。" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <TextBlock x:Uid="DatePage_EmptyState" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
             </StackPanel>
         </Grid>
     </Grid>

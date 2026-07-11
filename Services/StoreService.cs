@@ -10,11 +10,9 @@ namespace eComBox.Services
     public static class StoreService
     {
         // ========== 产品 ID（需与 Microsoft Store 中配置的产品 ID 匹配）==========
-        private const string ConicSectionFeatureId = "9NV3C9STGW4Z";
-        private const string AIPremiumFeatureId = "9NV3C9STGW4Z"; // TODO: 替换为实际的 AI Premium 产品 ID
+        private const string AIPremiumFeatureId = "9NV3C9STGW4Z";
 
         // ========== 本地缓存键 ==========
-        private const string ConicSectionPurchasedKey = "ConicSectionPurchased";
         private const string AIPremiumPurchasedKey = "AIPremiumPurchased";
 
         // ========== 通用：检查本地缓存是否已购买 ==========
@@ -65,7 +63,7 @@ namespace eComBox.Services
 
                 if (result.ExtendedError != null)
                 {
-                    string err = $"Store 查询失败: {result.ExtendedError.Message}";
+                    string err = GetStoreErrorMessage(result.ExtendedError);
                     Debug.WriteLine($"[StoreService] {err}");
                     return (false, err);
                 }
@@ -154,16 +152,6 @@ namespace eComBox.Services
             return (success, error);
         }
 
-        // ========== 圆锥曲线功能 ==========
-        public static Task<bool> IsConicSectionFeaturePurchasedAsync()
-            => IsFeaturePurchasedAsync(ConicSectionFeatureId, ConicSectionPurchasedKey);
-
-        public static async Task<bool> RequestPurchaseConicSectionFeatureAsync()
-        {
-            var (success, _) = await PurchaseFeatureAsync(ConicSectionFeatureId, ConicSectionPurchasedKey);
-            return success;
-        }
-
         // ========== AI 高级版功能 ==========
         public static Task<bool> IsAIPremiumPurchasedAsync()
             => IsFeaturePurchasedAsync(AIPremiumFeatureId, AIPremiumPurchasedKey);
@@ -178,10 +166,19 @@ namespace eComBox.Services
         public static void ResetPurchaseStatus()
         {
             var settings = ApplicationData.Current.LocalSettings;
-            if (settings.Values.ContainsKey(ConicSectionPurchasedKey))
-                settings.Values.Remove(ConicSectionPurchasedKey);
             if (settings.Values.ContainsKey(AIPremiumPurchasedKey))
                 settings.Values.Remove(AIPremiumPurchasedKey);
+        }
+
+        private static string GetStoreErrorMessage(Exception error)
+        {
+            const int StoreProductUnavailable = unchecked((int)0x803F6107);
+            if (error.HResult == StoreProductUnavailable)
+            {
+                return "Store 无法识别此购买项目。请确认应用由 Microsoft Store 安装，且发布包使用 Partner Center 分配的包身份。";
+            }
+
+            return $"Store 查询失败: {error.Message}";
         }
     }
 }

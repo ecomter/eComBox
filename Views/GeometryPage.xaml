@@ -58,6 +58,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="2*"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock
@@ -197,8 +198,20 @@
                                         IsReadOnly="True" 
                                         Grid.Column="3"/>
                                     <TextBlock 
+                                        x:Uid="Geometry_Triangle_Analysis"
+                                        Grid.Column="0"
+                                        Grid.Row="9" />
+                                    <TextBox
+                                        x:Name="TriangleAnalysis"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="3"
+                                        Grid.Row="9"
+                                        IsReadOnly="True"
+                                        AcceptsReturn="True"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
                                         x:Uid="Geometry_Triangle_Image"
-                                        Grid.Row="9" 
+                                        Grid.Row="10"
                                         FontSize="20" 
                                         Margin="20,20,0,0" />
                                     <Polygon 
@@ -207,7 +220,7 @@
                                         StrokeThickness="2" 
                                         Grid.ColumnSpan="3"  
                                         Stroke="{StaticResource SystemAccentColor}" 
-                                        Grid.Row="9"/>
+                                        Grid.Row="10"/>
                                 </Grid>
                             </Grid>
                         </ScrollViewer>
@@ -216,11 +229,11 @@
                     <PivotItem x:Uid="Geometry_PivotItem2">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel Margin="0,20,0,40" Spacing="16" MaxWidth="1000">
-                                <muxc:InfoBar Content="Beta" Severity="Informational"/>
+                                <muxc:InfoBar x:Name="WorkspaceInfoBar" x:Uid="Geometry_WorkspaceInfo" Severity="Informational" IsOpen="True" Visibility="Collapsed" IsClosable="False"/>
                                 <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
                                     <StackPanel Spacing="12">
                                         <StackPanel Orientation="Horizontal" Spacing="12">
-                                            <TextBlock Text="对象库" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" />
+                                            <TextBlock x:Uid="Geometry_ObjectLibrary" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" />
                                             <TextBlock x:Name="WorkspaceCounts" VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                         </StackPanel>
                                         <ListView x:Name="EntityList" SelectionMode="Single" SelectionChanged="EntityList_SelectionChanged" MaxHeight="300">
@@ -256,9 +269,10 @@
                                             </ListView.ItemTemplate>
                                         </ListView>
                                         <StackPanel Orientation="Horizontal" Spacing="10">
-                                            <Button Content="＋添加形状" Click="AddShapeViaDialog" Style="{StaticResource AccentButtonStyle}" />
-                                            <Button Content="删除选中" Click="DeleteSelectedEntity" Style="{StaticResource AccentButtonStyle}" />
-                                            <Button Content="清空全部" Click="ClearEntities" />
+                                            <Button x:Uid="Geometry_AddShape" Click="AddShapeViaDialog" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button x:Name="DuplicateEntityButton" x:Uid="Geometry_DuplicateSelected" Click="DuplicateSelectedEntity" IsEnabled="False" />
+                                            <Button x:Uid="Geometry_DeleteSelected" Click="DeleteSelectedEntity" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button x:Uid="Geometry_ClearAll" Click="ClearEntities" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
@@ -266,7 +280,18 @@
                                 <!-- 绘图预览 -->
                                 <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
                                     <StackPanel Spacing="10">
-                                        <TextBlock Text="绘图预览" Style="{ThemeResource TitleTextBlockStyle}" />
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="160" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock x:Uid="Geometry_DrawingPreview" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" />
+                                            <ToggleButton x:Name="GridToggle" x:Uid="Geometry_ShowGrid" Grid.Column="1" IsChecked="True" Click="GridToggle_Click" />
+                                            <Slider x:Name="PlotZoomSlider" Grid.Column="2" Minimum="0.5" Maximum="4" Value="1" StepFrequency="0.25" ValueChanged="PlotZoomSlider_ValueChanged" VerticalAlignment="Center" />
+                                            <Button x:Uid="Geometry_FitView" Grid.Column="3" Click="FitView_Click" />
+                                        </Grid>
                                         <Canvas x:Name="PlotCanvas" Height="520" MinWidth="400" HorizontalAlignment="Stretch"
                                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" SizeChanged="PlotCanvas_SizeChanged" />
                                     </StackPanel>
@@ -275,10 +300,12 @@
                                 <!-- 交点结果 -->
                                 <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
                                     <StackPanel Spacing="10">
-                                        <TextBlock Text="交点结果" Style="{ThemeResource TitleTextBlockStyle}" />
+                                        <TextBlock x:Uid="Geometry_IntersectionResults" Style="{ThemeResource TitleTextBlockStyle}" />
                                         <StackPanel Orientation="Horizontal" Spacing="10">
-                                            <Button Content="计算交点" Click="ComputeIntersections" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button x:Uid="Geometry_ComputeIntersections" Click="ComputeIntersections" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button x:Uid="Geometry_CopyResults" Click="CopyIntersectionResults" />
                                         </StackPanel>
+                                        <TextBlock x:Name="IntersectionEmptyText" x:Uid="Geometry_NoIntersections" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                         <ListView x:Name="IntersectionList" MaxHeight="220">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
@@ -297,12 +324,12 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel Margin="0,20,0,40" Spacing="16" MaxWidth="760" HorizontalAlignment="Left">
 
-                                <TextBlock Text="高级几何操作" Style="{ThemeResource TitleTextBlockStyle}" />
-                                <TextBlock Text="先在工作区选择一个对象，再执行切线、对称和分析。" TextWrapping="Wrap" Opacity="0.8" />
+                                <TextBlock x:Uid="Geometry_AdvancedOperations" Style="{ThemeResource TitleTextBlockStyle}" />
+                                <TextBlock x:Uid="Geometry_AdvancedDescription" TextWrapping="Wrap" Opacity="0.8" />
 
                                 <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16">
                                     <StackPanel Spacing="10">
-                                        <TextBlock Text="当前选中对象" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                        <TextBlock x:Uid="Geometry_CurrentSelection" Style="{ThemeResource SubtitleTextBlockStyle}" />
                                         <TextBox x:Name="SelectedEntityInfo" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60" />
                                         <TextBox x:Name="SelectedEntityEquation" IsReadOnly="True" TextWrapping="Wrap" />
                                         <TextBox x:Name="SelectedEntityStats" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="70" />
@@ -311,19 +338,20 @@
 
                                 <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16">
                                     <StackPanel Spacing="10">
-                                        <TextBlock Text="点操作" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                        <TextBlock x:Uid="Geometry_PointOperations" Style="{ThemeResource SubtitleTextBlockStyle}" />
                                         <Grid ColumnSpacing="10">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <muxc:NumberBox x:Name="OpPointX" Header="点 X" PlaceholderText="0.0" Value="0" />
-                                            <muxc:NumberBox x:Name="OpPointY" Grid.Column="1" Header="点 Y" PlaceholderText="0.0" Value="0" />
+                                            <muxc:NumberBox x:Name="OpPointX" x:Uid="Geometry_PointX" PlaceholderText="0.0" Value="0" />
+                                            <muxc:NumberBox x:Name="OpPointY" x:Uid="Geometry_PointY" Grid.Column="1" PlaceholderText="0.0" Value="0" />
                                         </Grid>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <Button Content="点关于直线对称" Click="ReflectPointAcrossSelectedLine" Style="{StaticResource AccentButtonStyle}" />
-                                            <Button Content="点关于圆反演" Click="InvertPointInSelectedCircle" />
-                                            <Button Content="圆上点切线" Click="BuildTangentAtPoint" />
+                                            <Button x:Uid="Geometry_ReflectPoint" Click="ReflectPointAcrossSelectedLine" Style="{StaticResource AccentButtonStyle}" />
+                                            <Button x:Uid="Geometry_InvertPoint" Click="InvertPointInSelectedCircle" />
+                                            <Button x:Uid="Geometry_TangentAtPoint" Click="BuildTangentAtPoint" />
+                                            <Button x:Uid="Geometry_PointDistance" Click="MeasurePointDistance" />
                                         </StackPanel>
                                         <TextBox x:Name="OperationResult" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="90" />
                                     </StackPanel>

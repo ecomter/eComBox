@@ -1132,4 +1132,125 @@ eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成
   <data name="Settings_ExportLog.Header" xml:space="preserve">
     <value>诊断日志</value>
   </data>
+  <data name="Settings_Language_Chinese.Content" xml:space="preserve"><value>中文（简体）</value></data>
+  <data name="Settings_Language_English.Content" xml:space="preserve"><value>English</value></data>
+  <data name="DatePage_CardView.Label" xml:space="preserve"><value>卡片</value></data>
+  <data name="DatePage_ListView.Label" xml:space="preserve"><value>列表</value></data>
+  <data name="DatePage_Sort.Label" xml:space="preserve"><value>排序</value></data>
+  <data name="DatePage_SortByDate.Text" xml:space="preserve"><value>日期由近到远</value></data>
+  <data name="DatePage_SortByName.Text" xml:space="preserve"><value>A-Z 排序</value></data>
+  <data name="DatePage_EmptyState.Text" xml:space="preserve"><value>暂时没有倒计时，点击上方 + 新建一个目标日期。</value></data>
+  <data name="HomePage_NewsHeader.Text" xml:space="preserve"><value>百度热搜榜</value></data>
+  <data name="Geometry_ObjectLibrary.Text" xml:space="preserve"><value>对象库</value></data>
+  <data name="Geometry_AddShape.Content" xml:space="preserve"><value>＋添加形状</value></data>
+  <data name="Geometry_DeleteSelected.Content" xml:space="preserve"><value>删除选中</value></data>
+  <data name="Geometry_ClearAll.Content" xml:space="preserve"><value>清空全部</value></data>
+  <data name="Geometry_DrawingPreview.Text" xml:space="preserve"><value>绘图预览</value></data>
+  <data name="Geometry_IntersectionResults.Text" xml:space="preserve"><value>交点结果</value></data>
+  <data name="Geometry_ComputeIntersections.Content" xml:space="preserve"><value>计算交点</value></data>
+  <data name="Geometry_AdvancedOperations.Text" xml:space="preserve"><value>高级几何操作</value></data>
+  <data name="Geometry_AdvancedDescription.Text" xml:space="preserve"><value>先在工作区选择一个对象，再执行切线、对称和分析。</value></data>
+  <data name="Geometry_CurrentSelection.Text" xml:space="preserve"><value>当前选中对象</value></data>
+  <data name="Geometry_PointOperations.Text" xml:space="preserve"><value>点操作</value></data>
+  <data name="Geometry_PointX.Header" xml:space="preserve"><value>点 X</value></data>
+  <data name="Geometry_PointY.Header" xml:space="preserve"><value>点 Y</value></data>
+  <data name="Geometry_ReflectPoint.Content" xml:space="preserve"><value>点关于直线对称</value></data>
+  <data name="Geometry_InvertPoint.Content" xml:space="preserve"><value>点关于圆反演</value></data>
+  <data name="Geometry_TangentAtPoint.Content" xml:space="preserve"><value>圆上点切线</value></data>
+  <data name="ShapeDialog_Title.Text" xml:space="preserve"><value>创建形状</value></data>
+  <data name="ShapeDialog_Description.Text" xml:space="preserve"><value>选择类型并填写参数，确认后加入几何工作区。</value></data>
+  <data name="ShapeDialog_Alias.Header" xml:space="preserve"><value>别名（可选）</value></data>
+  <data name="ShapeDialog_Alias.PlaceholderText" xml:space="preserve"><value>例如：主轴线、圆 A</value></data>
+  <data name="ShapeDialog_ObjectType.Text" xml:space="preserve"><value>对象类型</value></data>
+  <data name="ShapeDialog_Line.Text" xml:space="preserve"><value>直线</value></data>
+  <data name="ShapeDialog_Circle.Text" xml:space="preserve"><value>圆</value></data>
+  <data name="ShapeDialog_LineParameters.Text" xml:space="preserve"><value>直线参数</value></data>
+  <data name="ShapeDialog_InputMode.Header" xml:space="preserve"><value>输入方式</value></data>
+  <data name="ShapeDialog_TwoPoint.Content" xml:space="preserve"><value>两点式</value></data>
+  <data name="ShapeDialog_PointSlope.Content" xml:space="preserve"><value>点斜式</value></data>
+  <data name="ShapeDialog_General.Content" xml:space="preserve"><value>一般式</value></data>
+  <data name="ShapeDialog_Slope.Header" xml:space="preserve"><value>斜率 m</value></data>
+  <data name="ShapeDialog_CircleParameters.Text" xml:space="preserve"><value>圆参数</value></data>
+  <data name="ShapeDialog_CenterX.Header" xml:space="preserve"><value>圆心 X</value></data>
+  <data name="ShapeDialog_CenterY.Header" xml:space="preserve"><value>圆心 Y</value></data>
+  <data name="ShapeDialog_Radius.Header" xml:space="preserve"><value>半径 r</value></data>
+  <data name="ShapeDialog_Preview.Header" xml:space="preserve"><value>预览</value></data>
+  <data name="DatePage_CurrentSort_Name" xml:space="preserve"><value>当前排序：A-Z</value></data>
+  <data name="DatePage_CurrentSort_Date" xml:space="preserve"><value>当前排序：日期由近到远</value></data>
+  <data name="DatePage_AI_Ready" xml:space="preserve"><value>输入名称后，点击生成建议。</value></data>
+  <data name="DatePage_AI_Disabled" xml:space="preserve"><value>AI 功能未启用，请在设置中开启。</value></data>
+  <data name="DatePage_AI_Generate" xml:space="preserve"><value>生成 AI 建议</value></data>
+  <data name="DatePage_AI_Generating" xml:space="preserve"><value>正在生成建议...</value></data>
+  <data name="DatePage_AI_NoResult" xml:space="preserve"><value>AI 暂无可用建议，请手动选择日期。</value></data>
+  <data name="DatePage_AI_ResultsReady" xml:space="preserve"><value>已为你生成以下推荐，点击即可直接套用。</value></data>
+  <data name="DatePage_AI_Unavailable" xml:space="preserve"><value>AI 服务当前不可用，请检查网络或接口配置。</value></data>
+  <data name="DatePage_AI_Failed" xml:space="preserve"><value>AI 预测失败：{0}</value></data>
+  <data name="DatePage_AI_Heading" xml:space="preserve"><value>AI 智能建议</value></data>
+  <data name="DatePage_AI_ResultHeading" xml:space="preserve"><value>推荐结果</value></data>
+  <data name="DatePage_EditFailed" xml:space="preserve"><value>编辑失败</value></data>
+  <data name="DatePage_NoTargetDate" xml:space="preserve"><value>未设置目标日期</value></data>
+  <data name="DatePage_WaitingForDate" xml:space="preserve"><value>等待设置日期</value></data>
+  <data name="DatePage_DaysRemaining" xml:space="preserve"><value>还有 {0} 天</value></data>
+  <data name="DatePage_IsToday" xml:space="preserve"><value>就是今天</value></data>
+  <data name="DatePage_DaysElapsed" xml:space="preserve"><value>已过 {0} 天</value></data>
+  <data name="DatePage_Relative_Today" xml:space="preserve"><value>今天</value></data>
+  <data name="DatePage_Relative_Tomorrow" xml:space="preserve"><value>明天</value></data>
+  <data name="DatePage_Relative_DayAfterTomorrow" xml:space="preserve"><value>后天</value></data>
+  <data name="DatePage_Relative_Yesterday" xml:space="preserve"><value>昨天</value></data>
+  <data name="DatePage_Relative_DayBeforeYesterday" xml:space="preserve"><value>前天</value></data>
+  <data name="DatePage_Relative_WithinMonth" xml:space="preserve"><value>1月内</value></data>
+  <data name="DatePage_Relative_MonthAgo" xml:space="preserve"><value>1月前</value></data>
+  <data name="DatePage_Relative_WithinThreeMonths" xml:space="preserve"><value>3月内</value></data>
+  <data name="DatePage_Relative_ThreeMonthsAgo" xml:space="preserve"><value>3月前</value></data>
+  <data name="DatePage_Relative_WithinHalfYear" xml:space="preserve"><value>半年内</value></data>
+  <data name="DatePage_Relative_HalfYearAgo" xml:space="preserve"><value>半年前</value></data>
+  <data name="DatePage_Relative_WithinYear" xml:space="preserve"><value>1年内</value></data>
+  <data name="DatePage_Relative_YearAgo" xml:space="preserve"><value>1年前</value></data>
+  <data name="DatePage_Relative_OverYear" xml:space="preserve"><value>1年以上</value></data>
+  <data name="DatePage_Relative_OverYearAgo" xml:space="preserve"><value>1年以上前</value></data>
+  <data name="Common_OK" xml:space="preserve"><value>确定</value></data>
+  <data name="Common_Error" xml:space="preserve"><value>错误</value></data>
+  <data name="Notification_DateReminder" xml:space="preserve"><value>日期提醒</value></data>
+  <data name="Notification_DaysUntil" xml:space="preserve"><value>距离 {0} 还有 {1} 天</value></data>
+  <data name="App_UnhandledError_Title" xml:space="preserve"><value>应用遇到了问题</value></data>
+  <data name="App_UnhandledError_Content" xml:space="preserve"><value>很抱歉，应用遇到了意外错误。请重试您的操作，如果问题持续存在，请重启应用。错误信息：{0}</value></data>
+  <data name="FloatingCard_NoDate" xml:space="preserve"><value>未设置日期</value></data>
+  <data name="FloatingCard_Untitled" xml:space="preserve"><value>未命名事件</value></data>
+  <data name="FloatingCard_CreateFailed" xml:space="preserve"><value>无法创建桌面小部件：{0}</value></data>
+  <data name="FloatingCard_CloseFailed" xml:space="preserve"><value>无法关闭窗口：{0}</value></data>
+  <data name="ShapeDialog_CirclePreview" xml:space="preserve"><value>圆：圆心({0}, {1})，半径 r={2}</value></data>
+  <data name="ShapeDialog_TwoPointPreview" xml:space="preserve"><value>直线（两点式）：({0}, {1}) → ({2}, {3})</value></data>
+  <data name="ShapeDialog_PointSlopePreview" xml:space="preserve"><value>直线（点斜式）：过 ({0}, {1})，斜率 m={2}</value></data>
+  <data name="ShapeDialog_GeneralPreview" xml:space="preserve"><value>直线（一般式）：{0}x + {1}y + {2} = 0</value></data>
+  <data name="Geometry_WorkspaceInfo.Content" xml:space="preserve"><value>创建直线和圆，观察图形关系并计算交点。</value></data>
+  <data name="Geometry_DuplicateSelected.Content" xml:space="preserve"><value>复制选中</value></data>
+  <data name="Geometry_ShowGrid.Content" xml:space="preserve"><value>网格</value></data>
+  <data name="Geometry_FitView.Content" xml:space="preserve"><value>适应内容</value></data>
+  <data name="Geometry_CopyResults.Content" xml:space="preserve"><value>复制结果</value></data>
+  <data name="Geometry_NoIntersections.Text" xml:space="preserve"><value>尚未计算交点，或当前对象之间没有交点。</value></data>
+  <data name="Geometry_PointDistance.Content" xml:space="preserve"><value>测量距离</value></data>
+  <data name="Geometry_CopyName" xml:space="preserve"><value>{0} 副本 {1}</value></data>
+  <data name="Geometry_InvalidLine" xml:space="preserve"><value>无法创建直线：两点不能重合，且一般式中的 A、B 不能同时为 0。</value></data>
+  <data name="Geometry_InvalidRadius" xml:space="preserve"><value>无法创建圆：半径必须大于 0。</value></data>
+  <data name="Geometry_SelectObjectFirst" xml:space="preserve"><value>请先在对象库中选择一个对象。</value></data>
+  <data name="Geometry_PointDistanceResult" xml:space="preserve"><value>点到 {0} 的最短距离：{1}</value></data>
+  <data name="Geometry_Kind_Line" xml:space="preserve"><value>直线</value></data>
+  <data name="Geometry_Kind_Circle" xml:space="preserve"><value>圆</value></data>
+  <data name="Geometry_ReflectedPointResult" xml:space="preserve"><value>对称点：({0}, {1})</value></data>
+  <data name="Geometry_InversionAtCenter" xml:space="preserve"><value>该点位于圆心，反演点在无穷远处。</value></data>
+  <data name="Geometry_InvertedPointResult" xml:space="preserve"><value>反演点：({0}, {1})</value></data>
+  <data name="Geometry_PointNotOnCircle" xml:space="preserve"><value>该点不在所选圆上，无法作切线。</value></data>
+  <data name="Geometry_TangentResult" xml:space="preserve"><value>切线方程：{0}x + {1}y + {2} = 0</value></data>
+  <data name="Geometry_WorkspaceCounts" xml:space="preserve"><value>直线 {0} / 圆 {1} / 交点 {2}</value></data>
+  <data name="Geometry_LineStats" xml:space="preserve"><value>斜率：{0}&#xA;X 截距：{1}</value></data>
+  <data name="Geometry_CircleStats" xml:space="preserve"><value>面积：{0}&#xA;周长：{1}</value></data>
+  <data name="Geometry_Infinity" xml:space="preserve"><value>无穷大</value></data>
+  <data name="Geometry_Triangle_Analysis.Text" xml:space="preserve"><value>综合分析</value></data>
+  <data name="Geometry_Triangle_Equilateral" xml:space="preserve"><value>等边</value></data>
+  <data name="Geometry_Triangle_Isosceles" xml:space="preserve"><value>等腰</value></data>
+  <data name="Geometry_Triangle_Scalene" xml:space="preserve"><value>不等边</value></data>
+  <data name="Geometry_Triangle_Right" xml:space="preserve"><value>直角</value></data>
+  <data name="Geometry_Triangle_Obtuse" xml:space="preserve"><value>钝角</value></data>
+  <data name="Geometry_Triangle_Acute" xml:space="preserve"><value>锐角</value></data>
+  <data name="Geometry_Triangle_AnalysisResult" xml:space="preserve"><value>{0}{1}三角形&#xA;内切圆半径：{2}　外接圆半径：{3}&#xA;高 hₐ：{4}　hᵦ：{5}　h꜀：{6}</value></data>
 </root>

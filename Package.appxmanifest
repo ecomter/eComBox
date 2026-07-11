@@ -5,9 +5,7 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
-  xmlns:uap18="http://schemas.microsoft.com/appx/manifest/uap/windows10/18"
-  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap uap5 mp rescap uap18">
+  IgnorableNamespaces="uap uap5 mp">
 
 	<Identity
 	  Name="12814ecomter.eComBox"
@@ -23,7 +21,7 @@
 	</Properties>
 
 	<Dependencies>
-		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.17763.0" />
+		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.18362.0" MaxVersionTested="10.0.18362.0" />
 	</Dependencies>
 
 	<Resources>
@@ -33,7 +31,7 @@
 	<Applications>
 		<Application Id="App"
 		  Executable="$targetnametoken$.exe"
-		  EntryPoint="eComBox.App" uap18:RuntimeBehavior="windowsApp">
+		  EntryPoint="eComBox.App">
 			<Extensions>
 				<uap5:Extension Category="windows.startupTask" Executable="eComBox.exe" EntryPoint="eComBox.App">
 					<uap5:StartupTask DisplayName="eComBox" Enabled="false" TaskId="eComBox.AutoRun" />

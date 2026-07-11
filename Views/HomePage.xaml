@@ -91,7 +91,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="newsHeader" Grid.Column="0" Text="百度热搜榜" FontSize="24" FontWeight="Bold" Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
+                    <TextBlock x:Name="newsHeader" x:Uid="HomePage_NewsHeader" Grid.Column="0" FontSize="24" FontWeight="Bold" Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
                         <Button Click="refreshUrl" VerticalContentAlignment="Center" HorizontalAlignment="Right"  Grid.Column="1" FontSize="24" >
                             <FontIcon Glyph="&#xE72C;" />
                         </Button>

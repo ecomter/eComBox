@@ -415,7 +415,6 @@ namespace eComBox.Views
                 diagnosticInfo.AppendLine($"应用版本: {GetVersionDescription()}");
 
                 diagnosticInfo.AppendLine("\n=== 系统信息 ===");
-                diagnosticInfo.AppendLine($"操作系统版本: {Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion}");
                 diagnosticInfo.AppendLine($"设备类型: {Windows.System.Profile.AnalyticsInfo.DeviceForm}");
                 diagnosticInfo.AppendLine($"系统语言: {Windows.Globalization.ApplicationLanguages.Languages[0]}");
                 diagnosticInfo.AppendLine($"应用语言: {ApplicationLanguages.PrimaryLanguageOverride}");

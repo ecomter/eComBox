@@ -1128,4 +1128,126 @@ Thank you for your support! We are expanding language supports.</value>
   <data name="Settings_ExportLog.Header" xml:space="preserve">
     <value>Diagnostic logs</value>
   </data>
+  <data name="Settings_Theme.Text" xml:space="preserve"><value>Theme</value></data>
+  <data name="Settings_Language_Chinese.Content" xml:space="preserve"><value>Chinese (Simplified)</value></data>
+  <data name="Settings_Language_English.Content" xml:space="preserve"><value>English</value></data>
+  <data name="DatePage_CardView.Label" xml:space="preserve"><value>Cards</value></data>
+  <data name="DatePage_ListView.Label" xml:space="preserve"><value>List</value></data>
+  <data name="DatePage_Sort.Label" xml:space="preserve"><value>Sort</value></data>
+  <data name="DatePage_SortByDate.Text" xml:space="preserve"><value>Date: nearest first</value></data>
+  <data name="DatePage_SortByName.Text" xml:space="preserve"><value>Sort A-Z</value></data>
+  <data name="DatePage_EmptyState.Text" xml:space="preserve"><value>No countdowns yet. Select + above to add a target date.</value></data>
+  <data name="HomePage_NewsHeader.Text" xml:space="preserve"><value>Baidu Trending</value></data>
+  <data name="Geometry_ObjectLibrary.Text" xml:space="preserve"><value>Object library</value></data>
+  <data name="Geometry_AddShape.Content" xml:space="preserve"><value>+ Add shape</value></data>
+  <data name="Geometry_DeleteSelected.Content" xml:space="preserve"><value>Delete selected</value></data>
+  <data name="Geometry_ClearAll.Content" xml:space="preserve"><value>Clear all</value></data>
+  <data name="Geometry_DrawingPreview.Text" xml:space="preserve"><value>Drawing preview</value></data>
+  <data name="Geometry_IntersectionResults.Text" xml:space="preserve"><value>Intersection results</value></data>
+  <data name="Geometry_ComputeIntersections.Content" xml:space="preserve"><value>Calculate intersections</value></data>
+  <data name="Geometry_AdvancedOperations.Text" xml:space="preserve"><value>Advanced geometry</value></data>
+  <data name="Geometry_AdvancedDescription.Text" xml:space="preserve"><value>Select an object in the workspace, then apply tangent, reflection, or analysis operations.</value></data>
+  <data name="Geometry_CurrentSelection.Text" xml:space="preserve"><value>Current selection</value></data>
+  <data name="Geometry_PointOperations.Text" xml:space="preserve"><value>Point operations</value></data>
+  <data name="Geometry_PointX.Header" xml:space="preserve"><value>Point X</value></data>
+  <data name="Geometry_PointY.Header" xml:space="preserve"><value>Point Y</value></data>
+  <data name="Geometry_ReflectPoint.Content" xml:space="preserve"><value>Reflect point across line</value></data>
+  <data name="Geometry_InvertPoint.Content" xml:space="preserve"><value>Invert point in circle</value></data>
+  <data name="Geometry_TangentAtPoint.Content" xml:space="preserve"><value>Tangent at circle point</value></data>
+  <data name="ShapeDialog_Title.Text" xml:space="preserve"><value>Create shape</value></data>
+  <data name="ShapeDialog_Description.Text" xml:space="preserve"><value>Choose a type and enter its parameters to add it to the geometry workspace.</value></data>
+  <data name="ShapeDialog_Alias.Header" xml:space="preserve"><value>Alias (optional)</value></data>
+  <data name="ShapeDialog_Alias.PlaceholderText" xml:space="preserve"><value>For example: Main axis, Circle A</value></data>
+  <data name="ShapeDialog_ObjectType.Text" xml:space="preserve"><value>Object type</value></data>
+  <data name="ShapeDialog_Line.Text" xml:space="preserve"><value>Line</value></data>
+  <data name="ShapeDialog_Circle.Text" xml:space="preserve"><value>Circle</value></data>
+  <data name="ShapeDialog_LineParameters.Text" xml:space="preserve"><value>Line parameters</value></data>
+  <data name="ShapeDialog_InputMode.Header" xml:space="preserve"><value>Input method</value></data>
+  <data name="ShapeDialog_TwoPoint.Content" xml:space="preserve"><value>Two points</value></data>
+  <data name="ShapeDialog_PointSlope.Content" xml:space="preserve"><value>Point-slope</value></data>
+  <data name="ShapeDialog_General.Content" xml:space="preserve"><value>General form</value></data>
+  <data name="ShapeDialog_Slope.Header" xml:space="preserve"><value>Slope m</value></data>
+  <data name="ShapeDialog_CircleParameters.Text" xml:space="preserve"><value>Circle parameters</value></data>
+  <data name="ShapeDialog_CenterX.Header" xml:space="preserve"><value>Center X</value></data>
+  <data name="ShapeDialog_CenterY.Header" xml:space="preserve"><value>Center Y</value></data>
+  <data name="ShapeDialog_Radius.Header" xml:space="preserve"><value>Radius r</value></data>
+  <data name="ShapeDialog_Preview.Header" xml:space="preserve"><value>Preview</value></data>
+  <data name="DatePage_CurrentSort_Name" xml:space="preserve"><value>Current sort: A-Z</value></data>
+  <data name="DatePage_CurrentSort_Date" xml:space="preserve"><value>Current sort: nearest date first</value></data>
+  <data name="DatePage_AI_Ready" xml:space="preserve"><value>Enter a name, then select Generate suggestions.</value></data>
+  <data name="DatePage_AI_Disabled" xml:space="preserve"><value>AI is disabled. Enable it in Settings.</value></data>
+  <data name="DatePage_AI_Generate" xml:space="preserve"><value>Generate AI suggestions</value></data>
+  <data name="DatePage_AI_Generating" xml:space="preserve"><value>Generating suggestions...</value></data>
+  <data name="DatePage_AI_NoResult" xml:space="preserve"><value>No AI suggestions are available. Choose a date manually.</value></data>
+  <data name="DatePage_AI_ResultsReady" xml:space="preserve"><value>Suggestions are ready. Select one to apply it.</value></data>
+  <data name="DatePage_AI_Unavailable" xml:space="preserve"><value>The AI service is unavailable. Check your network or API configuration.</value></data>
+  <data name="DatePage_AI_Failed" xml:space="preserve"><value>AI prediction failed: {0}</value></data>
+  <data name="DatePage_AI_Heading" xml:space="preserve"><value>AI suggestions</value></data>
+  <data name="DatePage_AI_ResultHeading" xml:space="preserve"><value>Recommendations</value></data>
+  <data name="DatePage_EditFailed" xml:space="preserve"><value>Edit failed</value></data>
+  <data name="DatePage_NoTargetDate" xml:space="preserve"><value>No target date</value></data>
+  <data name="DatePage_WaitingForDate" xml:space="preserve"><value>Waiting for a date</value></data>
+  <data name="DatePage_DaysRemaining" xml:space="preserve"><value>{0} days remaining</value></data>
+  <data name="DatePage_IsToday" xml:space="preserve"><value>Today</value></data>
+  <data name="DatePage_DaysElapsed" xml:space="preserve"><value>{0} days ago</value></data>
+  <data name="DatePage_Relative_Today" xml:space="preserve"><value>Today</value></data>
+  <data name="DatePage_Relative_Tomorrow" xml:space="preserve"><value>Tomorrow</value></data>
+  <data name="DatePage_Relative_DayAfterTomorrow" xml:space="preserve"><value>Day after tomorrow</value></data>
+  <data name="DatePage_Relative_Yesterday" xml:space="preserve"><value>Yesterday</value></data>
+  <data name="DatePage_Relative_DayBeforeYesterday" xml:space="preserve"><value>Day before yesterday</value></data>
+  <data name="DatePage_Relative_WithinMonth" xml:space="preserve"><value>Within 1 month</value></data>
+  <data name="DatePage_Relative_MonthAgo" xml:space="preserve"><value>1 month ago</value></data>
+  <data name="DatePage_Relative_WithinThreeMonths" xml:space="preserve"><value>Within 3 months</value></data>
+  <data name="DatePage_Relative_ThreeMonthsAgo" xml:space="preserve"><value>3 months ago</value></data>
+  <data name="DatePage_Relative_WithinHalfYear" xml:space="preserve"><value>Within 6 months</value></data>
+  <data name="DatePage_Relative_HalfYearAgo" xml:space="preserve"><value>6 months ago</value></data>
+  <data name="DatePage_Relative_WithinYear" xml:space="preserve"><value>Within 1 year</value></data>
+  <data name="DatePage_Relative_YearAgo" xml:space="preserve"><value>1 year ago</value></data>
+  <data name="DatePage_Relative_OverYear" xml:space="preserve"><value>More than 1 year away</value></data>
+  <data name="DatePage_Relative_OverYearAgo" xml:space="preserve"><value>More than 1 year ago</value></data>
+  <data name="Common_OK" xml:space="preserve"><value>OK</value></data>
+  <data name="Common_Error" xml:space="preserve"><value>Error</value></data>
+  <data name="Notification_DateReminder" xml:space="preserve"><value>Date reminder</value></data>
+  <data name="Notification_DaysUntil" xml:space="preserve"><value>{1} days until {0}</value></data>
+  <data name="App_UnhandledError_Title" xml:space="preserve"><value>Something went wrong</value></data>
+  <data name="App_UnhandledError_Content" xml:space="preserve"><value>The app encountered an unexpected error. Try the operation again, or restart the app if the problem continues. Error: {0}</value></data>
+  <data name="FloatingCard_NoDate" xml:space="preserve"><value>No date set</value></data>
+  <data name="FloatingCard_Untitled" xml:space="preserve"><value>Untitled event</value></data>
+  <data name="FloatingCard_CreateFailed" xml:space="preserve"><value>Could not create the desktop widget: {0}</value></data>
+  <data name="FloatingCard_CloseFailed" xml:space="preserve"><value>Could not close the window: {0}</value></data>
+  <data name="ShapeDialog_CirclePreview" xml:space="preserve"><value>Circle: center ({0}, {1}), radius r={2}</value></data>
+  <data name="ShapeDialog_TwoPointPreview" xml:space="preserve"><value>Line (two points): ({0}, {1}) → ({2}, {3})</value></data>
+  <data name="ShapeDialog_PointSlopePreview" xml:space="preserve"><value>Line (point-slope): through ({0}, {1}), slope m={2}</value></data>
+  <data name="ShapeDialog_GeneralPreview" xml:space="preserve"><value>Line (general form): {0}x + {1}y + {2} = 0</value></data>
+  <data name="Geometry_WorkspaceInfo.Content" xml:space="preserve"><value>Create lines and circles, inspect their relationships, and calculate intersections.</value></data>
+  <data name="Geometry_DuplicateSelected.Content" xml:space="preserve"><value>Duplicate selected</value></data>
+  <data name="Geometry_ShowGrid.Content" xml:space="preserve"><value>Grid</value></data>
+  <data name="Geometry_FitView.Content" xml:space="preserve"><value>Fit content</value></data>
+  <data name="Geometry_CopyResults.Content" xml:space="preserve"><value>Copy results</value></data>
+  <data name="Geometry_NoIntersections.Text" xml:space="preserve"><value>No intersections calculated yet, or the current objects do not intersect.</value></data>
+  <data name="Geometry_PointDistance.Content" xml:space="preserve"><value>Measure distance</value></data>
+  <data name="Geometry_CopyName" xml:space="preserve"><value>{0} copy {1}</value></data>
+  <data name="Geometry_InvalidLine" xml:space="preserve"><value>Cannot create the line. The two points must differ, and A and B cannot both be zero.</value></data>
+  <data name="Geometry_InvalidRadius" xml:space="preserve"><value>Cannot create the circle. Its radius must be greater than zero.</value></data>
+  <data name="Geometry_SelectObjectFirst" xml:space="preserve"><value>Select an object in the object library first.</value></data>
+  <data name="Geometry_PointDistanceResult" xml:space="preserve"><value>Shortest distance from the point to {0}: {1}</value></data>
+  <data name="Geometry_Kind_Line" xml:space="preserve"><value>Line</value></data>
+  <data name="Geometry_Kind_Circle" xml:space="preserve"><value>Circle</value></data>
+  <data name="Geometry_ReflectedPointResult" xml:space="preserve"><value>Reflected point: ({0}, {1})</value></data>
+  <data name="Geometry_InversionAtCenter" xml:space="preserve"><value>The point is at the circle center, so its inverse is at infinity.</value></data>
+  <data name="Geometry_InvertedPointResult" xml:space="preserve"><value>Inverted point: ({0}, {1})</value></data>
+  <data name="Geometry_PointNotOnCircle" xml:space="preserve"><value>The point is not on the selected circle, so no tangent can be constructed.</value></data>
+  <data name="Geometry_TangentResult" xml:space="preserve"><value>Tangent equation: {0}x + {1}y + {2} = 0</value></data>
+  <data name="Geometry_WorkspaceCounts" xml:space="preserve"><value>Lines {0} / Circles {1} / Intersections {2}</value></data>
+  <data name="Geometry_LineStats" xml:space="preserve"><value>Slope: {0}&#xA;X-intercept: {1}</value></data>
+  <data name="Geometry_CircleStats" xml:space="preserve"><value>Area: {0}&#xA;Circumference: {1}</value></data>
+  <data name="Geometry_Infinity" xml:space="preserve"><value>Infinity</value></data>
+  <data name="Geometry_Triangle_Analysis.Text" xml:space="preserve"><value>Analysis</value></data>
+  <data name="Geometry_Triangle_Equilateral" xml:space="preserve"><value>Equilateral</value></data>
+  <data name="Geometry_Triangle_Isosceles" xml:space="preserve"><value>Isosceles</value></data>
+  <data name="Geometry_Triangle_Scalene" xml:space="preserve"><value>Scalene</value></data>
+  <data name="Geometry_Triangle_Right" xml:space="preserve"><value>right</value></data>
+  <data name="Geometry_Triangle_Obtuse" xml:space="preserve"><value>obtuse</value></data>
+  <data name="Geometry_Triangle_Acute" xml:space="preserve"><value>acute</value></data>
+  <data name="Geometry_Triangle_AnalysisResult" xml:space="preserve"><value>{0}, {1} triangle&#xA;Inradius: {2}    Circumradius: {3}&#xA;Altitudes hₐ: {4}    hᵦ: {5}    h꜀: {6}</value></data>
 </root>

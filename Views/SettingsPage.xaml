@@ -109,8 +109,8 @@
                         <FontIcon Glyph="&#xE775;" />
                     </toolkit:SettingsCard.HeaderIcon>
                     <ComboBox x:Name="LanguageComboBox" SelectionChanged="LanguageComboBox_SelectionChanged">
-                        <ComboBoxItem Content="中文简体" Tag="zh-Hans-CN" />
-                        <ComboBoxItem Content="English(US)" Tag="en-US" />
+                        <ComboBoxItem x:Uid="Settings_Language_Chinese" Tag="zh-Hans-CN" />
+                        <ComboBoxItem x:Uid="Settings_Language_English" Tag="en-US" />
                     </ComboBox>
                 </toolkit:SettingsCard>
                 <TextBlock x:Uid="Settings_AISection" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />

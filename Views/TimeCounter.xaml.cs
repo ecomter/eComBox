@@ -14,6 +14,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -26,6 +27,8 @@ namespace eComBox.Views
     {
         private const string ViewModeSettingKey = "TimeCounter_ViewMode";
         private const string SortModeSettingKey = "TimeCounter_SortMode";
+        private static readonly TimeSpan FluentFastDuration = TimeSpan.FromMilliseconds(167);
+        private static readonly TimeSpan FluentNormalDuration = TimeSpan.FromMilliseconds(250);
 
         // 延迟初始化 AI 服务，避免页面首次加载时的 I/O 阻塞
         private Lazy<QwenDatePredictionService> _lazyPredictionService = new Lazy<QwenDatePredictionService>(() => new QwenDatePredictionService());
@@ -45,7 +48,7 @@ namespace eComBox.Views
 
         public string SortModeDisplayText
         {
-            get { return _sortMode == TimeCounterSortMode.Alphabetical ? "当前排序：A-Z" : "当前排序：日期由近到远"; }
+            get { return (_sortMode == TimeCounterSortMode.Alphabetical ? "DatePage_CurrentSort_Name" : "DatePage_CurrentSort_Date").GetLocalized(); }
         }
 
         public Visibility CardViewVisibility => IsCardView ? Visibility.Visible : Visibility.Collapsed;
@@ -82,6 +85,12 @@ namespace eComBox.Views
 
         private void SetViewMode(TimeCounterViewMode mode)
         {
+            if (_viewMode == mode)
+            {
+                UpdateViewButtons();
+                return;
+            }
+
             _viewMode = mode;
             ApplicationData.Current.LocalSettings.Values[ViewModeSettingKey] = mode.ToString();
 
@@ -90,6 +99,7 @@ namespace eComBox.Views
             OnPropertyChanged(nameof(CardViewVisibility));
             OnPropertyChanged(nameof(ListViewVisibility));
             UpdateViewButtons();
+            AnimatePanelReveal(IsCardView ? (FrameworkElement)CardCountdownList : CountdownList, 8);
         }
 
         private void SetSortMode(TimeCounterSortMode mode)
@@ -136,13 +146,15 @@ namespace eComBox.Views
         private void ApplySorting()
         {
             var ordered = SortCards(Cards.ToList());
-            Cards.Clear();
-            foreach (var card in ordered)
+            for (var targetIndex = 0; targetIndex < ordered.Count; targetIndex++)
             {
-                Cards.Add(card);
+                var currentIndex = Cards.IndexOf(ordered[targetIndex]);
+                if (currentIndex != targetIndex)
+                {
+                    Cards.Move(currentIndex, targetIndex);
+                }
             }
 
-            AnimateListRefresh();
             OnPropertyChanged(nameof(EmptyStateVisibility));
         }
 
@@ -170,13 +182,7 @@ namespace eComBox.Views
                 .ToList();
         }
 
-        private void AnimateListRefresh()
-        {
-            AnimatePanelPulse(CardCountdownList);
-            AnimatePanelPulse(CountdownList);
-        }
-
-        private static void AnimatePanelPulse(FrameworkElement element)
+        private static void AnimatePanelReveal(FrameworkElement element, double fromY)
         {
             if (element == null)
             {
@@ -188,118 +194,68 @@ namespace eComBox.Views
             {
                 transform = new CompositeTransform();
                 element.RenderTransform = transform;
-                element.RenderTransformOrigin = new Point(0.5, 0.5);
             }
 
-            var storyboard = new Storyboard();
-
-            var scaleX = new DoubleAnimation
+            if (!AreAnimationsEnabled())
             {
-                From = 0.985,
-                To = 1.0,
-                Duration = TimeSpan.FromMilliseconds(220),
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-            };
-            Storyboard.SetTarget(scaleX, element);
-            Storyboard.SetTargetProperty(scaleX, "(UIElement.RenderTransform).(CompositeTransform.ScaleX)");
-
-            var scaleY = new DoubleAnimation
-            {
-                From = 0.985,
-                To = 1.0,
-                Duration = TimeSpan.FromMilliseconds(220),
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-            };
-            Storyboard.SetTarget(scaleY, element);
-            Storyboard.SetTargetProperty(scaleY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
-
-            var opacity = new DoubleAnimation
-            {
-                From = 0.85,
-                To = 1.0,
-                Duration = TimeSpan.FromMilliseconds(220)
-            };
-            Storyboard.SetTarget(opacity, element);
-            Storyboard.SetTargetProperty(opacity, "Opacity");
-
-            storyboard.Children.Add(scaleX);
-            storyboard.Children.Add(scaleY);
-            storyboard.Children.Add(opacity);
-            storyboard.Begin();
-        }
-
-        private void CardItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            AnimateItemEntrance(sender as FrameworkElement, 0, 18);
-        }
-
-        private void ListItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            AnimateItemEntrance(sender as FrameworkElement, 0, 14);
-        }
-
-        private void CardItem_Unloaded(object sender, RoutedEventArgs e)
-        {
-            AnimateItemExit(sender as FrameworkElement, 0, 10);
-        }
-
-        private void ListItem_Unloaded(object sender, RoutedEventArgs e)
-        {
-            AnimateItemExit(sender as FrameworkElement, 0, 8);
-        }
-
-        private static void AnimateItemEntrance(FrameworkElement element, double fromX, double fromY)
-        {
-            if (element == null)
-            {
+                element.Opacity = 1;
+                transform.TranslateY = 0;
                 return;
-            }
-
-            var transform = element.RenderTransform as CompositeTransform;
-            if (transform == null)
-            {
-                transform = new CompositeTransform();
-                element.RenderTransform = transform;
-                element.RenderTransformOrigin = new Point(0.5, 0.5);
             }
 
             element.Opacity = 0;
-            transform.TranslateX = fromX;
             transform.TranslateY = fromY;
-            transform.ScaleX = 0.96;
-            transform.ScaleY = 0.96;
 
             var storyboard = new Storyboard();
             var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
 
-            var opacity = new DoubleAnimation { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(280), EasingFunction = ease };
+            var opacity = new DoubleAnimation
+            {
+                From = 0,
+                To = 1.0,
+                Duration = FluentFastDuration,
+                EasingFunction = ease
+            };
             Storyboard.SetTarget(opacity, element);
             Storyboard.SetTargetProperty(opacity, "Opacity");
 
-            var translateY = new DoubleAnimation { From = fromY, To = 0, Duration = TimeSpan.FromMilliseconds(320), EasingFunction = ease };
+            var translateY = new DoubleAnimation
+            {
+                From = fromY,
+                To = 0,
+                Duration = FluentNormalDuration,
+                EasingFunction = ease
+            };
             Storyboard.SetTarget(translateY, element);
             Storyboard.SetTargetProperty(translateY, "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");
 
-            var scaleX = new DoubleAnimation { From = 0.96, To = 1.0, Duration = TimeSpan.FromMilliseconds(300), EasingFunction = ease };
-            Storyboard.SetTarget(scaleX, element);
-            Storyboard.SetTargetProperty(scaleX, "(UIElement.RenderTransform).(CompositeTransform.ScaleX)");
-
-            var scaleY = new DoubleAnimation { From = 0.96, To = 1.0, Duration = TimeSpan.FromMilliseconds(300), EasingFunction = ease };
-            Storyboard.SetTarget(scaleY, element);
-            Storyboard.SetTargetProperty(scaleY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
-
             storyboard.Children.Add(opacity);
             storyboard.Children.Add(translateY);
-            storyboard.Children.Add(scaleX);
-            storyboard.Children.Add(scaleY);
+            storyboard.Completed += (_, __) =>
+            {
+                element.Opacity = 1;
+                transform.TranslateY = 0;
+            };
             storyboard.Begin();
         }
 
-        private static async void AnimateItemExit(FrameworkElement element, double toX, double toY)
+        private static bool AreAnimationsEnabled()
         {
-            if (element == null)
+            try
             {
-                return;
+                return new UISettings().AnimationsEnabled;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        private static Task AnimateItemExitAsync(FrameworkElement element, double toY)
+        {
+            if (element == null || !AreAnimationsEnabled())
+            {
+                return Task.CompletedTask;
             }
 
             var transform = element.RenderTransform as CompositeTransform;
@@ -307,34 +263,25 @@ namespace eComBox.Views
             {
                 transform = new CompositeTransform();
                 element.RenderTransform = transform;
-                element.RenderTransformOrigin = new Point(0.5, 0.5);
             }
 
+            var completion = new TaskCompletionSource<bool>();
             var storyboard = new Storyboard();
             var ease = new CubicEase { EasingMode = EasingMode.EaseIn };
 
-            var opacity = new DoubleAnimation { To = 0, Duration = TimeSpan.FromMilliseconds(180), EasingFunction = ease };
+            var opacity = new DoubleAnimation { To = 0, Duration = FluentFastDuration, EasingFunction = ease };
             Storyboard.SetTarget(opacity, element);
             Storyboard.SetTargetProperty(opacity, "Opacity");
 
-            var translateY = new DoubleAnimation { To = toY, Duration = TimeSpan.FromMilliseconds(180), EasingFunction = ease };
+            var translateY = new DoubleAnimation { To = toY, Duration = FluentFastDuration, EasingFunction = ease };
             Storyboard.SetTarget(translateY, element);
             Storyboard.SetTargetProperty(translateY, "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");
 
-            var scaleX = new DoubleAnimation { To = 0.92, Duration = TimeSpan.FromMilliseconds(180), EasingFunction = ease };
-            Storyboard.SetTarget(scaleX, element);
-            Storyboard.SetTargetProperty(scaleX, "(UIElement.RenderTransform).(CompositeTransform.ScaleX)");
-
-            var scaleY = new DoubleAnimation { To = 0.92, Duration = TimeSpan.FromMilliseconds(180), EasingFunction = ease };
-            Storyboard.SetTarget(scaleY, element);
-            Storyboard.SetTargetProperty(scaleY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
-
             storyboard.Children.Add(opacity);
             storyboard.Children.Add(translateY);
-            storyboard.Children.Add(scaleX);
-            storyboard.Children.Add(scaleY);
+            storyboard.Completed += (_, __) => completion.TrySetResult(true);
             storyboard.Begin();
-            await Task.Delay(200);
+            return completion.Task;
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -379,7 +326,8 @@ namespace eComBox.Views
                 return;
             }
 
-            Cards.Add(created);
+            var ordered = SortCards(Cards.Concat(new[] { created }).ToList());
+            Cards.Insert(ordered.IndexOf(created), created);
             await PersistCardsAsync();
         }
 
@@ -416,8 +364,7 @@ namespace eComBox.Views
             }
 
             var border = FindAncestor<Border>(button);
-            AnimateItemExit(border, 0, 12);
-            await Task.Delay(180);
+            await AnimateItemExitAsync(border, 8);
 
             Cards.Remove(card);
             await PersistCardsAsync();
@@ -504,14 +451,14 @@ namespace eComBox.Views
         {
             return new List<ColorOption>
             {
-                new ColorOption("gradient:aurora", "极光青蓝"),
-                new ColorOption("gradient:sunset", "落日暖橙"),
-                new ColorOption("gradient:starry", "星夜深蓝"),
-                new ColorOption("gradient:forest", "森林青绿"),
-                new ColorOption("gradient:lavender", "薰衣草紫"),
-                new ColorOption("gradient:ocean", "深海蓝"),
-                new ColorOption("gradient:candy", "糖果粉蓝"),
-                new ColorOption("gradient:festive", "节日红金")
+                new ColorOption("gradient:aurora", "DatePage_Color_Aurora".GetLocalized()),
+                new ColorOption("gradient:sunset", "DatePage_Color_Sunset".GetLocalized()),
+                new ColorOption("gradient:starry", "DatePage_Color_Starry".GetLocalized()),
+                new ColorOption("gradient:forest", "DatePage_Color_Forest".GetLocalized()),
+                new ColorOption("gradient:lavender", "DatePage_Color_Lavender".GetLocalized()),
+                new ColorOption("gradient:ocean", "DatePage_Color_Ocean".GetLocalized()),
+                new ColorOption("gradient:candy", "DatePage_Color_Candy".GetLocalized()),
+                new ColorOption("gradient:festive", "DatePage_Color_Festive".GetLocalized())
             };
         }
 
@@ -608,7 +555,7 @@ namespace eComBox.Views
 
                 var aiSummary = new TextBlock
                 {
-                    Text = aiEnabled ? "输入名称后，点击生成建议。" : "AI 功能未启用，请在设置中开启。",
+                    Text = (aiEnabled ? "DatePage_AI_Ready" : "DatePage_AI_Disabled").GetLocalized(),
                     Foreground = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"],
                     TextWrapping = TextWrapping.Wrap
                 };
@@ -621,7 +568,7 @@ namespace eComBox.Views
 
                 var aiButton = new Button
                 {
-                    Content = "生成 AI 建议",
+                    Content = "DatePage_AI_Generate".GetLocalized(),
                     HorizontalAlignment = HorizontalAlignment.Left,
                     IsEnabled = aiEnabled
                 };
@@ -630,7 +577,7 @@ namespace eComBox.Views
                 {
                     if (!IsAiEnabled())
                     {
-                        aiSummary.Text = "AI 功能未启用，请在设置中开启。";
+                        aiSummary.Text = "DatePage_AI_Disabled".GetLocalized();
                         return;
                     }
 
@@ -639,25 +586,25 @@ namespace eComBox.Views
                         aiLoading.Visibility = Visibility.Visible;
                         aiLoading.IsActive = true;
                         suggestionsPanel.Children.Clear();
-                        aiSummary.Text = "正在生成建议...";
+                        aiSummary.Text = "DatePage_AI_Generating".GetLocalized();
 
                         var candidates = await GetAiSuggestionsAsync(nameBox.Text);
                         if (candidates.Count == 0)
                         {
-                            aiSummary.Text = "AI 暂无可用建议，请手动选择日期。";
+                            aiSummary.Text = "DatePage_AI_NoResult".GetLocalized();
                             return;
                         }
 
-                        aiSummary.Text = "已为你生成以下推荐，点击即可直接套用。";
+                        aiSummary.Text = "DatePage_AI_ResultsReady".GetLocalized();
                         BuildAiSuggestions(suggestionsPanel, picker, candidates);
                     }
                     catch (HttpRequestException)
                     {
-                        aiSummary.Text = "AI 服务当前不可用，请检查网络或接口配置。";
+                        aiSummary.Text = "DatePage_AI_Unavailable".GetLocalized();
                     }
                     catch (Exception ex)
                     {
-                        aiSummary.Text = $"AI 预测失败：{ex.Message}";
+                        aiSummary.Text = string.Format("DatePage_AI_Failed".GetLocalized(), ex.Message);
                     }
                     finally
                     {
@@ -680,7 +627,7 @@ namespace eComBox.Views
                 aiTitle.Children.Add(new SymbolIcon { Symbol = Symbol.Favorite, Foreground = (Brush)Application.Current.Resources["SystemControlForegroundAccentBrush"] });
                 aiTitle.Children.Add(new TextBlock
                 {
-                    Text = "AI 智能建议",
+                    Text = "DatePage_AI_Heading".GetLocalized(),
                     FontWeight = Windows.UI.Text.FontWeights.SemiBold,
                     VerticalAlignment = VerticalAlignment.Center
                 });
@@ -697,7 +644,7 @@ namespace eComBox.Views
                 aiContent.Children.Add(aiHeader);
                 aiContent.Children.Add(new TextBlock
                 {
-                    Text = "推荐结果",
+                    Text = "DatePage_AI_ResultHeading".GetLocalized(),
                     FontWeight = Windows.UI.Text.FontWeights.SemiBold
                 });
                 aiContent.Children.Add(aiSummary);
@@ -720,11 +667,11 @@ namespace eComBox.Views
                 form.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 form.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                AddFormRow(form, 0, "事件名称", nameBox);
-                AddFormRow(form, 1, "目标日期", picker);
-                AddFormRow(form, 2, "主题色", colorRow);
-                AddFormRow(form, 3, "通知", notifySwitch);
-                AddFormRow(form, 4, "AI 预测", aiCard, false);
+                AddFormRow(form, 0, "DatePage_TaskNameLabel".GetLocalized(), nameBox);
+                AddFormRow(form, 1, "DatePage_DateLabel".GetLocalized(), picker);
+                AddFormRow(form, 2, "DatePage_ColorLabel".GetLocalized(), colorRow);
+                AddFormRow(form, 3, "DatePage_NotificationCheckBox".GetLocalized(), notifySwitch);
+                AddFormRow(form, 4, "DatePage_AI_Title".GetLocalized(), aiCard, false);
 
                 var availableHeight = Math.Max(420.0, Window.Current.Bounds.Height - 220.0);
                 var scroll = new ScrollViewer
@@ -779,7 +726,7 @@ namespace eComBox.Views
             }
             catch (Exception ex)
             {
-                await ShowSimpleDialogAsync("编辑失败", ex.Message);
+                await ShowSimpleDialogAsync("DatePage_EditFailed".GetLocalized(), ex.Message);
                 return null;
             }
         }
@@ -1130,13 +1077,13 @@ namespace eComBox.Views
  
          public Brush CardAccentBrush => CreateGradientBrush(BorderColorHex);
 
-        public string TargetDateText => HasCustomTaskName ? (TargetDate?.ToString("yyyy-MM-dd") ?? "未设置目标日期") : string.Empty;
+        public string TargetDateText => HasCustomTaskName ? (TargetDate?.ToString("yyyy-MM-dd") ?? "DatePage_NoTargetDate".GetLocalized()) : string.Empty;
 
         public string CountdownText => GetCountdownText(TargetDate?.Date);
 
         public string DisplayTitle => HasCustomTaskName
             ? _taskName
-            : TargetDate?.ToString("yyyy-MM-dd") ?? "未设置目标日期";
+            : TargetDate?.ToString("yyyy-MM-dd") ?? "DatePage_NoTargetDate".GetLocalized();
 
         public double DisplayTitleFontSize => HasCustomTaskName ? (double)16 : (double)20;
 
@@ -1218,21 +1165,21 @@ namespace eComBox.Views
         {
             if (!targetDate.HasValue)
             {
-                return "等待设置日期";
+                return "DatePage_WaitingForDate".GetLocalized();
             }
 
             var days = (targetDate.Value.Date - DateTimeOffset.Now.Date).Days;
             if (days > 0)
             {
-                return $"还有 {days} 天";
+                return string.Format("DatePage_DaysRemaining".GetLocalized(), days);
             }
 
             if (days == 0)
             {
-                return "就是今天";
+                return "DatePage_IsToday".GetLocalized();
             }
 
-            return $"已过 {-days} 天";
+            return string.Format("DatePage_DaysElapsed".GetLocalized(), -days);
         }
 
         private static string GetRelativeHintText(DateTimeOffset? targetDate)
@@ -1247,50 +1194,50 @@ namespace eComBox.Views
 
             if (days == 0)
             {
-                return "今天";
+                return "DatePage_Relative_Today".GetLocalized();
             }
 
             if (days == 1)
             {
-                return "明天";
+                return "DatePage_Relative_Tomorrow".GetLocalized();
             }
 
             if (days == 2)
             {
-                return "后天";
+                return "DatePage_Relative_DayAfterTomorrow".GetLocalized();
             }
 
             if (days == -1)
             {
-                return "昨天";
+                return "DatePage_Relative_Yesterday".GetLocalized();
             }
 
             if (days == -2)
             {
-                return "前天";
+                return "DatePage_Relative_DayBeforeYesterday".GetLocalized();
             }
 
             if (absDays <= 30)
             {
-                return days > 0 ? "1月内" : "1月前";
+                return (days > 0 ? "DatePage_Relative_WithinMonth" : "DatePage_Relative_MonthAgo").GetLocalized();
             }
 
             if (absDays <= 90)
             {
-                return days > 0 ? "3月内" : "3月前";
+                return (days > 0 ? "DatePage_Relative_WithinThreeMonths" : "DatePage_Relative_ThreeMonthsAgo").GetLocalized();
             }
 
             if (absDays <= 180)
             {
-                return days > 0 ? "半年内" : "半年前";
+                return (days > 0 ? "DatePage_Relative_WithinHalfYear" : "DatePage_Relative_HalfYearAgo").GetLocalized();
             }
 
             if (absDays <= 365)
             {
-                return days > 0 ? "1年内" : "1年前";
+                return (days > 0 ? "DatePage_Relative_WithinYear" : "DatePage_Relative_YearAgo").GetLocalized();
             }
 
-            return days > 0 ? "1年以上" : "1年以上前";
+            return (days > 0 ? "DatePage_Relative_OverYear" : "DatePage_Relative_OverYearAgo").GetLocalized();
         }
 
          public event PropertyChangedEventHandler PropertyChanged;
