@@ -28,7 +28,7 @@ namespace eComBox.Views
     {
         private const string SelectedUrlKey = "SelectedUrl";
         private const string SelectedUrlContent = "SelectedUrlContent";
-        private const string DefaultUrl = "https://doc.ecomter.site/baidu?cache=false";
+        private const string DefaultUrl = "https://doc.cohelper.tech/baidu?cache=false";
         private const string HotListEnabledKey = "HotListEnabled";
         private const string AIEnabledKey = "AIEnabled";
 
@@ -209,6 +209,7 @@ namespace eComBox.Views
                     RemainingCountTextBlock.Text = "∞ / ∞";
                     UsageProgressBar.Value = UsageProgressBar.Maximum;
                     PurchaseButton.Visibility = Visibility.Collapsed;
+                    PurchaseButton.IsEnabled = false;
                     PurchaseProgressRing.Visibility = Visibility.Collapsed;
                 }
                 else
@@ -217,6 +218,7 @@ namespace eComBox.Views
                     UsageProgressBar.Maximum = limit;
                     UsageProgressBar.Value = used;
                     PurchaseButton.Visibility = Visibility.Visible;
+                    PurchaseButton.IsEnabled = false;
                     PurchaseProgressRing.Visibility = Visibility.Collapsed;
                 }
             }
@@ -277,7 +279,7 @@ namespace eComBox.Views
             }
             finally
             {
-                PurchaseButton.IsEnabled = true;
+                PurchaseButton.IsEnabled = false;
                 PurchaseProgressRing.IsActive = false;
                 PurchaseProgressRing.Visibility = Visibility.Collapsed;
             }
@@ -288,6 +290,11 @@ namespace eComBox.Views
             VersionDescription = GetVersionDescription();
             AppName = GetAppName();
             await Task.CompletedTask;
+        }
+
+        private void ReopenOobeButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(typeof(FirstRunPage));
         }
 
         private string GetVersionDescription()

@@ -60,15 +60,9 @@ namespace eComBox
                 ApplicationData.Current.LocalSettings.Values["AIEnabled"] = false;
             }
 
-            if (!ApplicationData.Current.LocalSettings.Values.ContainsKey("AliBairenEndpoint"))
-            {
-                ApplicationData.Current.LocalSettings.Values["AliBairenEndpoint"] = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
-            }
-
-            if (!ApplicationData.Current.LocalSettings.Values.ContainsKey("AliBairenApiKey"))
-            {
-                ApplicationData.Current.LocalSettings.Values["AliBairenApiKey"] = "sk-043858a081d44e1bac5a1b9a91b8967a";
-            }
+            // Remove credentials persisted by older builds. Provider keys must remain server-side.
+            ApplicationData.Current.LocalSettings.Values.Remove("AliBairenApiKey");
+            ApplicationData.Current.RoamingSettings.Values.Remove("AliBairenApiKey");
 
             if (string.IsNullOrWhiteSpace(Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride))
             {

@@ -35,7 +35,7 @@ namespace eComBox.Views
         {
             TextBlock[] texts = { Trend1, Trend2, Trend3, Trend4, Trend5, Trend6, Trend7, Trend8, Trend9, Trend10 };
             HyperlinkButton[] links = { Nav1, Nav2, Nav3, Nav4, Nav5, Nav6, Nav7, Nav8, Nav9, Nav10 };
-            string url = ApplicationData.Current.LocalSettings.Values[SelectedUrlKey]?.ToString() ?? "https://doc.ecomter.site/baidu?cache=false";
+            string url = ApplicationData.Current.LocalSettings.Values[SelectedUrlKey]?.ToString() ?? "https://doc.cohelper.tech/baidu?cache=false";
             newsHeader.Text = ApplicationData.Current.LocalSettings.Values[SelectedUrlContent]?.ToString() ?? "HomePage_NewsHeader".GetLocalized();
 
             var cacheFolder = ApplicationData.Current.LocalCacheFolder;

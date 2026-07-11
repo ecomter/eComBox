@@ -16,6 +16,7 @@ namespace eComBox.Services
         private const string FREE_USAGE_LIMIT_KEY = "FreeUsageLimit";
         private const string ALI_BAIREN_ENDPOINT_KEY = "AliBairenEndpoint";
         private const string ALI_BAIREN_API_KEY_KEY = "AliBairenApiKey";
+        private const string APP_SERVER_TOKEN_KEY = "AppServerToken";
 
         // 默认配置
         private static readonly string DEFAULT_OPENAI_ENDPOINT = "url";
@@ -152,6 +153,21 @@ namespace eComBox.Services
         }
 
         /// <summary>
+        /// Token used between the app and the eComBox server. This is not the AI provider key.
+        /// </summary>
+        public static string AppServerToken
+        {
+            get
+            {
+                var settings = ApplicationData.Current.LocalSettings;
+                return settings.Values.TryGetValue(APP_SERVER_TOKEN_KEY, out object value) && value is string token
+                    ? token
+                    : ServerToken.Value;
+            }
+            set => ApplicationData.Current.LocalSettings.Values[APP_SERVER_TOKEN_KEY] = value;
+        }
+
+        /// <summary>
         /// 重置所有配置为默认值
         /// </summary>
         public static void ResetToDefaults()
@@ -163,6 +179,7 @@ namespace eComBox.Services
             settings.Values.Remove(FREE_USAGE_LIMIT_KEY);
             settings.Values.Remove(ALI_BAIREN_ENDPOINT_KEY);
             settings.Values.Remove(ALI_BAIREN_API_KEY_KEY);
+            ApplicationData.Current.LocalSettings.Values.Remove(APP_SERVER_TOKEN_KEY);
         }
     }
 }

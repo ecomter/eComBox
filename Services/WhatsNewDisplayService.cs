@@ -18,13 +18,12 @@ namespace eComBox.Services
         internal static async Task ShowIfAppropriateAsync()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal, async () =>
+                CoreDispatcherPriority.Normal, () =>
                 {
-                    if (SystemInformation.Instance.IsAppUpdated && !shown)
+                    if (SystemInformation.Instance.IsAppUpdated && !SystemInformation.Instance.IsFirstRun && !shown)
                     {
                         shown = true;
-                        var dialog = new WhatsNewDialog();
-                        await dialog.ShowAsync();
+                        NavigationService.Navigate(typeof(WhatsNewPage));
                     }
                 });
         }

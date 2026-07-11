@@ -71,6 +71,15 @@ namespace eComBox.Views
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             IsBackEnabled = NavigationService.CanGoBack;
+            bool isImmersivePage = e.SourcePageType == typeof(FirstRunPage) || e.SourcePageType == typeof(WhatsNewPage);
+            navigationView.IsPaneVisible = !isImmersivePage;
+            navigationView.IsSettingsVisible = !isImmersivePage;
+            if (isImmersivePage)
+            {
+                Selected = null;
+                return;
+            }
+
             if (e.SourcePageType == typeof(SettingsPage))
             {
                 Selected = navigationView.SettingsItem as WinUI.NavigationViewItem;

@@ -1250,4 +1250,33 @@ Thank you for your support! We are expanding language supports.</value>
   <data name="Geometry_Triangle_Obtuse" xml:space="preserve"><value>obtuse</value></data>
   <data name="Geometry_Triangle_Acute" xml:space="preserve"><value>acute</value></data>
   <data name="Geometry_Triangle_AnalysisResult" xml:space="preserve"><value>{0}, {1} triangle&#xA;Inradius: {2}    Circumradius: {3}&#xA;Altitudes hₐ: {4}    hᵦ: {5}    h꜀: {6}</value></data>
+  <data name="Oobe_Welcome_Title.Text" xml:space="preserve"><value>Welcome to eComBox</value></data>
+  <data name="Oobe_Welcome_Subtitle.Text" xml:space="preserve"><value>A focused toolbox designed for Windows, bringing date planning, analytic geometry, and text tools into one familiar, fluid experience.</value></data>
+  <data name="Oobe_Ready_Title.Text" xml:space="preserve"><value>You're ready to go</value></data>
+  <data name="Oobe_Ready_Subtitle.Text" xml:space="preserve"><value>Choose a tool from the navigation pane whenever you are ready to get something done.</value></data>
+  <data name="Oobe_Feature_Date_Title.Text" xml:space="preserve"><value>Date planning</value></data>
+  <data name="Oobe_Feature_Date_Body.Text" xml:space="preserve"><value>Create countdowns and get date suggestions with AI.</value></data>
+  <data name="Oobe_Feature_Geometry_Title.Text" xml:space="preserve"><value>Analytic geometry</value></data>
+  <data name="Oobe_Feature_Geometry_Body.Text" xml:space="preserve"><value>Plot lines and circles, then inspect their relationships.</value></data>
+  <data name="Oobe_Feature_Translate_Title.Text" xml:space="preserve"><value>Translation</value></data>
+  <data name="Oobe_Feature_Translate_Body.Text" xml:space="preserve"><value>Translate text quickly and keep useful workflows close.</value></data>
+  <data name="Oobe_Privacy_Note.Text" xml:space="preserve"><value>Online features process the minimum request data described in the privacy policy.</value></data>
+  <data name="Oobe_Continue" xml:space="preserve"><value>Continue</value></data>
+  <data name="Oobe_Start" xml:space="preserve"><value>Get started</value></data>
+  <data name="Oobe_Back" xml:space="preserve"><value>Back</value></data>
+  <data name="WhatsNew_Oobe_Title.Text" xml:space="preserve"><value>eComBox has a fresh look</value></data>
+  <data name="WhatsNew_Oobe_Version.Text" xml:space="preserve"><value>Version 0.5.0</value></data>
+  <data name="WhatsNew_Oobe_Subtitle.Text" xml:space="preserve"><value>This update expands the core tools and brings the whole app closer to Windows 11.</value></data>
+  <data name="WhatsNew_AI_Title.Text" xml:space="preserve"><value>More reliable AI date predictions</value></data>
+  <data name="WhatsNew_AI_Body.Text" xml:space="preserve"><value>Predictions now use the secure eComBox service, and failed requests do not consume daily quota.</value></data>
+  <data name="WhatsNew_Geometry_Title.Text" xml:space="preserve"><value>A new analytic geometry workspace</value></data>
+  <data name="WhatsNew_Geometry_Body.Text" xml:space="preserve"><value>Work with lines, circles, intersections, reflections, inversions, tangents, and triangle analysis.</value></data>
+  <data name="WhatsNew_Fluent_Title.Text" xml:space="preserve"><value>A smoother Fluent experience</value></data>
+  <data name="WhatsNew_Fluent_Body.Text" xml:space="preserve"><value>Date cards, page transitions, dark theme surfaces, and localization details have all been refined.</value></data>
+  <data name="Oobe_ContinueButton.Content" xml:space="preserve"><value>Continue</value></data>
+  <data name="Oobe_BackButton.Content" xml:space="preserve"><value>Back</value></data>
+  <data name="WhatsNew_DoneButton.Content" xml:space="preserve"><value>Done</value></data>
+  <data name="Settings_ReopenOobe.Header" xml:space="preserve"><value>Welcome experience</value></data>
+  <data name="Settings_ReopenOobe.Description" xml:space="preserve"><value>View the eComBox first-run experience again</value></data>
+  <data name="Settings_ReopenOobeButton.Content" xml:space="preserve"><value>Open welcome page</value></data>
 </root>

@@ -1,0 +1,10 @@
+namespace eComBox.Services
+{
+    internal static partial class ServerToken
+    {
+        static partial void SetLocalValue(ref string value)
+        {
+            value = "replace-with-the-APP_TOKEN-from-your-server";
+        }
+    }
+}

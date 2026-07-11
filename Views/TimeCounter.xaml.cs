@@ -787,20 +787,12 @@ namespace eComBox.Views
             }
 
             // 检查每日使用限制
-            if (!await AIUsageService.CanUseAIAsync())
-            {
-                throw new InvalidOperationException("DatePage_AI_Limit".GetLocalized());
-            }
-
             var results = new List<DateSuggestion>();
             var aiResult = await _aiService.PredictDateFromTaskNameAsync(taskName);
-            if (aiResult != null)
+            if (aiResult?.IsSuccessful == true)
             {
                 results.AddRange(aiResult.GetSortedSuggestions());
             }
-
-            // AI 调用成功后增加使用计数
-            await AIUsageService.IncrementUsageAsync();
 
             var distinct = new List<DateSuggestion>();
             foreach (var item in results)
@@ -889,17 +881,11 @@ namespace eComBox.Views
             }
 
             // 检查每日使用限制
-            if (!await AIUsageService.CanUseAIAsync())
-            {
-                return null;
-            }
-
             var prediction = await _aiService.PredictDateFromTaskNameAsync(taskName);
 
-            // AI 调用成功后增加使用计数
-            await AIUsageService.IncrementUsageAsync();
-
-            var best = prediction?.GetSortedSuggestions()?.FirstOrDefault();
+            var best = prediction?.IsSuccessful == true
+                ? prediction.GetSortedSuggestions().FirstOrDefault()
+                : null;
             if (best != null)
             {
                 return best;

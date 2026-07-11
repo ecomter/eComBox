@@ -1253,4 +1253,33 @@ eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成
   <data name="Geometry_Triangle_Obtuse" xml:space="preserve"><value>钝角</value></data>
   <data name="Geometry_Triangle_Acute" xml:space="preserve"><value>锐角</value></data>
   <data name="Geometry_Triangle_AnalysisResult" xml:space="preserve"><value>{0}{1}三角形&#xA;内切圆半径：{2}　外接圆半径：{3}&#xA;高 hₐ：{4}　hᵦ：{5}　h꜀：{6}</value></data>
+  <data name="Oobe_Welcome_Title.Text" xml:space="preserve"><value>欢迎使用 eComBox</value></data>
+  <data name="Oobe_Welcome_Subtitle.Text" xml:space="preserve"><value>一个为 Windows 设计的简洁工具箱。让日期规划、解析几何和文本处理集中在熟悉、流畅的体验中。</value></data>
+  <data name="Oobe_Ready_Title.Text" xml:space="preserve"><value>一切准备就绪</value></data>
+  <data name="Oobe_Ready_Subtitle.Text" xml:space="preserve"><value>从左侧导航选择工具，随时开始处理手头的任务。</value></data>
+  <data name="Oobe_Feature_Date_Title.Text" xml:space="preserve"><value>日期规划</value></data>
+  <data name="Oobe_Feature_Date_Body.Text" xml:space="preserve"><value>创建倒计时，并通过 AI 获取日期建议。</value></data>
+  <data name="Oobe_Feature_Geometry_Title.Text" xml:space="preserve"><value>解析几何</value></data>
+  <data name="Oobe_Feature_Geometry_Body.Text" xml:space="preserve"><value>绘制直线与圆，分析交点和几何关系。</value></data>
+  <data name="Oobe_Feature_Translate_Title.Text" xml:space="preserve"><value>文本翻译</value></data>
+  <data name="Oobe_Feature_Translate_Body.Text" xml:space="preserve"><value>快速连续翻译文本。</value></data>
+  <data name="Oobe_Privacy_Note.Text" xml:space="preserve"><value>在线功能会按照隐私政策处理必要的请求数据。</value></data>
+  <data name="Oobe_Continue" xml:space="preserve"><value>继续</value></data>
+  <data name="Oobe_Start" xml:space="preserve"><value>开始使用</value></data>
+  <data name="Oobe_Back" xml:space="preserve"><value>返回</value></data>
+  <data name="WhatsNew_Oobe_Title.Text" xml:space="preserve"><value>eComBox 已焕然一新</value></data>
+  <data name="WhatsNew_Oobe_Version.Text" xml:space="preserve"><value>版本 0.5.0</value></data>
+  <data name="WhatsNew_Oobe_Subtitle.Text" xml:space="preserve"><value>这次更新完善了核心工具，也让整个应用更贴近 Windows 11。</value></data>
+  <data name="WhatsNew_AI_Title.Text" xml:space="preserve"><value>更可靠的 AI 日期预测</value></data>
+  <data name="WhatsNew_AI_Body.Text" xml:space="preserve"><value>预测请求现在通过安全的服务器处理；失败请求不会计入每日次数。</value></data>
+  <data name="WhatsNew_Geometry_Title.Text" xml:space="preserve"><value>全新的解析几何工作台</value></data>
+  <data name="WhatsNew_Geometry_Body.Text" xml:space="preserve"><value>支持直线、圆、交点、对称、反演、切线和三角形综合分析。</value></data>
+  <data name="WhatsNew_Fluent_Title.Text" xml:space="preserve"><value>更流畅的 Fluent 体验</value></data>
+  <data name="WhatsNew_Fluent_Body.Text" xml:space="preserve"><value>日期卡片、页面过渡、深色主题和本地化细节均得到改进。</value></data>
+  <data name="Oobe_ContinueButton.Content" xml:space="preserve"><value>继续</value></data>
+  <data name="Oobe_BackButton.Content" xml:space="preserve"><value>返回</value></data>
+  <data name="WhatsNew_DoneButton.Content" xml:space="preserve"><value>完成</value></data>
+  <data name="Settings_ReopenOobe.Header" xml:space="preserve"><value>欢迎体验</value></data>
+  <data name="Settings_ReopenOobe.Description" xml:space="preserve"><value>重新查看 eComBox 的首次使用引导</value></data>
+  <data name="Settings_ReopenOobeButton.Content" xml:space="preserve"><value>打开欢迎页</value></data>
 </root>

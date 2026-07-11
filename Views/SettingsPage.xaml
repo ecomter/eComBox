@@ -157,6 +157,7 @@
                                         x:Uid="Settings_AIUsage_PurchaseButton"
                                         Style="{StaticResource AccentButtonStyle}"
                                         HorizontalAlignment="Left"
+                                        IsEnabled="False"
                                         Click="PurchaseButton_Click" />
 
                                 <ProgressRing x:Name="PurchaseProgressRing"
@@ -172,6 +173,16 @@
                 </toolkit:SettingsCard>
 
                 <TextBlock x:Uid="Settings_Advanced" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <toolkit:SettingsCard x:Uid="Settings_ReopenOobe" Margin="{StaticResource XSmallTopMargin}">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7E8;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <Button x:Name="ReopenOobeButton"
+                            x:Uid="Settings_ReopenOobeButton"
+                            HorizontalAlignment="Left"
+                            Click="ReopenOobeButton_Click" />
+                </toolkit:SettingsCard>
 
                 <toolkit:SettingsCard x:Uid="Settings_autostart" Margin="{StaticResource XSmallTopMargin}">
                     <ToggleSwitch x:Name="StartupToggle"
@@ -201,18 +212,18 @@
                     <toolkit:SettingsExpander.Items>
                         <toolkit:SettingsCard x:Uid="Settings_NewsSource" IsEnabled="{x:Bind CardEnable, Mode=OneWay}">
                             <ComboBox Margin="{StaticResource XSmallTopMargin}" x:Name="UrlComboBox" SelectionChanged="UrlComboBox_SelectionChanged">
-                                <ComboBoxItem x:Uid="Settings_Source_Douyin" Tag="https://doc.ecomter.site/douyin?cache=false" />
-                                <ComboBoxItem x:Uid="Settings_Source_Baidu" Tag="https://doc.ecomter.site/baidu?cache=false" />
-                                <ComboBoxItem x:Uid="Settings_Source_Bilibili" Tag="https://doc.ecomter.site/bilibili?cache=false" />
-                                <ComboBoxItem x:Uid="Settings_Source_Weather" Tag="https://doc.ecomter.site/weatheralarm?cache=false" />
-                                <ComboBoxItem x:Uid="Settings_Source_Weibo" Tag="https://doc.ecomter.site/weibo?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Douyin" Tag="https://doc.cohelper.tech/douyin?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Baidu" Tag="https://doc.cohelper.tech/baidu?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Bilibili" Tag="https://doc.cohelper.tech/bilibili?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Weather" Tag="https://doc.cohelper.tech/weatheralarm?cache=false" />
+                                <ComboBoxItem x:Uid="Settings_Source_Weibo" Tag="https://doc.cohelper.tech/weibo?cache=false" />
                             </ComboBox>
                         </toolkit:SettingsCard>
                         
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>
                 
-                <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
+                <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.cohelper.tech/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" />
                 <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <toolkit:SettingsExpander x:Uid="Settings_AppInfo" HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.png}" Header="{x:Bind AppName, Mode=OneWay}" >
                     <TextBlock IsTextSelectionEnabled="True"
@@ -226,7 +237,7 @@
                                 <TextBlock x:Uid="Settings_AboutDescription" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
                                 <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
                                 <HyperlinkButton x:Uid="Settings_githubLink" NavigateUri="https://github.com/ecomter/eComBox" Margin="{StaticResource XSmallTopMargin}" />
-                                <HyperlinkButton x:Uid="Settings_PrivacyPolicy" NavigateUri="https://ecombox.ecomter.site/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
+                                <HyperlinkButton x:Uid="Settings_PrivacyPolicy" NavigateUri="https://ecombox.cohelper.tech/docs/privacy" Margin="{StaticResource XSmallTopMargin}" />
                             </StackPanel>
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
@@ -242,7 +253,7 @@
                     <ScrollViewer>
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Uid="Settings_TermsDescription" TextWrapping="Wrap" />
-                            <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.ecomter.site/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click" />
+                            <HyperlinkButton x:Uid="Settings_HotListPolicy" NavigateUri="https://ecombox.cohelper.tech/docs/news_policy" Margin="{StaticResource XSmallTopMargin}" Click="TermsHyperlinkButton_Click" />
                         </StackPanel>
                     </ScrollViewer>
                 </ContentDialog.Content>

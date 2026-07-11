@@ -184,6 +184,8 @@
     <Compile Include="Models\CountdownCardModel.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\AIService.cs" />
+    <Compile Include="Services\ServerToken.cs" />
+    <Compile Include="Services\ServerToken.Local.cs" Condition="Exists('Services\ServerToken.Local.cs')" />
     <Compile Include="Services\AIUsageService.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\CountdownStorageService.cs" />
@@ -206,8 +208,8 @@
     <Compile Include="Views\CustomDialog.xaml.cs">
       <DependentUpon>CustomDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FirstRunDialog.xaml.cs">
-      <DependentUpon>FirstRunDialog.xaml</DependentUpon>
+    <Compile Include="Views\FirstRunPage.xaml.cs">
+      <DependentUpon>FirstRunPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FloatingCardPage.xaml.cs">
       <DependentUpon>FloatingCardPage.xaml</DependentUpon>
@@ -230,8 +232,8 @@
     <Compile Include="Views\translatorPage.xaml.cs">
       <DependentUpon>translatorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WhatsNewDialog.xaml.cs">
-      <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
+    <Compile Include="Views\WhatsNewPage.xaml.cs">
+      <DependentUpon>WhatsNewPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -269,7 +271,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FirstRunDialog.xaml">
+    <Page Include="Views\FirstRunPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -301,7 +303,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\WhatsNewDialog.xaml">
+    <Page Include="Views\WhatsNewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
