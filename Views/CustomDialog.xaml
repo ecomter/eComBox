@@ -110,6 +110,18 @@
                                     <TextBlock Margin="3,0,0,0" x:Uid="ShapeDialog_Circle" FontSize="11" />
                                 </StackPanel>
                             </ToggleButton>
+                            <ToggleButton x:Name="EllipseTypeBtn" Click="TypeButton_Click" Tag="Ellipse" Style="{StaticResource ShapeTypeToggleButtonStyle}">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEA3B;" FontSize="18" />
+                                    <TextBlock x:Uid="ShapeDialog_Ellipse" FontSize="11" />
+                                </StackPanel>
+                            </ToggleButton>
+                            <ToggleButton x:Name="HyperbolaTypeBtn" Click="TypeButton_Click" Tag="Hyperbola" Style="{StaticResource ShapeTypeToggleButtonStyle}">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE9D2;" FontSize="18" />
+                                    <TextBlock x:Uid="ShapeDialog_Hyperbola" FontSize="11" />
+                                </StackPanel>
+                            </ToggleButton>
                         </StackPanel>
                     </StackPanel>
 
@@ -180,6 +192,22 @@
                             <muxc:NumberBox x:Name="CircleYBox" x:Uid="ShapeDialog_CenterY" Grid.Column="1" Value="0" ValueChanged="LineInput_ValueChanged"/>
                             <muxc:NumberBox x:Name="RadiusBox" x:Uid="ShapeDialog_Radius" Grid.Row="1" Value="1" ValueChanged="LineInput_ValueChanged"/>
                         </Grid>
+                    </StackPanel>
+
+                    <StackPanel x:Name="ConicSection" Spacing="10" Visibility="Collapsed">
+                        <TextBlock x:Uid="ShapeDialog_ConicParameters" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <Grid ColumnSpacing="12" RowSpacing="10">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                            <muxc:NumberBox x:Name="ConicXBox" x:Uid="ShapeDialog_CenterX" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="ConicYBox" x:Uid="ShapeDialog_CenterY" Grid.Column="1" Value="0" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="ConicABox" x:Uid="ShapeDialog_SemiAxisA" Grid.Row="1" Value="3" ValueChanged="LineInput_ValueChanged"/>
+                            <muxc:NumberBox x:Name="ConicBBox" x:Uid="ShapeDialog_SemiAxisB" Grid.Row="1" Grid.Column="1" Value="2" ValueChanged="LineInput_ValueChanged"/>
+                        </Grid>
+                        <muxc:RadioButtons x:Name="ConicOrientationBox" x:Uid="ShapeDialog_Orientation" SelectedIndex="0" SelectionChanged="ConicOrientation_SelectionChanged">
+                            <RadioButton x:Uid="ShapeDialog_Horizontal"/>
+                            <RadioButton x:Uid="ShapeDialog_Vertical"/>
+                        </muxc:RadioButtons>
                     </StackPanel>
 
                     <!-- 预览 -->

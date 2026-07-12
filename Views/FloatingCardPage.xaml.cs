@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using eComBox.Helpers;
 using eComBox.Models;
+using eComBox.Services;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI;
@@ -11,12 +12,17 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.WindowManagement;
 
 namespace eComBox.Views
 {
     public sealed partial class FloatingCardPage : Page
     {
         private CountdownCardModel _cardData;
+        private DispatcherTimer _refreshTimer;
+        private AppWindow _appWindow;
+        private TimeCounterCardViewModel _cardViewModel;
+        public UIElement DragHandle => DragRegion;
 
         private const double ASPECT_RATIO = 16.0 / 9.0;
         private const double DEFAULT_WIDTH = 260.0;
@@ -25,28 +31,27 @@ namespace eComBox.Views
         {
             InitializeComponent();
             IsRightTapEnabled = false;
-            Loaded += FloatingCardPage_Loaded;
+            Unloaded += (_, __) => _refreshTimer?.Stop();
         }
 
-        private void FloatingCardPage_Loaded(object sender, RoutedEventArgs e)
+        public void Initialize(CountdownCardModel cardData, AppWindow appWindow)
         {
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonForegroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveForegroundColor = Colors.Transparent;
-
-            ElementCompositionPreview.GetElementVisual(RootGrid).Opacity = 0.95f;
+            _cardData = cardData;
+            _appWindow = appWindow;
+            _cardViewModel = TimeCounterCardViewModel.FromModel(cardData);
+            DataContext = _cardViewModel;
+            ElementCompositionPreview.GetElementVisual(RootGrid).Opacity = 0.98f;
+            _refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(1) };
+            _refreshTimer.Tick += (_, __) => _cardViewModel?.RefreshDisplay();
+            _refreshTimer.Start();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is CountdownCardModel cardData)
+            var args = e.Parameter as WindowManagerService.SecondaryViewNavigationArgs;
+            if (args?.Parameter is CountdownCardModel cardData)
             {
                 _cardData = cardData;
                 CreateCardFromData(cardData);
@@ -55,35 +60,16 @@ namespace eComBox.Views
             MakeDesktopWindow();
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            _refreshTimer?.Stop();
+            base.OnNavigatedFrom(e);
+        }
+
         private void CreateCardFromData(CountdownCardModel cardData)
         {
-            var targetDate = cardData.TargetDate?.ToString("yyyy-MM-dd") ?? "FloatingCard_NoDate".GetLocalized();
-            var countdown = cardData.TargetDate.HasValue
-                ? GetCountdownText(cardData.TargetDate.Value.Date)
-                : "DatePage_WaitingForDate".GetLocalized();
-
-            var card = new Border
-            {
-                Margin = new Thickness(8),
-                CornerRadius = new CornerRadius(10),
-                BorderThickness = new Thickness(1),
-                BorderBrush = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"],
-                Background = (Brush)Application.Current.Resources["AcrylicBackgroundFillColorDefaultBrush"],
-                Padding = new Thickness(12),
-                Child = new StackPanel
-                {
-                    Spacing = 6,
-                    Children =
-                    {
-                        new TextBlock { Text = cardData.TaskName ?? "FloatingCard_Untitled".GetLocalized(), Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"], TextWrapping = TextWrapping.WrapWholeWords },
-                        new TextBlock { Text = targetDate, Foreground = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"] },
-                        new TextBlock { Text = countdown, Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"] }
-                    }
-                }
-            };
-
-            CardContainer.Children.Clear();
-            CardContainer.Children.Add(card);
+            _cardViewModel = TimeCounterCardViewModel.FromModel(cardData);
+            DataContext = _cardViewModel;
         }
 
         private static string GetCountdownText(DateTime targetDate)
@@ -110,9 +96,9 @@ namespace eComBox.Views
                 var height = DEFAULT_WIDTH / ASPECT_RATIO;
 
                 RootGrid.Background = new SolidColorBrush(Colors.Transparent);
-                view.TryResizeView(new Size(DEFAULT_WIDTH, height));
-                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
                 view.SetPreferredMinSize(new Size(DEFAULT_WIDTH, height));
+                view.TryResizeView(new Size(DEFAULT_WIDTH, height));
+                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
             }
             catch (Exception ex)
             {
@@ -147,7 +133,21 @@ namespace eComBox.Views
 
         private async void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            await CloseFloatingWindow();
+            if (_appWindow != null) await _appWindow.CloseAsync();
+            else await CloseFloatingWindow();
+        }
+
+        private static string GetCompactCountdownText(DateTime targetDate)
+        {
+            var days = (targetDate - DateTime.Now.Date).Days;
+            if (days > 0) return string.Format("FloatingCard_DaysRemainingCompact".GetLocalized(), days);
+            if (days == 0) return "DatePage_IsToday".GetLocalized();
+            return string.Format("FloatingCard_DaysElapsedCompact".GetLocalized(), -days);
+        }
+
+        private async void CloseMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (_appWindow != null) await _appWindow.CloseAsync();
         }
     }
 }

@@ -320,43 +320,66 @@
                     </PivotItem>
 
                     <PivotItem x:Uid="Geometry_Conic">
-                        
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="0,20,0,40" Spacing="16" MaxWidth="760" HorizontalAlignment="Left">
+                            <Grid Margin="0,20,0,40" MaxWidth="920" HorizontalAlignment="Left" RowSpacing="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                                <TextBlock x:Uid="Geometry_AdvancedOperations" Style="{ThemeResource TitleTextBlockStyle}" />
-                                <TextBlock x:Uid="Geometry_AdvancedDescription" TextWrapping="Wrap" Opacity="0.8" />
+                                <StackPanel Spacing="4">
+                                    <TextBlock x:Uid="Geometry_AdvancedOperations" Style="{ThemeResource TitleTextBlockStyle}" />
+                                    <TextBlock x:Uid="Geometry_AdvancedDescription" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
+                                </StackPanel>
 
-                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16">
-                                    <StackPanel Spacing="10">
-                                        <TextBlock x:Uid="Geometry_CurrentSelection" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                        <TextBox x:Name="SelectedEntityInfo" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60" />
-                                        <TextBox x:Name="SelectedEntityEquation" IsReadOnly="True" TextWrapping="Wrap" />
-                                        <TextBox x:Name="SelectedEntityStats" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="70" />
-                                    </StackPanel>
-                                </Border>
+                                <Border Grid.Row="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
+                                    <Grid ColumnSpacing="24" RowSpacing="18">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="240" />
+                                            <ColumnDefinition Width="*" MinWidth="240" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16">
-                                    <StackPanel Spacing="10">
-                                        <TextBlock x:Uid="Geometry_PointOperations" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                        <Grid ColumnSpacing="10">
+                                        <ComboBox x:Name="OperationKindBox" x:Uid="Geometry_OperationKind" HorizontalAlignment="Stretch"
+                                                  ItemsSource="{Binding OperationChoices}" DisplayMemberPath="Name"
+                                                  SelectionChanged="OperationKindBox_SelectionChanged" />
+                                        <ComboBox x:Name="OperationTargetBox" x:Uid="Geometry_OperationTarget" Grid.Column="1" HorizontalAlignment="Stretch"
+                                                  ItemsSource="{Binding OperationTargets}" DisplayMemberPath="Name"
+                                                  SelectionChanged="OperationTargetBox_SelectionChanged" />
+
+                                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Spacing="8">
+                                            <TextBlock x:Uid="Geometry_InputPoint" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                                            <Grid ColumnSpacing="12">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <muxc:NumberBox x:Name="OpPointX" x:Uid="Geometry_PointX" PlaceholderText="0.0" Value="0" />
+                                                <muxc:NumberBox x:Name="OpPointY" x:Uid="Geometry_PointY" Grid.Column="1" PlaceholderText="0.0" Value="0" />
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <Grid Grid.Row="2" Grid.ColumnSpan="2" ColumnSpacing="12">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <muxc:NumberBox x:Name="OpPointX" x:Uid="Geometry_PointX" PlaceholderText="0.0" Value="0" />
-                                            <muxc:NumberBox x:Name="OpPointY" x:Uid="Geometry_PointY" Grid.Column="1" PlaceholderText="0.0" Value="0" />
+                                            <Button x:Name="RunOperationButton" x:Uid="Geometry_RunOperation" Click="RunSelectedOperation" Style="{StaticResource AccentButtonStyle}" IsEnabled="False" />
+                                            <Button x:Uid="Geometry_AddRequiredObject" Grid.Column="1" Click="AddShapeViaDialog" />
+                                            <TextBlock x:Name="OperationRequirementText" Grid.Column="2" VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
                                         </Grid>
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <Button x:Uid="Geometry_ReflectPoint" Click="ReflectPointAcrossSelectedLine" Style="{StaticResource AccentButtonStyle}" />
-                                            <Button x:Uid="Geometry_InvertPoint" Click="InvertPointInSelectedCircle" />
-                                            <Button x:Uid="Geometry_TangentAtPoint" Click="BuildTangentAtPoint" />
-                                            <Button x:Uid="Geometry_PointDistance" Click="MeasurePointDistance" />
-                                        </StackPanel>
-                                        <TextBox x:Name="OperationResult" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="90" />
-                                    </StackPanel>
+                                    </Grid>
                                 </Border>
-                            </StackPanel>
+
+                                <muxc:InfoBar x:Name="OperationResultBar" x:Uid="Geometry_OperationReady" Grid.Row="2"
+                                              IsOpen="True" IsClosable="False" Severity="Informational" />
+                            </Grid>
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>

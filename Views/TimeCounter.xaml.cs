@@ -443,8 +443,20 @@ namespace eComBox.Views
                 return;
             }
 
-            Frame.Navigate(typeof(FloatingCardPage), card.ToModel());
-            await Task.CompletedTask;
+            var model = card.ToModel();
+            try
+            {
+                await WindowManagerService.Current.ShowCountdownWidgetAsync(model);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await new ContentDialog
+                {
+                    Title = "Common_Error".GetLocalized(),
+                    Content = "FloatingCard_WindowPermissionError".GetLocalized(),
+                    CloseButtonText = "Common_OK".GetLocalized()
+                }.ShowAsync();
+            }
         }
 
         private List<ColorOption> GetColorOptions()

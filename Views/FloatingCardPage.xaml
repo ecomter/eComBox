@@ -8,10 +8,52 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="DateCardBackgroundBrush" Color="#FF292929"/>
+                    <SolidColorBrush x:Key="DateCardTagBackgroundBrush" Color="#14FFFFFF"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="DateCardBackgroundBrush" Color="#FFFDFDFD"/>
+                    <SolidColorBrush x:Key="DateCardTagBackgroundBrush" Color="#0A000000"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="DateCardBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}"/>
+                    <SolidColorBrush x:Key="DateCardTagBackgroundBrush" Color="{ThemeResource SystemColorButtonFaceColor}"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="RootGrid" Background="Transparent">
         <!-- 卡片容器，占据整个窗口 -->
-        <Grid x:Name="CardContainer" Margin="0,0,0,0">
+        <Border Width="300" Margin="6" Padding="0" CornerRadius="12" Background="{ThemeResource DateCardBackgroundBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+        <Grid x:Name="DragRegion" Background="Transparent">
+            <Grid.ContextFlyout>
+                <MenuFlyout><MenuFlyoutItem x:Uid="FloatingCard_CloseMenu" Click="CloseMenu_Click"/></MenuFlyout>
+            </Grid.ContextFlyout>
+            <Grid.RowDefinitions><RowDefinition Height="6"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+            <Rectangle Fill="{Binding CardAccentBrush}" RadiusX="12" RadiusY="12"/>
+            <StackPanel x:Name="CardContainer" Grid.Row="1" Spacing="8" Padding="16">
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding DisplayTitle}" Style="{ThemeResource BodyStrongTextBlockStyle}" TextWrapping="WrapWholeWords" FontSize="{Binding DisplayTitleFontSize}"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                        <Border Padding="6,2" CornerRadius="10" Background="{ThemeResource DateCardTagBackgroundBrush}" Visibility="{Binding NotificationMarkerVisibility}">
+                            <FontIcon Glyph="&#xE7BA;" FontSize="12"/>
+                        </Border>
+                        <Border Padding="8,2" CornerRadius="10" Background="{ThemeResource DateCardTagBackgroundBrush}" Visibility="{Binding RelativeHintVisibility}">
+                            <TextBlock Text="{Binding RelativeHintText}" FontSize="12"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+                <TextBlock Text="{Binding TargetDateText}" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                <TextBlock Text="{Binding CountdownText}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+            </StackPanel>
             <!-- 卡片内容会动态添加到这里 -->
         </Grid>
+        </Border>
     </Grid>
 </Page>

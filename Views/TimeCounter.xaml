@@ -167,7 +167,7 @@
                                         <Button Click="EditCard_Click" CommandParameter="{Binding}">
                                             <FontIcon Glyph="&#xE70F;" />
                                         </Button>
-                                        <Button IsEnabled="False" Click="PinCard_Click" CommandParameter="{Binding}">
+                                        <Button Click="PinCard_Click" CommandParameter="{Binding}">
                                             <FontIcon Glyph="&#xE718;" />
                                         </Button>
                                         <Button Click="DeleteCard_Click" CommandParameter="{Binding}">

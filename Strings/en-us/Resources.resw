@@ -350,7 +350,7 @@
     <value>Cancel</value>
   </data>
   <data name="Geometry_Conic.Header" xml:space="preserve">
-    <value>Conic Sections</value>
+    <value>Curve Operations</value>
   </data>
   <data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
     <value>Side a</value>
@@ -641,7 +641,7 @@
     <value>Failed to load translation sequence settings: {0}</value>
   </data>
   <data name="Geometry_PivotItem2.Header" xml:space="preserve">
-    <value>Solve Lines</value>
+    <value>Conic Sections</value>
   </data>
   <data name="Shell_Geometry.Content" xml:space="preserve">
     <value>Geometry Tools</value>
@@ -1145,8 +1145,8 @@ Thank you for your support! We are expanding language supports.</value>
   <data name="Geometry_DrawingPreview.Text" xml:space="preserve"><value>Drawing preview</value></data>
   <data name="Geometry_IntersectionResults.Text" xml:space="preserve"><value>Intersection results</value></data>
   <data name="Geometry_ComputeIntersections.Content" xml:space="preserve"><value>Calculate intersections</value></data>
-  <data name="Geometry_AdvancedOperations.Text" xml:space="preserve"><value>Advanced geometry</value></data>
-  <data name="Geometry_AdvancedDescription.Text" xml:space="preserve"><value>Select an object in the workspace, then apply tangent, reflection, or analysis operations.</value></data>
+  <data name="Geometry_AdvancedOperations.Text" xml:space="preserve"><value>Curve operations</value></data>
+  <data name="Geometry_AdvancedDescription.Text" xml:space="preserve"><value>Choose an operation and an explicit target without relying on a selection from another tab.</value></data>
   <data name="Geometry_CurrentSelection.Text" xml:space="preserve"><value>Current selection</value></data>
   <data name="Geometry_PointOperations.Text" xml:space="preserve"><value>Point operations</value></data>
   <data name="Geometry_PointX.Header" xml:space="preserve"><value>Point X</value></data>
@@ -1238,7 +1238,7 @@ Thank you for your support! We are expanding language supports.</value>
   <data name="Geometry_InvertedPointResult" xml:space="preserve"><value>Inverted point: ({0}, {1})</value></data>
   <data name="Geometry_PointNotOnCircle" xml:space="preserve"><value>The point is not on the selected circle, so no tangent can be constructed.</value></data>
   <data name="Geometry_TangentResult" xml:space="preserve"><value>Tangent equation: {0}x + {1}y + {2} = 0</value></data>
-  <data name="Geometry_WorkspaceCounts" xml:space="preserve"><value>Lines {0} / Circles {1} / Intersections {2}</value></data>
+  <data name="Geometry_WorkspaceCounts" xml:space="preserve"><value>Lines {0} / Circles {1} / Ellipses {2} / Hyperbolas {3} / Intersections {4}</value></data>
   <data name="Geometry_LineStats" xml:space="preserve"><value>Slope: {0}&#xA;X-intercept: {1}</value></data>
   <data name="Geometry_CircleStats" xml:space="preserve"><value>Area: {0}&#xA;Circumference: {1}</value></data>
   <data name="Geometry_Infinity" xml:space="preserve"><value>Infinity</value></data>
@@ -1279,4 +1279,40 @@ Thank you for your support! We are expanding language supports.</value>
   <data name="Settings_ReopenOobe.Header" xml:space="preserve"><value>Welcome experience</value></data>
   <data name="Settings_ReopenOobe.Description" xml:space="preserve"><value>View the eComBox first-run experience again</value></data>
   <data name="Settings_ReopenOobeButton.Content" xml:space="preserve"><value>Open welcome page</value></data>
+  <data name="Geometry_OperationKind.Header" xml:space="preserve"><value>Operation</value></data>
+  <data name="Geometry_Operation_Reflect" xml:space="preserve"><value>Reflect point across line</value></data>
+  <data name="Geometry_Operation_Invert" xml:space="preserve"><value>Invert point in circle</value></data>
+  <data name="Geometry_Operation_Tangent" xml:space="preserve"><value>Tangent at point on circle</value></data>
+  <data name="Geometry_Operation_Distance" xml:space="preserve"><value>Distance from point to curve</value></data>
+  <data name="Geometry_OperationTarget.Header" xml:space="preserve"><value>Target object</value></data>
+  <data name="Geometry_InputPoint.Text" xml:space="preserve"><value>Input point</value></data>
+  <data name="Geometry_RunOperation.Content" xml:space="preserve"><value>Calculate</value></data>
+  <data name="Geometry_AddRequiredObject.Content" xml:space="preserve"><value>Add object</value></data>
+  <data name="Geometry_NeedLine" xml:space="preserve"><value>No line is available. Add a line first.</value></data>
+  <data name="Geometry_NeedCircle" xml:space="preserve"><value>No circle is available. Add a circle first.</value></data>
+  <data name="Geometry_NeedObject" xml:space="preserve"><value>No object is available. Add a line or circle first.</value></data>
+  <data name="Geometry_ResultTitle" xml:space="preserve"><value>Result</value></data>
+  <data name="Geometry_OperationReady.Title" xml:space="preserve"><value>Curve operations</value></data>
+  <data name="Geometry_OperationReady.Message" xml:space="preserve"><value>Choose an operation and target, enter a point, then calculate.</value></data>
+  <data name="ShapeDialog_Ellipse.Text" xml:space="preserve"><value>Ellipse</value></data>
+  <data name="ShapeDialog_Hyperbola.Text" xml:space="preserve"><value>Hyperbola</value></data>
+  <data name="ShapeDialog_ConicParameters.Text" xml:space="preserve"><value>Conic parameters</value></data>
+  <data name="ShapeDialog_SemiAxisA.Header" xml:space="preserve"><value>Semi-major axis a</value></data>
+  <data name="ShapeDialog_SemiAxisB.Header" xml:space="preserve"><value>Semi-minor axis b</value></data>
+  <data name="ShapeDialog_Orientation.Header" xml:space="preserve"><value>Principal axis</value></data>
+  <data name="ShapeDialog_Horizontal.Content" xml:space="preserve"><value>Horizontal</value></data>
+  <data name="ShapeDialog_Vertical.Content" xml:space="preserve"><value>Vertical</value></data>
+  <data name="ShapeDialog_HorizontalValue" xml:space="preserve"><value>horizontal axis</value></data>
+  <data name="ShapeDialog_VerticalValue" xml:space="preserve"><value>vertical axis</value></data>
+  <data name="ShapeDialog_EllipsePreview" xml:space="preserve"><value>Ellipse: center ({0}, {1}), a={2}, b={3}, {4}</value></data>
+  <data name="ShapeDialog_HyperbolaPreview" xml:space="preserve"><value>Hyperbola: center ({0}, {1}), a={2}, b={3}, {4}</value></data>
+  <data name="Geometry_InvalidSemiAxes" xml:space="preserve"><value>Semi-axes a and b must be finite values greater than zero.</value></data>
+  <data name="Geometry_Kind_Ellipse" xml:space="preserve"><value>Ellipse</value></data>
+  <data name="Geometry_Kind_Hyperbola" xml:space="preserve"><value>Hyperbola</value></data>
+  <data name="FloatingCard_Close.AutomationProperties.Name" xml:space="preserve"><value>Close floating window</value></data>
+  <data name="FloatingCard_Close.ToolTipService.ToolTip" xml:space="preserve"><value>Close</value></data>
+  <data name="FloatingCard_CloseMenu.Text" xml:space="preserve"><value>Close widget</value></data>
+  <data name="FloatingCard_DaysRemainingCompact" xml:space="preserve"><value>{0}d</value></data>
+  <data name="FloatingCard_DaysElapsedCompact" xml:space="preserve"><value>+{0}d</value></data>
+  <data name="FloatingCard_WindowPermissionError" xml:space="preserve"><value>Windows denied the floating-window operation. Update Windows and try again.</value></data>
 </root>

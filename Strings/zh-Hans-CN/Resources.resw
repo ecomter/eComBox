@@ -290,7 +290,7 @@
     <value>极光</value>
   </data>
   <data name="Geometry_Conic.Header" xml:space="preserve">
-    <value>圆锥曲线</value>
+    <value>曲线操作</value>
   </data>
   <data name="Geometry_Triangle_SideA.Text" xml:space="preserve">
     <value>边长a</value>
@@ -674,7 +674,7 @@
     <value>解三角形</value>
   </data>
   <data name="Geometry_PivotItem2.Header" xml:space="preserve">
-    <value>直线</value>
+    <value>圆锥曲线</value>
   </data>
   <data name="Shell_Geometry.Content" xml:space="preserve">
     <value>几何工具</value>
@@ -1148,8 +1148,8 @@ eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成
   <data name="Geometry_DrawingPreview.Text" xml:space="preserve"><value>绘图预览</value></data>
   <data name="Geometry_IntersectionResults.Text" xml:space="preserve"><value>交点结果</value></data>
   <data name="Geometry_ComputeIntersections.Content" xml:space="preserve"><value>计算交点</value></data>
-  <data name="Geometry_AdvancedOperations.Text" xml:space="preserve"><value>高级几何操作</value></data>
-  <data name="Geometry_AdvancedDescription.Text" xml:space="preserve"><value>先在工作区选择一个对象，再执行切线、对称和分析。</value></data>
+  <data name="Geometry_AdvancedOperations.Text" xml:space="preserve"><value>曲线操作</value></data>
+  <data name="Geometry_AdvancedDescription.Text" xml:space="preserve"><value>选择一种操作和明确的目标对象，无需依赖其他页面的选中状态。</value></data>
   <data name="Geometry_CurrentSelection.Text" xml:space="preserve"><value>当前选中对象</value></data>
   <data name="Geometry_PointOperations.Text" xml:space="preserve"><value>点操作</value></data>
   <data name="Geometry_PointX.Header" xml:space="preserve"><value>点 X</value></data>
@@ -1241,7 +1241,7 @@ eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成
   <data name="Geometry_InvertedPointResult" xml:space="preserve"><value>反演点：({0}, {1})</value></data>
   <data name="Geometry_PointNotOnCircle" xml:space="preserve"><value>该点不在所选圆上，无法作切线。</value></data>
   <data name="Geometry_TangentResult" xml:space="preserve"><value>切线方程：{0}x + {1}y + {2} = 0</value></data>
-  <data name="Geometry_WorkspaceCounts" xml:space="preserve"><value>直线 {0} / 圆 {1} / 交点 {2}</value></data>
+  <data name="Geometry_WorkspaceCounts" xml:space="preserve"><value>直线 {0} / 圆 {1} / 椭圆 {2} / 双曲线 {3} / 交点 {4}</value></data>
   <data name="Geometry_LineStats" xml:space="preserve"><value>斜率：{0}&#xA;X 截距：{1}</value></data>
   <data name="Geometry_CircleStats" xml:space="preserve"><value>面积：{0}&#xA;周长：{1}</value></data>
   <data name="Geometry_Infinity" xml:space="preserve"><value>无穷大</value></data>
@@ -1282,4 +1282,40 @@ eComBox-简易工具箱支持日期倒计时计算，AI 功能（为了节约成
   <data name="Settings_ReopenOobe.Header" xml:space="preserve"><value>欢迎体验</value></data>
   <data name="Settings_ReopenOobe.Description" xml:space="preserve"><value>重新查看 eComBox 的首次使用引导</value></data>
   <data name="Settings_ReopenOobeButton.Content" xml:space="preserve"><value>打开欢迎页</value></data>
+  <data name="Geometry_OperationKind.Header" xml:space="preserve"><value>要执行的操作</value></data>
+  <data name="Geometry_Operation_Reflect" xml:space="preserve"><value>点关于直线的对称</value></data>
+  <data name="Geometry_Operation_Invert" xml:space="preserve"><value>点关于圆的反演</value></data>
+  <data name="Geometry_Operation_Tangent" xml:space="preserve"><value>过圆上点作切线</value></data>
+  <data name="Geometry_Operation_Distance" xml:space="preserve"><value>点到曲线的距离</value></data>
+  <data name="Geometry_OperationTarget.Header" xml:space="preserve"><value>目标对象</value></data>
+  <data name="Geometry_InputPoint.Text" xml:space="preserve"><value>输入点</value></data>
+  <data name="Geometry_RunOperation.Content" xml:space="preserve"><value>计算</value></data>
+  <data name="Geometry_AddRequiredObject.Content" xml:space="preserve"><value>添加对象</value></data>
+  <data name="Geometry_NeedLine" xml:space="preserve"><value>当前没有可用直线，请先添加一条直线。</value></data>
+  <data name="Geometry_NeedCircle" xml:space="preserve"><value>当前没有可用圆，请先添加一个圆。</value></data>
+  <data name="Geometry_NeedObject" xml:space="preserve"><value>当前没有可用对象，请先添加直线或圆。</value></data>
+  <data name="Geometry_ResultTitle" xml:space="preserve"><value>计算结果</value></data>
+  <data name="Geometry_OperationReady.Title" xml:space="preserve"><value>曲线操作</value></data>
+  <data name="Geometry_OperationReady.Message" xml:space="preserve"><value>选择操作和目标对象，输入点坐标后开始计算。</value></data>
+  <data name="ShapeDialog_Ellipse.Text" xml:space="preserve"><value>椭圆</value></data>
+  <data name="ShapeDialog_Hyperbola.Text" xml:space="preserve"><value>双曲线</value></data>
+  <data name="ShapeDialog_ConicParameters.Text" xml:space="preserve"><value>圆锥曲线参数</value></data>
+  <data name="ShapeDialog_SemiAxisA.Header" xml:space="preserve"><value>主半轴 a</value></data>
+  <data name="ShapeDialog_SemiAxisB.Header" xml:space="preserve"><value>共轭半轴 b</value></data>
+  <data name="ShapeDialog_Orientation.Header" xml:space="preserve"><value>主轴方向</value></data>
+  <data name="ShapeDialog_Horizontal.Content" xml:space="preserve"><value>水平</value></data>
+  <data name="ShapeDialog_Vertical.Content" xml:space="preserve"><value>垂直</value></data>
+  <data name="ShapeDialog_HorizontalValue" xml:space="preserve"><value>水平主轴</value></data>
+  <data name="ShapeDialog_VerticalValue" xml:space="preserve"><value>垂直主轴</value></data>
+  <data name="ShapeDialog_EllipsePreview" xml:space="preserve"><value>椭圆：中心 ({0}, {1})，a={2}，b={3}，{4}</value></data>
+  <data name="ShapeDialog_HyperbolaPreview" xml:space="preserve"><value>双曲线：中心 ({0}, {1})，a={2}，b={3}，{4}</value></data>
+  <data name="Geometry_InvalidSemiAxes" xml:space="preserve"><value>半轴 a 和 b 必须是大于零的有限数值。</value></data>
+  <data name="Geometry_Kind_Ellipse" xml:space="preserve"><value>椭圆</value></data>
+  <data name="Geometry_Kind_Hyperbola" xml:space="preserve"><value>双曲线</value></data>
+  <data name="FloatingCard_Close.AutomationProperties.Name" xml:space="preserve"><value>关闭悬浮窗</value></data>
+  <data name="FloatingCard_Close.ToolTipService.ToolTip" xml:space="preserve"><value>关闭</value></data>
+  <data name="FloatingCard_CloseMenu.Text" xml:space="preserve"><value>关闭挂件</value></data>
+  <data name="FloatingCard_DaysRemainingCompact" xml:space="preserve"><value>{0}天</value></data>
+  <data name="FloatingCard_DaysElapsedCompact" xml:space="preserve"><value>+{0}天</value></data>
+  <data name="FloatingCard_WindowPermissionError" xml:space="preserve"><value>Windows 拒绝了悬浮窗操作。请更新系统后重试。</value></data>
 </root>

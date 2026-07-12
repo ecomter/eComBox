@@ -18,18 +18,19 @@ namespace eComBox.Views
 {
     public sealed partial class GeometryPage : Page, INotifyPropertyChanged
     {
-        public enum GeometryEntityType { Line, Circle }
+        public enum GeometryEntityType { Line, Circle, Ellipse, Hyperbola }
 
         public sealed class GeometryEntity
         {
             public string Name { get; set; }
             public string Alias { get; set; }
             public GeometryEntityType Type { get; set; }
-            public string KindName => (Type == GeometryEntityType.Line ? "Geometry_Kind_Line" : "Geometry_Kind_Circle").GetLocalized();
+            public string KindName => (Type == GeometryEntityType.Line ? "Geometry_Kind_Line" : Type == GeometryEntityType.Circle ? "Geometry_Kind_Circle" : Type == GeometryEntityType.Ellipse ? "Geometry_Kind_Ellipse" : "Geometry_Kind_Hyperbola").GetLocalized();
             public string Summary { get; set; }
 
             public LineData Line { get; set; }
             public CircleData Circle { get; set; }
+            public ConicData Conic { get; set; }
         }
 
         public sealed class LineData
@@ -89,6 +90,8 @@ namespace eComBox.Views
 
         public ObservableCollection<GeometryEntity> Entities { get; } = new ObservableCollection<GeometryEntity>();
         public ObservableCollection<string> IntersectionResults { get; } = new ObservableCollection<string>();
+        public ObservableCollection<OperationChoice> OperationChoices { get; } = new ObservableCollection<OperationChoice>();
+        public ObservableCollection<GeometryEntity> OperationTargets { get; } = new ObservableCollection<GeometryEntity>();
         private readonly List<Point> _intersectionPoints = new List<Point>();
         private double _plotZoom = 1.0;
         private bool _showGrid = true;
@@ -108,13 +111,18 @@ namespace eComBox.Views
         {
             InitializeComponent();
             DataContext = this;
-            Entities.CollectionChanged += (_, __) => RefreshWorkspace();
+            OperationChoices.Add(new OperationChoice(OperationKind.Reflect, "Geometry_Operation_Reflect".GetLocalized(), GeometryEntityType.Line));
+            OperationChoices.Add(new OperationChoice(OperationKind.Invert, "Geometry_Operation_Invert".GetLocalized(), GeometryEntityType.Circle));
+            OperationChoices.Add(new OperationChoice(OperationKind.Tangent, "Geometry_Operation_Tangent".GetLocalized(), GeometryEntityType.Circle));
+            OperationChoices.Add(new OperationChoice(OperationKind.Distance, "Geometry_Operation_Distance".GetLocalized(), null));
+            Entities.CollectionChanged += (_, __) => { RefreshWorkspace(); RefreshOperationTargets(); };
             IntersectionResults.CollectionChanged += (_, __) => RefreshCounts();
             GetListView("EntityList").ItemsSource = Entities;
             GetListView("IntersectionList").ItemsSource = IntersectionResults;
             Loaded += (_, __) =>
             {
                 RefreshWorkspace();
+                OperationKindBox.SelectedIndex = 0;
             };
 
         }
@@ -253,6 +261,42 @@ namespace eComBox.Views
             RefreshWorkspace();
         }
 
+        public sealed class ConicData
+        {
+            public double X { get; set; }
+            public double Y { get; set; }
+            public double A { get; set; }
+            public double B { get; set; }
+            public bool IsVertical { get; set; }
+
+            public string ToEquation(bool hyperbola, int digits)
+            {
+                var xTerm = $"(x - {Math.Round(X, digits)})²";
+                var yTerm = $"(y - {Math.Round(Y, digits)})²";
+                var a2 = Math.Round(A * A, digits);
+                var b2 = Math.Round(B * B, digits);
+                if (!hyperbola)
+                    return IsVertical ? $"{xTerm} / {b2} + {yTerm} / {a2} = 1" : $"{xTerm} / {a2} + {yTerm} / {b2} = 1";
+                return IsVertical ? $"{yTerm} / {a2} - {xTerm} / {b2} = 1" : $"{xTerm} / {a2} - {yTerm} / {b2} = 1";
+            }
+        }
+
+        public enum OperationKind { Reflect, Invert, Tangent, Distance }
+
+        public sealed class OperationChoice
+        {
+            public OperationChoice(OperationKind kind, string name, GeometryEntityType? targetType)
+            {
+                Kind = kind;
+                Name = name;
+                TargetType = targetType;
+            }
+
+            public OperationKind Kind { get; }
+            public string Name { get; }
+            public GeometryEntityType? TargetType { get; }
+        }
+
         private void DuplicateSelectedEntity(object sender, RoutedEventArgs e)
         {
             if (!(GetListView("EntityList")?.SelectedItem is GeometryEntity source)) return;
@@ -270,10 +314,15 @@ namespace eComBox.Views
                 copy.Line = new LineData { A = source.Line.A, B = source.Line.B, C = source.Line.C - source.Line.A - source.Line.B };
                 copy.Summary = copy.Line.ToSlopeString(DPlace);
             }
-            else
+            else if (source.Type == GeometryEntityType.Circle)
             {
                 copy.Circle = new CircleData { X = source.Circle.X + 1, Y = source.Circle.Y + 1, R = source.Circle.R };
                 copy.Summary = $"r = {Math.Round(copy.Circle.R, DPlace)}";
+            }
+            else
+            {
+                copy.Conic = new ConicData { X = source.Conic.X + 1, Y = source.Conic.Y + 1, A = source.Conic.A, B = source.Conic.B, IsVertical = source.Conic.IsVertical };
+                copy.Summary = copy.Conic.ToEquation(source.Type == GeometryEntityType.Hyperbola, DPlace);
             }
 
             Entities.Add(copy);
@@ -308,6 +357,8 @@ namespace eComBox.Views
 
             if (dialog.IsCircle)
                 CreateCircleFromDialog(dialog);
+            else if (dialog.IsEllipse || dialog.IsHyperbola)
+                CreateConicFromDialog(dialog);
             else
                 CreateLineFromDialog(dialog);
         }
@@ -386,6 +437,7 @@ namespace eComBox.Views
             _intersectionPoints.Clear();
             var lines = Entities.Where(x => x.Type == GeometryEntityType.Line).ToList();
             var circles = Entities.Where(x => x.Type == GeometryEntityType.Circle).ToList();
+            var conics = Entities.Where(x => x.Type == GeometryEntityType.Ellipse || x.Type == GeometryEntityType.Hyperbola).ToList();
 
             for (int i = 0; i < lines.Count; i++)
             for (int j = i + 1; j < lines.Count; j++)
@@ -407,10 +459,44 @@ namespace eComBox.Views
                 foreach (var p in Intersect(circles[i].Circle, circles[j].Circle))
                     AddIntersection(circles[i].Name, circles[j].Name, p);
             }
+            foreach (var line in lines)
+            foreach (var conic in conics)
+            foreach (var point in Intersect(line.Line, conic.Conic, conic.Type == GeometryEntityType.Hyperbola))
+                AddIntersection(line.Name, conic.Name, point);
+
+            var ellipses = conics.Where(item => item.Type == GeometryEntityType.Ellipse).ToList();
+            var hyperbolas = conics.Where(item => item.Type == GeometryEntityType.Hyperbola).ToList();
+            foreach (var ellipse in ellipses)
+            foreach (var hyperbola in hyperbolas)
+            foreach (var point in IntersectEllipseHyperbola(ellipse.Conic, hyperbola.Conic))
+                AddIntersection(ellipse.Name, hyperbola.Name, point);
             IntersectionEmptyText.Visibility = IntersectionResults.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             RefreshWorkspace();
             RefreshCounts();
         }
+
+        private void CreateConicFromDialog(CustomDialog dialog)
+        {
+            var conic = new ConicData
+            {
+                X = GetDialogNumber(dialog, "ConicXBox"), Y = GetDialogNumber(dialog, "ConicYBox"),
+                A = GetDialogNumber(dialog, "ConicABox"), B = GetDialogNumber(dialog, "ConicBBox"),
+                IsVertical = dialog.IsConicVertical
+            };
+            if (!IsPositiveFinite(conic.A) || !IsPositiveFinite(conic.B))
+            {
+                ShowOperationMessage("Geometry_InvalidSemiAxes".GetLocalized());
+                return;
+            }
+            var type = dialog.IsEllipse ? GeometryEntityType.Ellipse : GeometryEntityType.Hyperbola;
+            var prefix = dialog.IsEllipse ? "E" : "H";
+            var alias = dialog.GetAlias();
+            var name = string.IsNullOrWhiteSpace(alias) ? $"{prefix}{Entities.Count(x => x.Type == type) + 1}" : alias;
+            Entities.Add(new GeometryEntity { Name = name, Alias = alias, Type = type, Conic = conic, Summary = conic.ToEquation(type == GeometryEntityType.Hyperbola, DPlace) });
+            EntityList.SelectedItem = Entities.Last();
+        }
+
+        private static bool IsPositiveFinite(double value) => !double.IsNaN(value) && !double.IsInfinity(value) && value > 0;
 
         private void AddIntersection(string firstName, string secondName, Point point)
         {
@@ -426,10 +512,46 @@ namespace eComBox.Views
             Clipboard.SetContent(package);
         }
 
-        private void ReflectPointAcrossSelectedLine(object sender, RoutedEventArgs e)
+        private void OperationKindBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => RefreshOperationTargets();
+
+        private void OperationTargetBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var lineEntity = GetListView("EntityList")?.SelectedItem as GeometryEntity;
-            var line = lineEntity != null && lineEntity.Type == GeometryEntityType.Line ? lineEntity.Line : Entities.LastOrDefault(it => it.Type == GeometryEntityType.Line)?.Line;
+            RunOperationButton.IsEnabled = OperationTargetBox.SelectedItem is GeometryEntity;
+        }
+
+        private void RefreshOperationTargets()
+        {
+            if (!(OperationKindBox?.SelectedItem is OperationChoice operation)) return;
+
+            var previous = OperationTargetBox.SelectedItem as GeometryEntity;
+            OperationTargets.Clear();
+            foreach (var entity in Entities.Where(item => !operation.TargetType.HasValue || item.Type == operation.TargetType.Value))
+                OperationTargets.Add(entity);
+
+            OperationTargetBox.SelectedItem = previous != null && OperationTargets.Contains(previous) ? previous : OperationTargets.FirstOrDefault();
+            RunOperationButton.IsEnabled = OperationTargetBox.SelectedItem != null;
+            OperationRequirementText.Text = OperationTargets.Count == 0
+                ? (operation.TargetType == GeometryEntityType.Line ? "Geometry_NeedLine" : operation.TargetType == GeometryEntityType.Circle ? "Geometry_NeedCircle" : "Geometry_NeedObject").GetLocalized()
+                : string.Empty;
+        }
+
+        private void RunSelectedOperation(object sender, RoutedEventArgs e)
+        {
+            if (!(OperationKindBox.SelectedItem is OperationChoice operation) || !(OperationTargetBox.SelectedItem is GeometryEntity))
+                return;
+
+            switch (operation.Kind)
+            {
+                case OperationKind.Reflect: ReflectPointAcrossSelectedLine(); break;
+                case OperationKind.Invert: InvertPointInSelectedCircle(); break;
+                case OperationKind.Tangent: BuildTangentAtPoint(); break;
+                case OperationKind.Distance: MeasurePointDistance(); break;
+            }
+        }
+
+        private void ReflectPointAcrossSelectedLine()
+        {
+            var line = (OperationTargetBox.SelectedItem as GeometryEntity)?.Line;
             if (line == null) return;
 
             var px = GetBoxValue("OpPointX");
@@ -440,10 +562,9 @@ namespace eComBox.Views
             ShowOperationMessage(string.Format("Geometry_ReflectedPointResult".GetLocalized(), Format(rx), Format(ry)));
         }
 
-        private void InvertPointInSelectedCircle(object sender, RoutedEventArgs e)
+        private void InvertPointInSelectedCircle()
         {
-            var circleEntity = GetListView("EntityList")?.SelectedItem as GeometryEntity;
-            var circle = circleEntity != null && circleEntity.Type == GeometryEntityType.Circle ? circleEntity.Circle : Entities.LastOrDefault(it => it.Type == GeometryEntityType.Circle)?.Circle;
+            var circle = (OperationTargetBox.SelectedItem as GeometryEntity)?.Circle;
             if (circle == null) return;
 
             var dx = GetBoxValue("OpPointX") - circle.X;
@@ -454,10 +575,9 @@ namespace eComBox.Views
             ShowOperationMessage(string.Format("Geometry_InvertedPointResult".GetLocalized(), Format(circle.X + dx * k), Format(circle.Y + dy * k)));
         }
 
-        private void BuildTangentAtPoint(object sender, RoutedEventArgs e)
+        private void BuildTangentAtPoint()
         {
-            var selectedCircle = GetListView("EntityList")?.SelectedItem as GeometryEntity;
-            var circle = selectedCircle != null && selectedCircle.Type == GeometryEntityType.Circle ? selectedCircle.Circle : Entities.LastOrDefault(ent => ent.Type == GeometryEntityType.Circle)?.Circle;
+            var circle = (OperationTargetBox.SelectedItem as GeometryEntity)?.Circle;
             if (circle == null) return;
 
             var px = GetBoxValue("OpPointX");
@@ -473,9 +593,9 @@ namespace eComBox.Views
             ShowOperationMessage(string.Format("Geometry_TangentResult".GetLocalized(), Format(a), Format(b), Format(c)));
         }
 
-        private void MeasurePointDistance(object sender, RoutedEventArgs e)
+        private void MeasurePointDistance()
         {
-            var selected = GetListView("EntityList")?.SelectedItem as GeometryEntity;
+            var selected = OperationTargetBox.SelectedItem as GeometryEntity;
             if (selected == null)
             {
                 ShowOperationMessage("Geometry_SelectObjectFirst".GetLocalized());
@@ -490,18 +610,44 @@ namespace eComBox.Views
                 distance = Math.Abs(selected.Line.A * px + selected.Line.B * py + selected.Line.C) /
                     Math.Sqrt(selected.Line.A * selected.Line.A + selected.Line.B * selected.Line.B);
             }
-            else
+            else if (selected.Type == GeometryEntityType.Circle)
             {
                 var centerDistance = Math.Sqrt(Math.Pow(px - selected.Circle.X, 2) + Math.Pow(py - selected.Circle.Y, 2));
                 distance = Math.Abs(centerDistance - selected.Circle.R);
+            }
+            else
+            {
+                distance = ApproximateConicDistance(selected.Conic, selected.Type == GeometryEntityType.Hyperbola, px, py);
             }
 
             ShowOperationMessage(string.Format("Geometry_PointDistanceResult".GetLocalized(), selected.Name, Format(distance)));
         }
 
+        private static double ApproximateConicDistance(ConicData conic, bool hyperbola, double px, double py)
+        {
+            var minimum = double.PositiveInfinity;
+            var branchStart = hyperbola ? -1 : 1;
+            for (var branch = branchStart; branch <= 1; branch += 2)
+            for (var i = 0; i <= 2400; i++)
+            {
+                var t = hyperbola ? -3.5 + 7.0 * i / 2400 : Math.PI * 2 * i / 2400;
+                var primary = hyperbola ? branch * conic.A * Math.Cosh(t) : conic.A * Math.Cos(t);
+                var secondary = hyperbola ? conic.B * Math.Sinh(t) : conic.B * Math.Sin(t);
+                var x = conic.X + (conic.IsVertical ? secondary : primary);
+                var y = conic.Y + (conic.IsVertical ? primary : secondary);
+                minimum = Math.Min(minimum, Math.Sqrt((x - px) * (x - px) + (y - py) * (y - py)));
+            }
+            return minimum;
+        }
+
         private void ShowOperationMessage(string message)
         {
-            if (TryGetTextBox("OperationResult", out var result)) result.Text = message;
+            if (OperationResultBar != null)
+            {
+                OperationResultBar.Title = "Geometry_ResultTitle".GetLocalized();
+                OperationResultBar.Message = message;
+                OperationResultBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Success;
+            }
             if (WorkspaceInfoBar != null)
             {
                 WorkspaceInfoBar.Content = message;
@@ -533,7 +679,7 @@ namespace eComBox.Views
         private void RefreshCounts()
         {
             if (TryGetTextBlock("WorkspaceCounts", out var counts))
-                counts.Text = string.Format("Geometry_WorkspaceCounts".GetLocalized(), Entities.Count(x => x.Type == GeometryEntityType.Line), Entities.Count(x => x.Type == GeometryEntityType.Circle), IntersectionResults.Count);
+                counts.Text = string.Format("Geometry_WorkspaceCounts".GetLocalized(), Entities.Count(x => x.Type == GeometryEntityType.Line), Entities.Count(x => x.Type == GeometryEntityType.Circle), Entities.Count(x => x.Type == GeometryEntityType.Ellipse), Entities.Count(x => x.Type == GeometryEntityType.Hyperbola), IntersectionResults.Count);
         }
 
         private void UpdateSelectionDetails(GeometryEntity item)
@@ -593,7 +739,8 @@ namespace eComBox.Views
             foreach (var item in Entities)
             {
                 if (item.Type == GeometryEntityType.Line) DrawLine(plotCanvas, item.Line, cx, cy, scale);
-                else DrawCircle(plotCanvas, item.Circle, cx, cy, scale);
+                else if (item.Type == GeometryEntityType.Circle) DrawCircle(plotCanvas, item.Circle, cx, cy, scale);
+                else DrawConic(plotCanvas, item.Conic, item.Type == GeometryEntityType.Hyperbola, cx, cy, scale, halfSpan);
                 DrawEntityLabel(plotCanvas, item, cx, cy, scale);
             }
 
@@ -608,6 +755,8 @@ namespace eComBox.Views
             var extent = 5.0;
             foreach (var circle in Entities.Where(item => item.Type == GeometryEntityType.Circle).Select(item => item.Circle))
                 extent = Math.Max(extent, Math.Max(Math.Abs(circle.X) + circle.R, Math.Abs(circle.Y) + circle.R));
+            foreach (var item in Entities.Where(item => item.Type == GeometryEntityType.Ellipse || item.Type == GeometryEntityType.Hyperbola))
+                extent = Math.Max(extent, Math.Max(Math.Abs(item.Conic.X), Math.Abs(item.Conic.Y)) + Math.Max(item.Conic.A, item.Conic.B) * (item.Type == GeometryEntityType.Hyperbola ? 2.5 : 1));
             foreach (var point in _intersectionPoints)
                 extent = Math.Max(extent, Math.Max(Math.Abs(point.X), Math.Abs(point.Y)));
             return Math.Ceiling(extent * 1.2);
@@ -671,6 +820,36 @@ namespace eComBox.Views
             plotCanvas.Children.Add(ellipse);
         }
 
+        private void DrawConic(Canvas canvas, ConicData conic, bool hyperbola, double cx, double cy, double scale, double halfSpan)
+        {
+            var brush = new SolidColorBrush(hyperbola ? Colors.MediumPurple : Colors.MediumSeaGreen);
+            var fill = hyperbola ? null : new SolidColorBrush(Color.FromArgb(16, 60, 179, 113));
+            if (!hyperbola)
+            {
+                var shape = new Ellipse { Width = (conic.IsVertical ? conic.B : conic.A) * 2 * scale, Height = (conic.IsVertical ? conic.A : conic.B) * 2 * scale, Stroke = brush, StrokeThickness = 2, Fill = fill };
+                Canvas.SetLeft(shape, cx + conic.X * scale - shape.Width / 2);
+                Canvas.SetTop(shape, cy - conic.Y * scale - shape.Height / 2);
+                canvas.Children.Add(shape);
+                return;
+            }
+
+            for (var branch = -1; branch <= 1; branch += 2)
+            {
+                var polyline = new Polyline { Stroke = brush, StrokeThickness = 2 };
+                for (var i = 0; i <= 120; i++)
+                {
+                    var t = -2.2 + 4.4 * i / 120.0;
+                    var primary = branch * conic.A * Math.Cosh(t);
+                    var secondary = conic.B * Math.Sinh(t);
+                    var x = conic.X + (conic.IsVertical ? secondary : primary);
+                    var y = conic.Y + (conic.IsVertical ? primary : secondary);
+                    if (Math.Abs(x) <= halfSpan * 1.5 && Math.Abs(y) <= halfSpan * 1.5)
+                        polyline.Points.Add(new Point(cx + x * scale, cy - y * scale));
+                }
+                canvas.Children.Add(polyline);
+            }
+        }
+
         private void DrawEntityLabel(Canvas plotCanvas, GeometryEntity item, double cx, double cy, double scale)
         {
             double x;
@@ -679,6 +858,11 @@ namespace eComBox.Views
             {
                 x = cx + (item.Circle.X + item.Circle.R) * scale + 5;
                 y = cy - item.Circle.Y * scale - 18;
+            }
+            else if (item.Type == GeometryEntityType.Ellipse || item.Type == GeometryEntityType.Hyperbola)
+            {
+                x = cx + (item.Conic.X + (item.Conic.IsVertical ? item.Conic.B : item.Conic.A)) * scale + 5;
+                y = cy - item.Conic.Y * scale - 18;
             }
             else if (item.Line.IsVertical)
             {
@@ -775,6 +959,129 @@ namespace eComBox.Views
             return results;
         }
 
+        private static IEnumerable<Point> Intersect(LineData line, ConicData conic, bool hyperbola)
+        {
+            var results = new List<Point>();
+            var norm = line.A * line.A + line.B * line.B;
+            if (norm < 1e-12) return results;
+            var x0 = -line.A * line.C / norm;
+            var y0 = -line.B * line.C / norm;
+            var dx = line.B;
+            var dy = -line.A;
+            var xDen = Math.Pow(conic.IsVertical ? conic.B : conic.A, 2);
+            var yDen = Math.Pow(conic.IsVertical ? conic.A : conic.B, 2);
+            var xSign = hyperbola && conic.IsVertical ? -1.0 : 1.0;
+            var ySign = hyperbola && !conic.IsVertical ? -1.0 : 1.0;
+            var ux = x0 - conic.X;
+            var uy = y0 - conic.Y;
+            var qa = xSign * dx * dx / xDen + ySign * dy * dy / yDen;
+            var qb = 2 * (xSign * ux * dx / xDen + ySign * uy * dy / yDen);
+            var qc = xSign * ux * ux / xDen + ySign * uy * uy / yDen - 1;
+            if (Math.Abs(qa) < 1e-12)
+            {
+                if (Math.Abs(qb) > 1e-12)
+                {
+                    var t = -qc / qb;
+                    results.Add(new Point(x0 + dx * t, y0 + dy * t));
+                }
+                return results;
+            }
+            var discriminant = qb * qb - 4 * qa * qc;
+            if (discriminant < -1e-10) return results;
+            var root = Math.Sqrt(Math.Max(0, discriminant));
+            var t1 = (-qb + root) / (2 * qa);
+            var t2 = (-qb - root) / (2 * qa);
+            results.Add(new Point(x0 + dx * t1, y0 + dy * t1));
+            if (root > 1e-10) results.Add(new Point(x0 + dx * t2, y0 + dy * t2));
+            return results;
+        }
+
+        private static IEnumerable<Point> IntersectEllipseHyperbola(ConicData ellipse, ConicData hyperbola)
+        {
+            const int samples = 4096;
+            const double rootTolerance = 1e-9;
+            var roots = new List<double>();
+            var previousT = 0.0;
+            var previousValue = EvaluateHyperbola(PointOnEllipse(ellipse, previousT), hyperbola);
+
+            for (var i = 1; i <= samples; i++)
+            {
+                var t = Math.PI * 2 * i / samples;
+                var value = EvaluateHyperbola(PointOnEllipse(ellipse, t), hyperbola);
+                if (Math.Abs(value) < 1e-8)
+                    AddDistinctRoot(roots, t);
+                else if (previousValue * value < 0)
+                    AddDistinctRoot(roots, BisectRoot(ellipse, hyperbola, previousT, t, rootTolerance));
+                else
+                {
+                    var middle = (previousT + t) / 2;
+                    var middleValue = Math.Abs(EvaluateHyperbola(PointOnEllipse(ellipse, middle), hyperbola));
+                    if (middleValue < 1e-7 && middleValue <= Math.Abs(previousValue) && middleValue <= Math.Abs(value))
+                    {
+                        var candidate = RefineMinimum(ellipse, hyperbola, previousT, t);
+                        if (Math.Abs(EvaluateHyperbola(PointOnEllipse(ellipse, candidate), hyperbola)) < 1e-7)
+                            AddDistinctRoot(roots, candidate);
+                    }
+                }
+                previousT = t;
+                previousValue = value;
+            }
+
+            return roots.Select(t => PointOnEllipse(ellipse, t)).ToList();
+        }
+
+        private static Point PointOnEllipse(ConicData ellipse, double t)
+        {
+            var primary = ellipse.A * Math.Cos(t);
+            var secondary = ellipse.B * Math.Sin(t);
+            return ellipse.IsVertical
+                ? new Point(ellipse.X + secondary, ellipse.Y + primary)
+                : new Point(ellipse.X + primary, ellipse.Y + secondary);
+        }
+
+        private static double EvaluateHyperbola(Point point, ConicData hyperbola)
+        {
+            var dx = point.X - hyperbola.X;
+            var dy = point.Y - hyperbola.Y;
+            return hyperbola.IsVertical
+                ? dy * dy / (hyperbola.A * hyperbola.A) - dx * dx / (hyperbola.B * hyperbola.B) - 1
+                : dx * dx / (hyperbola.A * hyperbola.A) - dy * dy / (hyperbola.B * hyperbola.B) - 1;
+        }
+
+        private static double BisectRoot(ConicData ellipse, ConicData hyperbola, double left, double right, double tolerance)
+        {
+            var leftValue = EvaluateHyperbola(PointOnEllipse(ellipse, left), hyperbola);
+            for (var i = 0; i < 60 && right - left > tolerance; i++)
+            {
+                var middle = (left + right) / 2;
+                var middleValue = EvaluateHyperbola(PointOnEllipse(ellipse, middle), hyperbola);
+                if (leftValue * middleValue <= 0) right = middle;
+                else { left = middle; leftValue = middleValue; }
+            }
+            return (left + right) / 2;
+        }
+
+        private static double RefineMinimum(ConicData ellipse, ConicData hyperbola, double left, double right)
+        {
+            for (var i = 0; i < 45; i++)
+            {
+                var first = left + (right - left) / 3;
+                var second = right - (right - left) / 3;
+                var firstValue = Math.Abs(EvaluateHyperbola(PointOnEllipse(ellipse, first), hyperbola));
+                var secondValue = Math.Abs(EvaluateHyperbola(PointOnEllipse(ellipse, second), hyperbola));
+                if (firstValue < secondValue) right = second; else left = first;
+            }
+            return (left + right) / 2;
+        }
+
+        private static void AddDistinctRoot(List<double> roots, double candidate)
+        {
+            var normalized = candidate % (Math.PI * 2);
+            if (normalized < 0) normalized += Math.PI * 2;
+            if (roots.All(root => Math.Abs(root - normalized) > 1e-5 && Math.Abs(Math.Abs(root - normalized) - Math.PI * 2) > 1e-5))
+                roots.Add(normalized);
+        }
+
         private static IEnumerable<Point> Intersect(CircleData a, CircleData b)
         {
             var results = new List<Point>();
@@ -815,9 +1122,10 @@ namespace eComBox.Views
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is GeometryPage.GeometryEntityType type)
-                return type == GeometryPage.GeometryEntityType.Line
-                    ? new Windows.UI.Color { A = 255, R = 0, G = 149, B = 218 }   // 蓝色（直线）
-                    : new Windows.UI.Color { A = 255, R = 230, G = 80, B = 50 };   // 橙红（圆）
+                return type == GeometryPage.GeometryEntityType.Line ? Colors.DeepSkyBlue
+                    : type == GeometryPage.GeometryEntityType.Circle ? Colors.OrangeRed
+                    : type == GeometryPage.GeometryEntityType.Ellipse ? Colors.MediumSeaGreen
+                    : Colors.MediumPurple;
             return new Windows.UI.Color { A = 255, R = 128, G = 128, B = 128 };
         }
 
@@ -830,7 +1138,9 @@ namespace eComBox.Views
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is GeometryPage.GeometryEntityType type)
-                return type == GeometryPage.GeometryEntityType.Line ? "\uf7af" : "\uea3b";  // ╱ 直线, ○ 圆
+                return type == GeometryPage.GeometryEntityType.Line ? "\uf7af"
+                    : type == GeometryPage.GeometryEntityType.Circle ? "\ue91f"
+                    : type == GeometryPage.GeometryEntityType.Ellipse ? "\uea3b" : "\ue9d2";
             return "\uf142";  // ❓
         }
 

@@ -22,12 +22,12 @@ namespace eComBox.Views
     public sealed partial class CustomDialog : UserControl
     {
         public event EventHandler<bool> DialogResult;
-        public string ObjectKind => IsCircle ? "Circle" : "Line";
+        public string ObjectKind => IsCircle ? "Circle" : IsEllipse ? "Ellipse" : IsHyperbola ? "Hyperbola" : "Line";
         public string Alias => (FindName("AliasBox") as TextBox)?.Text?.Trim();
 
         private static readonly List<string> TypeButtons = new List<string>
         {
-            "LineTypeBtn", "CircleTypeBtn"
+            "LineTypeBtn", "CircleTypeBtn", "EllipseTypeBtn", "HyperbolaTypeBtn"
         };
 
         public CustomDialog()
@@ -64,6 +64,7 @@ namespace eComBox.Views
         }
 
         private void LineModeBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateLineModeVisibility();
+        private void ConicOrientation_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePreview();
         public void LineInput_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args) => UpdatePreview();
 
         private void UpdateTypeVisibility()
@@ -71,8 +72,10 @@ namespace eComBox.Views
             var isLine = (FindName("LineTypeBtn") as ToggleButton)?.IsChecked == true;
             var lineSection = FindName("LineSection") as FrameworkElement;
             var circleSection = FindName("CircleSection") as FrameworkElement;
+            var conicSection = FindName("ConicSection") as FrameworkElement;
             if (lineSection != null) lineSection.Visibility = isLine ? Visibility.Visible : Visibility.Collapsed;
-            if (circleSection != null) circleSection.Visibility = isLine ? Visibility.Collapsed : Visibility.Visible;
+            if (circleSection != null) circleSection.Visibility = IsCircle ? Visibility.Visible : Visibility.Collapsed;
+            if (conicSection != null) conicSection.Visibility = IsEllipse || IsHyperbola ? Visibility.Visible : Visibility.Collapsed;
             if (isLine) UpdateLineModeVisibility();
             UpdatePreview();
         }
@@ -99,6 +102,12 @@ namespace eComBox.Views
                 previewBox.Text = string.Format("ShapeDialog_CirclePreview".GetLocalized(), GetNumber("CircleXBox"), GetNumber("CircleYBox"), GetNumber("RadiusBox"));
                 return;
             }
+            if (IsEllipse || IsHyperbola)
+            {
+                var key = IsEllipse ? "ShapeDialog_EllipsePreview" : "ShapeDialog_HyperbolaPreview";
+                previewBox.Text = string.Format(key.GetLocalized(), GetNumber("ConicXBox"), GetNumber("ConicYBox"), GetNumber("ConicABox"), GetNumber("ConicBBox"), IsConicVertical ? "ShapeDialog_VerticalValue".GetLocalized() : "ShapeDialog_HorizontalValue".GetLocalized());
+                return;
+            }
 
             var mode = GetRadioButtonsIndex("LineModeBox");
             previewBox.Text = mode == 0
@@ -118,6 +127,9 @@ namespace eComBox.Views
         public string GetAlias() => Alias;
 
         public bool IsCircle => (FindName("CircleTypeBtn") as ToggleButton)?.IsChecked == true;
+        public bool IsEllipse => (FindName("EllipseTypeBtn") as ToggleButton)?.IsChecked == true;
+        public bool IsHyperbola => (FindName("HyperbolaTypeBtn") as ToggleButton)?.IsChecked == true;
+        public bool IsConicVertical => GetRadioButtonsIndex("ConicOrientationBox") == 1;
 
         public void SetInitialKind(bool circle)
         {
