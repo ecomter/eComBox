@@ -50,7 +50,7 @@ namespace eComBox.Views
                     // 从缓存加载
                     string cachedData = await FileIO.ReadTextAsync(cacheFile);
                     var json = JObject.Parse(cachedData);
-                    UpdateUI(json, texts, links);
+                    await UpdateUIAsync(json, texts, links);
                     board.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     return;
                 }
@@ -83,7 +83,7 @@ namespace eComBox.Views
                     ApplicationData.Current.LocalSettings.Values[CacheTimestampKey] = DateTimeOffset.Now;
                     ApplicationData.Current.LocalSettings.Values[CacheUrlKey] = url; // 保存当前的 URL
 
-                    UpdateUI(json, texts, links);
+                    await UpdateUIAsync(json, texts, links);
                     board.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -101,7 +101,7 @@ namespace eComBox.Views
             }
         }
 
-        private async void UpdateUI(JObject json, TextBlock[] texts, HyperlinkButton[] links)
+        private async Task UpdateUIAsync(JObject json, TextBlock[] texts, HyperlinkButton[] links)
         {
             var tasks = new Task[10];
             for (int i = 0; i < 10; i++)
@@ -109,14 +109,20 @@ namespace eComBox.Views
                 int index = i; // 避免闭包问题
                 tasks[i] = Task.Run(async () =>
                 {
-                    string title = json["data"]?[index]?["title"]?.ToString();
+                    string title = json["data"]?[index]?["title"]?.ToString() ?? string.Empty;
                     string link = json["data"]?[index]?["url"]?.ToString();
+                    Uri navigateUri = null;
+                    if (!string.IsNullOrWhiteSpace(link))
+                    {
+                        Uri.TryCreate(link, UriKind.Absolute, out navigateUri);
+                    }
 
                     // 使用 Dispatcher 在 UI 线程上更新 UI 控件
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
                         texts[index].Text = title;
-                        links[index].NavigateUri = new Uri(link);
+                        links[index].NavigateUri = navigateUri;
+                        links[index].IsEnabled = navigateUri != null;
                     });
                 });
             }
